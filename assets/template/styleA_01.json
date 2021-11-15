@@ -1,0 +1,27 @@
+{
+    "name": "styleA_01",
+    "version": 1.0,
+    "music": "bgm01.m4a",
+    "scenes": [
+        {
+            "duration": 5.0
+        },
+        {
+            "duration": 4.0,
+            "filterKey": "filter01"
+        },
+        {
+            "duration": 3.0,
+            "transitionKey": "trans1"
+        },
+        {
+            "duration": 5.0
+        },
+        {
+            "duration": 4.0
+        },
+        {
+            "duration": 3.0
+        }
+    ]
+}
