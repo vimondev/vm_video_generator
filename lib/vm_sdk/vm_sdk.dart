@@ -7,8 +7,11 @@ import 'impl/ffmpeg_argument_generator.dart';
 class VideoGenerator {
   FFMpegManager ffmpegManager = FFMpegManager();
 
+  // Intializing before video generate
   void initialize() {}
 
+  // Automatically generate video.
+  // (Currently, the operation is the same as generate video.)
   Future<String?> autoGenerateVideo(List<MediaData> allList,
       Function(EGenerateStatus, double)? progressCallback) async {
     List<MediaData> filteredList = allList;
@@ -16,6 +19,9 @@ class VideoGenerator {
     return generateVideo(filteredList, EMusicStyle.styleA, progressCallback);
   }
 
+  // Generate the video by entering the user-specified photo/video list and music style.
+  // You can check the progress via progress callback.
+  // In the current version, only styleA works.
   Future<String?> generateVideo(List<MediaData> pickedList, EMusicStyle? style,
       Function(EGenerateStatus, double)? progressCallback) async {
     EMusicStyle selectedStyle = style ?? EMusicStyle.styleA;
@@ -81,11 +87,13 @@ class VideoGenerator {
     return outputPath;
   }
 
+  // cancel generate
   void cancelGenerate() async {
     try {
       await ffmpegManager.cancel();
     } catch (e) {}
   }
 
+  // release
   void release() {}
 }
