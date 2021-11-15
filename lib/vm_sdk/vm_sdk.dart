@@ -7,8 +7,6 @@ import 'impl/ffmpeg_argument_generator.dart';
 class VideoGenerator {
   FFMpegManager ffmpegManager = FFMpegManager();
 
-  EGenerateStatus status = EGenerateStatus.none;
-
   void initialize() {}
 
   Future<String?> autoGenerateVideo(List<MediaData> allList,
