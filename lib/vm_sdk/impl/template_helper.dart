@@ -1,23 +1,17 @@
 import '../types/types.dart';
 import 'global_helper.dart';
 import 'dart:convert';
-import 'package:flutter/services.dart' show rootBundle;
 
 const Map<EMusicStyle, String> templateMap = {
   EMusicStyle.styleA: "styleA_01.json"
 };
 
-Future<TemplateData?> loadTemplate(EMusicStyle musicStyle) async {
+Future<TemplateData?> loadTemplateData(EMusicStyle musicStyle) async {
   if (!templateMap.containsKey(musicStyle)) return null;
 
-  final String jsonString =
-      await rootBundle.loadString("assets/template/${"styleA_01.json"}");
-  final TemplateData templateData =
-      TemplateData.fromJson(jsonDecode(jsonString));
+  final TemplateData templateData = TemplateData.fromJson(
+      jsonDecode(await loadResourceString("template/${"styleA_01.json"}")));
 
-  final bgmfile = templateData.music;
-
-  await copyAssetToLocalDirectory("raw/audio/$bgmfile", bgmfile);
   return templateData;
 }
 

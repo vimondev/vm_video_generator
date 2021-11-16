@@ -3,12 +3,18 @@ import 'types/types.dart';
 import 'impl/template_helper.dart';
 import 'impl/ffmpeg_manager.dart';
 import 'impl/ffmpeg_argument_generator.dart';
+import 'impl/resource_manager.dart';
 
 class VideoGenerator {
+  bool isInitialized = false;
   FFMpegManager ffmpegManager = FFMpegManager();
+  ResourceManager resourceManager = ResourceManager();
 
   // Intializing before video generate
-  void initialize() {}
+  Future<void> initialize() async {
+    await resourceManager.loadResourceMap();
+    isInitialized = true;
+  }
 
   // Automatically generate video.
   // (Currently, the operation is the same as generate video.)
@@ -26,8 +32,10 @@ class VideoGenerator {
       Function(EGenerateStatus, double)? progressCallback) async {
     EMusicStyle selectedStyle = style ?? EMusicStyle.styleA;
 
-    final TemplateData? templateData = await loadTemplate(selectedStyle);
+    final TemplateData? templateData = await loadTemplateData(selectedStyle);
     if (templateData == null) return null;
+
+    await resourceManager.loadTemplateAssets(templateData);
     expandTemplate(templateData, pickedList.length);
 
     final GenerateArgumentResponse videoArgResponse =
@@ -47,14 +55,6 @@ class VideoGenerator {
                           (statistics.time / 1000.0) /
                               videoArgResponse.totalDuration!))
                 }
-              // print(statistics.bitrate),
-              // print(statistics.executionId),
-              // print(statistics.size),
-              // print(statistics.speed),
-              // print(statistics.time),
-              // print(statistics.videoFps),
-              // print(statistics.videoFrameNumber),
-              // print(statistics.videoQuality)
             });
     if (!isSuccess) return null;
 

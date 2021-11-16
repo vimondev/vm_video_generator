@@ -1,14 +1,14 @@
 {
     "trans1": {
-        "file": "trans1.mp4",
-        "blendType": "overlay",
+        "type": "overlay",
+        "duration": 4.0,
+        "transitionPoint": 2.0,
+        "filename": "trans1.mp4",
         "blendFunc": "colorkey",
         "args": {
             "color": "black",
             "similarity": 0.1,
             "blend": 0.2
-        },
-        "duration": 4,
-        "transitionPoint": 2
+        }
     }
 }

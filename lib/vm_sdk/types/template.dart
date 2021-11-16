@@ -1,9 +1,6 @@
 class SceneData {
   double duration;
-  // String? filterKey;
-  // String? transitionKey;
-
-  SceneData(this.duration); //, this.filterKey, this.transitionKey);
+  SceneData(this.duration);
 }
 
 class TemplateData {
@@ -11,6 +8,8 @@ class TemplateData {
   double version = 0;
   String music = "";
   List<SceneData> scenes = <SceneData>[];
+  List<String> transitionKeys = <String>[];
+  List<String> filterKeys = <String>[];
 
   TemplateData(this.name, this.version, this.music, this.scenes);
 
@@ -19,18 +18,13 @@ class TemplateData {
     version = map["version"];
     music = map["music"];
 
-    final List<dynamic> sceneMaps = map["scenes"];
-
+    final List<Map> sceneMaps = map["scenes"].cast<Map>();
     for (final Map map in sceneMaps) {
-      final double duration = map["duration"];
-      // String? filterKey;
-      // String? transitionKey;
-
-      // if (map.containsKey("filterKey")) filterKey = map["filterKey"];
-      // if (map.containsKey("transitionKey")) filterKey = map["transitionKey"];
-
-      scenes.add(SceneData(duration));
+      scenes.add(SceneData(map["duration"]));
     }
+
+    transitionKeys = map["transitions"].cast<String>();
+    filterKeys = map["filters"].cast<String>();
 
     TemplateData(name, version, music, scenes);
   }
