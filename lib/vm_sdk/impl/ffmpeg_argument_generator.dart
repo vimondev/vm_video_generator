@@ -16,7 +16,10 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
   String outputPath = "$appDirPath/video_out.mp4";
   double totalDuration = 0;
 
-  List<String> videoOutputList = <String>[];
+  Map<int, String> videoMapVariables = <int, String>{};
+  Map<int, double> durationMap = <int, double>{};
+
+  int inputFileCount = 0;
   final List<String> inputArguments = <String>[];
   final List<String> filterStrings = <String>[];
 
@@ -25,8 +28,6 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
     final MediaData mediaData = list[i];
 
     String trimStr = "";
-    totalDuration += sceneData.duration;
-
     if (mediaData.type == EMediaType.image) {
       inputArguments.addAll(
           ["-framerate", "30", "-loop", "1", "-t", "${sceneData.duration}"]);
@@ -34,28 +35,89 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
       trimStr = "trim=0:${sceneData.duration},setpts=PTS-STARTPTS,";
     }
     inputArguments.addAll(["-i", mediaData.absolutePath]);
+    inputFileCount++;
 
     filterStrings.add("[$i:v]${trimStr}scale=1920:1080[vid$i];");
-    videoOutputList.add("[vid$i]");
+    videoMapVariables[i] = "[vid$i]";
+
+    totalDuration += sceneData.duration;
+    durationMap[i] = sceneData.duration;
   }
 
+  // ADD FILTER (i => scene index)
+  int filterCount = 0;
+
+  for (int i = 0; i < videoMapVariables.length; i++) {
+    // TO DO: Add some condition
+    if (i % 2 == 0) {
+      final double duration = durationMap[i]!;
+      final String currentVideoMapVariable = videoMapVariables[i]!;
+
+      // TO DO: Add some filter select logic
+      String? filterKey = templateData.filterDatas.entries.first.key;
+      FilterData? filter = templateData.filterDatas[filterKey];
+
+      if (filter != null) {
+        // TO DO: Duplicate filter caching
+        final int loopCount = (duration / filter.duration).floor();
+        String filterMapVariable = "[filter${filterCount++}]";
+        String filterMergedMapVariable = "[filter_merged_$i]";
+        Map filterArgs = filter.args;
+
+        inputArguments.addAll([
+          "-stream_loop",
+          loopCount.toString(),
+          "-i",
+          "$appDirPath/${filter.filename}"
+        ]);
+
+        String blendString = "${filter.blendFunc}=";
+        switch (filter.blendFunc) {
+          case "colorkey":
+            blendString +=
+                "${filterArgs["color"]}:${filterArgs["similarity"]}:${filterArgs["blend"]}";
+            break;
+          default:
+            break;
+        }
+
+        filterStrings.add(
+            "[${inputFileCount++}:v]trim=0:$duration,setpts=PTS-STARTPTS,scale=1920:1080,$blendString$filterMapVariable;");
+        filterStrings.add(
+            "$currentVideoMapVariable${filterMapVariable}overlay$filterMergedMapVariable;");
+
+        videoMapVariables[i] = filterMergedMapVariable;
+      }
+    }
+  }
+
+  // ADD XFADE TRANSITION
+  // TO DO: Add some condition
+
+  // generate -filter_complex
   String filterComplexStr = "";
   for (final String filterStr in filterStrings) {
     filterComplexStr += filterStr;
   }
 
+  // generate video merge & scale command
   String mergeTargetStr = "";
-  for (final String videoOutputStr in videoOutputList) {
+  for (final String videoOutputStr in videoMapVariables.values) {
     mergeTargetStr += videoOutputStr;
   }
+
+  String outputMapVariable = "[scaled]";
   filterComplexStr +=
-      "${mergeTargetStr}concat=n=${videoOutputList.length}[merged];[merged]scale=1920:1080[out]";
+      "${mergeTargetStr}concat=n=${videoMapVariables.length}[merged];[merged]scale=1920:1080[scaled]";
+
+  // ADD OVERLAY TRANSITION
+  // TO DO: Add some condition
 
   arguments.addAll(inputArguments);
   arguments.addAll(["-filter_complex", filterComplexStr]);
   arguments.addAll([
     "-map",
-    "[out]",
+    outputMapVariable,
     "-c:a",
     "aac",
     "-maxrate",

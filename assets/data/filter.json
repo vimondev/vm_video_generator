@@ -1,6 +1,7 @@
 {
     "filter01": {
         "type": "overlay",
+        "duration": 20.03,
         "filename": "filter01.mp4",
         "blendFunc": "colorkey",
         "args": {

@@ -38,9 +38,11 @@ class FilterData {
   EFilterType type = EFilterType.overlay;
   String filename = "";
   String blendFunc = "";
+  double duration = 0.0;
   Map args = {};
 
-  FilterData(this.type, this.filename, this.blendFunc, this.args);
+  FilterData(
+      this.type, this.filename, this.blendFunc, this.duration, this.args);
 
   FilterData.fromJson(Map map) {
     switch (map["type"]) {
@@ -51,8 +53,9 @@ class FilterData {
     }
     filename = map["filename"];
     blendFunc = map["blendFunc"];
+    duration = map["duration"];
     args = map["args"];
 
-    FilterData(type, filename, blendFunc, args);
+    FilterData(type, filename, blendFunc, duration, args);
   }
 }
