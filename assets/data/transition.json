@@ -1,8 +1,8 @@
 {
     "trans1": {
         "type": "overlay",
-        "duration": 4.0,
-        "transitionPoint": 2.0,
+        "duration": 2.0,
+        "transitionPoint": 1.0,
         "filename": "trans1.mp4",
         "blendFunc": "colorkey",
         "args": {

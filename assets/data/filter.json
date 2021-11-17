@@ -1,7 +1,7 @@
 {
     "filter01": {
+        "type": "overlay",
         "filename": "filter01.mp4",
-        "blendType": "overlay",
         "blendFunc": "colorkey",
         "args": {
             "color": "black",

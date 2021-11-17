@@ -25,7 +25,7 @@ void testMethod() async {
     final int width = file["width"];
     final int height = file["height"];
 
-    // if (type == EMediaType.image) continue;
+    if (type == EMediaType.image) continue;
 
     double? duration;
     DateTime? createDate;

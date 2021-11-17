@@ -10,6 +10,7 @@ class ResourceManager {
   static const filterAssetPath = "$rawAssetPath/filter";
 
   Map<String, TransitionData> transitionMap = <String, TransitionData>{};
+  Map<String, FilterData> filterMap = <String, FilterData>{};
 
   Future<void> loadResourceMap() async {
     final transitionJsonMap =
@@ -19,17 +20,33 @@ class ResourceManager {
       transitionMap[transitionKey] =
           TransitionData.fromJson(transitionJsonMap[transitionKey]!);
     }
+
+    final filterJsonMap =
+        jsonDecode(await loadResourceString("data/filter.json"));
+
+    for (final String filterKey in filterJsonMap.keys) {
+      filterMap[filterKey] = FilterData.fromJson(filterJsonMap[filterKey]!);
+    }
   }
 
   Future<void> loadTemplateAssets(TemplateData templateData) async {
     await loadAudioFile(templateData.music);
 
-    for (final String transitionKey in templateData.transitionKeys) {
+    for (final String transitionKey in templateData.transitionDatas.keys) {
       if (transitionMap.containsKey(transitionKey)) {
         final TransitionData transitionData = transitionMap[transitionKey]!;
+        templateData.transitionDatas[transitionKey] = transitionData;
         if (transitionData.filename != null) {
           await loadTransitionFile(transitionData.filename!);
         }
+      }
+    }
+
+    for (final String filterKey in templateData.filterDatas.keys) {
+      if (filterMap.containsKey(filterKey)) {
+        final FilterData filterData = filterMap[filterKey]!;
+        templateData.filterDatas[filterKey] = filterData;
+        await loadFilterFile(filterData.filename);
       }
     }
   }
