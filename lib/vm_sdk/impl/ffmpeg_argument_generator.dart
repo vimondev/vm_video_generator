@@ -1,12 +1,43 @@
 import '../types/types.dart';
 import 'global_helper.dart';
 
+int videoWidth = 1080;
+int videoHeight = 1080;
+
 class GenerateArgumentResponse {
   List<String> arguments;
   String outputPath;
   double? totalDuration;
 
   GenerateArgumentResponse(this.arguments, this.outputPath, this.totalDuration);
+}
+
+class CropData {
+  int scaledWidth = 0;
+  int scaledHeight = 0;
+  int cropPosX = 0;
+  int cropPosY = 0;
+
+  CropData(this.scaledWidth, this.scaledHeight, this.cropPosX, this.cropPosY);
+}
+
+CropData generateCropData(int width, int height) {
+  int scaledWidth = videoWidth;
+  int scaledHeight = videoHeight;
+  int cropPosX = 0;
+  int cropPosY = 0;
+
+  if (width > height) {
+    scaledWidth = (width * (videoHeight / height)).floor();
+    if (scaledWidth % 2 == 1) scaledWidth -= 1;
+    cropPosX = ((scaledWidth - videoWidth) / 2.0).floor();
+  } else {
+    scaledHeight = (height * (videoWidth / width)).floor();
+    if (scaledHeight % 2 == 1) scaledHeight -= 1;
+    cropPosY = ((scaledHeight - videoHeight) / 2.0).floor();
+  }
+
+  return CropData(scaledWidth, scaledHeight, cropPosX, cropPosY);
 }
 
 Future<GenerateArgumentResponse> generateVideoRenderArgument(
@@ -38,7 +69,11 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
     inputArguments.addAll(["-i", mediaData.absolutePath]);
     inputFileCount++;
 
-    filterStrings.add("[$i:v]${trimStr}scale=1080:1080[vid$i];");
+    final CropData cropData =
+        generateCropData(mediaData.width, mediaData.height);
+
+    filterStrings.add(
+        "[$i:v]${trimStr}scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$videoWidth:$videoHeight:${cropData.cropPosX}:${cropData.cropPosY}[vid$i];");
     videoMapVariables[i] = "[vid$i]";
 
     totalDuration += sceneData.duration;
@@ -64,6 +99,8 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
         String filterMapVariable = "[filter${filterCount++}]";
         String filterMergedMapVariable = "[filter_merged_$i]";
 
+        final CropData cropData = generateCropData(filter.width, filter.height);
+
         inputArguments.addAll([
           "-stream_loop",
           loopCount.toString(),
@@ -73,7 +110,7 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
           "$appDirPath/${filter.filename}"
         ]);
         filterStrings.add(
-            "[${inputFileCount++}:v]trim=0:$duration,setpts=PTS-STARTPTS,scale=1080:1080$filterMapVariable;");
+            "[${inputFileCount++}:v]trim=0:$duration,setpts=PTS-STARTPTS,scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$videoWidth:$videoHeight:${cropData.cropPosX}:${cropData.cropPosY}$filterMapVariable;");
         filterStrings.add(
             "$currentVideoMapVariable${filterMapVariable}overlay$filterMergedMapVariable;");
 
@@ -91,9 +128,9 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
     mergeTargetStr += videoOutputStr;
   }
 
-  String currentOutputMapVariable = "[scaled]";
-  filterStrings.add(
-      "${mergeTargetStr}concat=n=${videoMapVariables.length}[merged];[merged]scale=1080:1080[scaled];");
+  String currentOutputMapVariable = "[merged]";
+  filterStrings
+      .add("${mergeTargetStr}concat=n=${videoMapVariables.length}[merged];");
 
   // ADD OVERLAY TRANSITION
   // TO DO: Add some condition
@@ -112,6 +149,9 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
         String transitionMapVariable = "[transition${transitionCount++}]";
         String transitionMergedMapVariable = "[transition_merged_$i]";
 
+        final CropData cropData =
+            generateCropData(transition.width, transition.height);
+
         inputArguments.addAll([
           "-c:v",
           "libvpx-vp9",
@@ -121,7 +161,7 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
           "$appDirPath/${transition.filename!}"
         ]);
         filterStrings.add(
-            "[${inputFileCount++}:v]scale=1080:1080$transitionMapVariable;");
+            "[${inputFileCount++}:v]scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$videoWidth:$videoHeight:${cropData.cropPosX}:${cropData.cropPosY}$transitionMapVariable;");
         filterStrings.add(
             "$currentOutputMapVariable${transitionMapVariable}overlay$transitionMergedMapVariable;");
 

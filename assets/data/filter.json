@@ -1,6 +1,8 @@
 {
     "filter01": {
         "type": "overlay",
+        "width": 1920,
+        "height": 1080,
         "duration": 20.03,
         "filename": "filter01.webm"
     }
