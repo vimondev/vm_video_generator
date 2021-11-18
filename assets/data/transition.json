@@ -3,12 +3,6 @@
         "type": "overlay",
         "duration": 2.0,
         "transitionPoint": 1.0,
-        "filename": "trans1.mp4",
-        "blendFunc": "colorkey",
-        "args": {
-            "color": "black",
-            "similarity": 0.1,
-            "blend": 0.2
-        }
+        "filename": "trans1.webm"
     }
 }

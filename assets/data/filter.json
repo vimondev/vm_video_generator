@@ -2,12 +2,6 @@
     "filter01": {
         "type": "overlay",
         "duration": 20.03,
-        "filename": "filter01.mp4",
-        "blendFunc": "colorkey",
-        "args": {
-            "color": "black",
-            "similarity": 0.2,
-            "blend": 0.5
-        }
+        "filename": "filter01.webm"
     }
 }
