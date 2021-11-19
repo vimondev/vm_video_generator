@@ -12,9 +12,9 @@ void testMethod() async {
     await videoGenerator.initialize();
   }
 
-  const String testAssetPath = "assets/_test";
-  final filelist =
-      json.decode(await rootBundle.loadString("$testAssetPath/test.json"));
+  const String testAssetPath = "_test/set02";
+  final filelist = json
+      .decode(await rootBundle.loadString("assets/$testAssetPath/test.json"));
 
   final List<MediaData> mediaList = <MediaData>[];
 
@@ -25,7 +25,7 @@ void testMethod() async {
     final int width = file["width"];
     final int height = file["height"];
 
-    if (type == EMediaType.image) continue;
+    // if (type == EMediaType.image) continue;
 
     double? duration;
     DateTime? createDate;
@@ -37,7 +37,8 @@ void testMethod() async {
     }
     if (file.containsKey("gpsString")) gpsString = file["gpsString"];
 
-    final writedFile = await copyAssetToLocalDirectory("_test/$filename");
+    final writedFile =
+        await copyAssetToLocalDirectory("$testAssetPath/$filename");
     mediaList.add(MediaData(
         writedFile.path, type, width, height, duration, createDate, gpsString));
   }

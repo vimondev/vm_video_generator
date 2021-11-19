@@ -64,7 +64,7 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
       inputArguments.addAll(
           ["-framerate", "30", "-loop", "1", "-t", "${sceneData.duration}"]);
     } else {
-      trimStr = "trim=0:${sceneData.duration},setpts=PTS-STARTPTS,";
+      trimStr = "fps=30,trim=0:${sceneData.duration},setpts=PTS-STARTPTS,";
     }
     inputArguments.addAll(["-i", mediaData.absolutePath]);
     inputFileCount++;
@@ -73,7 +73,7 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
         generateCropData(mediaData.width, mediaData.height);
 
     filterStrings.add(
-        "[$i:v]${trimStr}scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$videoWidth:$videoHeight:${cropData.cropPosX}:${cropData.cropPosY}[vid$i];");
+        "[$i:v]${trimStr}scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$videoWidth:$videoHeight:${cropData.cropPosX}:${cropData.cropPosY},setdar=dar=${videoWidth / videoHeight}[vid$i];");
     videoMapVariables[i] = "[vid$i]";
 
     totalDuration += sceneData.duration;
