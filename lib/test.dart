@@ -6,10 +6,15 @@ import 'package:gallery_saver/gallery_saver.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 VideoGenerator videoGenerator = VideoGenerator();
+
 void testMethod() async {
-  const String testAssetPath = "assets/_test";
-  final filelist =
-      json.decode(await rootBundle.loadString("$testAssetPath/test.json"));
+  if (!videoGenerator.isInitialized) {
+    await videoGenerator.initialize();
+  }
+
+  const String testAssetPath = "_test/set02";
+  final filelist = json
+      .decode(await rootBundle.loadString("assets/$testAssetPath/test.json"));
 
   final List<MediaData> mediaList = <MediaData>[];
 
@@ -33,7 +38,7 @@ void testMethod() async {
     if (file.containsKey("gpsString")) gpsString = file["gpsString"];
 
     final writedFile =
-        await copyAssetToLocalDirectory("_test/$filename", filename);
+        await copyAssetToLocalDirectory("$testAssetPath/$filename");
     mediaList.add(MediaData(
         writedFile.path, type, width, height, duration, createDate, gpsString));
   }

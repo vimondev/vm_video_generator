@@ -1,12 +1,43 @@
 import '../types/types.dart';
 import 'global_helper.dart';
 
+int videoWidth = 1080;
+int videoHeight = 1080;
+
 class GenerateArgumentResponse {
   List<String> arguments;
   String outputPath;
   double? totalDuration;
 
   GenerateArgumentResponse(this.arguments, this.outputPath, this.totalDuration);
+}
+
+class CropData {
+  int scaledWidth = 0;
+  int scaledHeight = 0;
+  int cropPosX = 0;
+  int cropPosY = 0;
+
+  CropData(this.scaledWidth, this.scaledHeight, this.cropPosX, this.cropPosY);
+}
+
+CropData generateCropData(int width, int height) {
+  int scaledWidth = videoWidth;
+  int scaledHeight = videoHeight;
+  int cropPosX = 0;
+  int cropPosY = 0;
+
+  if (width > height) {
+    scaledWidth = (width * (videoHeight / height)).floor();
+    if (scaledWidth % 2 == 1) scaledWidth -= 1;
+    cropPosX = ((scaledWidth - videoWidth) / 2.0).floor();
+  } else {
+    scaledHeight = (height * (videoWidth / width)).floor();
+    if (scaledHeight % 2 == 1) scaledHeight -= 1;
+    cropPosY = ((scaledHeight - videoHeight) / 2.0).floor();
+  }
+
+  return CropData(scaledWidth, scaledHeight, cropPosX, cropPosY);
 }
 
 Future<GenerateArgumentResponse> generateVideoRenderArgument(
@@ -16,48 +47,149 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
   String outputPath = "$appDirPath/video_out.mp4";
   double totalDuration = 0;
 
-  List<String> videoOutputList = <String>[];
-  final List<String> inputArguments = <String>[];
-  final List<String> filterStrings = <String>[];
+  Map<int, String> videoMapVariables = <int, String>{}; // ex) [vid0]
+  Map<int, double> durationMap = <int, double>{}; // scene duration
 
+  int inputFileCount = 0;
+  final List<String> inputArguments = <String>[]; // -i arguments
+  final List<String> filterStrings = <String>[]; // -filter_complex strings
+
+  // INPUT IMAGE & VIDEO
   for (int i = 0; i < list.length && i < templateData.scenes.length; i++) {
     final SceneData sceneData = templateData.scenes[i];
     final MediaData mediaData = list[i];
 
     String trimStr = "";
-    totalDuration += sceneData.duration;
-
     if (mediaData.type == EMediaType.image) {
       inputArguments.addAll(
           ["-framerate", "30", "-loop", "1", "-t", "${sceneData.duration}"]);
     } else {
-      trimStr = "trim=0:${sceneData.duration},setpts=PTS-STARTPTS,";
+      trimStr = "fps=30,trim=0:${sceneData.duration},setpts=PTS-STARTPTS,";
     }
     inputArguments.addAll(["-i", mediaData.absolutePath]);
+    inputFileCount++;
 
-    filterStrings.add("[$i:v]${trimStr}scale=1920:1080[vid$i];");
-    videoOutputList.add("[vid$i]");
+    final CropData cropData =
+        generateCropData(mediaData.width, mediaData.height);
+
+    filterStrings.add(
+        "[$i:v]${trimStr}scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$videoWidth:$videoHeight:${cropData.cropPosX}:${cropData.cropPosY},setdar=dar=${videoWidth / videoHeight}[vid$i];");
+    videoMapVariables[i] = "[vid$i]";
+
+    totalDuration += sceneData.duration;
+    durationMap[i] = sceneData.duration;
   }
 
+  // ADD FILTER (i => scene index)
+  int filterCount = 0;
+
+  for (int i = 0; i < videoMapVariables.length; i++) {
+    // TO DO: Add some condition
+    if (i % 2 == 0) {
+      final double duration = durationMap[i]!;
+      final String currentVideoMapVariable = videoMapVariables[i]!;
+
+      // TO DO: Add some filter select logic
+      String? filterKey = templateData.filterDatas.entries.first.key;
+      FilterData? filter = templateData.filterDatas[filterKey];
+
+      if (filter != null) {
+        // TO DO: Duplicate filter caching
+        final int loopCount = (duration / filter.duration).floor();
+        String filterMapVariable = "[filter${filterCount++}]";
+        String filterMergedMapVariable = "[filter_merged_$i]";
+
+        final CropData cropData = generateCropData(filter.width, filter.height);
+
+        inputArguments.addAll([
+          "-stream_loop",
+          loopCount.toString(),
+          "-c:v",
+          "libvpx-vp9",
+          "-i",
+          "$appDirPath/${filter.filename}"
+        ]);
+        filterStrings.add(
+            "[${inputFileCount++}:v]trim=0:$duration,setpts=PTS-STARTPTS,scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$videoWidth:$videoHeight:${cropData.cropPosX}:${cropData.cropPosY}$filterMapVariable;");
+        filterStrings.add(
+            "$currentVideoMapVariable${filterMapVariable}overlay$filterMergedMapVariable;");
+
+        videoMapVariables[i] = filterMergedMapVariable;
+      }
+    }
+  }
+
+  // ADD XFADE TRANSITION
+  // TO DO: Add some condition
+
+  // generate video merge & scale command
+  String mergeTargetStr = "";
+  for (final String videoOutputStr in videoMapVariables.values) {
+    mergeTargetStr += videoOutputStr;
+  }
+
+  String currentOutputMapVariable = "[merged]";
+  filterStrings
+      .add("${mergeTargetStr}concat=n=${videoMapVariables.length}[merged];");
+
+  // ADD OVERLAY TRANSITION
+  // TO DO: Add some condition
+  double currentDuration = 0;
+  int transitionCount = 0;
+  for (int i = 0; i < videoMapVariables.length - 1; i++) {
+    final double duration = durationMap[i]!;
+    currentDuration += duration;
+    // TO DO: Add some condition
+    if (i % 2 == 0) {
+      // TO DO: Add some filter select logic
+      String? transitionKey = templateData.transitionDatas.entries.first.key;
+      TransitionData? transition = templateData.transitionDatas[transitionKey];
+
+      if (transition != null) {
+        String transitionMapVariable = "[transition${transitionCount++}]";
+        String transitionMergedMapVariable = "[transition_merged_$i]";
+
+        final CropData cropData =
+            generateCropData(transition.width, transition.height);
+
+        inputArguments.addAll([
+          "-c:v",
+          "libvpx-vp9",
+          "-itsoffset",
+          (currentDuration - transition.transitionPoint).toString(),
+          "-i",
+          "$appDirPath/${transition.filename!}"
+        ]);
+        filterStrings.add(
+            "[${inputFileCount++}:v]scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$videoWidth:$videoHeight:${cropData.cropPosX}:${cropData.cropPosY}$transitionMapVariable;");
+        filterStrings.add(
+            "$currentOutputMapVariable${transitionMapVariable}overlay$transitionMergedMapVariable;");
+
+        currentOutputMapVariable = transitionMergedMapVariable;
+      }
+    }
+  }
+
+  // generate -filter_complex
   String filterComplexStr = "";
   for (final String filterStr in filterStrings) {
     filterComplexStr += filterStr;
   }
 
-  String mergeTargetStr = "";
-  for (final String videoOutputStr in videoOutputList) {
-    mergeTargetStr += videoOutputStr;
+  if (filterComplexStr.endsWith(";")) {
+    filterComplexStr =
+        filterComplexStr.substring(0, filterComplexStr.length - 1);
   }
-  filterComplexStr +=
-      "${mergeTargetStr}concat=n=${videoOutputList.length}[merged];[merged]scale=1920:1080[out]";
 
   arguments.addAll(inputArguments);
   arguments.addAll(["-filter_complex", filterComplexStr]);
   arguments.addAll([
     "-map",
-    "[out]",
+    currentOutputMapVariable,
     "-c:a",
     "aac",
+    "-c:v",
+    "libx264",
     "-maxrate",
     "5M",
     "-bufsize",

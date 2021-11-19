@@ -1,0 +1,170 @@
+[
+    {
+        "filename": "350 720 1.mp4",
+        "type": "video",
+        "width": 350,
+        "height": 720,
+        "duration": 7.0,
+        "createDate": "2021-01-01T00:00:00.000Z"
+    },
+    {
+        "filename": "350 720 2.mp4",
+        "type": "video",
+        "width": 350,
+        "height": 720,
+        "duration": 7.0,
+        "createDate": "2021-01-01T00:00:00.000Z"
+    },
+    {
+        "filename": "810_1080 (3_4).mp4",
+        "type": "video",
+        "width": 810,
+        "height": 1080,
+        "duration": 7.0,
+        "createDate": "2021-01-01T00:00:00.000Z"
+    },
+    {
+        "filename": "1080_810 (4_3).mp4",
+        "type": "video",
+        "width": 1080,
+        "height": 810,
+        "duration": 7.0,
+        "createDate": "2021-01-01T00:00:00.000Z"
+    },
+    {
+        "filename": "1080_1080 (1_1).mp4",
+        "type": "video",
+        "width": 1080,
+        "height": 1080,
+        "duration": 7.0,
+        "createDate": "2021-01-01T00:00:00.000Z"
+    },
+    {
+        "filename": "1080_1350 (4_5).mp4",
+        "type": "video",
+        "width": 1080,
+        "height": 1350,
+        "duration": 7.0,
+        "createDate": "2021-01-01T00:00:00.000Z"
+    },
+    {
+        "filename": "1080_1920 (9_16).mp4",
+        "type": "video",
+        "width": 1080,
+        "height": 1920,
+        "duration": 7.0,
+        "createDate": "2021-01-01T00:00:00.000Z"
+    },
+    {
+        "filename": "1350_1080 (5_4).mp4",
+        "type": "video",
+        "width": 1350,
+        "height": 1080,
+        "duration": 7.0,
+        "createDate": "2021-01-01T00:00:00.000Z"
+    },
+    {
+        "filename": "1440_1440 (1_1).mp4",
+        "type": "video",
+        "width": 1440,
+        "height": 1440,
+        "duration": 7.0,
+        "createDate": "2021-01-01T00:00:00.000Z"
+    },
+    {
+        "filename": "1440_2560 (9_16).mp4",
+        "type": "video",
+        "width": 1440,
+        "height": 2560,
+        "duration": 7.0,
+        "createDate": "2021-01-01T00:00:00.000Z"
+    },
+    {
+        "filename": "1920_1080 (16_9).mp4",
+        "type": "video",
+        "width": 1920,
+        "height": 1080,
+        "duration": 7.0,
+        "createDate": "2021-01-01T00:00:00.000Z"
+    },
+    {
+        "filename": "2560_1440 (16_9).mp4",
+        "type": "video",
+        "width": 2560,
+        "height": 1440,
+        "duration": 7.0,
+        "createDate": "2021-01-01T00:00:00.000Z"
+    },
+    {
+        "filename": "810 1080.png",
+        "type": "image",
+        "width": 810,
+        "height": 1080,
+        "createDate": "2021-01-01T00:00:00.000Z",
+        "gpsString": "33 deg 10' 28.70\" N, 126 deg 16' 16.40\" E"
+    },
+    {
+        "filename": "810 1080.png",
+        "type": "image",
+        "width": 810,
+        "height": 1080,
+        "createDate": "2021-01-01T00:00:00.000Z",
+        "gpsString": "33 deg 10' 28.70\" N, 126 deg 16' 16.40\" E"
+    },
+    {
+        "filename": "960 540.png",
+        "type": "image",
+        "width": 960,
+        "height": 540,
+        "createDate": "2021-01-01T00:00:00.000Z",
+        "gpsString": "33 deg 10' 28.70\" N, 126 deg 16' 16.40\" E"
+    },
+    {
+        "filename": "540 960.png",
+        "type": "image",
+        "width": 540,
+        "height": 960,
+        "createDate": "2021-01-01T00:00:00.000Z",
+        "gpsString": "33 deg 10' 28.70\" N, 126 deg 16' 16.40\" E"
+    },
+    {
+        "filename": "1080 1080 1.png",
+        "type": "image",
+        "width": 1080,
+        "height": 1080,
+        "createDate": "2021-01-01T00:00:00.000Z",
+        "gpsString": "33 deg 10' 28.70\" N, 126 deg 16' 16.40\" E"
+    },
+    {
+        "filename": "1080 1080 2.png",
+        "type": "image",
+        "width": 1080,
+        "height": 1080,
+        "createDate": "2021-01-01T00:00:00.000Z",
+        "gpsString": "33 deg 10' 28.70\" N, 126 deg 16' 16.40\" E"
+    },
+    {
+        "filename": "333_333.png",
+        "type": "image",
+        "width": 333,
+        "height": 333,
+        "createDate": "2021-01-01T00:00:00.000Z",
+        "gpsString": "33 deg 10' 28.70\" N, 126 deg 16' 16.40\" E"
+    },
+    {
+        "filename": "333_555.png",
+        "type": "image",
+        "width": 333,
+        "height": 555,
+        "createDate": "2021-01-01T00:00:00.000Z",
+        "gpsString": "33 deg 10' 28.70\" N, 126 deg 16' 16.40\" E"
+    },
+    {
+        "filename": "555_333.png",
+        "type": "image",
+        "width": 555,
+        "height": 333,
+        "createDate": "2021-01-01T00:00:00.000Z",
+        "gpsString": "33 deg 10' 28.70\" N, 126 deg 16' 16.40\" E"
+    }
+]
