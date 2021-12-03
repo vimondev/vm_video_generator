@@ -71,11 +71,25 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.1.2"
+  file_saver:
+    dependency: "direct main"
+    description:
+      name: file_saver
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.10"
   flutter:
     dependency: "direct main"
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_archive:
+    dependency: "direct main"
+    description:
+      name: flutter_archive
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.1.0"
   flutter_ffmpeg:
     dependency: "direct main"
     description:
@@ -95,6 +109,11 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_web_plugins:
+    dependency: transitive
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   gallery_saver:
     dependency: "direct main"
     description:
@@ -102,6 +121,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.3.2"
+  google_ml_kit:
+    dependency: "direct main"
+    description:
+      name: google_ml_kit
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.7.3"
   http:
     dependency: transitive
     description:
@@ -116,6 +142,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0"
+  js:
+    dependency: transitive
+    description:
+      name: js
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.3"
   lints:
     dependency: transitive
     description:

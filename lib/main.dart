@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'test.dart' show testMethod;
+import 'test_mlkit.dart' show testMethod;
 
 void main() {
   runApp(const MyApp());
