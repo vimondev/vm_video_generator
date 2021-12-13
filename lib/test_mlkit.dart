@@ -57,21 +57,34 @@ Map convertImageLabelToMap(ImageLabel label) {
   return map;
 }
 
+Future<void> sleep() async {
+  return Future.delayed(const Duration(milliseconds: 100));
+}
+
+int currentDetectCount = 0;
 Future<Map> detectObjects(String path) async {
-  final InputImage inputImage = InputImage.fromFilePath(path);
+  while (currentDetectCount >= 100) {
+    await sleep();
+  }
+  currentDetectCount++;
 
-  final detectedFaceList = await faceDetector.processImage(inputImage);
   List<Map> faceList = [];
-  for (final face in detectedFaceList) {
-    faceList.add(convertFaceToMap(face));
-  }
-
-  final detectedLabelList = await imageLabeler.processImage(inputImage);
   List<Map> labelList = [];
-  for (final label in detectedLabelList) {
-    labelList.add(convertImageLabelToMap(label));
-  }
+  try {
+    final InputImage inputImage = InputImage.fromFilePath(path);
 
+    final detectedFaceList = await faceDetector.processImage(inputImage);
+    for (final face in detectedFaceList) {
+      faceList.add(convertFaceToMap(face));
+    }
+
+    final detectedLabelList = await imageLabeler.processImage(inputImage);
+    for (final label in detectedLabelList) {
+      labelList.add(convertImageLabelToMap(label));
+    }
+  } catch (e) {}
+
+  currentDetectCount--;
   return {'faceList': faceList, 'labelList': labelList};
 }
 
@@ -96,11 +109,10 @@ void testMethod() async {
   final filelist = [];
 
   final manifestContent = await rootBundle.loadString('AssetManifest.json');
-
   final Map<String, dynamic> manifestMap = json.decode(manifestContent);
 
   for (final key in manifestMap.keys.toList()) {
-    if (key.contains(testAssetPath)) {
+    if (key.contains(testAssetPath) && !key.contains(".DS_")) {
       filelist.add(basename(key));
     }
   }
@@ -160,7 +172,7 @@ void testMethod() async {
             "-i",
             writedFile.path,
             "-filter_complex",
-            "fps=2,scale=$scaledWidth:$scaledHeight,setdar=dar=${scaledWidth / scaledHeight}",
+            "fps=4,scale=$scaledWidth:$scaledHeight,setdar=dar=${scaledWidth / scaledHeight}",
             "$folderName/%d.jpg",
             "-y"
           ], (p0) => null)) {
@@ -207,12 +219,12 @@ void testMethod() async {
 
   print(DateTime.now().difference(now).inMilliseconds);
 
-  final zipFile = File("$baseFolder/result.zip");
-  await ZipFile.createFromDirectory(
-      sourceDir: dir, zipFile: zipFile, recurseSubDirs: true);
+  // final zipFile = File("$baseFolder/result.zip");
+  // await ZipFile.createFromDirectory(
+  //     sourceDir: dir, zipFile: zipFile, recurseSubDirs: true);
 
-  final fileSaveResult = await FileSaver.instance
-      .saveFile("set01", await zipFile.readAsBytes(), "zip");
+  // final fileSaveResult = await FileSaver.instance
+  //     .saveFile("subin", await zipFile.readAsBytes(), "zip");
 
-  print(fileSaveResult);
+  // print(fileSaveResult);
 }
