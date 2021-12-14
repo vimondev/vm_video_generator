@@ -18,8 +18,10 @@ class VideoGenerator {
 
   // Automatically generate video.
   // (Currently, the operation is the same as generate video.)
-  Future<String?> autoGenerateVideo(List<MediaData> allList,
-      Function(EGenerateStatus, double)? progressCallback) async {
+  Future<String?> autoGenerateVideo(
+      List<MediaData> allList,
+      Function(EGenerateStatus status, double progress, double estimatedTime)?
+          progressCallback) async {
     List<MediaData> filteredList = allList;
 
     return generateVideo(filteredList, EMusicStyle.styleA, progressCallback);
@@ -28,8 +30,11 @@ class VideoGenerator {
   // Generate the video by entering the user-specified photo/video list and music style.
   // You can check the progress via progress callback.
   // In the current version, only styleA works.
-  Future<String?> generateVideo(List<MediaData> pickedList, EMusicStyle? style,
-      Function(EGenerateStatus, double)? progressCallback) async {
+  Future<String?> generateVideo(
+      List<MediaData> pickedList,
+      EMusicStyle? style,
+      Function(EGenerateStatus status, double progress, double estimatedTime)?
+          progressCallback) async {
     EMusicStyle selectedStyle = style ?? EMusicStyle.styleA;
 
     final TemplateData? templateData = await loadTemplateData(selectedStyle);
@@ -43,17 +48,22 @@ class VideoGenerator {
 
     DateTime now = DateTime.now();
 
+    double progress = 0, estimatedTime = 0;
+
     bool isSuccess = await ffmpegManager.execute(
         videoArgResponse.arguments,
         (statistics) => {
               if (progressCallback != null)
                 {
+                  progress = min(
+                      1.0,
+                      statistics.videoFrameNumber /
+                          videoArgResponse.totalFrame!),
+                  estimatedTime = (videoArgResponse.totalFrame! -
+                          statistics.videoFrameNumber) /
+                      statistics.videoFps,
                   progressCallback(
-                      EGenerateStatus.encoding,
-                      min(
-                          1.0,
-                          (statistics.time / 1000.0) /
-                              videoArgResponse.totalDuration!))
+                      EGenerateStatus.encoding, progress, estimatedTime)
                 }
             });
     if (!isSuccess) return null;
@@ -65,7 +75,7 @@ class VideoGenerator {
         audioArgResponse.arguments,
         (statistics) => {
               if (progressCallback != null)
-                {progressCallback(EGenerateStatus.merge, 1.0)}
+                {progressCallback(EGenerateStatus.merge, 1.0, 0)}
             });
     if (!isSuccess) return null;
 
@@ -77,7 +87,7 @@ class VideoGenerator {
         mergeArgResponse.arguments,
         (statistics) => {
               if (progressCallback != null)
-                {progressCallback(EGenerateStatus.merge, 1.0)}
+                {progressCallback(EGenerateStatus.merge, 1.0, 0)}
             });
     print(isSuccess);
     print(DateTime.now().difference(now).inSeconds);

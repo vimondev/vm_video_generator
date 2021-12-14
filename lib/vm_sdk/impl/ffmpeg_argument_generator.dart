@@ -3,13 +3,14 @@ import 'global_helper.dart';
 
 int videoWidth = 1080;
 int videoHeight = 1080;
+int framerate = 30;
 
 class GenerateArgumentResponse {
   List<String> arguments;
   String outputPath;
-  double? totalDuration;
+  int? totalFrame;
 
-  GenerateArgumentResponse(this.arguments, this.outputPath, this.totalDuration);
+  GenerateArgumentResponse(this.arguments, this.outputPath, this.totalFrame);
 }
 
 class CropData {
@@ -61,10 +62,17 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
 
     String trimStr = "";
     if (mediaData.type == EMediaType.image) {
-      inputArguments.addAll(
-          ["-framerate", "30", "-loop", "1", "-t", "${sceneData.duration}"]);
+      inputArguments.addAll([
+        "-framerate",
+        "$framerate",
+        "-loop",
+        "1",
+        "-t",
+        "${sceneData.duration}"
+      ]);
     } else {
-      trimStr = "fps=30,trim=0:${sceneData.duration},setpts=PTS-STARTPTS,";
+      trimStr =
+          "fps=$framerate,trim=0:${sceneData.duration},setpts=PTS-STARTPTS,";
     }
     inputArguments.addAll(["-i", mediaData.absolutePath]);
     inputFileCount++;
@@ -85,7 +93,7 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
 
   for (int i = 0; i < videoMapVariables.length; i++) {
     // TO DO: Add some condition
-    if (i % 2 == 0) {
+    if (i % 5 == 0) {
       final double duration = durationMap[i]!;
       final String currentVideoMapVariable = videoMapVariables[i]!;
 
@@ -140,7 +148,7 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
     final double duration = durationMap[i]!;
     currentDuration += duration;
     // TO DO: Add some condition
-    if (i % 2 == 0) {
+    if (i % 8 == 0) {
       // TO DO: Add some filter select logic
       String? transitionKey = templateData.transitionDatas.entries.first.key;
       TransitionData? transition = templateData.transitionDatas[transitionKey];
@@ -200,7 +208,8 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
     "-y"
   ]);
 
-  return GenerateArgumentResponse(arguments, outputPath, totalDuration);
+  return GenerateArgumentResponse(
+      arguments, outputPath, (totalDuration * framerate).floor());
 }
 
 Future<GenerateArgumentResponse> generateAudioRenderArgument(
@@ -256,7 +265,7 @@ Future<GenerateArgumentResponse> generateAudioRenderArgument(
   arguments.addAll(
       ["-map", "[out]", "-c:a", "aac", "-b:a", "256k", outputPath, "-y"]);
 
-  return GenerateArgumentResponse(arguments, outputPath, totalDuration);
+  return GenerateArgumentResponse(arguments, outputPath, null);
 }
 
 Future<GenerateArgumentResponse> generateMergeArgument(
