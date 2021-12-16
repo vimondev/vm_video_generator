@@ -50,6 +50,8 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
 
   Map<int, String> videoMapVariables = <int, String>{}; // ex) [vid0]
   Map<int, double> durationMap = <int, double>{}; // scene duration
+  Map<int, FilterData> filterMap = <int, FilterData>{};
+  Map<int, TransitionData> transitionMap = <int, TransitionData>{};
 
   int inputFileCount = 0;
   final List<String> inputArguments = <String>[]; // -i arguments
@@ -86,44 +88,46 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
 
     totalDuration += sceneData.duration;
     durationMap[i] = sceneData.duration;
+
+    if (sceneData.filterKey != null &&
+        templateData.filterDatas.containsKey(sceneData.filterKey)) {
+      filterMap[i] = templateData.filterDatas[sceneData.filterKey]!;
+    }
+    if (sceneData.transitionKey != null &&
+        templateData.transitionDatas.containsKey(sceneData.transitionKey)) {
+      transitionMap[i] = templateData.transitionDatas[sceneData.transitionKey]!;
+    }
   }
 
   // ADD FILTER (i => scene index)
   int filterCount = 0;
 
   for (int i = 0; i < videoMapVariables.length; i++) {
-    // TO DO: Add some condition
-    if (i % 5 == 0) {
+    if (filterMap.containsKey(i)) {
       final double duration = durationMap[i]!;
       final String currentVideoMapVariable = videoMapVariables[i]!;
+      FilterData filter = filterMap[i]!;
 
-      // TO DO: Add some filter select logic
-      String? filterKey = templateData.filterDatas.entries.first.key;
-      FilterData? filter = templateData.filterDatas[filterKey];
+      final int loopCount = (duration / filter.duration).floor();
+      String filterMapVariable = "[filter${filterCount++}]";
+      String filterMergedMapVariable = "[filter_merged_$i]";
 
-      if (filter != null) {
-        // TO DO: Duplicate filter caching
-        final int loopCount = (duration / filter.duration).floor();
-        String filterMapVariable = "[filter${filterCount++}]";
-        String filterMergedMapVariable = "[filter_merged_$i]";
+      final CropData cropData = generateCropData(filter.width, filter.height);
 
-        final CropData cropData = generateCropData(filter.width, filter.height);
+      inputArguments.addAll([
+        "-stream_loop",
+        loopCount.toString(),
+        "-c:v",
+        "libvpx-vp9",
+        "-i",
+        "$appDirPath/${filter.filename}"
+      ]);
+      filterStrings.add(
+          "[${inputFileCount++}:v]trim=0:$duration,setpts=PTS-STARTPTS,scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$videoWidth:$videoHeight:${cropData.cropPosX}:${cropData.cropPosY}$filterMapVariable;");
+      filterStrings.add(
+          "$currentVideoMapVariable${filterMapVariable}overlay$filterMergedMapVariable;");
 
-        inputArguments.addAll([
-          "-stream_loop",
-          loopCount.toString(),
-          "-c:v",
-          "libvpx-vp9",
-          "-i",
-          "$appDirPath/${filter.filename}"
-        ]);
-        filterStrings.add(
-            "[${inputFileCount++}:v]trim=0:$duration,setpts=PTS-STARTPTS,scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$videoWidth:$videoHeight:${cropData.cropPosX}:${cropData.cropPosY}$filterMapVariable;");
-        filterStrings.add(
-            "$currentVideoMapVariable${filterMapVariable}overlay$filterMergedMapVariable;");
-
-        videoMapVariables[i] = filterMergedMapVariable;
-      }
+      videoMapVariables[i] = filterMergedMapVariable;
     }
   }
 
@@ -147,34 +151,29 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
   for (int i = 0; i < videoMapVariables.length - 1; i++) {
     final double duration = durationMap[i]!;
     currentDuration += duration;
-    // TO DO: Add some condition
-    if (i % 8 == 0) {
-      // TO DO: Add some filter select logic
-      String? transitionKey = templateData.transitionDatas.entries.first.key;
-      TransitionData? transition = templateData.transitionDatas[transitionKey];
 
-      if (transition != null) {
-        String transitionMapVariable = "[transition${transitionCount++}]";
-        String transitionMergedMapVariable = "[transition_merged_$i]";
+    if (transitionMap.containsKey(i)) {
+      TransitionData transition = transitionMap[i]!;
+      String transitionMapVariable = "[transition${transitionCount++}]";
+      String transitionMergedMapVariable = "[transition_merged_$i]";
 
-        final CropData cropData =
-            generateCropData(transition.width, transition.height);
+      final CropData cropData =
+          generateCropData(transition.width, transition.height);
 
-        inputArguments.addAll([
-          "-c:v",
-          "libvpx-vp9",
-          "-itsoffset",
-          (currentDuration - transition.transitionPoint).toString(),
-          "-i",
-          "$appDirPath/${transition.filename!}"
-        ]);
-        filterStrings.add(
-            "[${inputFileCount++}:v]scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$videoWidth:$videoHeight:${cropData.cropPosX}:${cropData.cropPosY}$transitionMapVariable;");
-        filterStrings.add(
-            "$currentOutputMapVariable${transitionMapVariable}overlay$transitionMergedMapVariable;");
+      inputArguments.addAll([
+        "-c:v",
+        "libvpx-vp9",
+        "-itsoffset",
+        (currentDuration - transition.transitionPoint).toString(),
+        "-i",
+        "$appDirPath/${transition.filename!}"
+      ]);
+      filterStrings.add(
+          "[${inputFileCount++}:v]scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$videoWidth:$videoHeight:${cropData.cropPosX}:${cropData.cropPosY}$transitionMapVariable;");
+      filterStrings.add(
+          "$currentOutputMapVariable${transitionMapVariable}overlay$transitionMergedMapVariable;");
 
-        currentOutputMapVariable = transitionMergedMapVariable;
-      }
+      currentOutputMapVariable = transitionMergedMapVariable;
     }
   }
 
@@ -198,6 +197,8 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
     "aac",
     "-c:v",
     "libx264",
+    "-preset",
+    "superfast",
     "-maxrate",
     "5M",
     "-bufsize",
@@ -240,7 +241,7 @@ Future<GenerateArgumentResponse> generateAudioRenderArgument(
     currentDuration += sceneData.duration;
     totalDuration += sceneData.duration;
   }
-  inputArguments.addAll(["-i", "$appDirPath/${templateData.music}"]);
+  inputArguments.addAll(["-i", "$appDirPath/${templateData.music.filename}"]);
 
   String filterComplexStr = "";
   if (audioOutputList.isNotEmpty) {

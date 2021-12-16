@@ -1,6 +1,13 @@
 enum ETransitionType { xfade, overlay }
 enum EFilterType { overlay }
 
+class MusicData {
+  String filename;
+  double duration;
+
+  MusicData(this.filename, this.duration);
+}
+
 class TransitionData {
   ETransitionType type = ETransitionType.xfade;
   int width = 0;
