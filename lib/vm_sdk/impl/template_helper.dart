@@ -3,14 +3,15 @@ import 'global_helper.dart';
 import 'dart:convert';
 
 const Map<EMusicStyle, String> templateMap = {
-  EMusicStyle.styleA: "styleA_01.json"
+  EMusicStyle.styleA: "styleA_01.json",
+  EMusicStyle.styleB: "styleB_01.json"
 };
 
 Future<TemplateData?> loadTemplateData(EMusicStyle musicStyle) async {
   if (!templateMap.containsKey(musicStyle)) return null;
 
-  final TemplateData templateData = TemplateData.fromJson(
-      jsonDecode(await loadResourceString("template/${"styleA_01.json"}")));
+  final TemplateData templateData = TemplateData.fromJson(jsonDecode(
+      await loadResourceString("template/${templateMap[musicStyle]}")));
 
   return templateData;
 }

@@ -50,22 +50,101 @@
     {
         "filename": "07.jpg",
         "type": "image",
-        "width": 4032,
-        "height": 2268,
+        "width": 1920,
+        "height": 1080,
         "createDate": "2021-01-01T00:00:00.000Z"
     },
     {
         "filename": "08.jpg",
         "type": "image",
-        "width": 4032,
-        "height": 2268,
+        "width": 1920,
+        "height": 1080,
         "createDate": "2021-01-01T00:00:00.000Z"
     },
     {
         "filename": "09.jpg",
         "type": "image",
-        "width": 4032,
-        "height": 2268,
+        "width": 1920,
+        "height": 1080,
+        "createDate": "2021-01-01T00:00:00.000Z"
+    },
+    {
+        "filename": "10.jpg",
+        "type": "image",
+        "width": 1024,
+        "height": 576,
+        "createDate": "2021-01-01T00:00:00.000Z",
+        "gpsString": "33 deg 10' 28.70\" N, 126 deg 16' 16.40\" E"
+    },
+
+
+    {
+        "filename": "01.mp4",
+        "type": "video",
+        "width": 1920,
+        "height": 1080,
+        "duration": 6.0,
+        "createDate": "2021-01-01T00:00:00.000Z"
+    },
+    {
+        "filename": "02.mp4",
+        "type": "video",
+        "width": 1920,
+        "height": 1080,
+        "duration": 8.0,
+        "createDate": "2021-01-01T00:00:00.000Z"
+    },
+    {
+        "filename": "03.mp4",
+        "type": "video",
+        "width": 1920,
+        "height": 1080,
+        "duration": 7.0,
+        "createDate": "2021-01-01T00:00:00.000Z"
+    },
+    {
+        "filename": "04.mp4",
+        "type": "video",
+        "width": 1920,
+        "height": 1080,
+        "duration": 8.0,
+        "createDate": "2021-01-01T00:00:00.000Z"
+    },
+    {
+        "filename": "05.mp4",
+        "type": "video",
+        "width": 1920,
+        "height": 1080,
+        "duration": 12.0,
+        "createDate": "2021-01-01T00:00:00.000Z"
+    },
+    {
+        "filename": "06.mp4",
+        "type": "video",
+        "width": 1920,
+        "height": 1080,
+        "duration": 40.0,
+        "createDate": "2021-01-01T00:00:00.000Z"
+    },
+    {
+        "filename": "07.jpg",
+        "type": "image",
+        "width": 1920,
+        "height": 1080,
+        "createDate": "2021-01-01T00:00:00.000Z"
+    },
+    {
+        "filename": "08.jpg",
+        "type": "image",
+        "width": 1920,
+        "height": 1080,
+        "createDate": "2021-01-01T00:00:00.000Z"
+    },
+    {
+        "filename": "09.jpg",
+        "type": "image",
+        "width": 1920,
+        "height": 1080,
         "createDate": "2021-01-01T00:00:00.000Z"
     },
     {

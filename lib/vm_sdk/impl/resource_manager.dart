@@ -30,7 +30,7 @@ class ResourceManager {
   }
 
   Future<void> loadTemplateAssets(TemplateData templateData) async {
-    await loadAudioFile(templateData.music);
+    await loadAudioFile(templateData.music.filename);
 
     for (final String transitionKey in templateData.transitionDatas.keys) {
       if (transitionMap.containsKey(transitionKey)) {

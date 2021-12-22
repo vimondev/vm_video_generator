@@ -24,7 +24,7 @@ class VideoGenerator {
           progressCallback) async {
     List<MediaData> filteredList = allList;
 
-    return generateVideo(filteredList, EMusicStyle.styleA, progressCallback);
+    return generateVideo(filteredList, EMusicStyle.styleB, progressCallback);
   }
 
   // Generate the video by entering the user-specified photo/video list and music style.
