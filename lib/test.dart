@@ -2,7 +2,6 @@ import 'vm_sdk/vm_sdk.dart';
 import 'vm_sdk/types/types.dart';
 import 'vm_sdk/impl/global_helper.dart';
 import 'dart:convert';
-import 'package:gallery_saver/gallery_saver.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 VideoGenerator videoGenerator = VideoGenerator();
@@ -12,9 +11,8 @@ void testMethod() async {
     await videoGenerator.initialize();
   }
 
-  const String testAssetPath = "_test/set01";
-  final filelist = json
-      .decode(await rootBundle.loadString("assets/$testAssetPath/test.json"));
+  final filelist =
+      json.decode(await rootBundle.loadString("assets/_test/exiftestset.json"));
 
   final List<MediaData> mediaList = <MediaData>[];
 
@@ -24,32 +22,17 @@ void testMethod() async {
         file["type"] == "image" ? EMediaType.image : EMediaType.video;
     final int width = file["width"];
     final int height = file["height"];
-
-    // if (type == EMediaType.image) continue;
+    DateTime createDate = DateTime.parse(file["createDate"]);
+    String gpsString = file["gpsString"];
 
     double? duration;
-    DateTime? createDate;
-    String? gpsString;
+    // if (file.containsKey("duration")) duration = file["duration"];
 
-    if (file.containsKey("duration")) duration = file["duration"];
-    if (file.containsKey("createDate")) {
-      createDate = DateTime.parse(file["createDate"]);
-    }
-    if (file.containsKey("gpsString")) gpsString = file["gpsString"];
-
-    final writedFile =
-        await copyAssetToLocalDirectory("$testAssetPath/$filename");
     mediaList.add(MediaData(
-        writedFile.path, type, width, height, duration, createDate, gpsString));
+        filename, type, width, height, duration, createDate, gpsString));
   }
 
-  final resultVideoPath = await videoGenerator.autoGenerateVideo(
-      mediaList,
-      (status, progress, estimatedTime) =>
-          {print(status), print(progress), print(estimatedTime)});
+  final autoSelected = videoGenerator.autoSelectMedia(mediaList);
 
-  if (resultVideoPath != null) {
-    final isSuccess = await GallerySaver.saveVideo(resultVideoPath);
-    print(isSuccess);
-  }
+  print("");
 }
