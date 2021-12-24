@@ -1,14 +1,18 @@
 import 'resource.dart';
 
 class SceneData {
+  String name;
   double duration;
-  SceneData(this.duration);
+  String? filterKey;
+  String? transitionKey;
+
+  SceneData(this.name, this.duration, this.filterKey, this.transitionKey);
 }
 
 class TemplateData {
   String name = "";
   double version = 0;
-  String music = "";
+  MusicData music = MusicData("", 0);
   List<SceneData> scenes = <SceneData>[];
   Map<String, TransitionData?> transitionDatas = {};
   Map<String, FilterData?> filterDatas = {};
@@ -18,11 +22,14 @@ class TemplateData {
   TemplateData.fromJson(Map map) {
     name = map["name"];
     version = map["version"];
-    music = map["music"];
+    final musicMap = map["music"];
+
+    music = MusicData(musicMap["filename"], musicMap["duration"] * 1.0);
 
     final List<Map> sceneMaps = map["scenes"].cast<Map>();
     for (final Map map in sceneMaps) {
-      scenes.add(SceneData(map["duration"]));
+      scenes.add(SceneData(map["name"], map["duration"] * 1.0, map["filter"],
+          map["transition"]));
     }
 
     final List<String> transitionKeys = map["transitions"].cast<String>();

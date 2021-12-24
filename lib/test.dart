@@ -12,7 +12,7 @@ void testMethod() async {
     await videoGenerator.initialize();
   }
 
-  const String testAssetPath = "_test/set02";
+  const String testAssetPath = "_test/set01";
   final filelist = json
       .decode(await rootBundle.loadString("assets/$testAssetPath/test.json"));
 
@@ -44,7 +44,9 @@ void testMethod() async {
   }
 
   final resultVideoPath = await videoGenerator.autoGenerateVideo(
-      mediaList, (status, progress) => {print(status), print(progress)});
+      mediaList,
+      (status, progress, estimatedTime) =>
+          {print(status), print(progress), print(estimatedTime)});
 
   if (resultVideoPath != null) {
     final isSuccess = await GallerySaver.saveVideo(resultVideoPath);

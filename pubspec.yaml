@@ -74,6 +74,7 @@ flutter:
     # - assets/_mlkittest/subin/
     - assets/_test/set01/
     - assets/_test/set02/
+    - assets/_test/set03/
     - assets/data/
     - assets/template/
     - assets/raw/audio/
