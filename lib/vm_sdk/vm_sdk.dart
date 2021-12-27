@@ -4,6 +4,7 @@ import 'impl/template_helper.dart';
 import 'impl/ffmpeg_manager.dart';
 import 'impl/ffmpeg_argument_generator.dart';
 import 'impl/resource_manager.dart';
+import 'impl/auto_select_helper.dart';
 
 class VideoGenerator {
   bool isInitialized = false;
@@ -16,15 +17,12 @@ class VideoGenerator {
     isInitialized = true;
   }
 
-  // Automatically generate video.
-  // (Currently, the operation is the same as generate video.)
-  Future<String?> autoGenerateVideo(
-      List<MediaData> allList,
-      Function(EGenerateStatus status, double progress, double estimatedTime)?
-          progressCallback) async {
-    List<MediaData> filteredList = allList;
+  List<MediaData> autoSelectMedia(List<MediaData> allList) {
+    return selectMedia(allList);
+  }
 
-    return generateVideo(filteredList, EMusicStyle.styleB, progressCallback);
+  EMusicStyle autoSelectMusic(List<MediaData> list) {
+    return selectMusic(list);
   }
 
   // Generate the video by entering the user-specified photo/video list and music style.
