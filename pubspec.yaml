@@ -75,6 +75,7 @@ flutter:
     - assets/_test/set01/
     - assets/_test/set02/
     - assets/_test/set03/
+    - assets/_test/
     - assets/data/
     - assets/template/
     - assets/raw/audio/
