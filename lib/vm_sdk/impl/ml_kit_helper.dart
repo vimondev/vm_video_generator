@@ -81,7 +81,7 @@ Future<List<Map>> runDetect(List<String> frames) async {
   return await Future.wait(futures);
 }
 
-Future<String?> extractMLKitData(MediaData data) async {
+Future<String?> extractData(MediaData data) async {
   String? result;
 
   final String filename = basename(data.absolutePath);

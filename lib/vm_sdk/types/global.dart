@@ -42,9 +42,10 @@ class MediaData {
   double? duration; // Duration (video only)
   DateTime createDate; // Exif Create Date
   GPSData gpsData = GPSData(); // Exif GPS Data (Parsed)
+  String? mlkitDetected;
 
   MediaData(this.absolutePath, this.type, this.width, this.height,
-      this.duration, this.createDate, String gpsString) {
+      this.duration, this.createDate, String gpsString, this.mlkitDetected) {
     gpsData = GPSData.fromString(gpsString);
   }
 }
