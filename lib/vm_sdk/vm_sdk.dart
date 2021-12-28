@@ -5,6 +5,7 @@ import 'impl/ffmpeg_manager.dart';
 import 'impl/ffmpeg_argument_generator.dart';
 import 'impl/resource_manager.dart';
 import 'impl/auto_select_helper.dart';
+import 'impl/ml_kit_helper.dart';
 
 class VideoGenerator {
   bool isInitialized = false;
@@ -23,6 +24,13 @@ class VideoGenerator {
 
   EMusicStyle autoSelectMusic(List<MediaData> list) {
     return selectMusic(list);
+  }
+
+  Future<String?> extractMLKitDetectData(MediaData data) async {
+    try {
+      return await extractData(data);
+    } catch (e) {}
+    return null;
   }
 
   // Generate the video by entering the user-specified photo/video list and music style.

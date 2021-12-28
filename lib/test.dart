@@ -29,7 +29,7 @@ void testMethod() async {
     // if (file.containsKey("duration")) duration = file["duration"];
 
     mediaList.add(MediaData(
-        filename, type, width, height, duration, createDate, gpsString));
+        filename, type, width, height, duration, createDate, gpsString, null));
   }
 
   final autoSelected = videoGenerator.autoSelectMedia(mediaList);
