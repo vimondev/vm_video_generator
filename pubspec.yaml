@@ -42,6 +42,7 @@ dependencies:
   flutter_archive: ^4.1.0
   file_saver: ^0.0.10
   firebase_core: ^1.10.5
+  flutter_inappwebview: ^5.2.0
 
 dev_dependencies:
   flutter_test:
@@ -72,10 +73,7 @@ flutter:
     # - assets/_mlkittest/set01/
     # - assets/_mlkittest/set02/
     # - assets/_mlkittest/subin/
-    - assets/_test/set01/
-    - assets/_test/set02/
-    - assets/_test/set03/
-    - assets/_test/
+    - assets/lottie/
     - assets/data/
     - assets/template/
     - assets/raw/audio/
@@ -107,6 +105,6 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
-  #
+  # 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
