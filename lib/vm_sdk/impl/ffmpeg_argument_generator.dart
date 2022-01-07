@@ -1,7 +1,7 @@
 import '../types/types.dart';
 import 'global_helper.dart';
 
-int videoWidth = 1080;
+int videoWidth = 1920;
 int videoHeight = 1080;
 int framerate = 30;
 
@@ -42,7 +42,9 @@ CropData generateCropData(int width, int height) {
 }
 
 Future<GenerateArgumentResponse> generateVideoRenderArgument(
-    TemplateData templateData, List<MediaData> list) async {
+    TemplateData templateData,
+    List<ExportedTitlePNGSequenceData> exportedTitleList,
+    List<MediaData> list) async {
   final List<String> arguments = <String>[];
   final String appDirPath = await getAppDirectoryPath();
   String outputPath = "$appDirPath/video_out.mp4";
@@ -129,6 +131,42 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
 
       videoMapVariables[i] = filterMergedMapVariable;
     }
+  }
+
+  // ADD TITLE (i => scene index)
+  int totalTitleHeight = 0;
+  for (int i = 0; i < exportedTitleList.length; i++) {
+    exportedTitleList[i].width = (exportedTitleList[i].width * 1.5).floor();
+    exportedTitleList[i].height = (exportedTitleList[i].height * 1.5).floor();
+
+    totalTitleHeight += exportedTitleList[i].height;
+  }
+
+  final double calculatedStartPosY = (videoHeight / 2) - (totalTitleHeight / 2);
+  double currentPosY = calculatedStartPosY;
+
+  for (int i = 0; i < exportedTitleList.length; i++) {
+    ExportedTitlePNGSequenceData data = exportedTitleList[i];
+
+    String titleMapVariable = "[title$i]";
+    String titleMergedMapVariable = "[title_merged_$i]";
+
+    double currentPosX = (videoWidth / 2) - (data.width / 2);
+
+    inputArguments.addAll([
+      "-framerate",
+      data.frameRate.toString(),
+      "-i",
+      "${data.folderPath}/%d.png"
+    ]);
+
+    filterStrings.add(
+        "[${inputFileCount++}:v]trim=0:${durationMap[0]!},setpts=PTS-STARTPTS,scale=${data.width}:${data.height}$titleMapVariable;");
+    filterStrings.add(
+        "${videoMapVariables[0]!}${titleMapVariable}overlay=$currentPosX:$currentPosY$titleMergedMapVariable;");
+
+    videoMapVariables[0] = titleMergedMapVariable;
+    currentPosY += data.height;
   }
 
   // ADD XFADE TRANSITION

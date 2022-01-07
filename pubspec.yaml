@@ -73,13 +73,16 @@ flutter:
     # - assets/_mlkittest/set01/
     # - assets/_mlkittest/set02/
     # - assets/_mlkittest/subin/
-    - assets/lottie/
+    - assets/_test/set01/
     - assets/data/
+    - assets/title/
     - assets/template/
     - assets/raw/audio/
     - assets/raw/filter/
     - assets/raw/sticker/
     - assets/raw/transition/
+    - assets/raw/lottie-jsons/
+    - assets/raw/fonts/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

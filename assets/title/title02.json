@@ -1,0 +1,15 @@
+{
+    "name": "title02",
+    "childs": [
+        {
+            "filename": "title2_text1.json",
+            "fontFamily": "SCoreDream8Heavy",
+            "fontFileName": "SCDream8.otf"
+        },
+        {
+            "filename": "title2_text2.json",
+            "fontFamily": "SCoreDream8Heavy",
+            "fontFileName": "SCDream8.otf"
+        }
+    ]
+}

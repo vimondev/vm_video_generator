@@ -1,21 +1,33 @@
 import 'dart:math';
+import 'package:flutter/material.dart';
+
 import 'types/types.dart';
 import 'impl/template_helper.dart';
+import 'impl/title_helper.dart';
 import 'impl/ffmpeg_manager.dart';
 import 'impl/ffmpeg_argument_generator.dart';
 import 'impl/resource_manager.dart';
 import 'impl/auto_select_helper.dart';
 import 'impl/ml_kit_helper.dart';
+import 'impl/lottie_widget.dart';
 
-class VideoGenerator {
-  bool isInitialized = false;
-  FFMpegManager ffmpegManager = FFMpegManager();
-  ResourceManager resourceManager = ResourceManager();
+class VMSDKWidget extends StatelessWidget {
+  VMSDKWidget({Key? key}) : super(key: key);
+
+  final LottieWidget _lottieWidget = LottieWidget();
+
+  bool _isInitialized = false;
+  final FFMpegManager _ffmpegManager = FFMpegManager();
+  final ResourceManager _resourceManager = ResourceManager();
+
+  bool get isInitialized {
+    return _isInitialized;
+  }
 
   // Intializing before video generate
   Future<void> initialize() async {
-    await resourceManager.loadResourceMap();
-    isInitialized = true;
+    await _resourceManager.loadResourceMap();
+    _isInitialized = true;
   }
 
   List<MediaData> autoSelectMedia(List<MediaData> allList) {
@@ -43,58 +55,66 @@ class VideoGenerator {
           progressCallback) async {
     EMusicStyle selectedStyle = style ?? EMusicStyle.styleA;
 
+    final List<TitleData> titleList =
+        (await loadTitleData(ETitleType.title01))!;
+
+    titleList[0].text = "THIS IS REAL";
+    titleList[1].text = "FANCY TITLE!";
+
+    List<ExportedTitlePNGSequenceData> exportedTitleList = [];
+    for (int i = 0; i < titleList.length; i++) {
+      exportedTitleList
+          .add(await _lottieWidget.exportTitlePNGSequence(titleList[i]));
+    }
+
     final TemplateData? templateData = await loadTemplateData(selectedStyle);
     if (templateData == null) return null;
 
-    await resourceManager.loadTemplateAssets(templateData);
+    await _resourceManager.loadTemplateAssets(templateData);
     expandTemplate(templateData, pickedList.length);
 
     final GenerateArgumentResponse videoArgResponse =
-        await generateVideoRenderArgument(templateData, pickedList);
+        await generateVideoRenderArgument(
+            templateData, exportedTitleList, pickedList);
 
     DateTime now = DateTime.now();
 
     double progress = 0, estimatedTime = 0;
 
-    bool isSuccess = await ffmpegManager.execute(
-        videoArgResponse.arguments,
-        (statistics) => {
-              if (progressCallback != null)
-                {
-                  progress = min(
-                      1.0,
-                      statistics.videoFrameNumber /
-                          videoArgResponse.totalFrame!),
-                  estimatedTime = (videoArgResponse.totalFrame! -
-                          statistics.videoFrameNumber) /
-                      statistics.videoFps,
-                  progressCallback(
-                      EGenerateStatus.encoding, progress, estimatedTime)
-                }
-            });
+    bool isSuccess =
+        await _ffmpegManager.execute(videoArgResponse.arguments, (statistics) {
+      if (progressCallback != null) {
+        progress = min(
+            1.0, statistics.videoFrameNumber / videoArgResponse.totalFrame!);
+        estimatedTime =
+            (videoArgResponse.totalFrame! - statistics.videoFrameNumber) /
+                statistics.videoFps;
+        progressCallback(EGenerateStatus.encoding, progress, estimatedTime);
+      }
+    });
     if (!isSuccess) return null;
 
     final GenerateArgumentResponse audioArgResponse =
         await generateAudioRenderArgument(templateData, pickedList);
 
-    isSuccess = await ffmpegManager.execute(
-        audioArgResponse.arguments,
-        (statistics) => {
-              if (progressCallback != null)
-                {progressCallback(EGenerateStatus.merge, 1.0, 0)}
-            });
+    isSuccess =
+        await _ffmpegManager.execute(audioArgResponse.arguments, (statistics) {
+      if (progressCallback != null) {
+        progressCallback(EGenerateStatus.merge, 1.0, 0);
+      }
+    });
     if (!isSuccess) return null;
 
     final GenerateArgumentResponse mergeArgResponse =
         await generateMergeArgument(
             videoArgResponse.outputPath, audioArgResponse.outputPath);
 
-    isSuccess = await ffmpegManager.execute(
-        mergeArgResponse.arguments,
-        (statistics) => {
-              if (progressCallback != null)
-                {progressCallback(EGenerateStatus.merge, 1.0, 0)}
-            });
+    isSuccess =
+        await _ffmpegManager.execute(mergeArgResponse.arguments, (statistics) {
+      if (progressCallback != null) {
+        progressCallback(EGenerateStatus.merge, 1.0, 0);
+      }
+    });
     print(isSuccess);
     print(DateTime.now().difference(now).inSeconds);
     if (!isSuccess) return null;
@@ -106,10 +126,15 @@ class VideoGenerator {
   // cancel generate
   void cancelGenerate() async {
     try {
-      await ffmpegManager.cancel();
+      await _ffmpegManager.cancel();
     } catch (e) {}
   }
 
   // release
   void release() {}
+
+  @override
+  Widget build(BuildContext context) {
+    return _lottieWidget;
+  }
 }
