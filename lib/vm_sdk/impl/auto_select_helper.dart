@@ -1,6 +1,8 @@
 import '../types/types.dart';
 
 List<MediaData> selectMedia(List<MediaData> list) {
+  if (list.length < 2) return list;
+
   final List<MediaData> selectedList = <MediaData>[];
   final Map<int, List<MediaData>> groupMap = <int, List<MediaData>>{};
   int currentGroupIndex = 0;
