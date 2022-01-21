@@ -10,34 +10,37 @@ class MusicData {
 
 class TransitionData {
   ETransitionType type = ETransitionType.xfade;
-  int width = 0;
-  int height = 0;
-  double duration = 0;
-  double transitionPoint = 0;
+  int? width;
+  int? height;
+  double? duration;
+  double? transitionPoint;
   String? filename;
+  String? filterName;
 
   TransitionData(this.type, this.width, this.height, this.duration,
-      this.transitionPoint, this.filename);
+      this.transitionPoint, this.filename, this.filterName);
 
   TransitionData.fromJson(Map map) {
     switch (map["type"]) {
       case "overlay":
-        type = ETransitionType.overlay;
+        {
+          width = map["width"];
+          height = map["height"];
+          duration = map["duration"];
+          transitionPoint = map["transitionPoint"];
+          filename = map["filename"];
+          type = ETransitionType.overlay;
+        }
         break;
 
       case "xfade":
       default:
-        type = ETransitionType.xfade;
+        {
+          filterName = map["filterName"];
+          type = ETransitionType.xfade;
+        }
         break;
     }
-    width = map["width"];
-    height = map["height"];
-    duration = map["duration"];
-    transitionPoint = map["transitionPoint"];
-
-    if (map.containsKey("filename")) filename = map["filename"];
-
-    TransitionData(type, width, height, duration, transitionPoint, filename);
   }
 }
 

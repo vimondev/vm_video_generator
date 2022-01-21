@@ -1,7 +1,7 @@
 import '../types/types.dart';
 import 'global_helper.dart';
 
-int videoWidth = 1080;
+int videoWidth = 1920;
 int videoHeight = 1080;
 int framerate = 30;
 
@@ -48,8 +48,9 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
   String outputPath = "$appDirPath/video_out.mp4";
   double totalDuration = 0;
 
-  Map<int, String> videoMapVariables = <int, String>{}; // ex) [vid0]
+  Map<int, String?> videoMapVariables = <int, String?>{}; // ex) [vid0]
   Map<int, double> durationMap = <int, double>{}; // scene duration
+  Map<int, double> xfadeDurationMap = <int, double>{};
   Map<int, FilterData> filterMap = <int, FilterData>{};
   Map<int, TransitionData> transitionMap = <int, TransitionData>{};
 
@@ -61,6 +62,22 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
   for (int i = 0; i < list.length && i < templateData.scenes.length; i++) {
     final SceneData sceneData = templateData.scenes[i];
     final MediaData mediaData = list[i];
+    double xfadeDuration = 0;
+
+    if (sceneData.filterKey != null &&
+        templateData.filterDatas.containsKey(sceneData.filterKey)) {
+      filterMap[i] = templateData.filterDatas[sceneData.filterKey]!;
+    }
+    if (sceneData.transitionKey != null &&
+        templateData.transitionDatas.containsKey(sceneData.transitionKey)) {
+      final TransitionData transition =
+          templateData.transitionDatas[sceneData.transitionKey]!;
+      transitionMap[i] = transition;
+
+      if (transition.type == ETransitionType.xfade) {
+        xfadeDuration = 1;
+      }
+    }
 
     String trimStr = "";
     if (mediaData.type == EMediaType.image) {
@@ -70,11 +87,11 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
         "-loop",
         "1",
         "-t",
-        "${sceneData.duration}"
+        "${(sceneData.duration + xfadeDuration)}"
       ]);
     } else {
       trimStr =
-          "fps=$framerate,trim=0:${sceneData.duration},setpts=PTS-STARTPTS,";
+          "fps=$framerate,trim=0:${(sceneData.duration + xfadeDuration)},setpts=PTS-STARTPTS,";
     }
     inputArguments.addAll(["-i", mediaData.absolutePath]);
     inputFileCount++;
@@ -88,15 +105,7 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
 
     totalDuration += sceneData.duration;
     durationMap[i] = sceneData.duration;
-
-    if (sceneData.filterKey != null &&
-        templateData.filterDatas.containsKey(sceneData.filterKey)) {
-      filterMap[i] = templateData.filterDatas[sceneData.filterKey]!;
-    }
-    if (sceneData.transitionKey != null &&
-        templateData.transitionDatas.containsKey(sceneData.transitionKey)) {
-      transitionMap[i] = templateData.transitionDatas[sceneData.transitionKey]!;
-    }
+    xfadeDurationMap[i] = xfadeDuration;
   }
 
   // ADD FILTER (i => scene index)
@@ -105,10 +114,13 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
   for (int i = 0; i < videoMapVariables.length; i++) {
     if (filterMap.containsKey(i)) {
       final double duration = durationMap[i]!;
+      final double additionalDuration = xfadeDurationMap[i]!;
+      final double totalSceneDuration = duration + additionalDuration;
+
       final String currentVideoMapVariable = videoMapVariables[i]!;
       FilterData filter = filterMap[i]!;
 
-      final int loopCount = (duration / filter.duration).floor();
+      final int loopCount = (totalSceneDuration / filter.duration).floor();
       String filterMapVariable = "[filter${filterCount++}]";
       String filterMergedMapVariable = "[filter_merged_$i]";
 
@@ -123,7 +135,7 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
         "$appDirPath/${filter.filename}"
       ]);
       filterStrings.add(
-          "[${inputFileCount++}:v]trim=0:$duration,setpts=PTS-STARTPTS,scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$videoWidth:$videoHeight:${cropData.cropPosX}:${cropData.cropPosY}$filterMapVariable;");
+          "[${inputFileCount++}:v]trim=0:$totalSceneDuration,setpts=PTS-STARTPTS,scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$videoWidth:$videoHeight:${cropData.cropPosX}:${cropData.cropPosY}$filterMapVariable;");
       filterStrings.add(
           "$currentVideoMapVariable${filterMapVariable}overlay$filterMergedMapVariable;");
 
@@ -134,46 +146,80 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
   // ADD XFADE TRANSITION
   // TO DO: Add some condition
 
+  for (int i = 0; i < videoMapVariables.length - 1; i++) {
+    if (transitionMap.containsKey(i)) {
+      TransitionData transition = transitionMap[i]!;
+      if (transition.type == ETransitionType.xfade) {
+        final String xfadeMergedMapVariable = "[xfade_merged_$i]";
+        final String xfadeKey = transition.filterName!;
+
+        String prevVideoMapVariable = videoMapVariables[i]!;
+        String nextVideoMapVariable = videoMapVariables[i + 1]!;
+
+        final double xfadeDuration = xfadeDurationMap[i]!;
+
+        final double prevDuration = durationMap[i]!;
+        final double nextDuration = durationMap[i + 1]!;
+
+        filterStrings.add(
+            "$prevVideoMapVariable${nextVideoMapVariable}xfade=transition=$xfadeKey:duration=$xfadeDuration:offset=$prevDuration$xfadeMergedMapVariable;");
+
+        videoMapVariables[i] = null;
+        videoMapVariables[i + 1] = xfadeMergedMapVariable;
+
+        durationMap[i] = 0;
+        durationMap[i + 1] = prevDuration + nextDuration;
+      }
+    }
+  }
+
   // generate video merge & scale command
   String mergeTargetStr = "";
-  for (final String videoOutputStr in videoMapVariables.values) {
-    mergeTargetStr += videoOutputStr;
+  int mergeCount = 0;
+  for (final String? videoOutputStr in videoMapVariables.values) {
+    if (videoOutputStr != null) {
+      mergeTargetStr += videoOutputStr;
+      mergeCount++;
+    }
   }
 
   String currentOutputMapVariable = "[merged]";
-  filterStrings
-      .add("${mergeTargetStr}concat=n=${videoMapVariables.length}[merged];");
+  filterStrings.add("${mergeTargetStr}concat=n=$mergeCount[merged];");
 
   // ADD OVERLAY TRANSITION
   // TO DO: Add some condition
   double currentDuration = 0;
   int transitionCount = 0;
   for (int i = 0; i < videoMapVariables.length - 1; i++) {
+    if (videoMapVariables[i] == null) continue;
+
     final double duration = durationMap[i]!;
     currentDuration += duration;
 
     if (transitionMap.containsKey(i)) {
       TransitionData transition = transitionMap[i]!;
-      String transitionMapVariable = "[transition${transitionCount++}]";
-      String transitionMergedMapVariable = "[transition_merged_$i]";
+      if (transition.type == ETransitionType.overlay) {
+        String transitionMapVariable = "[transition${transitionCount++}]";
+        String transitionMergedMapVariable = "[transition_merged_$i]";
 
-      final CropData cropData =
-          generateCropData(transition.width, transition.height);
+        final CropData cropData =
+            generateCropData(transition.width!, transition.height!);
 
-      inputArguments.addAll([
-        "-c:v",
-        "libvpx-vp9",
-        "-itsoffset",
-        (currentDuration - transition.transitionPoint).toString(),
-        "-i",
-        "$appDirPath/${transition.filename!}"
-      ]);
-      filterStrings.add(
-          "[${inputFileCount++}:v]scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$videoWidth:$videoHeight:${cropData.cropPosX}:${cropData.cropPosY}$transitionMapVariable;");
-      filterStrings.add(
-          "$currentOutputMapVariable${transitionMapVariable}overlay$transitionMergedMapVariable;");
+        inputArguments.addAll([
+          "-c:v",
+          "libvpx-vp9",
+          "-itsoffset",
+          (currentDuration - transition.transitionPoint!).toString(),
+          "-i",
+          "$appDirPath/${transition.filename!}"
+        ]);
+        filterStrings.add(
+            "[${inputFileCount++}:v]scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$videoWidth:$videoHeight:${cropData.cropPosX}:${cropData.cropPosY}$transitionMapVariable;");
+        filterStrings.add(
+            "$currentOutputMapVariable${transitionMapVariable}overlay$transitionMergedMapVariable;");
 
-      currentOutputMapVariable = transitionMergedMapVariable;
+        currentOutputMapVariable = transitionMergedMapVariable;
+      }
     }
   }
 

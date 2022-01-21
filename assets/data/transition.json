@@ -54,5 +54,13 @@
         "duration": 1.0333333,
         "transitionPoint": 0.5,
         "filename": "cheerful_01_trans07.webm"
+    },
+    "xfade_fade": {
+        "type": "xfade",
+        "filterName": "fade"
+    },
+    "xfade_radial": {
+        "type": "xfade",
+        "filterName": "radial"
     }
 }
