@@ -41,7 +41,10 @@ class TestWidget extends StatelessWidget {
     }
 
     final String? videoPath = await _vmsdkWidget.generateVideo(
-        mediaList, EMusicStyle.styleB, (status, progress, estimatedTime) {});
+        mediaList,
+        EMusicStyle.styleB,
+        ["THIS IS", "VIMON V-LOG 123"],
+        (status, progress, estimatedTime) {});
 
     if (videoPath != null) {
       await GallerySaver.saveVideo(videoPath);

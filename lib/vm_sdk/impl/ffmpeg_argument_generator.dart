@@ -43,7 +43,7 @@ CropData generateCropData(int width, int height) {
 
 Future<GenerateArgumentResponse> generateVideoRenderArgument(
     TemplateData templateData,
-    List<ExportedTitlePNGSequenceData> exportedTitleList,
+    ExportedTitlePNGSequenceData exportedTitle,
     List<MediaData> list) async {
   final List<String> arguments = <String>[];
   final String appDirPath = await getAppDirectoryPath();
@@ -133,41 +133,31 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
     }
   }
 
-  // ADD TITLE (i => scene index)
-  int totalTitleHeight = 0;
-  for (int i = 0; i < exportedTitleList.length; i++) {
-    exportedTitleList[i].width = (exportedTitleList[i].width * 1.5).floor();
-    exportedTitleList[i].height = (exportedTitleList[i].height * 1.5).floor();
+  // ADD TITLE
 
-    totalTitleHeight += exportedTitleList[i].height;
-  }
+  exportedTitle.width = (exportedTitle.width * 1.5).floor();
+  exportedTitle.height = (exportedTitle.height * 1.5).floor();
 
-  final double calculatedStartPosY = (videoHeight / 2) - (totalTitleHeight / 2);
-  double currentPosY = calculatedStartPosY;
+  final double startPosY = (videoHeight / 2) - (exportedTitle.height / 2);
 
-  for (int i = 0; i < exportedTitleList.length; i++) {
-    ExportedTitlePNGSequenceData data = exportedTitleList[i];
+  String titleMapVariable = "[title0]";
+  String titleMergedMapVariable = "[title_merged_0]";
 
-    String titleMapVariable = "[title$i]";
-    String titleMergedMapVariable = "[title_merged_$i]";
+  double currentPosX = (videoWidth / 2) - (exportedTitle.width / 2);
 
-    double currentPosX = (videoWidth / 2) - (data.width / 2);
+  inputArguments.addAll([
+    "-framerate",
+    exportedTitle.frameRate.toString(),
+    "-i",
+    "${exportedTitle.folderPath}/%d.png"
+  ]);
 
-    inputArguments.addAll([
-      "-framerate",
-      data.frameRate.toString(),
-      "-i",
-      "${data.folderPath}/%d.png"
-    ]);
+  filterStrings.add(
+      "[${inputFileCount++}:v]trim=0:${durationMap[0]!},setpts=PTS-STARTPTS,scale=${exportedTitle.width}:${exportedTitle.height}$titleMapVariable;");
+  filterStrings.add(
+      "${videoMapVariables[0]!}${titleMapVariable}overlay=$currentPosX:$startPosY$titleMergedMapVariable;");
 
-    filterStrings.add(
-        "[${inputFileCount++}:v]trim=0:${durationMap[0]!},setpts=PTS-STARTPTS,scale=${data.width}:${data.height}$titleMapVariable;");
-    filterStrings.add(
-        "${videoMapVariables[0]!}${titleMapVariable}overlay=$currentPosX:$currentPosY$titleMergedMapVariable;");
-
-    videoMapVariables[0] = titleMergedMapVariable;
-    currentPosY += data.height;
-  }
+  videoMapVariables[0] = titleMergedMapVariable;
 
   // ADD XFADE TRANSITION
   // TO DO: Add some condition

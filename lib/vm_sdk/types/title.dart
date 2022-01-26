@@ -1,10 +1,10 @@
-enum ETitleType { title01, title02, title03 }
+enum ETitleType { title01 }
 
 class TitleData {
   String json;
   String fontFamily;
   String fontBase64;
-  String? text;
+  List<String> texts = [];
 
   TitleData(this.json, this.fontFamily, this.fontBase64);
 }

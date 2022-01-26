@@ -51,21 +51,16 @@ class VMSDKWidget extends StatelessWidget {
   Future<String?> generateVideo(
       List<MediaData> pickedList,
       EMusicStyle? style,
+      List<String> titles,
       Function(EGenerateStatus status, double progress, double estimatedTime)?
           progressCallback) async {
     EMusicStyle selectedStyle = style ?? EMusicStyle.styleA;
 
-    final List<TitleData> titleList =
-        (await loadTitleData(ETitleType.title01))!;
+    final TitleData title = (await loadTitleData(ETitleType.title01))!;
+    title.texts.addAll(titles);
 
-    titleList[0].text = "THIS IS REAL";
-    titleList[1].text = "FANCY TITLE!";
-
-    List<ExportedTitlePNGSequenceData> exportedTitleList = [];
-    for (int i = 0; i < titleList.length; i++) {
-      exportedTitleList
-          .add(await _lottieWidget.exportTitlePNGSequence(titleList[i]));
-    }
+    ExportedTitlePNGSequenceData exportedTitleData =
+        await _lottieWidget.exportTitlePNGSequence(title);
 
     final TemplateData? templateData = await loadTemplateData(selectedStyle);
     if (templateData == null) return null;
@@ -75,10 +70,9 @@ class VMSDKWidget extends StatelessWidget {
 
     final GenerateArgumentResponse videoArgResponse =
         await generateVideoRenderArgument(
-            templateData, exportedTitleList, pickedList);
+            templateData, exportedTitleData, pickedList);
 
     DateTime now = DateTime.now();
-
     double progress = 0, estimatedTime = 0;
 
     bool isSuccess =

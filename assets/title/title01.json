@@ -1,15 +1,6 @@
 {
     "name": "title01",
-    "childs": [
-        {
-            "filename": "title1_text1.json",
-            "fontFamily": "Jalnan",
-            "fontFileName": "Jalnan.ttf"
-        },
-        {
-            "filename": "title1_text2.json",
-            "fontFamily": "Jalnan",
-            "fontFileName": "Jalnan.ttf"
-        }
-    ]
+    "filename": "title1.json",
+    "fontFamily": "THEFACESHOP",
+    "fontFileName": "THEFACESHOP.ttf"
 }

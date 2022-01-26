@@ -9,7 +9,7 @@ import 'package:myapp/vm_sdk/impl/global_helper.dart';
 class LottieWidget extends StatelessWidget {
   LottieWidget({Key? key}) : super(key: key);
 
-  late InAppWebViewController _controller;
+  InAppWebViewController? _controller;
   late String _currentDirPath;
   late Completer<ExportedTitlePNGSequenceData> _currentTitleCompleter;
 
@@ -26,10 +26,18 @@ class LottieWidget extends StatelessWidget {
 
     _currentTitleCompleter = Completer();
 
-    _controller.evaluateJavascript(
+    String textArr = "[";
+    for (int i = 0; i < data.texts.length; i++) {
+      textArr += "'${data.texts[i]}',";
+    }
+    textArr += "]";
+
+    String temp =
+        "setData({ fontFamily: `${data.fontFamily}`, base64: `${data.fontBase64}`, json: ${data.json}, texts: $textArr });";
+    _controller!.evaluateJavascript(
         source:
-            "setData({ fontFamily: `${data.fontFamily}`, base64: `${data.fontBase64}`, json: ${data.json}, text: `${data.text}` });");
-    _controller.evaluateJavascript(source: "run();");
+            "setData({ fontFamily: `${data.fontFamily}`, base64: `${data.fontBase64}`, json: ${data.json}, texts: $textArr });");
+    _controller!.evaluateJavascript(source: "run();");
 
     return _currentTitleCompleter.future;
   }
@@ -75,16 +83,18 @@ class LottieWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InAppWebView(
-      initialUrlRequest: URLRequest(
-          url: Uri.parse("http://172.16.6.189:8080/index.html?date=1")),
-      // URLRequest(url: Uri.parse("https://videomonster.com")),
-      onWebViewCreated: (controller) {
-        _setController(controller);
-      },
-      onConsoleMessage: (controller, consoleMessage) {
-        print(consoleMessage);
-      },
-    );
+    return Transform.translate(
+        offset: const Offset(-99999, -99999),
+        child: InAppWebView(
+          initialUrlRequest: URLRequest(
+              url: Uri.parse("http://172.16.6.189:8080/index.html?date=1")),
+          // URLRequest(url: Uri.parse("https://videomonster.com")),
+          onWebViewCreated: (controller) {
+            _setController(controller);
+          },
+          onConsoleMessage: (controller, consoleMessage) {
+            print(consoleMessage);
+          },
+        ));
   }
 }
