@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html style="width: 100%;height: 100%">
+
+<head>
+    <script src="lottie.js"></script>
+</head>
+
+<body style="background-color: grey;">
+    <input id="input-json" type="file" />
+    <input id="input-font" type="file" />
+    <button onclick="run()">RUN</button>
+    <div id="bodymovin"></div>
+
+    <script>
+        let currentFontFamily = ''
+        let currentFontBase64 = ''
+        let currentJson = {}
+
+        let loadedJson = ''
+        let loadedFontBase64 = ''
+        function loadJSON(file) {
+            const reader = new FileReader()
+            reader.readAsText(file, 'utf8')
+            reader.onload = e => {
+                loadedJson = e.target.result
+            }
+        }
+        function loadFont(file) {
+            const reader = new FileReader()
+            reader.readAsDataURL(file, 'utf8')
+            reader.onload = e => {
+                loadedFontBase64 = e.target.result.split('base64,')[1]
+            }
+        }
+
+        window.onload = function () {
+            const jsonEl = document.getElementById("input-json")
+            jsonEl.addEventListener('change', e => {
+                loadJSON(e.target.files[0])
+            })
+
+            const fontEl = document.getElementById("input-font")
+            fontEl.addEventListener('change', e => {
+                loadFont(e.target.files[0])
+            })
+        }
+
+        function setData({ fontFamily, base64, json, texts }) {
+            currentFontFamily = fontFamily
+            currentFontBase64 = base64
+            currentJson = json
+
+            const styleEl = document.createElement('style')
+            styleEl.innerHTML = `
+                @font-face {
+                    font-family: ${currentFontFamily};
+                    src: url(data:application/font-woff;charset=utf-8;base64,${currentFontBase64});
+                }
+            `
+            document.head.appendChild(styleEl)
+
+            const { assets, layers } = currentJson
+            const textCompMap = {}
+
+            assets.forEach(item => {
+                if (item.nm.toLowerCase().startsWith('#text')) {
+                    textCompMap[item.nm] = item
+                }
+            })
+            const textComps = Object.keys(textCompMap)
+            textComps.sort((a, b) => a > b ? 1 : a < b ? -1 : 0)
+            console.log(textComps.join('\n'))
+            console.log(textCompMap)
+
+            const replaceText = (layers, text) => {
+                let originalText = ''
+                if (!text) text = ''
+
+                for (let i = 0; i < layers.length; i++) {
+                    const layer = layers[i]
+                    if (layer.nm === '@Source') {
+                        originalText = String(layer.t.d.k[0].s.t)
+                        layer.t.d.k[0].s.t = text
+                        console.log(layer)
+                        break
+                    }
+                }
+                layers.forEach(layer => {
+                    if (layer.t &&
+                        layer.t.d &&
+                        layer.t.d.k &&
+                        layer.t.d.k[0] &&
+                        layer.t.d.k[0].s &&
+                        layer.t.d.k[0].s.t &&
+                        layer.t.d.k[0].s.t === originalText
+                    ) {
+                        layer.t.d.k[0].s.t = text
+                    }
+                })
+            }
+
+            textComps.forEach((name, index) => {
+                replaceText(textCompMap[name].layers, texts[index])
+            })
+        }
+
+        async function DrawPNG(image, x, y, width, height) {
+            return new Promise((resolve, reject) => {
+                const canvas = document.createElement('canvas')
+                const ctx = canvas.getContext('2d')
+
+                canvas.width = width
+                canvas.height = height
+
+                ctx.drawImage(image, x, y, width, height, 0, 0, width, height)
+
+                const data = canvas.toDataURL('image/png')
+                // const data = (ctx.getImageData(0, 0, width, height)).data.buffer
+                // const data = canvas.toBlob(blob => {
+                //     resolve(blob)
+                // }, 'image/png')
+                // console.timeEnd('DrawPNG')
+                resolve(data)
+            })
+        }
+
+        function LoadFrames(svgElement, anim) {
+            return new Promise((resolve, reject) => {
+                const image = new Image()
+                image.onload = async function (e) {
+                    const frames = []
+
+                    const width = anim.animationData.w
+                    const height = anim.animationData.h
+                    const maxCanvasHeight = 16777216 / width
+
+                    let currentY = 0
+                    let currentHeight = height
+                    let startFrame = 0
+
+                    for (let i = 0; i < anim.totalFrames; i++) {
+                        if (currentHeight + height >= maxCanvasHeight) {
+                            frames.push({
+                                startFrame,
+                                endFrame: i,
+                                base64: DrawPNG(image, 0, currentY, width, currentHeight)
+                            })
+                            currentHeight = 0
+                            startFrame = i + 1
+
+                            if ((currentY + height) + maxCanvasHeight >= image.height) {
+                                frames.push({
+                                    startFrame,
+                                    endFrame: anim.totalFrames - 1,
+                                    base64: DrawPNG(image, 0, currentY, width, image.height - (currentY + height))
+                                })
+                                break
+                            }
+                        }
+                        currentHeight += height
+                        currentY += height
+                    }
+
+                    resolve(await Promise.all(frames.map(async item => {
+                        item.base64 = await item.base64
+                        return item
+                    })))
+                }
+                image.onerror = function (e) {
+                    reject(e)
+                }
+                image.src = 'data:image/svg+xml,' + encodeURIComponent((new XMLSerializer).serializeToString(svgElement))
+            })
+        }
+
+        let isInitialized = false
+        window.addEventListener("flutterInAppWebViewPlatformReady", function (event) {
+            console.log('flutter webview initialized!')
+            isInitialized = true
+        })
+
+        const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+
+        let isRunning = false
+        function run() {
+            if (isRunning) return
+            if (!isInitialized) return
+
+            const anim = lottie.loadAnimation({
+                container: document.getElementById('bodymovin'),
+                renderer: 'svg',
+                loop: false,
+                autoplay: false,
+                animationData: currentJson
+            })
+
+            let currentFrame = 0
+            anim.addEventListener('DOMLoaded', async function (e) {
+                try {
+                    const now = Date.now()
+
+                    const rootSVGElement = anim.renderer.svgElement.cloneNode(false)
+                    const defsElement = document.createElement('defs')
+                    rootSVGElement.appendChild(defsElement)
+                    rootSVGElement.style.background = 'black'
+
+                    const styleEl = document.createElement('style')
+                    styleEl.innerHTML = `
+                        @font-face {
+                            font-family: ${currentFontFamily};
+                            src: url(data:application/font-woff;charset=utf-8;base64,${currentFontBase64});
+                        }
+                    `
+                    defsElement.appendChild(styleEl)
+
+                    const height = anim.animationData.h * anim.totalFrames
+                    rootSVGElement.setAttribute('viewBox', `0 0 1920 ${height}`)
+                    rootSVGElement.setAttribute('height', height)
+
+                    const AssignFrameNumber = (node, index) => {
+                        if (node.attributes) {
+                            for (let i = 0; i < node.attributes.length; i++) {
+                                const attribute = node.attributes[i]
+                                attribute.value = attribute.value.replace(/__lottie_element/gi, `__lottie_element_frame_${index}`)
+                            }
+                        }
+
+                        for (let i = 0; i < node.childNodes.length; i++) {
+                            AssignFrameNumber(node.childNodes[i], index)
+                        }
+
+                        return node
+                    }
+
+                    for (let i = 0; i < anim.totalFrames; i++) {
+                        lottie.goToAndStop(i, true)
+
+                        anim.renderer.svgElement.childNodes.forEach(node => {
+                            switch (node.tagName) {
+                                case 'defs': {
+                                    rootSVGElement.appendChild(AssignFrameNumber(node.cloneNode(true), i))
+                                }
+                                break
+
+                                case 'g': {
+                                    const gElement = node.cloneNode(true)
+                                    gElement.setAttribute('transform', `matrix(1,0,0,1,0,${anim.animationData.h * i})`)
+
+                                    rootSVGElement.appendChild(AssignFrameNumber(gElement, i))
+                                }
+                                break
+                            }
+                        })
+                    }
+
+                    const frames = await LoadFrames(rootSVGElement, anim)
+                    if (window.flutter_inappwebview) {
+                        window.flutter_inappwebview.callHandler('TransferPNGData', {
+                            width: anim.animationData.w,
+                            height: anim.animationData.h,
+                            frameRate: anim.animationData.fr,
+                            frames
+                        })
+                    }
+                    lottie.destroy()
+                    console.log(`elapsed: ${Date.now() - now}ms`)
+
+                }
+                catch (e) {
+                    console.log(String(e))
+                    lottie.destroy()
+                    isRunning = false
+
+                    if (window.flutter_inappwebview) {
+                        window.flutter_inappwebview.callHandler('TransferFailed')
+                    }
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>

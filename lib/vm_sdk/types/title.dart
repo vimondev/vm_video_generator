@@ -1,4 +1,4 @@
-enum ETitleType { title01 }
+enum ETitleType { title01, title02, title03 }
 
 class TitleData {
   String json;

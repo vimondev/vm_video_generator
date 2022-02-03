@@ -135,8 +135,8 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
 
   // ADD TITLE
 
-  exportedTitle.width = (exportedTitle.width * 1.5).floor();
-  exportedTitle.height = (exportedTitle.height * 1.5).floor();
+  exportedTitle.width = (exportedTitle.width * 1.25).floor();
+  exportedTitle.height = (exportedTitle.height * 1.25).floor();
 
   final double startPosY = (videoHeight / 2) - (exportedTitle.height / 2);
 
