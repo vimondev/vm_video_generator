@@ -69,60 +69,63 @@ class LottieWidget extends StatelessWidget {
     double frameRate = args[0]["frameRate"];
 
     List frames = args[0]["frames"];
-    List<String> inputArguments = [];
-    List<String> filterStrings = [];
-    List<String> outputArguments = [];
+    // List<String> inputArguments = [];
+    // List<String> filterStrings = [];
+    // List<String> outputArguments = [];
 
-    int currentCount = 0;
+    // int currentCount = 0;
     for (int i = 0; i < frames.length; i++) {
-      int startFrame = frames[i]["startFrame"];
-      int endFrame = frames[i]["endFrame"];
-      final String sequenceFilePath = "$_currentSequencePath/sequence$i.png";
+      // int startFrame = frames[i]["startFrame"];
+      // int endFrame = frames[i]["endFrame"];
+      final String sequenceFilePath = "$_currentDirPath/$i.png";
       writeFileFromBase64(
           sequenceFilePath,
           frames[i]["base64"]
               .toString()
               .replaceAll("data:image/png;base64,", ""));
 
-      inputArguments.addAll(["-i", sequenceFilePath]);
+      // inputArguments.addAll(["-i", sequenceFilePath]);
 
-      int currentY = 0;
-      for (int j = startFrame; j <= endFrame; j++) {
-        filterStrings.add(
-            "[$i:v]crop=$width:$height:0:${(height + currentY)},setdar=dar=${(width / height)},scale=$width:$height[out$currentCount];");
-        outputArguments.addAll([
-          "-map",
-          "[out$currentCount]",
-          "$_currentDirPath/$currentCount.png"
-        ]);
+      // int currentY = 0;
+      // for (int j = startFrame; j <= endFrame; j++) {
+      //   filterStrings.add(
+      //       "[$i:v]crop=$width:$height:0:${(height + currentY)},setdar=dar=${(width / height)},scale=$width:$height[out$currentCount];");
+      //   outputArguments.addAll([
+      //     "-map",
+      //     "[out$currentCount]",
+      //     "$_currentDirPath/$currentCount.png"
+      //   ]);
 
-        currentY += height;
-        currentCount++;
+      //   currentY += height;
+      //   currentCount++;
 
-        // if (currentCount >= 101) break;
-      }
+      //   // if (currentCount >= 101) break;
+      // }
       // if (currentCount >= 101) break;
     }
 
-    List<String> arguments = [];
+    // List<String> arguments = [];
 
-    // generate -filter_complex
-    String filterComplexStr = "";
-    for (final String filterStr in filterStrings) {
-      filterComplexStr += filterStr;
-    }
+    // // generate -filter_complex
+    // String filterComplexStr = "";
+    // for (final String filterStr in filterStrings) {
+    //   filterComplexStr += filterStr;
+    // }
 
-    if (filterComplexStr.endsWith(";")) {
-      filterComplexStr =
-          filterComplexStr.substring(0, filterComplexStr.length - 1);
-    }
+    // if (filterComplexStr.endsWith(";")) {
+    //   filterComplexStr =
+    //       filterComplexStr.substring(0, filterComplexStr.length - 1);
+    // }
 
-    arguments.addAll(inputArguments);
-    arguments.addAll(["-filter_complex", filterComplexStr]);
-    arguments.addAll(outputArguments);
+    // arguments.addAll(inputArguments);
+    // arguments.addAll(["-filter_complex", filterComplexStr]);
+    // arguments.addAll(outputArguments);
 
-    bool isSuccess = await _ffmpegManager.execute(arguments, (p0) => null);
-    print(isSuccess);
+    // bool isSuccess = await _ffmpegManager.execute(arguments, (p0) => null);
+    // print(isSuccess);
+
+    _currentTitleCompleter.complete(ExportedTitlePNGSequenceData(
+        _currentDirPath, width, height, frameRate));
   }
 
   void _handleTransferComplete(args) {
@@ -160,10 +163,10 @@ class LottieWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Transform.translate(
-        // offset: const Offset(-99999, -99999),
-        offset: const Offset(0, 0),
+        offset: const Offset(-99999, -99999),
+        // offset: const Offset(0, 0),
         child: InAppWebView(
-            initialFile: "assets/html/index.html",
+            initialFile: "assets/html/index2.html",
             onWebViewCreated: (controller) {
               _setController(controller);
             },
