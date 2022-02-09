@@ -11,8 +11,8 @@ void testMethod() async {
     await videoGenerator.initialize();
   }
 
-  final filelist =
-      json.decode(await rootBundle.loadString("assets/_test/exiftestset.json"));
+  final filelist = json.decode(await rootBundle
+      .loadString("assets/_test/mediajson-joined/monaco2.json"));
 
   final List<MediaData> mediaList = <MediaData>[];
 
@@ -24,12 +24,13 @@ void testMethod() async {
     final int height = file["height"];
     DateTime createDate = DateTime.parse(file["createDate"]);
     String gpsString = file["gpsString"];
+    String mlkitDetected = file["mlkitDetected"];
 
     double? duration;
-    // if (file.containsKey("duration")) duration = file["duration"];
+    if (file.containsKey("duration")) duration = file["duration"] * 1.0;
 
-    mediaList.add(MediaData(
-        filename, type, width, height, duration, createDate, gpsString, null));
+    mediaList.add(MediaData(filename, type, width, height, duration, createDate,
+        gpsString, mlkitDetected));
   }
 
   final autoSelected = videoGenerator.autoSelectMedia(mediaList);

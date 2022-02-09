@@ -4,6 +4,7 @@ import 'impl/template_helper.dart';
 import 'impl/ffmpeg_manager.dart';
 import 'impl/ffmpeg_argument_generator.dart';
 import 'impl/resource_manager.dart';
+import 'impl/auto_edit_helper.dart';
 import 'impl/auto_select_helper.dart';
 import 'impl/ml_kit_helper.dart';
 
@@ -19,7 +20,10 @@ class VideoGenerator {
   }
 
   List<MediaData> autoSelectMedia(List<MediaData> allList) {
-    return selectMedia(allList);
+    generateAutoEditData(allList, EMusicStyle.styleA, true);
+    return [];
+
+    // return selectMedia(allList);
   }
 
   EMusicStyle autoSelectMusic(List<MediaData> list) {

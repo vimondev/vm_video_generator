@@ -1,4 +1,5 @@
 enum EMediaType { image, video }
+enum EMediaLabel { background, person, object }
 enum EMusicStyle { styleA, styleB, styleC }
 enum EGenerateStatus { none, encoding, merge }
 
