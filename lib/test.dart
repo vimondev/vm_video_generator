@@ -25,7 +25,7 @@ void testMethod() async {
     final int width = file["width"];
     final int height = file["height"];
 
-    if (type == EMediaType.video) continue;
+    // if (type == EMediaType.video) continue;
 
     double? duration;
     DateTime createDate = DateTime.parse(file["createDate"]);
