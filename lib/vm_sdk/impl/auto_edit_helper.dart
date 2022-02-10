@@ -12,6 +12,8 @@ Map<EMusicStyle, List<double>> tempDurationMap = {
 
 void generateAutoEditData(
     List<MediaData> list, EMusicStyle musicStyle, bool isAutoSelect) {
+  list.sort((a, b) => a.createDate.compareTo(b.createDate));
+
   ////////////////////////////////////
   // GENERATE MLKIT DETECTED OBJECT //
   ////////////////////////////////////
@@ -51,15 +53,14 @@ void generateAutoEditData(
   /////////////////////
 
   final Map<int, List<MediaData>> groupMap = <int, List<MediaData>>{};
-  int currentGroupIndex = 0;
+  int curGroupIndex = 0;
 
   for (int i = 0; i < list.length - 1; i++) {
-    final MediaData currentData = list[i], nextData = list[i + 1];
+    final MediaData curData = list[i], nextData = list[i + 1];
     bool isGrouped = false;
 
     final int totalSecondsDiff =
-        (currentData.createDate.difference(nextData.createDate).inSeconds)
-            .abs();
+        (curData.createDate.difference(nextData.createDate).inSeconds).abs();
     final int minutesDiff = ((totalSecondsDiff / 60) % 60).floor();
     final int hoursDiff = ((totalSecondsDiff / 3600) % 60).floor();
 
@@ -69,10 +70,9 @@ void generateAutoEditData(
       for (int j = 0; j < 3; j++) {
         final diffThreshold = j <= 1 ? 0 : 15;
         final double latitudeDiff =
-            (currentData.gpsData.latitude[j] - nextData.gpsData.latitude[j])
-                .abs();
+            (curData.gpsData.latitude[j] - nextData.gpsData.latitude[j]).abs();
         final double longitudeDiff =
-            (currentData.gpsData.longitude[j] - nextData.gpsData.longitude[j])
+            (curData.gpsData.longitude[j] - nextData.gpsData.longitude[j])
                 .abs();
 
         if (latitudeDiff > diffThreshold || longitudeDiff > diffThreshold) {
@@ -82,21 +82,21 @@ void generateAutoEditData(
       }
     }
 
-    if (!groupMap.containsKey(currentGroupIndex)) {
-      groupMap[currentGroupIndex] = <MediaData>[];
+    if (!groupMap.containsKey(curGroupIndex)) {
+      groupMap[curGroupIndex] = <MediaData>[];
     }
-    groupMap[currentGroupIndex]!.add(currentData);
+    groupMap[curGroupIndex]!.add(curData);
 
     if (isGrouped) {
-      currentGroupIndex++;
+      curGroupIndex++;
     }
 
     // last Element
     if (i + 1 == list.length - 1) {
-      if (!groupMap.containsKey(currentGroupIndex)) {
-        groupMap[currentGroupIndex] = <MediaData>[];
+      if (!groupMap.containsKey(curGroupIndex)) {
+        groupMap[curGroupIndex] = <MediaData>[];
       }
-      groupMap[currentGroupIndex]!.add(nextData);
+      groupMap[curGroupIndex]!.add(nextData);
     }
   }
 
@@ -112,10 +112,10 @@ void generateAutoEditData(
       if (totalMediaCount < 20) break;
 
       final int key = entry.key;
-      final List<MediaData> currentList = entry.value;
+      final List<MediaData> curList = entry.value;
 
-      for (int i = 0; i < currentList.length; i++) {
-        final MediaData data = currentList[i];
+      for (int i = 0; i < curList.length; i++) {
+        final MediaData data = curList[i];
         bool isShortVideo = false, isFewObject = false;
         bool isContainDefinitiveLabel = false;
         bool isRemove = false;
@@ -148,14 +148,14 @@ void generateAutoEditData(
         }
 
         if (isRemove) {
-          currentList.removeAt(i);
+          curList.removeAt(i);
           i--;
           totalMediaCount--;
         }
         if (totalMediaCount < 20) break;
       }
 
-      // if (currentList.isEmpty) {
+      // if (curList.isEmpty) {
       //   groupMap.remove(key);
       // }
     }
@@ -165,17 +165,18 @@ void generateAutoEditData(
       if (totalMediaCount < 20) break;
 
       final int key = entry.key;
-      final List<MediaData> currentList = entry.value;
+      final List<MediaData> curList = entry.value;
 
-      for (int i = 0; i < currentList.length - 1; i++) {
-        final MediaData current = currentList[i], next = currentList[i + 1];
+      int startSimilarIndex = -1, endSimilarIndex = -1;
 
-        final Map<int, double> currentLabelMap =
-                mediaAllLabelConfidenceMap[current]!,
+      for (int i = 0; i < curList.length - 1; i++) {
+        final MediaData cur = curList[i], next = curList[i + 1];
+
+        final Map<int, double> curLabelMap = mediaAllLabelConfidenceMap[cur]!,
             nextLabelMap = mediaAllLabelConfidenceMap[next]!;
         final Map<int, bool> allLabelMap = {};
 
-        for (final label in currentLabelMap.entries) {
+        for (final label in curLabelMap.entries) {
           if (label.value >= 0.1) {
             allLabelMap[label.key] = true;
           }
@@ -188,27 +189,48 @@ void generateAutoEditData(
 
         double similarity = 0;
         for (final labelKey in allLabelMap.keys) {
-          double currentConfidence = currentLabelMap.containsKey(labelKey)
-              ? currentLabelMap[labelKey]!
-              : 0;
+          double curConfidence =
+              curLabelMap.containsKey(labelKey) ? curLabelMap[labelKey]! : 0;
           double nextConfidence =
               nextLabelMap.containsKey(labelKey) ? nextLabelMap[labelKey]! : 0;
 
-          similarity += min(currentConfidence, nextConfidence) /
-              max(currentConfidence, nextConfidence);
+          similarity += min(curConfidence, nextConfidence) /
+              max(curConfidence, nextConfidence);
         }
         similarity /= allLabelMap.length;
 
-        print(current.absolutePath);
-        print(next.absolutePath);
-        print(similarity);
-        print("");
+        if (similarity >= 0.4) {
+          if (startSimilarIndex == -1) {
+            startSimilarIndex = i;
+          }
+          endSimilarIndex = i + 1;
+        } else {
+          if (startSimilarIndex != -1 && endSimilarIndex != -1) {
+            int duplicatedCount = endSimilarIndex - startSimilarIndex + 1;
+            int picked =
+                startSimilarIndex + (Random()).nextInt(duplicatedCount);
 
-        // 0.45
+            final List<MediaData> removeTargets = [];
+            for (int j = startSimilarIndex;
+                j <= endSimilarIndex && j < curList.length;
+                j++) {
+              print(curList[j].absolutePath);
+              if (picked != j) removeTargets.add(curList[j]);
+            }
+
+            for (final MediaData deleteTarget in removeTargets) {
+              curList.remove(deleteTarget);
+              totalMediaCount--;
+              if (totalMediaCount < 20) break;
+            }
+
+            i = startSimilarIndex;
+            startSimilarIndex = endSimilarIndex = -1;
+
+            if (totalMediaCount < 20) break;
+          }
+        }
       }
     }
-    print("");
   }
-
-  print("");
 }
