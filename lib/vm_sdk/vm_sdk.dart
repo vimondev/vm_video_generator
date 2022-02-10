@@ -16,6 +16,8 @@ class VideoGenerator {
   // Intializing before video generate
   Future<void> initialize() async {
     await resourceManager.loadResourceMap();
+    await loadLabelMap();
+
     isInitialized = true;
   }
 

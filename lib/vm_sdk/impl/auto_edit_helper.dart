@@ -1,8 +1,11 @@
+import 'dart:convert';
 import 'dart:math';
 
 import '../types/types.dart';
+import 'global_helper.dart';
 
-Map<int, bool> definitiveLabelMap = {439: true};
+Map<int, EMediaLabel> classifiedLabelMap = {};
+Map<int, bool> definitiveLabelMap = {};
 
 Map<EMusicStyle, List<double>> tempDurationMap = {
   EMusicStyle.styleA: [4, 5, 6, 4, 5, 6, 4, 5, 6, 4, 5, 6, 4, 5, 6],
@@ -10,8 +13,98 @@ Map<EMusicStyle, List<double>> tempDurationMap = {
   EMusicStyle.styleC: [3, 4, 5, 3, 4, 5, 3, 4, 5, 3, 4, 5, 3, 4, 5]
 };
 
-AutoEditedData generateAutoEditData(
-    List<MediaData> list, EMusicStyle musicStyle, bool isAutoSelect) {
+Future<void> loadLabelMap() async {
+  List classifiedList =
+      jsonDecode(await loadResourceString("data/mlkit-label-classified.json"));
+  List definitiveList =
+      jsonDecode(await loadResourceString("data/mlkit-label-definitive.json"));
+
+  for (final Map map in classifiedList) {
+    int id = map["id"];
+    String type = map["type"];
+    EMediaLabel mediaLabel = EMediaLabel.none;
+
+    switch (type) {
+      case "background":
+      case "action":
+      case "others":
+        mediaLabel = EMediaLabel.background;
+        break;
+
+      case "person":
+        mediaLabel = EMediaLabel.person;
+        break;
+
+      case "object":
+        mediaLabel = EMediaLabel.object;
+        break;
+
+      default:
+        break;
+    }
+
+    classifiedLabelMap[id] = mediaLabel;
+  }
+
+  for (final int id in definitiveList) {
+    definitiveLabelMap[id] = true;
+  }
+}
+
+Future<EMediaLabel> detectMediaLabel(
+    AutoEditMedia media, MLKitDetected detected) async {
+  EMediaLabel mediaLabel = EMediaLabel.none;
+  final Map<EMediaLabel, double> labelConfidenceMap = {
+    EMediaLabel.background: 0,
+    EMediaLabel.person: 0,
+    EMediaLabel.object: 0,
+    EMediaLabel.none: 0
+  };
+
+  List<DetectedFrameData> detectedList = [];
+  if (media.mediaData.type == EMediaType.image) {
+    detectedList.addAll(detected.list);
+  } //
+  else if (media.mediaData.type == EMediaType.video) {
+    final int startIndex = (media.startTime / (1.0 / detected.fps)).floor();
+    final int endIndex =
+        ((media.startTime + media.duration) / (1.0 / detected.fps)).floor();
+
+    for (int i = startIndex; i <= endIndex && i < detected.list.length; i++) {
+      detectedList.add(detected.list[i]);
+    }
+  }
+
+  for (final DetectedFrameData frameData in detectedList) {
+    for (final ImageLabel imageLabel in frameData.labelList) {
+      EMediaLabel mediaLabel = classifiedLabelMap[imageLabel.index]!;
+      double threshold = 1.0;
+
+      if (mediaLabel == EMediaLabel.person) {
+        threshold *= 4.0;
+      } //
+      else if (mediaLabel == EMediaLabel.background) {
+        threshold *= 2.0;
+      }
+
+      labelConfidenceMap[mediaLabel] =
+          labelConfidenceMap[mediaLabel]! + imageLabel.confidence * threshold;
+    }
+  }
+
+  double maxValue = -1;
+  for (final entry in labelConfidenceMap.entries) {
+    if (entry.value > maxValue) {
+      maxValue = entry.value;
+      mediaLabel = entry.key;
+    }
+  }
+
+  return mediaLabel;
+}
+
+Future<AutoEditedData> generateAutoEditData(
+    List<MediaData> list, EMusicStyle musicStyle, bool isAutoSelect) async {
   final AutoEditedData autoEditedData = AutoEditedData();
 
   list.sort((a, b) => a.createDate.compareTo(b.createDate));
@@ -315,6 +408,9 @@ AutoEditedData generateAutoEditData(
           }
         }
       }
+
+      autoEditMedia.mediaLabel =
+          await detectMediaLabel(autoEditMedia, mlkitMap[mediaData]!);
 
       autoEditedData.autoEditMediaList.add(autoEditMedia);
       currentMediaIndex++;
