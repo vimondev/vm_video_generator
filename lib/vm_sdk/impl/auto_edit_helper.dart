@@ -10,8 +10,10 @@ Map<EMusicStyle, List<double>> tempDurationMap = {
   EMusicStyle.styleC: [3, 4, 5, 3, 4, 5, 3, 4, 5, 3, 4, 5, 3, 4, 5]
 };
 
-void generateAutoEditData(
+AutoEditedData generateAutoEditData(
     List<MediaData> list, EMusicStyle musicStyle, bool isAutoSelect) {
+  final AutoEditedData autoEditedData = AutoEditedData();
+
   list.sort((a, b) => a.createDate.compareTo(b.createDate));
 
   ////////////////////////////////////
@@ -66,7 +68,8 @@ void generateAutoEditData(
 
     if (minutesDiff >= 10 || hoursDiff >= 1) {
       isGrouped = true;
-    } else {
+    } //
+    else {
       for (int j = 0; j < 3; j++) {
         final diffThreshold = j <= 1 ? 0 : 15;
         final double latitudeDiff =
@@ -143,7 +146,8 @@ void generateAutoEditData(
 
         if (isShortVideo) {
           isRemove = true;
-        } else if (!isContainDefinitiveLabel) {
+        } //
+        else if (!isContainDefinitiveLabel) {
           if (isFewObject) isRemove = true;
         }
 
@@ -154,19 +158,13 @@ void generateAutoEditData(
         }
         if (totalMediaCount < 20) break;
       }
-
-      // if (curList.isEmpty) {
-      //   groupMap.remove(key);
-      // }
     }
 
     // REMOVE DUPLICATE CLIP
     for (final entry in groupMap.entries) {
       if (totalMediaCount < 20) break;
 
-      final int key = entry.key;
       final List<MediaData> curList = entry.value;
-
       int startSimilarIndex = -1, endSimilarIndex = -1;
 
       for (int i = 0; i < curList.length - 1; i++) {
@@ -204,7 +202,8 @@ void generateAutoEditData(
             startSimilarIndex = i;
           }
           endSimilarIndex = i + 1;
-        } else {
+        } //
+        else {
           if (startSimilarIndex != -1 && endSimilarIndex != -1) {
             int duplicatedCount = endSimilarIndex - startSimilarIndex + 1;
             int picked =
@@ -214,7 +213,6 @@ void generateAutoEditData(
             for (int j = startSimilarIndex;
                 j <= endSimilarIndex && j < curList.length;
                 j++) {
-              print(curList[j].absolutePath);
               if (picked != j) removeTargets.add(curList[j]);
             }
 
@@ -233,4 +231,95 @@ void generateAutoEditData(
       }
     }
   }
+
+  ////////////////////////////////////////
+  // SET CLIP DURATION, SET MEDIA LABEL //
+  ////////////////////////////////////////
+
+  final List<double> durationList = tempDurationMap[musicStyle]!;
+  int currentMediaIndex = 0;
+  double totalRemainDuration = 0;
+
+  for (final entry in groupMap.entries) {
+    final List<MediaData> curList = entry.value;
+    if (curList.isEmpty) continue;
+
+    for (int i = 0; i < curList.length; i++) {
+      final MediaData mediaData = curList[i];
+      final AutoEditMedia autoEditMedia = AutoEditMedia(mediaData);
+      if (i == curList.length - 1) autoEditMedia.isBoundary = true;
+
+      final double currentDuration =
+          durationList[currentMediaIndex % durationList.length];
+      if (mediaData.type == EMediaType.image) {
+        autoEditMedia.duration = currentDuration;
+      } //
+      else if (mediaData.type == EMediaType.video) {
+        if (mediaData.duration! < currentDuration) {
+          autoEditMedia.duration = mediaData.duration!;
+          totalRemainDuration += currentDuration - mediaData.duration!;
+          // print(mediaData.absolutePath);
+          // print("index : $currentMediaIndex");
+          // print("defined : $currentDuration");
+          // print("duration : ${autoEditMedia.duration}");
+          // print("remain : ${currentDuration - mediaData.duration!}");
+          // print("totalRemain : $totalRemainDuration");
+          // print("");
+          // print("");
+        } //
+        else {
+          autoEditMedia.startTime =
+              min(3, (mediaData.duration! - currentDuration) / 2.0);
+          autoEditMedia.duration = currentDuration;
+
+          if (totalRemainDuration > 0) {
+            final double mediaRemainDuration = max(
+                0,
+                (mediaData.duration! -
+                    currentDuration -
+                    autoEditMedia.startTime));
+
+            // print(mediaData.absolutePath);
+            // print("index : $currentMediaIndex");
+            // print("defined : $currentDuration");
+            // print("start/b : ${autoEditMedia.startTime}");
+            // print("duration/b : ${autoEditMedia.duration}");
+            // print("mediaRemain/b : $mediaRemainDuration");
+            // print("totalRemain/b : $totalRemainDuration");
+            if (mediaRemainDuration >= totalRemainDuration) {
+              autoEditMedia.duration += totalRemainDuration;
+              totalRemainDuration = 0;
+            } //
+            else {
+              autoEditMedia.duration += mediaRemainDuration;
+              totalRemainDuration -= mediaRemainDuration;
+
+              if (autoEditMedia.startTime >= totalRemainDuration) {
+                autoEditMedia.startTime -= totalRemainDuration;
+                autoEditMedia.duration += totalRemainDuration;
+                totalRemainDuration = 0;
+              } //
+              else {
+                totalRemainDuration -= autoEditMedia.startTime;
+                autoEditMedia.duration += autoEditMedia.startTime;
+                autoEditMedia.startTime = 0;
+              }
+            }
+            // print("");
+            // print("start/a : ${autoEditMedia.startTime}");
+            // print("duration/a : ${autoEditMedia.duration}");
+            // print("mediaRemain/a : $mediaRemainDuration");
+            // print("totalRemain/a : $totalRemainDuration");
+            // print("");
+            // print("");
+          }
+        }
+      }
+
+      autoEditedData.autoEditMediaList.add(autoEditMedia);
+      currentMediaIndex++;
+    }
+  }
+
+  return autoEditedData;
 }

@@ -1,5 +1,7 @@
+import 'package:myapp/vm_sdk/types/resource.dart';
+
 enum EMediaType { image, video }
-enum EMediaLabel { background, person, object }
+enum EMediaLabel { none, background, person, object }
 enum EMusicStyle { styleA, styleB, styleC }
 enum EGenerateStatus { none, encoding, merge }
 
@@ -49,4 +51,25 @@ class MediaData {
       this.duration, this.createDate, String gpsString, this.mlkitDetected) {
     gpsData = GPSData.fromString(gpsString);
   }
+}
+
+class AutoEditMedia {
+  MediaData mediaData;
+  EMediaLabel mediaLabel = EMediaLabel.none;
+  bool isBoundary = false;
+
+  double startTime = 0;
+  double duration = 0;
+
+  String? stickerKey;
+
+  ETransitionType? transitionType;
+  String? transitionKey;
+
+  AutoEditMedia(this.mediaData);
+}
+
+class AutoEditedData {
+  List<AutoEditMedia> autoEditMediaList = [];
+  List<MusicData> musicList = [];
 }
