@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'test_mlkit.dart' show testMethod;
+import 'test.dart' show testMethod;
 
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';

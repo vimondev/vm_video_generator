@@ -1,0 +1,61 @@
+{
+    "name": "styleB_01",
+    "version": 1.0,
+    "music": {
+        "filename": "bgm02.mp3",
+        "duration": 90
+    },
+    "scenes": [
+        {
+            "name": "#AV1",
+            "duration": 5,
+            "transition": "xfade_fade"
+        },
+        {
+            "name": "#AV2",
+            "duration": 5,
+            "transition": "xfade_fadewhite"
+        },
+        {
+            "name": "#AV3",
+            "duration": 5,
+            "transition": "xfade_wiperight"
+        },
+        {
+            "name": "#AV4",
+            "duration": 5,
+            "transition": "xfade_slideright"
+        },
+        {
+            "name": "#AV5",
+            "duration": 5,
+            "transition": "xfade_vertopen"
+        },
+        {
+            "name": "#AV6",
+            "duration": 5,
+            "transition": "xfade_smoothright"
+        },
+        {
+            "name": "#AV7",
+            "duration": 5,
+            "transition": "xfade_radial"
+        },
+        {
+            "name": "#AV8",
+            "duration": 5,
+            "transition": "xfade_diagtr"
+        }
+    ],
+    "transitions": [
+        "xfade_fade",
+        "xfade_fadewhite",
+        "xfade_wiperight",
+        "xfade_slideright",
+        "xfade_vertopen",
+        "xfade_smoothright",
+        "xfade_radial",
+        "xfade_diagtr"
+    ],
+    "filters": []
+}

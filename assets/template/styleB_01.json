@@ -20,7 +20,8 @@
         },
         {
             "name": "#AV3",
-            "duration": 4
+            "duration": 4,
+            "transition": "xfade_fade"
         },
         {
             "name": "#AV4",
@@ -30,7 +31,8 @@
         {
             "name": "#AV5",
             "duration": 6,
-            "filter": "cheerful_01_deco02"
+            "filter": "cheerful_01_deco02",
+            "transition": "xfade_radial"
         },
         {
             "name": "#AV6",
@@ -40,12 +42,14 @@
         {
             "name": "#AV7",
             "duration": 5,
-            "filter": "cheerful_01_deco10"
+            "filter": "cheerful_01_deco10",
+            "transition": "xfade_radial"
         },
         {
             "name": "#AV8",
             "duration": 6,
-            "filter": "cheerful_01_deco04"
+            "filter": "cheerful_01_deco04",
+            "transition": "xfade_fade"
         },
         {
             "name": "#AV9",
@@ -58,7 +62,8 @@
         },
         {
             "name": "#AV11",
-            "duration": 6
+            "duration": 6,
+            "transition": "xfade_radial"
         },
         {
             "name": "#AV12",
@@ -68,11 +73,13 @@
         },
         {
             "name": "#AV13",
-            "duration": 5
+            "duration": 5,
+            "transition": "xfade_fade"
         },
         {
             "name": "#AV14",
-            "duration": 5
+            "duration": 5,
+            "transition": "xfade_fade"
         },
         {
             "name": "#AV15",
@@ -101,7 +108,9 @@
         "cheerful_01_trans04",
         "cheerful_01_trans05",
         "cheerful_01_trans06",
-        "cheerful_01_trans07"
+        "cheerful_01_trans07",
+        "xfade_fade",
+        "xfade_radial"
     ],
     "filters": [
         "cheerful_01_deco01",

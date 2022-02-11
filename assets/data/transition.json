@@ -54,5 +54,53 @@
         "duration": 1.0333333,
         "transitionPoint": 0.5,
         "filename": "cheerful_01_trans07.webm"
+    },
+    "xfade_fade": {
+        "type": "xfade",
+        "filterName": "fade"
+    },
+    "xfade_fadeblack": {
+        "type": "xfade",
+        "filterName": "fadeblack"
+    },
+    "xfade_wiperight": {
+        "type": "xfade",
+        "filterName": "wiperight"
+    },
+    "xfade_slideright": {
+        "type": "xfade",
+        "filterName": "slideright"
+    },
+    "xfade_rectcrop": {
+        "type": "xfade",
+        "filterName": "rectcrop"
+    },
+    "xfade_circlecrop": {
+        "type": "xfade",
+        "filterName": "circlecrop"
+    },
+    "xfade_radial": {
+        "type": "xfade",
+        "filterName": "radial"
+    },
+    "xfade_diagtr": {
+        "type": "xfade",
+        "filterName": "diagtr"
+    },
+    "xfade_fadewhite": {
+        "type": "xfade",
+        "filterName": "fadewhite"
+    },
+    "xfade_circleopen": {
+        "type": "xfade",
+        "filterName": "circleopen"
+    },
+    "xfade_smoothright": {
+        "type": "xfade",
+        "filterName": "smoothright"
+    },
+    "xfade_vertopen": {
+        "type": "xfade",
+        "filterName": "vertopen"
     }
 }

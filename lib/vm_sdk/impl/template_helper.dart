@@ -4,7 +4,7 @@ import 'dart:convert';
 
 const Map<EMusicStyle, String> templateMap = {
   EMusicStyle.styleA: "styleA_01.json",
-  EMusicStyle.styleB: "styleB_01.json"
+  EMusicStyle.styleB: "styleB_04.json"
 };
 
 Future<TemplateData?> loadTemplateData(EMusicStyle musicStyle) async {
