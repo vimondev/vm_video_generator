@@ -1,7 +1,16 @@
 import 'package:myapp/vm_sdk/types/resource.dart';
 
 enum EMediaType { image, video }
-enum EMediaLabel { none, background, person, action, object, others }
+enum EMediaLabel {
+  none,
+  background,
+  person,
+  action,
+  object,
+  food,
+  animal,
+  others
+}
 enum EMusicStyle { styleA, styleB, styleC }
 enum EGenerateStatus { none, encoding, merge }
 

@@ -122,8 +122,6 @@ Future<void> loadLabelMap() async {
 
     switch (type) {
       case "background":
-      case "action":
-      case "others":
         mediaLabel = EMediaLabel.background;
         break;
 
@@ -131,8 +129,24 @@ Future<void> loadLabelMap() async {
         mediaLabel = EMediaLabel.person;
         break;
 
+      case "action":
+        mediaLabel = EMediaLabel.action;
+        break;
+
       case "object":
         mediaLabel = EMediaLabel.object;
+        break;
+
+      case "food":
+        mediaLabel = EMediaLabel.food;
+        break;
+
+      case "animal":
+        mediaLabel = EMediaLabel.animal;
+        break;
+
+      case "others":
+        mediaLabel = EMediaLabel.others;
         break;
 
       default:
@@ -153,8 +167,11 @@ Future<EMediaLabel> detectMediaLabel(
   final Map<EMediaLabel, double> labelConfidenceMap = {
     EMediaLabel.background: 0,
     EMediaLabel.person: 0,
+    EMediaLabel.action: 0,
     EMediaLabel.object: 0,
-    EMediaLabel.none: 0
+    EMediaLabel.food: 0,
+    EMediaLabel.animal: 0,
+    EMediaLabel.others: 0
   };
 
   List<DetectedFrameData> detectedList = [];
@@ -176,10 +193,11 @@ Future<EMediaLabel> detectMediaLabel(
       EMediaLabel mediaLabel = classifiedLabelMap[imageLabel.index]!;
       double threshold = 1.0;
 
-      if (mediaLabel == EMediaLabel.person) {
+      if (mediaLabel == EMediaLabel.person || mediaLabel == EMediaLabel.food) {
         threshold *= 4.0;
       } //
-      else if (mediaLabel == EMediaLabel.background) {
+      else if (mediaLabel == EMediaLabel.background ||
+          mediaLabel == EMediaLabel.animal) {
         threshold *= 2.0;
       }
 
@@ -583,6 +601,71 @@ Future<AutoEditedData> generateAutoEditData(
       isPassedBoundary = false;
     }
   }
+
+  ////////////////////
+  // INSERT STICKER //
+  ////////////////////
+
+  final Map<EMediaLabel, List<String>> stickerMap = tempStickerMap[musicStyle]!;
+  final Map<EMediaLabel, int> stickerIndexMap = {};
+  for (final entry in stickerMap.entries) {
+    stickerIndexMap[entry.key] = (Random()).nextInt(entry.value.length);
+  }
+
+  int lastStickerInsertedIndex = 0;
+  clipCount = 3 + (Random()).nextInt(3);
+
+  for (int i = 0; i < autoEditedData.autoEditMediaList.length; i++) {
+    final AutoEditMedia autoEditMedia = autoEditedData.autoEditMediaList[i];
+
+    final int diff = i - lastStickerInsertedIndex;
+    if (diff >= clipCount) {
+      EMediaLabel mediaLabel = autoEditMedia.mediaLabel;
+
+      switch (mediaLabel) {
+        case EMediaLabel.background:
+        case EMediaLabel.action:
+          mediaLabel = EMediaLabel.background;
+          break;
+
+        case EMediaLabel.person:
+        case EMediaLabel.object:
+        case EMediaLabel.food:
+        case EMediaLabel.animal:
+          mediaLabel = EMediaLabel.object;
+          break;
+
+        default:
+          mediaLabel = EMediaLabel.none;
+          break;
+      }
+
+      if (!stickerMap.containsKey(mediaLabel)) continue;
+
+      int index = stickerIndexMap[mediaLabel]!;
+      stickerIndexMap[mediaLabel] = stickerIndexMap[mediaLabel]! + 1;
+
+      List<String> currentStickerList = stickerMap[mediaLabel]!;
+      autoEditMedia.stickerKey =
+          currentStickerList[index % currentStickerList.length];
+
+      lastStickerInsertedIndex = i;
+      clipCount = 3 + (Random()).nextInt(3);
+    }
+  }
+
+  // print("--------------------------------------");
+  // print("--------------------------------------");
+  // for (int i = 0; i < autoEditedData.autoEditMediaList.length; i++) {
+  //   final autoEditMedia = autoEditedData.autoEditMediaList[i];
+  //   print(
+  //       "${autoEditMedia.mediaData.absolutePath} : ${autoEditMedia.mediaLabel} : ${autoEditMedia.stickerKey}");
+  //   if (autoEditMedia.transitionKey != null) {
+  //     print("index : $i");
+  //     print(autoEditMedia.transitionKey);
+  //     print("");
+  //   }
+  // }
 
   autoEditedData.musicList.addAll([
     MusicData("bgm03.m4a", 90),

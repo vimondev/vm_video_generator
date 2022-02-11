@@ -21,7 +21,7 @@
     },
     {
         "id": 5,
-        "type": "object"
+        "type": "food"
     },
     {
         "id": 7,
@@ -37,7 +37,7 @@
     },
     {
         "id": 10,
-        "type": "object"
+        "type": "food"
     },
     {
         "id": 11,
@@ -73,7 +73,7 @@
     },
     {
         "id": 20,
-        "type": "object"
+        "type": "animal"
     },
     {
         "id": 21,
@@ -121,7 +121,7 @@
     },
     {
         "id": 33,
-        "type": "object"
+        "type": "animal"
     },
     {
         "id": 34,
@@ -129,7 +129,7 @@
     },
     {
         "id": 35,
-        "type": "object"
+        "type": "animal"
     },
     {
         "id": 36,
@@ -177,7 +177,7 @@
     },
     {
         "id": 48,
-        "type": "object"
+        "type": "food"
     },
     {
         "id": 49,
@@ -185,7 +185,7 @@
     },
     {
         "id": 50,
-        "type": "object"
+        "type": "food"
     },
     {
         "id": 51,
@@ -225,7 +225,7 @@
     },
     {
         "id": 61,
-        "type": "object"
+        "type": "animal"
     },
     {
         "id": 62,
@@ -433,7 +433,7 @@
     },
     {
         "id": 113,
-        "type": "object"
+        "type": "animal"
     },
     {
         "id": 114,
@@ -453,15 +453,15 @@
     },
     {
         "id": 118,
-        "type": "object"
+        "type": "animal"
     },
     {
         "id": 119,
-        "type": "object"
+        "type": "food"
     },
     {
         "id": 120,
-        "type": "object"
+        "type": "food"
     },
     {
         "id": 121,
@@ -481,7 +481,7 @@
     },
     {
         "id": 126,
-        "type": "object"
+        "type": "food"
     },
     {
         "id": 127,
@@ -509,7 +509,7 @@
     },
     {
         "id": 133,
-        "type": "object"
+        "type": "food"
     },
     {
         "id": 134,
@@ -577,7 +577,7 @@
     },
     {
         "id": 151,
-        "type": "object"
+        "type": "animal"
     },
     {
         "id": 152,
@@ -597,7 +597,7 @@
     },
     {
         "id": 156,
-        "type": "object"
+        "type": "animal"
     },
     {
         "id": 157,
@@ -621,7 +621,7 @@
     },
     {
         "id": 162,
-        "type": "object"
+        "type": "food"
     },
     {
         "id": 163,
@@ -669,7 +669,7 @@
     },
     {
         "id": 174,
-        "type": "object"
+        "type": "animal"
     },
     {
         "id": 175,
@@ -685,7 +685,7 @@
     },
     {
         "id": 178,
-        "type": "object"
+        "type": "animal"
     },
     {
         "id": 179,
@@ -697,7 +697,7 @@
     },
     {
         "id": 181,
-        "type": "object"
+        "type": "food"
     },
     {
         "id": 182,
@@ -705,11 +705,11 @@
     },
     {
         "id": 183,
-        "type": "object"
+        "type": "animal"
     },
     {
         "id": 184,
-        "type": "object"
+        "type": "food"
     },
     {
         "id": 185,
@@ -725,7 +725,7 @@
     },
     {
         "id": 188,
-        "type": "object"
+        "type": "food"
     },
     {
         "id": 189,
@@ -741,7 +741,7 @@
     },
     {
         "id": 192,
-        "type": "object"
+        "type": "animal"
     },
     {
         "id": 193,
@@ -817,7 +817,7 @@
     },
     {
         "id": 213,
-        "type": "object"
+        "type": "animal"
     },
     {
         "id": 214,
@@ -849,7 +849,7 @@
     },
     {
         "id": 221,
-        "type": "object"
+        "type": "animal"
     },
     {
         "id": 222,
@@ -857,7 +857,7 @@
     },
     {
         "id": 223,
-        "type": "object"
+        "type": "animal"
     },
     {
         "id": 224,
@@ -1033,7 +1033,7 @@
     },
     {
         "id": 268,
-        "type": "object"
+        "type": "animal"
     },
     {
         "id": 269,
@@ -1065,11 +1065,11 @@
     },
     {
         "id": 276,
-        "type": "object"
+        "type": "food"
     },
     {
         "id": 277,
-        "type": "object"
+        "type": "animal"
     },
     {
         "id": 278,
@@ -1161,7 +1161,7 @@
     },
     {
         "id": 300,
-        "type": "object"
+        "type": "food"
     },
     {
         "id": 301,
@@ -1273,15 +1273,15 @@
     },
     {
         "id": 330,
-        "type": "object"
+        "type": "food"
     },
     {
         "id": 331,
-        "type": "object"
+        "type": "food"
     },
     {
         "id": 332,
-        "type": "object"
+        "type": "food"
     },
     {
         "id": 333,
@@ -1301,7 +1301,7 @@
     },
     {
         "id": 338,
-        "type": "object"
+        "type": "animal"
     },
     {
         "id": 339,
@@ -1309,11 +1309,11 @@
     },
     {
         "id": 340,
-        "type": "object"
+        "type": "animal"
     },
     {
         "id": 341,
-        "type": "object"
+        "type": "animal"
     },
     {
         "id": 342,
@@ -1389,7 +1389,7 @@
     },
     {
         "id": 360,
-        "type": "object"
+        "type": "animal"
     },
     {
         "id": 361,
@@ -1425,7 +1425,7 @@
     },
     {
         "id": 369,
-        "type": "object"
+        "type": "animal"
     },
     {
         "id": 370,
@@ -1437,7 +1437,7 @@
     },
     {
         "id": 372,
-        "type": "object"
+        "type": "animal"
     },
     {
         "id": 373,
@@ -1465,7 +1465,7 @@
     },
     {
         "id": 379,
-        "type": "object"
+        "type": "animal"
     },
     {
         "id": 380,
@@ -1497,7 +1497,7 @@
     },
     {
         "id": 388,
-        "type": "object"
+        "type": "food"
     },
     {
         "id": 389,
@@ -1517,7 +1517,7 @@
     },
     {
         "id": 393,
-        "type": "object"
+        "type": "food"
     },
     {
         "id": 394,
@@ -1593,7 +1593,7 @@
     },
     {
         "id": 413,
-        "type": "object"
+        "type": "animal"
     },
     {
         "id": 414,
@@ -1649,7 +1649,7 @@
     },
     {
         "id": 428,
-        "type": "object"
+        "type": "food"
     },
     {
         "id": 429,
@@ -1657,7 +1657,7 @@
     },
     {
         "id": 430,
-        "type": "object"
+        "type": "food"
     },
     {
         "id": 431,
@@ -1669,7 +1669,7 @@
     },
     {
         "id": 433,
-        "type": "object"
+        "type": "food"
     },
     {
         "id": 434,
