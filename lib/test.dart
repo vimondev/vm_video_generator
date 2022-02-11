@@ -33,14 +33,10 @@ void testMethod() async {
 
     if (file.containsKey("duration")) duration = file["duration"] * 1.0;
 
-    mediaList.add(MediaData(filename, type, width, height, duration, createDate,
-        gpsString, mlkitDetected));
-    if (file.containsKey("duration")) duration = file["duration"];
-
     // final writedFile =
     //     await copyAssetToLocalDirectory("$testAssetPath/$filename");
-    mediaList.add(MediaData(
-        filename, type, width, height, duration, createDate, gpsString, null));
+    mediaList.add(MediaData(filename, type, width, height, duration, createDate,
+        gpsString, mlkitDetected));
   }
 
   final autoSelected = videoGenerator.autoSelectMedia(mediaList);

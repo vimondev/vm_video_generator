@@ -62,8 +62,6 @@ class AutoEditMedia {
   double duration = 0;
 
   String? stickerKey;
-
-  ETransitionType? transitionType;
   String? transitionKey;
 
   AutoEditMedia(this.mediaData);

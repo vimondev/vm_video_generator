@@ -13,6 +13,102 @@ Map<EMusicStyle, List<double>> tempDurationMap = {
   EMusicStyle.styleC: [3, 4, 5, 3, 4, 5, 3, 4, 5, 3, 4, 5, 3, 4, 5]
 };
 
+Map<EMusicStyle, Map<ETransitionType, List<String>>> tempTransitionMap = {
+  EMusicStyle.styleA: {
+    ETransitionType.xfade: [
+      "xfade_fade",
+      "xfade_wiperight",
+      "xfade_slideright",
+      "xfade_rectcrop",
+      "xfade_circlecrop",
+      "xfade_radial"
+    ],
+    ETransitionType.overlay: [
+      "cheerful_01_trans02",
+      "cheerful_01_trans03",
+      "cheerful_01_trans04",
+      "cheerful_01_trans05",
+      "cheerful_01_trans06",
+      "cheerful_01_trans07"
+    ],
+  },
+  EMusicStyle.styleB: {
+    ETransitionType.xfade: [
+      "xfade_wiperight",
+      "xfade_rectcrop",
+      "xfade_radial",
+      "xfade_slideright",
+      "xfade_fade",
+      "xfade_circlecrop"
+    ],
+    ETransitionType.overlay: [
+      "cheerful_01_trans02",
+      "cheerful_01_trans03",
+      "cheerful_01_trans04",
+      "cheerful_01_trans05",
+      "cheerful_01_trans06",
+      "cheerful_01_trans07"
+    ],
+  },
+  EMusicStyle.styleC: {
+    ETransitionType.xfade: [
+      "xfade_circlecrop",
+      "xfade_fade",
+      "xfade_radial",
+      "xfade_wiperight",
+      "xfade_rectcrop",
+      "xfade_slideright"
+    ],
+    ETransitionType.overlay: [
+      "cheerful_01_trans02",
+      "cheerful_01_trans03",
+      "cheerful_01_trans04",
+      "cheerful_01_trans05",
+      "cheerful_01_trans06",
+      "cheerful_01_trans07"
+    ],
+  }
+};
+
+Map<EMusicStyle, Map<EMediaLabel, List<String>>> tempStickerMap = {
+  EMusicStyle.styleA: {
+    EMediaLabel.background: [
+      "cheerful_01_deco01",
+      "cheerful_01_deco02",
+      "cheerful_01_deco04"
+    ],
+    EMediaLabel.object: [
+      "cheerful_01_deco03",
+      "cheerful_01_deco06",
+      "cheerful_01_deco11"
+    ]
+  },
+  EMusicStyle.styleB: {
+    EMediaLabel.background: [
+      "cheerful_01_deco05",
+      "cheerful_01_deco07",
+      "cheerful_01_deco10"
+    ],
+    EMediaLabel.object: [
+      "cheerful_01_deco03",
+      "cheerful_01_deco06",
+      "cheerful_01_deco11"
+    ]
+  },
+  EMusicStyle.styleC: {
+    EMediaLabel.background: [
+      "cheerful_01_deco02",
+      "cheerful_01_deco04",
+      "cheerful_01_deco05",
+    ],
+    EMediaLabel.object: [
+      "cheerful_01_deco03",
+      "cheerful_01_deco06",
+      "cheerful_01_deco11"
+    ]
+  }
+};
+
 Future<void> loadLabelMap() async {
   List classifiedList =
       jsonDecode(await loadResourceString("data/mlkit-label-classified.json"));
@@ -416,6 +512,83 @@ Future<AutoEditedData> generateAutoEditData(
       currentMediaIndex++;
     }
   }
+
+  ///////////////////////
+  // INSERT TRANSITION //
+  ///////////////////////
+
+  final Map<ETransitionType, List<String>> transitionMap =
+      tempTransitionMap[musicStyle]!;
+
+  int lastTransitionInsertedIndex = 0;
+  int xfadeTransitionIndex =
+      (Random()).nextInt(transitionMap[ETransitionType.xfade]!.length);
+  int overlayTransitionIndex =
+      (Random()).nextInt(transitionMap[ETransitionType.overlay]!.length);
+
+  int clipCount = 4 + (Random()).nextInt(3);
+  bool isPassedBoundary = false;
+
+  for (int i = 0; i < autoEditedData.autoEditMediaList.length - 1; i++) {
+    final AutoEditMedia autoEditMedia = autoEditedData.autoEditMediaList[i];
+    if (autoEditMedia.isBoundary) {
+      isPassedBoundary = true;
+    }
+
+    final int diff = i - lastTransitionInsertedIndex;
+    if (diff >= clipCount) {
+      ETransitionType currentTransitionType = ETransitionType.xfade;
+
+      if (isPassedBoundary) {
+        currentTransitionType = (Random()).nextDouble() >= 0.35
+            ? ETransitionType.xfade
+            : ETransitionType.overlay;
+      } //
+      else {
+        currentTransitionType = (Random()).nextDouble() >= 0.2
+            ? ETransitionType.xfade
+            : ETransitionType.overlay;
+      }
+
+      if (currentTransitionType == ETransitionType.xfade) {
+        final double mediaRemainDuration = max(
+            0,
+            (autoEditMedia.mediaData.duration! -
+                autoEditMedia.duration -
+                autoEditMedia.startTime));
+
+        if (mediaRemainDuration < 1) {
+          currentTransitionType = ETransitionType.overlay;
+          // OR
+          // continue;
+        }
+      }
+
+      int index = 0;
+      if (currentTransitionType == ETransitionType.xfade) {
+        index = xfadeTransitionIndex++;
+      } //
+      else if (currentTransitionType == ETransitionType.overlay) {
+        index = overlayTransitionIndex++;
+      }
+
+      List<String> currentTransitionList =
+          transitionMap[currentTransitionType]!;
+
+      autoEditMedia.transitionKey =
+          currentTransitionList[index % currentTransitionList.length];
+
+      lastTransitionInsertedIndex = i;
+      clipCount = 4 + (Random()).nextInt(3);
+      isPassedBoundary = false;
+    }
+  }
+
+  autoEditedData.musicList.addAll([
+    MusicData("bgm03.m4a", 90),
+    MusicData("bgm04.m4a", 90),
+    MusicData("bgm05.m4a", 90)
+  ]);
 
   return autoEditedData;
 }

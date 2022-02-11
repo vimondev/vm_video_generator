@@ -72,9 +72,7 @@ flutter:
     # - assets/_mlkittest/set01/
     # - assets/_mlkittest/set02/
     # - assets/_mlkittest/subin/
-    - assets/_test/set01/
-    - assets/_test/set02/
-    - assets/_test/set03/
+    - assets/_test/mediajson-joined/
     - assets/_test/
     - assets/data/
     - assets/template/
