@@ -77,7 +77,6 @@ flutter:
     - assets/data/
     - assets/template/
     - assets/raw/audio/
-    - assets/raw/filter/
     - assets/raw/sticker/
     - assets/raw/transition/
   #   - images/a_dot_burr.jpeg

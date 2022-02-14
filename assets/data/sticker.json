@@ -1,0 +1,282 @@
+{
+    "Sticker_DA001": {
+        "width": 700,
+        "height": 600,
+        "duration": 1.167,
+        "type": "object",
+        "filename": "Sticker_DA001.webm"
+    },
+    "Sticker_DA002": {
+        "width": 500,
+        "height": 500,
+        "duration": 1.701,
+        "type": "object",
+        "filename": "Sticker_DA002.webm"
+    },
+    "Sticker_DA003": {
+        "width": 300,
+        "height": 300,
+        "duration": 2.369,
+        "type": "object",
+        "filename": "Sticker_DA003.webm"
+    },
+    "Sticker_DA004": {
+        "width": 400,
+        "height": 400,
+        "duration": 2.002,
+        "type": "object",
+        "filename": "Sticker_DA004.webm"
+    },
+    "Sticker_DA005": {
+        "width": 400,
+        "height": 400,
+        "duration": 2.002,
+        "type": "object",
+        "filename": "Sticker_DA005.webm"
+    },
+    "Sticker_DA006": {
+        "width": 400,
+        "height": 400,
+        "duration": 1.501,
+        "type": "object",
+        "filename": "Sticker_DA006.webm"
+    },
+    "Sticker_DA007": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 1.501,
+        "type": "background",
+        "filename": "Sticker_DA007.webm"
+    },
+    "Sticker_DA008": {
+        "width": 500,
+        "height": 400,
+        "duration": 1.501,
+        "type": "object",
+        "filename": "Sticker_DA008.webm"
+    },
+    "Sticker_HJ001": {
+        "width": 500,
+        "height": 500,
+        "duration": 2,
+        "type": "object",
+        "filename": "Sticker_HJ001.webm"
+    },
+    "Sticker_HJ002": {
+        "width": 500,
+        "height": 500,
+        "duration": 2,
+        "type": "object",
+        "filename": "Sticker_HJ002.webm"
+    },
+    "Sticker_HJ003": {
+        "width": 500,
+        "height": 500,
+        "duration": 2,
+        "type": "object",
+        "filename": "Sticker_HJ003.webm"
+    },
+    "Sticker_HJ004": {
+        "width": 500,
+        "height": 500,
+        "duration": 2,
+        "type": "object",
+        "filename": "Sticker_HJ004.webm"
+    },
+    "Sticker_HJ005": {
+        "width": 500,
+        "height": 500,
+        "duration": 2,
+        "type": "object",
+        "filename": "Sticker_HJ005.webm"
+    },
+    "Sticker_HJ006": {
+        "width": 500,
+        "height": 500,
+        "duration": 2,
+        "type": "object",
+        "filename": "Sticker_HJ006.webm"
+    },
+    "Sticker_SW001": {
+        "width": 200,
+        "height": 200,
+        "duration": 4,
+        "type": "object",
+        "filename": "Sticker_SW001.webm"
+    },
+    "Sticker_SW002": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 5,
+        "type": "background",
+        "filename": "Sticker_SW002.webm"
+    },
+    "Sticker_SW003": {
+        "width": 313,
+        "height": 173,
+        "duration": 5,
+        "type": "object",
+        "filename": "Sticker_SW003.webm"
+    },
+    "Sticker_SW004": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 5,
+        "type": "background",
+        "filename": "Sticker_SW004.webm"
+    },
+    "Sticker_SW005": {
+        "width": 300,
+        "height": 300,
+        "duration": 5.005,
+        "type": "object",
+        "filename": "Sticker_SW005.webm"
+    },
+    "Sticker_SW006": {
+        "width": 583,
+        "height": 250,
+        "duration": 5,
+        "type": "object",
+        "filename": "Sticker_SW006.webm"
+    },
+    "Sticker_SW007": {
+        "width": 206,
+        "height": 109,
+        "duration": 5,
+        "type": "object",
+        "filename": "Sticker_SW007.webm"
+    },
+    "Sticker_SW008": {
+        "width": 300,
+        "height": 300,
+        "duration": 5,
+        "type": "object",
+        "filename": "Sticker_SW008.webm"
+    },
+    "Sticker_YJ001": {
+        "width": 300,
+        "height": 300,
+        "duration": 3.003,
+        "type": "object",
+        "filename": "Sticker_YJ001.webm"
+    },
+    "Sticker_YJ002": {
+        "width": 400,
+        "height": 400,
+        "duration": 4.004,
+        "type": "object",
+        "filename": "Sticker_YJ002.webm"
+    },
+    "Sticker_YJ003": {
+        "width": 200,
+        "height": 200,
+        "duration": 4.037,
+        "type": "object",
+        "filename": "Sticker_YJ003.webm"
+    },
+    "Sticker_YJ004": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 4.671,
+        "type": "background",
+        "filename": "Sticker_YJ004.webm"
+    },
+    "Sticker_YJ005": {
+        "width": 1150,
+        "height": 800,
+        "duration": 5.005,
+        "type": "object",
+        "filename": "Sticker_YJ005.webm"
+    },
+    "Sticker_YJ006": {
+        "width": 800,
+        "height": 800,
+        "duration": 2.002,
+        "type": "object",
+        "filename": "Sticker_YJ006.webm"
+    },
+    "Sticker_YJ007": {
+        "width": 200,
+        "height": 200,
+        "duration": 3.97,
+        "type": "object",
+        "filename": "Sticker_YJ007.webm"
+    },
+    "Sticker_YJ008": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 4.037,
+        "type": "background",
+        "filename": "Sticker_YJ008.webm"
+    },
+    "Sticker_YJ009": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 3.403,
+        "type": "background",
+        "filename": "Sticker_YJ009.webm"
+    },
+    "Sticker_YJ010": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 4.037,
+        "type": "background",
+        "filename": "Sticker_YJ010.webm"
+    },
+    "Stiker_ON001": {
+        "width": 439,
+        "height": 230,
+        "duration": 2.002,
+        "type": "object",
+        "filename": "Stiker_ON001.webm"
+    },
+    "Stiker_ON002": {
+        "width": 500,
+        "height": 296,
+        "duration": 2.002,
+        "type": "object",
+        "filename": "Stiker_ON002.webm"
+    },
+    "Stiker_ON003": {
+        "width": 240,
+        "height": 300,
+        "duration": 2.002,
+        "type": "object",
+        "filename": "Stiker_ON003.webm"
+    },
+    "Stiker_ON004": {
+        "width": 214,
+        "height": 173,
+        "duration": 2.002,
+        "type": "object",
+        "filename": "Stiker_ON004.webm"
+    },
+    "Stiker_ON005": {
+        "width": 500,
+        "height": 500,
+        "duration": 0.834,
+        "type": "object",
+        "filename": "Stiker_ON005.webm"
+    },
+    "Stiker_ON006": {
+        "width": 550,
+        "height": 276,
+        "duration": 1.634,
+        "type": "object",
+        "filename": "Stiker_ON006.webm"
+    },
+    "Stiker_ON007": {
+        "width": 620,
+        "height": 240,
+        "duration": 1.634,
+        "type": "object",
+        "filename": "Stiker_ON007.webm"
+    },
+    "Stiker_ON008": {
+        "width": 450,
+        "height": 450,
+        "duration": 2.369,
+        "type": "object",
+        "filename": "Stiker_ON008.webm"
+    }
+}

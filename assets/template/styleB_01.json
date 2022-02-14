@@ -8,15 +8,11 @@
     "scenes": [
         {
             "name": "#AV1",
-            "duration": 5,
-            "filter": "cheerful_01_deco01",
-            "transition": "cheerful_01_trans07"
+            "duration": 5
         },
         {
             "name": "#AV2",
-            "duration": 6,
-            "filter": "cheerful_01_deco07",
-            "transition": "cheerful_01_trans06"
+            "duration": 6
         },
         {
             "name": "#AV3",
@@ -25,30 +21,24 @@
         },
         {
             "name": "#AV4",
-            "duration": 6,
-            "transition": "cheerful_01_trans02"
+            "duration": 6
         },
         {
             "name": "#AV5",
             "duration": 6,
-            "filter": "cheerful_01_deco02",
             "transition": "xfade_radial"
         },
         {
             "name": "#AV6",
-            "duration": 4,
-            "filter": "cheerful_01_deco03"
+            "duration": 4
         },
         {
             "name": "#AV7",
-            "duration": 5,
-            "filter": "cheerful_01_deco10",
-            "transition": "xfade_radial"
+            "duration": 5
         },
         {
             "name": "#AV8",
             "duration": 6,
-            "filter": "cheerful_01_deco04",
             "transition": "xfade_fade"
         },
         {
@@ -57,8 +47,7 @@
         },
         {
             "name": "#AV10",
-            "duration": 6,
-            "transition": "cheerful_01_trans05"
+            "duration": 6
         },
         {
             "name": "#AV11",
@@ -67,9 +56,7 @@
         },
         {
             "name": "#AV12",
-            "duration": 3,
-            "filter": "cheerful_01_deco11",
-            "transition": "cheerful_01_trans03"
+            "duration": 3
         },
         {
             "name": "#AV13",
@@ -83,19 +70,15 @@
         },
         {
             "name": "#AV15",
-            "duration": 6,
-            "filter": "cheerful_01_deco05"
+            "duration": 6
         },
         {
             "name": "#AV16",
-            "duration": 5,
-            "filter": "cheerful_01_deco05"
+            "duration": 5
         },
         {
             "name": "#AV17",
-            "duration": 2,
-            "filter": "cheerful_01_deco06",
-            "transition": "cheerful_01_trans04"
+            "duration": 2
         },
         {
             "name": "#AV18",
@@ -103,24 +86,9 @@
         }
     ],
     "transitions": [
-        "cheerful_01_trans02",
-        "cheerful_01_trans03",
-        "cheerful_01_trans04",
-        "cheerful_01_trans05",
-        "cheerful_01_trans06",
-        "cheerful_01_trans07",
         "xfade_fade",
         "xfade_radial"
     ],
-    "filters": [
-        "cheerful_01_deco01",
-        "cheerful_01_deco02",
-        "cheerful_01_deco03",
-        "cheerful_01_deco04",
-        "cheerful_01_deco05",
-        "cheerful_01_deco06",
-        "cheerful_01_deco07",
-        "cheerful_01_deco10",
-        "cheerful_01_deco11"
+    "stickers": [
     ]
 }

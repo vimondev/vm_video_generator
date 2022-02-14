@@ -24,12 +24,17 @@ Map<EMusicStyle, Map<ETransitionType, List<String>>> tempTransitionMap = {
       "xfade_radial"
     ],
     ETransitionType.overlay: [
-      "cheerful_01_trans02",
-      "cheerful_01_trans03",
-      "cheerful_01_trans04",
-      "cheerful_01_trans05",
-      "cheerful_01_trans06",
-      "cheerful_01_trans07"
+      "Transition_SW001",
+      "Transition_DA001",
+      "Transition_DA002",
+      "Transition_HJ001",
+      "Transition_HJ002",
+      "Transition_ON001",
+      "Transition_ON002",
+      "Transition_SW002",
+      "Transition_YJ001",
+      "Transition_YJ002",
+      "Transition_YJ003",
     ],
   },
   EMusicStyle.styleB: {
@@ -42,12 +47,17 @@ Map<EMusicStyle, Map<ETransitionType, List<String>>> tempTransitionMap = {
       "xfade_circlecrop"
     ],
     ETransitionType.overlay: [
-      "cheerful_01_trans02",
-      "cheerful_01_trans03",
-      "cheerful_01_trans04",
-      "cheerful_01_trans05",
-      "cheerful_01_trans06",
-      "cheerful_01_trans07"
+      "Transition_SW001",
+      "Transition_DA001",
+      "Transition_DA002",
+      "Transition_HJ001",
+      "Transition_HJ002",
+      "Transition_ON001",
+      "Transition_ON002",
+      "Transition_SW002",
+      "Transition_YJ001",
+      "Transition_YJ002",
+      "Transition_YJ003",
     ],
   },
   EMusicStyle.styleC: {
@@ -60,12 +70,17 @@ Map<EMusicStyle, Map<ETransitionType, List<String>>> tempTransitionMap = {
       "xfade_slideright"
     ],
     ETransitionType.overlay: [
-      "cheerful_01_trans02",
-      "cheerful_01_trans03",
-      "cheerful_01_trans04",
-      "cheerful_01_trans05",
-      "cheerful_01_trans06",
-      "cheerful_01_trans07"
+      "Transition_SW001",
+      "Transition_DA001",
+      "Transition_DA002",
+      "Transition_HJ001",
+      "Transition_HJ002",
+      "Transition_ON001",
+      "Transition_ON002",
+      "Transition_SW002",
+      "Transition_YJ001",
+      "Transition_YJ002",
+      "Transition_YJ003",
     ],
   }
 };
@@ -73,38 +88,73 @@ Map<EMusicStyle, Map<ETransitionType, List<String>>> tempTransitionMap = {
 Map<EMusicStyle, Map<EMediaLabel, List<String>>> tempStickerMap = {
   EMusicStyle.styleA: {
     EMediaLabel.background: [
-      "cheerful_01_deco01",
-      "cheerful_01_deco02",
-      "cheerful_01_deco04"
+      "Sticker_DA007",
+      "Sticker_SW002",
+      "Sticker_SW004",
+      "Sticker_YJ004",
+      "Sticker_YJ008",
+      "Sticker_YJ009",
+      "Sticker_YJ010",
     ],
     EMediaLabel.object: [
-      "cheerful_01_deco03",
-      "cheerful_01_deco06",
-      "cheerful_01_deco11"
+      "Sticker_YJ001",
+      "Sticker_YJ002",
+      "Sticker_YJ003",
+      "Sticker_YJ005",
+      "Sticker_YJ006",
+      "Sticker_YJ007",
+      "Stiker_ON001",
+      "Stiker_ON002",
+      "Stiker_ON003",
+      "Stiker_ON004",
+      "Stiker_ON005",
+      "Stiker_ON006",
+      "Stiker_ON007",
+      "Stiker_ON008",
     ]
   },
   EMusicStyle.styleB: {
     EMediaLabel.background: [
-      "cheerful_01_deco05",
-      "cheerful_01_deco07",
-      "cheerful_01_deco10"
+      "Sticker_DA007",
+      "Sticker_SW002",
+      "Sticker_SW004",
+      "Sticker_YJ004",
+      "Sticker_YJ008",
+      "Sticker_YJ009",
+      "Sticker_YJ010",
     ],
     EMediaLabel.object: [
-      "cheerful_01_deco03",
-      "cheerful_01_deco06",
-      "cheerful_01_deco11"
+      "Sticker_HJ001",
+      "Sticker_HJ002",
+      "Sticker_HJ003",
+      "Sticker_HJ004",
+      "Sticker_HJ005",
+      "Sticker_HJ006",
+      "Sticker_SW001",
+      "Sticker_SW003",
+      "Sticker_SW005",
+      "Sticker_SW007",
+      "Sticker_SW008",
     ]
   },
   EMusicStyle.styleC: {
     EMediaLabel.background: [
-      "cheerful_01_deco02",
-      "cheerful_01_deco04",
-      "cheerful_01_deco05",
+      "Sticker_DA007",
+      "Sticker_SW002",
+      "Sticker_SW004",
+      "Sticker_YJ004",
+      "Sticker_YJ008",
+      "Sticker_YJ009",
+      "Sticker_YJ010",
     ],
     EMediaLabel.object: [
-      "cheerful_01_deco03",
-      "cheerful_01_deco06",
-      "cheerful_01_deco11"
+      "Sticker_DA001",
+      "Sticker_DA002",
+      "Sticker_DA003",
+      "Sticker_DA004",
+      "Sticker_DA005",
+      "Sticker_DA006",
+      "Sticker_DA008",
     ]
   }
 };
@@ -193,11 +243,12 @@ Future<EMediaLabel> detectMediaLabel(
       EMediaLabel mediaLabel = classifiedLabelMap[imageLabel.index]!;
       double threshold = 1.0;
 
-      if (mediaLabel == EMediaLabel.person || mediaLabel == EMediaLabel.food) {
+      if (mediaLabel == EMediaLabel.person) {
         threshold *= 4.0;
       } //
       else if (mediaLabel == EMediaLabel.background ||
-          mediaLabel == EMediaLabel.animal) {
+          mediaLabel == EMediaLabel.animal ||
+          mediaLabel == EMediaLabel.food) {
         threshold *= 2.0;
       }
 

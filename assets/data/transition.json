@@ -1,59 +1,91 @@
 {
-    "trans1": {
-        "type": "overlay",
+    "Transition_DA001": {
         "width": 1920,
         "height": 1080,
-        "duration": 2.0,
-        "transitionPoint": 1.0,
-        "filename": "trans1.webm"
+        "duration": 1.001,
+        "transitionPoint": 0.434,
+        "type": "overlay",
+        "filename": "Transition_DA001.webm"
     },
-    "cheerful_01_trans02": {
-        "type": "overlay",
+    "Transition_DA002": {
         "width": 1920,
         "height": 1080,
-        "duration": 1.0333333,
-        "transitionPoint": 0.5,
-        "filename": "cheerful_01_trans02.webm"
+        "duration": 1.52,
+        "transitionPoint": 0.56,
+        "type": "overlay",
+        "filename": "Transition_DA002.webm"
     },
-    "cheerful_01_trans03": {
-        "type": "overlay",
+    "Transition_HJ001": {
         "width": 1920,
         "height": 1080,
-        "duration": 1.3,
-        "transitionPoint": 0.7,
-        "filename": "cheerful_01_trans03.webm"
+        "duration": 1.234,
+        "transitionPoint": 0.633,
+        "type": "overlay",
+        "filename": "Transition_HJ001.webm"
     },
-    "cheerful_01_trans04": {
-        "type": "overlay",
+    "Transition_HJ002": {
         "width": 1920,
         "height": 1080,
-        "duration": 1.0333333,
-        "transitionPoint": 0.5,
-        "filename": "cheerful_01_trans04.webm"
+        "duration": 2,
+        "transitionPoint": 0.967,
+        "type": "overlay",
+        "filename": "Transition_HJ002.webm"
     },
-    "cheerful_01_trans05": {
-        "type": "overlay",
+    "Transition_ON001": {
         "width": 1920,
         "height": 1080,
-        "duration": 1.0333333,
-        "transitionPoint": 0.5,
-        "filename": "cheerful_01_trans05.webm"
+        "duration": 1.134,
+        "transitionPoint": 0.501,
+        "type": "overlay",
+        "filename": "Transition_ON001.webm"
     },
-    "cheerful_01_trans06": {
-        "type": "overlay",
+    "Transition_ON002": {
         "width": 1920,
         "height": 1080,
-        "duration": 1.3,
-        "transitionPoint": 0.7,
-        "filename": "cheerful_01_trans06.webm"
+        "duration": 1.868,
+        "transitionPoint": 0.267,
+        "type": "overlay",
+        "filename": "Transition_ON002.webm"
     },
-    "cheerful_01_trans07": {
-        "type": "overlay",
+    "Transition_SW001": {
         "width": 1920,
         "height": 1080,
-        "duration": 1.0333333,
-        "transitionPoint": 0.5,
-        "filename": "cheerful_01_trans07.webm"
+        "duration": 2,
+        "transitionPoint": 0.72,
+        "type": "overlay",
+        "filename": "Transition_SW001.webm"
+    },
+    "Transition_SW002": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 1.24,
+        "transitionPoint": 0.64,
+        "type": "overlay",
+        "filename": "Transition_SW002.webm"
+    },
+    "Transition_YJ001": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 5.005,
+        "transitionPoint": 0.334,
+        "type": "overlay",
+        "filename": "Transition_YJ001.webm"
+    },
+    "Transition_YJ002": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 1.067,
+        "transitionPoint": 0.334,
+        "type": "overlay",
+        "filename": "Transition_YJ002.webm"
+    },
+    "Transition_YJ003": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 1.768,
+        "transitionPoint": 0.868,
+        "type": "overlay",
+        "filename": "Transition_YJ003.webm"
     },
     "xfade_fade": {
         "type": "xfade",

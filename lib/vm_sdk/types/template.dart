@@ -3,10 +3,10 @@ import 'resource.dart';
 class SceneData {
   String name;
   double duration;
-  String? filterKey;
+  String? stickerKey;
   String? transitionKey;
 
-  SceneData(this.name, this.duration, this.filterKey, this.transitionKey);
+  SceneData(this.name, this.duration, this.stickerKey, this.transitionKey);
 }
 
 class TemplateData {
@@ -15,7 +15,7 @@ class TemplateData {
   MusicData music = MusicData("", 0);
   List<SceneData> scenes = <SceneData>[];
   Map<String, TransitionData?> transitionDatas = {};
-  Map<String, FilterData?> filterDatas = {};
+  Map<String, StickerData?> stickerDatas = {};
 
   TemplateData(this.name, this.version, this.music, this.scenes);
 
@@ -28,18 +28,18 @@ class TemplateData {
 
     final List<Map> sceneMaps = map["scenes"].cast<Map>();
     for (final Map map in sceneMaps) {
-      scenes.add(SceneData(map["name"], map["duration"] * 1.0, map["filter"],
+      scenes.add(SceneData(map["name"], map["duration"] * 1.0, map["sticker"],
           map["transition"]));
     }
 
     final List<String> transitionKeys = map["transitions"].cast<String>();
-    final List<String> filterKeys = map["filters"].cast<String>();
+    final List<String> stickerKeys = map["stickers"].cast<String>();
 
     for (final String transitionKey in transitionKeys) {
       transitionDatas[transitionKey] = null;
     }
-    for (final String filterKey in filterKeys) {
-      filterDatas[filterKey] = null;
+    for (final String stickerKey in stickerKeys) {
+      stickerDatas[stickerKey] = null;
     }
 
     TemplateData(name, version, music, scenes);

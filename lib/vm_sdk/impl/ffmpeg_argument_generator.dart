@@ -51,7 +51,7 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
   Map<int, String?> videoMapVariables = <int, String?>{}; // ex) [vid0]
   Map<int, double> durationMap = <int, double>{}; // scene duration
   Map<int, double> xfadeDurationMap = <int, double>{};
-  Map<int, FilterData> filterMap = <int, FilterData>{};
+  Map<int, StickerData> stickerMap = <int, StickerData>{};
   Map<int, TransitionData> transitionMap = <int, TransitionData>{};
 
   int inputFileCount = 0;
@@ -64,9 +64,9 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
     final MediaData mediaData = list[i];
     double xfadeDuration = 0;
 
-    if (sceneData.filterKey != null &&
-        templateData.filterDatas.containsKey(sceneData.filterKey)) {
-      filterMap[i] = templateData.filterDatas[sceneData.filterKey]!;
+    if (sceneData.stickerKey != null &&
+        templateData.stickerDatas.containsKey(sceneData.stickerKey)) {
+      stickerMap[i] = templateData.stickerDatas[sceneData.stickerKey]!;
     }
     if (sceneData.transitionKey != null &&
         templateData.transitionDatas.containsKey(sceneData.transitionKey)) {
@@ -109,22 +109,22 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
   }
 
   // ADD FILTER (i => scene index)
-  int filterCount = 0;
+  int stickerCount = 0;
 
   for (int i = 0; i < videoMapVariables.length; i++) {
-    if (filterMap.containsKey(i)) {
+    if (stickerMap.containsKey(i)) {
       final double duration = durationMap[i]!;
       final double additionalDuration = xfadeDurationMap[i]!;
       final double totalSceneDuration = duration + additionalDuration;
 
       final String currentVideoMapVariable = videoMapVariables[i]!;
-      FilterData filter = filterMap[i]!;
+      StickerData sticker = stickerMap[i]!;
 
-      final int loopCount = (totalSceneDuration / filter.duration).floor();
-      String filterMapVariable = "[filter${filterCount++}]";
-      String filterMergedMapVariable = "[filter_merged_$i]";
+      final int loopCount = (totalSceneDuration / sticker.duration).floor();
+      String stickerMapVariable = "[sticker${stickerCount++}]";
+      String stickerMergedMapVariable = "[sticker_merged_$i]";
 
-      final CropData cropData = generateCropData(filter.width, filter.height);
+      final CropData cropData = generateCropData(sticker.width, sticker.height);
 
       inputArguments.addAll([
         "-stream_loop",
@@ -132,14 +132,14 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
         "-c:v",
         "libvpx-vp9",
         "-i",
-        "$appDirPath/${filter.filename}"
+        "$appDirPath/${sticker.filename}"
       ]);
       filterStrings.add(
-          "[${inputFileCount++}:v]trim=0:$totalSceneDuration,setpts=PTS-STARTPTS,scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$videoWidth:$videoHeight:${cropData.cropPosX}:${cropData.cropPosY}$filterMapVariable;");
+          "[${inputFileCount++}:v]trim=0:$totalSceneDuration,setpts=PTS-STARTPTS,scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$videoWidth:$videoHeight:${cropData.cropPosX}:${cropData.cropPosY}$stickerMapVariable;");
       filterStrings.add(
-          "$currentVideoMapVariable${filterMapVariable}overlay$filterMergedMapVariable;");
+          "$currentVideoMapVariable${stickerMapVariable}overlay$stickerMergedMapVariable;");
 
-      videoMapVariables[i] = filterMergedMapVariable;
+      videoMapVariables[i] = stickerMergedMapVariable;
     }
   }
 
