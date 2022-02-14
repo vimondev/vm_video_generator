@@ -9,13 +9,37 @@ import 'package:myapp/vm_sdk/impl/global_helper.dart';
 
 import 'ffmpeg_manager.dart';
 
-class LottieWidget extends StatelessWidget {
+class LottieWidget extends StatefulWidget {
   LottieWidget({Key? key}) : super(key: key);
 
+  _LottieWidgetState _lottieWidgetState = _LottieWidgetState();
+
+  @override
+  _LottieWidgetState createState() {
+    return _lottieWidgetState;
+  }
+
+  Future<ExportedTitlePNGSequenceData> exportTitlePNGSequence(
+      TitleData data) async {
+    ExportedTitlePNGSequenceData exportedTitleData =
+        await _lottieWidgetState.exportTitlePNGSequence(data);
+    print('function 1');
+    print(exportedTitleData);
+    return exportedTitleData;
+  }
+}
+
+class _LottieWidgetState extends State<LottieWidget> {
   final FFMpegManager _ffmpegManager = FFMpegManager();
+
   InAppWebViewController? _controller;
+
   late String _currentDirPath;
+
   late String _currentSequencePath;
+
+  String _imgUrl = '';
+
   late Completer<ExportedTitlePNGSequenceData> _currentTitleCompleter;
 
   Future<void> _createDirectory(String path) async {
@@ -43,6 +67,12 @@ class LottieWidget extends StatelessWidget {
     }
     textArr += "]";
 
+    print("============= !!! ===========");
+    print("fontFamily : ${data.fontFamily}");
+    print("fontBase64 : ${data.fontBase64}");
+    print("json: ${data.json}");
+    print("texts : $textArr");
+
     String temp =
         "setData({ fontFamily: `${data.fontFamily}`, base64: `${data.fontBase64}`, json: ${data.json}, texts: $textArr });";
     _controller!.evaluateJavascript(
@@ -64,8 +94,10 @@ class LottieWidget extends StatelessWidget {
   }
 
   void _handleTransferPNGData(args) async {
-    int width = args[0]["width"];
-    int height = args[0]["height"];
+    print("_handleTransferPNGData :");
+    print(args);
+    double width = args[0]["width"];
+    double height = args[0]["height"];
     double frameRate = args[0]["frameRate"];
 
     List frames = args[0]["frames"];
@@ -74,6 +106,14 @@ class LottieWidget extends StatelessWidget {
     // List<String> outputArguments = [];
 
     // int currentCount = 0;
+    final preview = args[0]["preview"];
+    String previewUrl = "$_currentDirPath/preview.png";
+    writeFileFromBase64(
+        previewUrl,
+        preview["base64"]
+            .toString()
+            .replaceAll("data:image/png;base64,", ""));
+
     for (int i = 0; i < frames.length; i++) {
       // int startFrame = frames[i]["startFrame"];
       // int endFrame = frames[i]["endFrame"];
@@ -103,6 +143,11 @@ class LottieWidget extends StatelessWidget {
       // }
       // if (currentCount >= 101) break;
     }
+
+    print('frames.length :  ${frames.length}');
+    setState(() {
+      _imgUrl = previewUrl;
+    });
 
     // List<String> arguments = [];
 
@@ -135,8 +180,8 @@ class LottieWidget extends StatelessWidget {
 
     _currentTitleCompleter.complete(ExportedTitlePNGSequenceData(
         _currentDirPath,
-        int.parse(width),
-        int.parse(height),
+        double.parse(width),
+        double.parse(height),
         double.parse(frameRate)));
   }
 
@@ -162,16 +207,33 @@ class LottieWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Transform.translate(
-        offset: const Offset(-99999, -99999),
-        // offset: const Offset(0, 0),
-        child: InAppWebView(
-            initialFile: "assets/html/index2.html",
-            onWebViewCreated: (controller) {
-              _setController(controller);
-            },
-            onConsoleMessage: (controller, consoleMessage) {
-              print(consoleMessage);
-            }));
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Container(
+            child: Image.file(
+              File(_imgUrl),
+              width: double.infinity,
+              fit: BoxFit.fitWidth,
+            ),
+          ),
+          Container(
+            height: 100,
+            child: Transform.translate(
+              offset: const Offset(-99999, -99999),
+              // offset: const Offset(0, 0),
+              child: InAppWebView(
+                  initialFile: "assets/html/index3.html",
+                  onWebViewCreated: (controller) {
+                    _setController(controller);
+                  },
+                  onConsoleMessage: (controller, consoleMessage) {
+                    print(consoleMessage);
+                  }),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

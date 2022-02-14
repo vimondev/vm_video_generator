@@ -1,4 +1,4 @@
-enum ETitleType { title01, title02, title03 }
+enum ETitleType { title01, title02, title03, title04 }
 
 class TitleData {
   String json;
@@ -11,8 +11,8 @@ class TitleData {
 
 class ExportedTitlePNGSequenceData {
   String folderPath;
-  int width;
-  int height;
+  double width;
+  double height;
   double frameRate;
 
   ExportedTitlePNGSequenceData(

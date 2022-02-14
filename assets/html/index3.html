@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html style="width: 100%;height: 100%">
+
+<head>
+    <script src="lottie.js"></script>
+    <style>
+        #bodymovin {
+            width: 1920px;
+        }
+    </style>
+</head>
+
+<body style="background-color: grey;">
+<input id="input-json" type="file" />
+<input id="input-font" type="file" />
+<button onclick="run()">RUN</button>
+<div id="bodymovin" width="1920px"></div>
+
+<script>
+    let currentFontFamily = ''
+    let currentFontBase64 = ''
+    let currentJson = {}
+
+    let loadedJson = ''
+    let loadedFontBase64 = ''
+    let previewFrameNumber = 0
+    let previewData = {}
+    let gridData = {}
+    let textData = []
+    let boundingBoxTexts = []
+    let prevTime = 0
+    let svgX = 0
+    let svgY = 0
+    let gElement
+    let gWidth = 0
+    let gHeight = 0
+    let textComps
+
+    function loadJSON(file) {
+        const reader = new FileReader()
+        reader.readAsText(file, 'utf8')
+        reader.onload = e => {
+            loadedJson = e.target.result
+        }
+    }
+    function loadFont(file) {
+        const reader = new FileReader()
+        reader.readAsDataURL(file, 'utf8')
+        reader.onload = e => {
+            loadedFontBase64 = e.target.result.split('base64,')[1]
+        }
+    }
+
+    window.onload = function () {
+        const jsonEl = document.getElementById("input-json")
+        jsonEl.addEventListener('change', e => {
+            loadJSON(e.target.files[0])
+        })
+
+        const fontEl = document.getElementById("input-font")
+        fontEl.addEventListener('change', e => {
+            loadFont(e.target.files[0])
+        })
+    }
+
+    function setData({ fontFamily, base64, json, texts }) {
+        currentFontFamily = fontFamily
+        currentFontBase64 = base64
+        currentJson = json
+        boundingBoxTexts = texts
+
+        const styleEl = document.createElement('style')
+        styleEl.innerHTML = `
+                @font-face {
+                    font-family: ${currentFontFamily};
+                    src: url(data:application/font-woff;charset=utf-8;base64,${currentFontBase64});
+                }
+            `
+        document.head.appendChild(styleEl)
+
+        const { assets, layers } = currentJson
+        const textCompMap = {}
+
+        assets.forEach(item => {
+            if (item.nm.toLowerCase().startsWith('#text')) {
+                textCompMap[item.nm] = item
+            }
+        })
+        layers.forEach(item => {
+            if (item.nm.toLowerCase().startsWith('@preview')) {
+                previewFrameNumber = parseInt(item.ip)
+            }
+        })
+        textComps = Object.keys(textCompMap)
+        textComps.sort((a, b) => a > b ? 1 : a < b ? -1 : 0)
+        console.log(textComps.join('\n'))
+        console.log(textCompMap)
+
+        const replaceText = (layers, text) => {
+            let originalText = ''
+            if (!text) text = ''
+
+            for (let i = 0; i < layers.length; i++) {
+                const layer = layers[i]
+                if (layer.nm === '@Source') {
+                    originalText = String(layer.t.d.k[0].s.t)
+                    layer.t.d.k[0].s.t = text
+                    console.log(layer)
+                    break
+                }
+            }
+            layers.forEach(layer => {
+                if (layer.t &&
+                    layer.t.d &&
+                    layer.t.d.k &&
+                    layer.t.d.k[0] &&
+                    layer.t.d.k[0].s &&
+                    layer.t.d.k[0].s.t &&
+                    layer.t.d.k[0].s.t === originalText
+                ) {
+                    layer.t.d.k[0].s.t = text
+                }
+            })
+        }
+
+        textComps.forEach((name, index) => {
+            replaceText(textCompMap[name].layers, texts[index])
+        })
+        console.log(`textComps : `)
+        console.dir(textComps)
+        console.log(`textCompMap : `)
+        console.dir(textCompMap)
+    }
+
+    const canvas = document.createElement('canvas')
+    const ctx = canvas.getContext('2d')
+
+    function DrawPNG(image, x, y, svgWidth, svgHeight, isPreview) {
+        // return new Promise((resolve, reject) => {
+        //     const canvas = document.createElement('canvas')
+        //     const ctx = canvas.getContext('2d')
+
+        //     canvas.width = width
+        //     canvas.height = height
+
+        //     ctx.drawImage(image, x, y, width, height, 0, 0, width, height)
+
+        //     const data = canvas.toDataURL('image/png')
+        //     // const data = (ctx.getImageData(0, 0, width, height)).data.buffer
+        //     // const data = canvas.toBlob(blob => {
+        //     //     resolve(blob)
+        //     // }, 'image/png')
+        //     // console.timeEnd('DrawPNG')
+        //     resolve(data)
+        // })
+
+        canvas.width = svgWidth
+        canvas.height = svgHeight
+
+        ctx.globalAlpha = 1
+        ctx.clearRect(0, 0, svgWidth, svgHeight)
+        ctx.drawImage(image, x, y, svgWidth, svgHeight, 0, 0, gWidth, gHeight)
+
+        let firstTop, firstY
+        if (isPreview && previewData && previewData.data && previewData.data.length > 0) {
+            textData = []
+            previewData.data.forEach(function (item, index) {
+                console.log(`previewData.data - item: `)
+                console.dir(item)
+                let rectX, rectY, rectWidth, rectHeight
+                if (index === 0) {
+                    rectX = (previewData.gElement.x - gridData.x ) + (previewData.data[index].rect.x - previewData.gElement.x)
+                    firstY = rectY = (previewData.data[index].rect.top - gridData.y)
+                    rectWidth = previewData.data[index].rect.width
+                    rectHeight = previewData.data[index].rect.height
+                    firstTop = previewData.data[index].rect.top
+                } else {
+                    rectX = (previewData.gElement.x - gridData.x ) + (previewData.data[index].rect.x - previewData.gElement.x)
+                    rectY = firstY + (previewData.data[index].rect.top - firstTop)
+                    rectWidth = previewData.data[index].rect.width
+                    rectHeight = previewData.data[index].rect.height
+                }
+
+                textData.push({
+                    key: item.key,
+                    value: boundingBoxTexts[index],
+                    x: rectX,
+                    y: rectY,
+                    width: rectWidth,
+                    height: rectHeight
+                })
+
+                // ctx.globalAlpha = 0.2
+                // ctx.fillRect(rectX, rectY, rectWidth, rectHeight)
+            })
+        }
+
+        // return (ctx.getImageData(0, 0, width, height)).data.buffer
+        return canvas.toDataURL('image/png')
+    }
+
+    function LoadFrames(svgElement, anim) {
+        return new Promise((resolve, reject) => {
+            const image = new Image()
+            image.onload = async function (e) {
+                try {
+                    const frames = []
+                    let preview
+
+                    const width = anim.animationData.w
+                    const height = anim.animationData.h
+                    const maxCanvasHeight = height//16777216 / width
+
+                    let currentX = gridData.x - svgX //(anim.animationData.w - gWidth) / 2
+                    let currentY = 0
+
+                    let currentHeight = height
+                    let startFrame = 0
+
+                    for (let i = 0; i < anim.totalFrames; i++) {
+
+                        if (currentHeight + height >= maxCanvasHeight) {
+                            let isPreview = false
+                            if (i === previewFrameNumber) isPreview = true
+                            frames.push({
+                                startFrame,
+                                endFrame: i,
+                                base64: DrawPNG(image, currentX, currentY + (gridData.y - svgY), gWidth, gHeight, false)
+                            })
+                            if (i === previewFrameNumber) {
+                                preview = {
+                                    startFrame,
+                                    endFrame: i,
+                                    base64: DrawPNG(image, currentX, currentY + (gridData.y - svgY), gWidth, gHeight, true)
+                                }
+                            }
+                            currentHeight = 0
+                            startFrame = i + 1
+
+                            if ((currentY + height) + maxCanvasHeight >= image.height) {
+                                frames.push({
+                                    startFrame,
+                                    endFrame: anim.totalFrames - 1,
+                                    base64: DrawPNG(image, currentX, currentY + (gridData.y - svgY), gWidth, gHeight, false)
+                                })
+                                if (i === previewFrameNumber) {
+                                    preview = {
+                                        startFrame,
+                                        endFrame: anim.totalFrames - 1,
+                                        base64: DrawPNG(image, currentX, currentY + (gridData.y - svgY), gWidth, gHeight, true)
+                                    }
+                                }
+                                break
+                            }
+                        }
+                        currentHeight += height
+                        currentY += height
+                    }
+
+                    resolve({frames, preview})
+                }
+                catch (e) {
+                    reject(e)
+                }
+            }
+            image.onerror = function (e) {
+                reject(e)
+            }
+            image.src = 'data:image/svg+xml,' + encodeURIComponent((new XMLSerializer).serializeToString(svgElement))
+        })
+    }
+
+    let isInitialized = false
+    window.addEventListener("flutterInAppWebViewPlatformReady", function (event) {
+        console.log('flutter webview initialized!')
+        isInitialized = true
+    })
+
+    const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+
+    let isRunning = false
+    function run() {
+        // setData({ fontFamily: 'Gmarket Sans', base64: loadedFontBase64, json: JSON.parse(loadedJson), texts: [ 'VIMONI V-LOG 123', 'Sub Title' ] }) // TITLE3
+        previewData = {}
+        gridData = {}
+        prevTime = 0
+        gWidth = 0
+        gHeight = 0
+        textData = []
+        if (isRunning) return
+        if (!isInitialized) return
+
+        const anim = lottie.loadAnimation({
+            container: document.getElementById('bodymovin'),
+            renderer: 'svg',
+            loop: false,
+            autoplay: true,
+            animationData: currentJson
+        })
+
+        let currentFrame = 0
+
+        anim.addEventListener("complete", function (e) {
+            console.log(`analysis is started!`)
+            analysis()
+        })
+
+        anim.addEventListener("enterFrame", function (e) {
+            if (prevTime > e.currentTime) {
+                return
+            }
+            prevTime = e.currentTime
+            const svgElement = document.getElementById('bodymovin').querySelector("svg")
+            gElement = document.getElementById('bodymovin').querySelector("svg > g")
+            if (gElement) {
+                if (gElement.getBoundingClientRect().width > gWidth) {
+                    gWidth = gElement.getBBox().width + 10
+                    gridData.x = gElement.getBoundingClientRect().x - 5
+                    gridData.width = gWidth
+                    svgX = svgElement.getBoundingClientRect().x - 5
+                }
+                if (gElement.getBoundingClientRect().height > gHeight) {
+                    gHeight = gElement.getBBox().height + 10
+                    gridData.y = gElement.getBoundingClientRect().y - 5
+                    gridData.height = gHeight
+                    svgY = svgElement.getBoundingClientRect().y - 5
+                }
+
+                // PREVIEW의 데이터 뽑기
+                if (parseInt(anim.currentRawFrame) === previewFrameNumber) {
+                    previewData["gElement"] = gElement.getBoundingClientRect()
+                    previewData["data"] = []
+                    textComps.forEach((name, index) => {
+                        const TEXTBOX = document.getElementById('bodymovin').querySelector(`g#${name.replace("#", "")}`)
+                        const rect = {}
+                        rect.x = TEXTBOX.getBBox().x
+                        rect.y = TEXTBOX.getBBox().y
+                        rect.width = TEXTBOX.getBBox().width
+                        rect.height = TEXTBOX.getBBox().height
+                        rect.top = TEXTBOX.getBoundingClientRect().top
+                        rect.left = TEXTBOX.getBoundingClientRect().left
+                        if (TEXTBOX) {
+                            previewData["data"].push({ key: name, rect: rect })
+                        }
+                    })
+                }
+            }
+            // if (parseInt(anim.currentRawFrame) === anim.totalFrames - 1) {
+            //
+            // }
+        })
+
+        async function analysis () {
+            try {
+                const now = Date.now()
+
+                const rootSVGElement = anim.renderer.svgElement.cloneNode(false)
+                const defsElement = document.createElement('defs')
+                rootSVGElement.appendChild(defsElement)
+
+                const styleEl = document.createElement('style')
+                styleEl.innerHTML = `
+                        @font-face {
+                            font-family: ${currentFontFamily};
+                            src: url(data:application/font-woff;charset=utf-8;base64,${currentFontBase64});
+                        }
+                    `
+                defsElement.appendChild(styleEl)
+
+                const height = anim.animationData.h * anim.totalFrames
+                rootSVGElement.setAttribute('viewBox', `0 0 1920 ${height}`)
+                rootSVGElement.setAttribute('height', height)
+
+                const AssignFrameNumber = (node, index) => {
+                    if (node.attributes) {
+                        for (let i = 0; i < node.attributes.length; i++) {
+                            const attribute = node.attributes[i]
+                            attribute.value = attribute.value.replace(/__lottie_element/gi, `__lottie_element_frame_${index}`)
+                        }
+                    }
+
+                    for (let i = 0; i < node.childNodes.length; i++) {
+                        AssignFrameNumber(node.childNodes[i], index)
+                    }
+
+                    return node
+                }
+
+                for (let i = 0; i < anim.totalFrames; i++) {
+                    lottie.goToAndStop(i, true)
+
+                    anim.renderer.svgElement.childNodes.forEach(node => {
+                        switch (node.tagName) {
+                            case 'defs': {
+                                rootSVGElement.appendChild(AssignFrameNumber(node.cloneNode(true), i))
+                            }
+                                break
+
+                            case 'g': {
+                                const gElement = node.cloneNode(true)
+                                gElement.setAttribute('transform', `matrix(1,0,0,1,0,${anim.animationData.h * i})`)
+                                rootSVGElement.appendChild(AssignFrameNumber(gElement, i))
+                            }
+                                break
+                        }
+                    })
+                }
+
+                const {frames, preview } = await LoadFrames(rootSVGElement, anim)
+
+                // const previewImage = document.createElement('img')
+                // previewImage.src = preview.base64
+                // document.body.appendChild(previewImage)
+                // frames.forEach(item => {
+                //     const image = document.createElement('img')
+                //     image.src = item.base64
+                //     document.body.appendChild(image)
+                // })
+
+                // console.log(`To Flutter data : `)
+                // console.dir({
+                //     width: gWidth,//anim.animationData.w,
+                //     height: gHeight,//anim.animationData.h,
+                //     frameRate: anim.animationData.fr,
+                //     frames,
+                //     preview,
+                //     textData
+                // })
+
+                if (window.flutter_inappwebview) {
+                    window.flutter_inappwebview.callHandler('TransferPNGData', {
+                        width: gWidth,//anim.animationData.w,
+                        height: gHeight,//anim.animationData.h,
+                        frameRate: anim.animationData.fr,
+                        frames,
+                        preview,
+                        textData
+                    })
+                }
+                lottie.destroy()
+                console.log(`elapsed: ${Date.now() - now}ms`)
+
+            }
+            catch (e) {
+                console.log(String(e))
+                lottie.destroy()
+                isRunning = false
+
+                if (window.flutter_inappwebview) {
+                    window.flutter_inappwebview.callHandler('TransferFailed')
+                }
+            }
+        }
+
+        // anim.addEventListener('DOMLoaded', async function (e) {
+        //
+        // })
+    }
+</script>
+</body>
+
+</html>

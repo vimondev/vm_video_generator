@@ -5,7 +5,8 @@ import 'dart:convert';
 const Map<ETitleType, String> titleMap = {
   ETitleType.title01: "title01.json",
   ETitleType.title02: "title02.json",
-  ETitleType.title03: "title03.json"
+  ETitleType.title03: "title03.json",
+  ETitleType.title04: "title04.json",
 };
 
 Future<TitleData?> loadTitleData(ETitleType titleType) async {
