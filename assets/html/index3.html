@@ -35,6 +35,7 @@
     let gWidth = 0
     let gHeight = 0
     let textComps
+    let anim
 
     function loadJSON(file) {
         const reader = new FileReader()
@@ -280,7 +281,7 @@
 
     let isRunning = false
     function run() {
-        // setData({ fontFamily: 'Gmarket Sans', base64: loadedFontBase64, json: JSON.parse(loadedJson), texts: [ 'VIMONI V-LOG 123', 'Sub Title' ] }) // TITLE3
+        //setData({ fontFamily: 'Gmarket Sans', base64: loadedFontBase64, json: JSON.parse(loadedJson), texts: [ 'VIMONI V-LOG 123', 'Sub Title' ] }) // TITLE3
         previewData = {}
         gridData = {}
         prevTime = 0
@@ -289,8 +290,11 @@
         textData = []
         if (isRunning) return
         if (!isInitialized) return
+        if (anim) {
+            anim.destroy()
+        }
 
-        const anim = lottie.loadAnimation({
+        anim = lottie.loadAnimation({
             container: document.getElementById('bodymovin'),
             renderer: 'svg',
             loop: false,
@@ -416,7 +420,7 @@
                 //     image.src = item.base64
                 //     document.body.appendChild(image)
                 // })
-
+                //
                 // console.log(`To Flutter data : `)
                 // console.dir({
                 //     width: gWidth,//anim.animationData.w,
