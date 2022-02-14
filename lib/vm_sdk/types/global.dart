@@ -79,4 +79,7 @@ class AutoEditMedia {
 class AutoEditedData {
   List<AutoEditMedia> autoEditMediaList = [];
   List<MusicData> musicList = [];
+
+  Map<String, TransitionData> transitionMap = <String, TransitionData>{};
+  Map<String, StickerData> stickerMap = <String, StickerData>{};
 }

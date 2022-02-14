@@ -21,17 +21,6 @@ class VideoGenerator {
     isInitialized = true;
   }
 
-  List<MediaData> autoSelectMedia(List<MediaData> allList) {
-    generateAutoEditData(allList, EMusicStyle.styleA, true);
-    return [];
-
-    // return selectMedia(allList);
-  }
-
-  EMusicStyle autoSelectMusic(List<MediaData> list) {
-    return selectMusic(list);
-  }
-
   Future<String?> extractMLKitDetectData(MediaData data) async {
     try {
       return await extractData(data);
@@ -43,20 +32,23 @@ class VideoGenerator {
   // You can check the progress via progress callback.
   // In the current version, only styleA works.
   Future<String?> generateVideo(
-      List<MediaData> pickedList,
+      List<MediaData> mediaList,
       EMusicStyle? style,
+      bool isAutoEdit,
       Function(EGenerateStatus status, double progress, double estimatedTime)?
           progressCallback) async {
     EMusicStyle selectedStyle = style ?? EMusicStyle.styleA;
 
-    final TemplateData? templateData = await loadTemplateData(selectedStyle);
-    if (templateData == null) return null;
+    final AutoEditedData autoEditedData =
+        await generateAutoEditData(mediaList, EMusicStyle.styleA, isAutoEdit);
 
-    await resourceManager.loadTemplateAssets(templateData);
-    expandTemplate(templateData, pickedList.length);
+    await resourceManager.loadAutoEditAssets(autoEditedData);
 
     final GenerateArgumentResponse videoArgResponse =
-        await generateVideoRenderArgument(templateData, pickedList);
+        await generateVideoRenderArgument(autoEditedData);
+
+    final GenerateArgumentResponse audioArgResponse =
+        await generateAudioRenderArgument(autoEditedData);
 
     DateTime now = DateTime.now();
 
@@ -79,9 +71,6 @@ class VideoGenerator {
                 }
             });
     if (!isSuccess) return null;
-
-    final GenerateArgumentResponse audioArgResponse =
-        await generateAudioRenderArgument(templateData, pickedList);
 
     isSuccess = await ffmpegManager.execute(
         audioArgResponse.arguments,

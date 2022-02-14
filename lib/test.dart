@@ -12,8 +12,8 @@ void testMethod() async {
     await videoGenerator.initialize();
   }
 
-  final filelist = json.decode(await rootBundle
-      .loadString("assets/_test/mediajson-joined/monaco2.json"));
+  final filelist = json.decode(
+      await rootBundle.loadString("assets/_test/mediajson-joined/set1.json"));
 
   final List<MediaData> mediaList = <MediaData>[];
 
@@ -24,7 +24,7 @@ void testMethod() async {
     final int width = file["width"];
     final int height = file["height"];
 
-    // if (type == EMediaType.video) continue;
+    if (type != EMediaType.video) continue;
 
     double? duration;
     DateTime createDate = DateTime.parse(file["createDate"]);
@@ -33,24 +33,22 @@ void testMethod() async {
 
     if (file.containsKey("duration")) duration = file["duration"] * 1.0;
 
-    // final writedFile =
-    //     await copyAssetToLocalDirectory("$testAssetPath/$filename");
-    mediaList.add(MediaData(filename, type, width, height, duration, createDate,
-        gpsString, mlkitDetected));
+    final writedFile = await copyAssetToLocalDirectory("_test/set1/$filename");
+    mediaList.add(MediaData(writedFile.path, type, width, height, duration,
+        createDate, gpsString, mlkitDetected));
   }
 
-  final autoSelected = videoGenerator.autoSelectMedia(mediaList);
+  final resultVideoPath = await videoGenerator.generateVideo(
+      mediaList,
+      EMusicStyle.styleA,
+      false,
+      (status, progress, estimatedTime) =>
+          {print(status), print(progress), print(estimatedTime)});
 
-  // final resultVideoPath = await videoGenerator.generateVideo(
-  //     mediaList,
-  //     EMusicStyle.styleB,
-  //     (status, progress, estimatedTime) =>
-  //         {print(status), print(progress), print(estimatedTime)});
-
-  // if (resultVideoPath != null) {
-  //   final isSuccess = await GallerySaver.saveVideo(resultVideoPath);
-  //   print(isSuccess);
-  // }
+  if (resultVideoPath != null) {
+    final isSuccess = await GallerySaver.saveVideo(resultVideoPath);
+    print(isSuccess);
+  }
 
   print("");
 }

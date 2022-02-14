@@ -51,6 +51,32 @@ class ResourceManager {
     }
   }
 
+  Future<void> loadAutoEditAssets(AutoEditedData autoEditedData) async {
+    for (int i = 0; i < autoEditedData.musicList.length; i++) {
+      await loadAudioFile(autoEditedData.musicList[i].filename);
+    }
+
+    for (int i = 0; i < autoEditedData.autoEditMediaList.length; i++) {
+      final AutoEditMedia autoEditMedia = autoEditedData.autoEditMediaList[i];
+      String? transitionKey = autoEditMedia.transitionKey;
+      String? stickerKey = autoEditMedia.stickerKey;
+
+      final TransitionData? transitionData = transitionMap[transitionKey];
+      final StickerData? stickerData = stickerMap[stickerKey];
+
+      if (transitionData != null) {
+        autoEditedData.transitionMap[transitionKey!] = transitionData;
+        if (transitionData.filename != null) {
+          await loadTransitionFile(transitionData.filename!);
+        }
+      }
+      if (stickerData != null) {
+        autoEditedData.stickerMap[stickerKey!] = stickerData;
+        await loadStickerFile(stickerData.filename);
+      }
+    }
+  }
+
   Future<void> loadAudioFile(String filename) async {
     await copyAssetToLocalDirectory("$audioAssetPath/$filename");
   }
