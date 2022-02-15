@@ -44,23 +44,21 @@ class _TestWidgetState extends State<TestWidget> {
 
     preview = await _lottieTextWidget.setTextValue("#TEXT2", "가나다라마바사아자차카타파하0123456789");
 
-    // setState(() {
-    //   if (preview != null) imageList = [ preview ];
-    // });
-    // print('TestWidget result preview is : $preview');
-
-    List<String>? sequences = await _lottieTextWidget.extractAllSequence();
-
-    print("test.dart - sequences : ");
-    if (sequences != null) {
-      for (int i = 0; i < sequences.length; i++) {
-        print(sequences[i]);
-      }
-    }
-
     setState(() {
-      if (sequences != null) imageList = sequences;
+      if (preview != null) imageList = [ preview ];
     });
+    print('TestWidget result preview is : $preview');
+
+    // List<String>? sequences = await _lottieTextWidget.extractAllSequence();
+    // print("test.dart - sequences : ");
+    // if (sequences != null) {
+    //   for (int i = 0; i < sequences.length; i++) {
+    //     print(sequences[i]);
+    //   }
+    // }
+    // setState(() {
+    //   if (sequences != null) imageList = sequences;
+    // });
 
 
 

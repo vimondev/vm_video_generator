@@ -53,6 +53,17 @@ class LottieTextWidget extends StatelessWidget {
   late Completer<List<String>> _currentSequencesCompleter;
   // late Completer<ExportedTitlePNGSequenceData> _currentTitleCompleter;
 
+  String? get currentDirPath => _currentDirPath;
+  String? get currentPreviewPath => _currentPreviewPath;
+  String? get currentSequencePath => _currentSequencePath;
+  String? get previewImage => _previewImage;
+  double get width => _width;
+  double get height => _height;
+  double get frameRate => _frameRate;
+  int get totalFrames => _totalFrames;
+  Map<String, LottieText> get textDataMap => _textDataMap;
+  List<String> get allSequences => _allSequences;
+
   void printAllData () {
     print("printAllData !!");
     print("_previewImage : $_previewImage ");
