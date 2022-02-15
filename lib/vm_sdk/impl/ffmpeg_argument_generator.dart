@@ -42,7 +42,8 @@ CropData generateCropData(int width, int height) {
 }
 
 Future<GenerateArgumentResponse> generateVideoRenderArgument(
-    AutoEditedData autoEditedData) async {
+    AutoEditedData autoEditedData,
+    ExportedTitlePNGSequenceData exportedTitle) async {
   final List<AutoEditMedia> autoEditMediaList =
       autoEditedData.autoEditMediaList;
   final Map<String, TransitionData> transitionMap =
@@ -149,6 +150,34 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
       videoMapVariables[i] = stickerMergedMapVariable;
     }
   }
+  // ADD TITLE
+
+  // exportedTitle.width = (exportedTitle.width * 1.25).floor();
+  // exportedTitle.height = (exportedTitle.height * 1.25).floor();
+
+  // final double startPosY = (videoHeight / 2) - (exportedTitle.height / 2);
+
+  // String titleMapVariable = "[title0]";
+  // String titleMergedMapVariable = "[title_merged_0]";
+
+  // double currentPosX = (videoWidth / 2) - (exportedTitle.width / 2);
+
+  // inputArguments.addAll([
+  //   "-framerate",
+  //   exportedTitle.frameRate.toString(),
+  //   "-i",
+  //   "${exportedTitle.folderPath}/%d.png"
+  // ]);
+
+  // filterStrings.add(
+  //     "[${inputFileCount++}:v]trim=0:${durationMap[0]!},setpts=PTS-STARTPTS,scale=${exportedTitle.width}:${exportedTitle.height}$titleMapVariable;");
+  // filterStrings.add(
+  //     "${videoMapVariables[0]!}${titleMapVariable}overlay=$currentPosX:$startPosY$titleMergedMapVariable;");
+
+  // videoMapVariables[0] = titleMergedMapVariable;
+
+  // ADD XFADE TRANSITION
+  // TO DO: Add some condition
 
   /////////////////////////////////////////
   // generate video merge & scale command//

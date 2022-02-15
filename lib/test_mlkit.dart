@@ -7,7 +7,7 @@ import 'vm_sdk/impl/global_helper.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 
-VideoGenerator videoGenerator = VideoGenerator();
+// VideoGenerator videoGenerator = VideoGenerator();
 FlutterFFprobe ffprobe = FlutterFFprobe();
 
 void testMethod() async {
@@ -53,18 +53,18 @@ void testMethod() async {
         writedFile.path, type, width, height, null, DateTime.now(), "", null));
   }
 
-  List<double> durationList = [];
-  List<double> lengthList = [];
-  List<String?> results = [];
-  for (final media in testMediaList) {
-    DateTime now = DateTime.now();
-    final result = await videoGenerator.extractMLKitDetectData(media);
-    durationList.add(DateTime.now().difference(now).inMilliseconds / 1000);
-    results.add(result);
+  // List<double> durationList = [];
+  // List<double> lengthList = [];
+  // List<String?> results = [];
+  // for (final media in testMediaList) {
+  //   DateTime now = DateTime.now();
+  //   final result = await videoGenerator.extractMLKitDetectData(media);
+  //   durationList.add(DateTime.now().difference(now).inMilliseconds / 1000);
+  //   results.add(result);
 
-    if (result != null) {
-      lengthList.add(result.length / 1024);
-    }
-  }
-  print("");
+  //   if (result != null) {
+  //     lengthList.add(result.length / 1024);
+  //   }
+  // }
+  // print("");
 }
