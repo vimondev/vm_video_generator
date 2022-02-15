@@ -34,28 +34,12 @@ class LottieText {
   Rectangle get boundingBox => _boundingBox;
 }
 
-class LottieTextWidget extends StatefulWidget {
-  LottieTextWidget({Key? key}) : super(key: key);
+class LottieTextWidget extends StatelessWidget {
 
-  _LottieTextWidgetState _lottieTextWidgetState = _LottieTextWidgetState();
-
-  @override
-  _LottieTextWidgetState createState() {
-    return _lottieTextWidgetState;
-  }
-
-  Future<ExportedTitlePNGSequenceData> exportTitlePNGSequence(
-      TitleData data) async {
-    ExportedTitlePNGSequenceData exportedTitleData =
-    await _lottieTextWidgetState.exportTitlePNGSequence(data);
-    return exportedTitleData;
-  }
-}
-
-class _LottieTextWidgetState extends State<LottieTextWidget> {
   InAppWebViewController? _controller;
-  late String _currentDirPath;
-  late String _currentSequencePath;
+  String? _currentDirPath;
+  String? _currentPreviewPath;
+  String? _currentSequencePath;
   String? _previewImage;
   double _width = 0;
   double _height = 0;
@@ -64,7 +48,10 @@ class _LottieTextWidgetState extends State<LottieTextWidget> {
   Map<String, LottieText> _textDataMap = {};
   List<String> _allSequences = [];
 
-  late Completer<ExportedTitlePNGSequenceData> _currentTitleCompleter;
+  late TitleData _data;
+  late Completer<String> _currentPreviewCompleter;
+  late Completer<List<String>> _currentSequencesCompleter;
+  // late Completer<ExportedTitlePNGSequenceData> _currentTitleCompleter;
 
   void printAllData () {
     print("printAllData !!");
@@ -77,6 +64,25 @@ class _LottieTextWidgetState extends State<LottieTextWidget> {
     print("_allSequences : $_allSequences");
   }
 
+  void setData (TitleData data) {
+    _data = data;
+  }
+
+  Future<String?> setTextValue (String key, String value) async {
+    int length = _textDataMap.length;
+    for (int i = 0; i < length; i++) {
+      if (_textDataMap[i.toString()] != null) {
+        LottieText? lottieText = _textDataMap[i.toString()];
+        if (lottieText != null && lottieText.key == key) {
+          _data.texts[i] = value;
+          break;
+        }
+      }
+    }
+
+    return await extractPreview();
+  }
+
   Future<void> _createDirectory(String path) async {
     Directory dir = Directory(path);
     if (await dir.exists()) {
@@ -85,52 +91,101 @@ class _LottieTextWidgetState extends State<LottieTextWidget> {
     await dir.create(recursive: true);
   }
 
-  Future<ExportedTitlePNGSequenceData> exportTitlePNGSequence(
-      TitleData data) async {
-    _currentDirPath =
-    "${await getAppDirectoryPath()}/${DateTime.now().millisecondsSinceEpoch}";
-    _currentSequencePath = "$_currentDirPath/sequences";
+  Future<String?> extractPreview() async {
+    if (_currentDirPath == null) {
+      _currentDirPath = "${await getAppDirectoryPath()}/${DateTime.now().millisecondsSinceEpoch}";
+      _currentPreviewPath = "$_currentDirPath/preview";
+      _currentSequencePath = "$_currentDirPath/sequences";
+      await _createDirectory(_currentDirPath!);
+      await _createDirectory(_currentPreviewPath!);
+      await _createDirectory(_currentSequencePath!);
+    }
 
-    await _createDirectory(_currentDirPath);
-    await _createDirectory(_currentSequencePath);
-
-    _currentTitleCompleter = Completer();
+    _currentPreviewCompleter = Completer();
 
     String textArr = "[";
-    for (int i = 0; i < data.texts.length; i++) {
-      textArr += "'${data.texts[i]}',";
+    for (int i = 0; i < _data.texts.length; i++) {
+      textArr += "'${_data.texts[i]}',";
     }
     textArr += "]";
 
-    print("============= !!! ===========");
-    print("fontFamily : ${data.fontFamily}");
-    print("fontBase64 : ${data.fontBase64}");
-    print("json: ${data.json}");
-    print("texts : $textArr");
-
-    String temp =
-        "setData({ fontFamily: `${data.fontFamily}`, base64: `${data.fontBase64}`, json: ${data.json}, texts: $textArr });";
     _controller!.evaluateJavascript(
         source:
-        "setData({ fontFamily: `${data.fontFamily}`, base64: `${data.fontBase64}`, json: ${data.json}, texts: $textArr });");
-    _controller!.evaluateJavascript(source: "run();");
+        "setData({ fontFamily: `${_data.fontFamily}`, base64: `${_data.fontBase64}`, json: ${_data.json}, texts: $textArr });");
+    _controller!.evaluateJavascript(source: "extractPreview();");
 
-    return _currentTitleCompleter.future;
+    return _currentPreviewCompleter.future;
   }
 
-  void _handleTransferPNGData(args) async {
+  Future<List<String>?> extractAllSequence() async {
+    if (_currentDirPath == null) {
+      _currentDirPath = "${await getAppDirectoryPath()}/${DateTime.now().millisecondsSinceEpoch}";
+      _currentPreviewPath = "$_currentDirPath/preview";
+      _currentSequencePath = "$_currentDirPath/sequences";
+      await _createDirectory(_currentDirPath!);
+      await _createDirectory(_currentPreviewPath!);
+      await _createDirectory(_currentSequencePath!);
+    }
+
+    _currentSequencesCompleter = Completer();
+
+    String textArr = "[";
+    for (int i = 0; i < _data.texts.length; i++) {
+      textArr += "'${_data.texts[i]}',";
+    }
+    textArr += "]";
+
+    _controller!.evaluateJavascript(
+        source:
+        "setData({ fontFamily: `${_data.fontFamily}`, base64: `${_data.fontBase64}`, json: ${_data.json}, texts: $textArr });");
+    _controller!.evaluateJavascript(source: "extractAllSequence();");
+
+    return _currentSequencesCompleter.future;
+  }
+
+
+
+  // Future<ExportedTitlePNGSequenceData> exportTitlePNGSequence(
+  //     TitleData data) async {
+  //   _currentDirPath =
+  //   "${await getAppDirectoryPath()}/${DateTime.now().millisecondsSinceEpoch}";
+  //   _currentSequencePath = "$_currentDirPath/sequences";
+  //
+  //   await _createDirectory(_currentDirPath);
+  //   await _createDirectory(_currentSequencePath);
+  //
+  //   _currentTitleCompleter = Completer();
+  //
+  //   String textArr = "[";
+  //   for (int i = 0; i < data.texts.length; i++) {
+  //     textArr += "'${data.texts[i]}',";
+  //   }
+  //   textArr += "]";
+  //
+  //   print("============= !!! ===========");
+  //   print("fontFamily : ${data.fontFamily}");
+  //   print("fontBase64 : ${data.fontBase64}");
+  //   print("json: ${data.json}");
+  //   print("texts : $textArr");
+  //
+  //   _controller!.evaluateJavascript(
+  //       source:
+  //       "setData({ fontFamily: `${data.fontFamily}`, base64: `${data.fontBase64}`, json: ${data.json}, texts: $textArr });");
+  //   _controller!.evaluateJavascript(source: "run();");
+  //
+  //   return _currentTitleCompleter.future;
+  // }
+
+  void _handleTransferPreviewPNGData(args) async {
     _width = args[0]["width"];
     _height = args[0]["height"];
     List textData = args[0]["textData"];
     _frameRate = args[0]["frameRate"];
-    List frames = args[0]["frames"];
-    _totalFrames = frames.length;
     _textDataMap.clear();
-    _textDataMap = {};
     _allSequences.clear();
 
     final preview = args[0]["preview"];
-    String previewUrl = "$_currentDirPath/preview.png";
+    String previewUrl = "$_currentPreviewPath/preview.png";
     writeFileFromBase64(
         previewUrl,
         preview["base64"]
@@ -138,17 +193,52 @@ class _LottieTextWidgetState extends State<LottieTextWidget> {
             .replaceAll("data:image/png;base64,", ""));
 
     for (int i = 0; i < textData.length; i++) {
-      _textDataMap.addAll({
-        '${i.toString()}' : LottieText(
-            textData[i]['key'],
-            textData[i]['value'],
-            Rectangle(textData[i]['x'].toDouble(), textData[i]['y'].toDouble(), textData[i]['width'].toDouble(), textData[i]['height'].toDouble())
-        )
-      });
+      _textDataMap[i.toString()] = LottieText(
+          textData[i]['key'],
+          textData[i]['value'],
+          Rectangle(textData[i]['x'].toDouble(), textData[i]['y'].toDouble(), textData[i]['width'].toDouble(), textData[i]['height'].toDouble())
+      );
+    }
+
+    // setState(() {
+    //   _previewImage = previewUrl;
+    // });
+
+    _previewImage = previewUrl;
+
+    printAllData();
+
+    _currentPreviewCompleter.complete(previewUrl);
+  }
+
+  void _handleTransferAllSequencePNGData(args) async {
+    _width = args[0]["width"];
+    _height = args[0]["height"];
+    List textData = args[0]["textData"];
+    _frameRate = args[0]["frameRate"];
+    List frames = args[0]["frames"];
+    _totalFrames = frames.length;
+    _textDataMap.clear();
+    _allSequences.clear();
+
+    final preview = args[0]["preview"];
+    String previewUrl = "$_currentPreviewPath/preview.png";
+    writeFileFromBase64(
+        previewUrl,
+        preview["base64"]
+            .toString()
+            .replaceAll("data:image/png;base64,", ""));
+
+    for (int i = 0; i < textData.length; i++) {
+      _textDataMap[i.toString()] = LottieText(
+          textData[i]['key'],
+          textData[i]['value'],
+          Rectangle(textData[i]['x'].toDouble(), textData[i]['y'].toDouble(), textData[i]['width'].toDouble(), textData[i]['height'].toDouble())
+      );
     }
 
     for (int i = 0; i < frames.length; i++) {
-      final String sequenceFilePath = "$_currentDirPath/$i.png";
+      final String sequenceFilePath = "$_currentSequencePath/$i.png";
       _allSequences.add(sequenceFilePath);
       writeFileFromBase64(
           sequenceFilePath,
@@ -156,57 +246,49 @@ class _LottieTextWidgetState extends State<LottieTextWidget> {
               .toString()
               .replaceAll("data:image/png;base64,", ""));
     }
-    setState(() {
-      _previewImage = previewUrl;
-    });
+
+    _previewImage = previewUrl;
 
     printAllData();
 
-    _currentTitleCompleter.complete(ExportedTitlePNGSequenceData(
-        _currentDirPath, _width, _height, _frameRate));
+    _currentSequencesCompleter.complete(_allSequences);
   }
 
-  void _handleTransferFailed(args) {
-    _currentTitleCompleter.completeError(Object());
+  void _handleTransferPreviewFailed(args) {
+    _currentPreviewCompleter.completeError(Object());
   }
+
+  void _handleTransferAllSequenceFailed(args) {
+    _currentSequencesCompleter.completeError(Object());
+  }
+
+  // void _handleTransferFailed(args) {
+  //   _currentTitleCompleter.completeError(Object());
+  // }
 
   void _setController(InAppWebViewController controller) {
-    controller.addJavaScriptHandler(
-        handlerName: "TransferPNGData", callback: _handleTransferPNGData);
-
-    controller.addJavaScriptHandler(
-        handlerName: "TransferFailed", callback: _handleTransferFailed);
+    controller.addJavaScriptHandler(handlerName: "TransferPreviewPNGData", callback: _handleTransferPreviewPNGData);
+    controller.addJavaScriptHandler(handlerName: "TransferAllSequencePNGData", callback: _handleTransferAllSequencePNGData);
+    controller.addJavaScriptHandler(handlerName: "TransferPreviewFailed", callback: _handleTransferPreviewFailed);
+    controller.addJavaScriptHandler(handlerName: "TransferAllSequenceFailed", callback: _handleTransferAllSequenceFailed);
     _controller = controller;
   }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Container(
-            child: _previewImage != null ? Image.file(
-              File(_previewImage!),
-              width: double.infinity,
-              fit: BoxFit.fitWidth,
-            ) : null,
-          ),
-          Container(
-            height: 100,
-            child: Transform.translate(
-              offset: const Offset(-99999, -99999),
-              // offset: const Offset(0, 0),
-              child: InAppWebView(
-                  initialFile: "assets/html/index3.html",
-                  onWebViewCreated: (controller) {
-                    _setController(controller);
-                  },
-                  onConsoleMessage: (controller, consoleMessage) {
-                    print(consoleMessage);
-                  }),
-            ),
-          ),
-        ],
+    return Container(
+      height: 100,
+      child: Transform.translate(
+        offset: const Offset(-99999, -99999),
+        // offset: const Offset(0, 0),
+        child: InAppWebView(
+            initialFile: "assets/html/index3.html",
+            onWebViewCreated: (controller) {
+              _setController(controller);
+            },
+            onConsoleMessage: (controller, consoleMessage) {
+              print(consoleMessage);
+            }),
       ),
     );
   }

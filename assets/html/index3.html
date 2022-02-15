@@ -13,7 +13,8 @@
 <body style="background-color: grey;">
 <input id="input-json" type="file" />
 <input id="input-font" type="file" />
-<button onclick="run()">RUN</button>
+<button onclick="extractPreview()">extractPreview</button>
+<button onclick="extractAllSequence()">extractAllSequence</button>
 <div id="bodymovin" width="1920px"></div>
 
 <script>
@@ -137,24 +138,6 @@
     const ctx = canvas.getContext('2d')
 
     function DrawPNG(image, x, y, svgWidth, svgHeight, isPreview) {
-        // return new Promise((resolve, reject) => {
-        //     const canvas = document.createElement('canvas')
-        //     const ctx = canvas.getContext('2d')
-
-        //     canvas.width = width
-        //     canvas.height = height
-
-        //     ctx.drawImage(image, x, y, width, height, 0, 0, width, height)
-
-        //     const data = canvas.toDataURL('image/png')
-        //     // const data = (ctx.getImageData(0, 0, width, height)).data.buffer
-        //     // const data = canvas.toBlob(blob => {
-        //     //     resolve(blob)
-        //     // }, 'image/png')
-        //     // console.timeEnd('DrawPNG')
-        //     resolve(data)
-        // })
-
         canvas.width = svgWidth
         canvas.height = svgHeight
 
@@ -166,8 +149,6 @@
         if (isPreview && previewData && previewData.data && previewData.data.length > 0) {
             textData = []
             previewData.data.forEach(function (item, index) {
-                console.log(`previewData.data - item: `)
-                console.dir(item)
                 let rectX, rectY, rectWidth, rectHeight
                 if (index === 0) {
                     rectX = (previewData.gElement.x - gridData.x ) + (previewData.data[index].rect.x - previewData.gElement.x)
@@ -198,6 +179,37 @@
 
         // return (ctx.getImageData(0, 0, width, height)).data.buffer
         return canvas.toDataURL('image/png')
+    }
+
+    function LoadPreview(svgElement, anim) {
+        return new Promise((resolve, reject) => {
+            const image = new Image()
+            image.onload = async function (e) {
+                try {
+                    let preview
+
+                    const height = anim.animationData.h
+
+                    let currentX = gridData.x - svgX
+                    let currentY = height * previewFrameNumber
+
+                    preview = {
+                        startFrame: previewFrameNumber,
+                        endFrame: previewFrameNumber,
+                        base64: DrawPNG(image, currentX, currentY + (gridData.y - svgY), gWidth, gHeight, true)
+                    }
+
+                    resolve({preview})
+                }
+                catch (e) {
+                    reject(e)
+                }
+            }
+            image.onerror = function (e) {
+                reject(e)
+            }
+            image.src = 'data:image/svg+xml,' + encodeURIComponent((new XMLSerializer).serializeToString(svgElement))
+        })
     }
 
     function LoadFrames(svgElement, anim) {
@@ -280,8 +292,13 @@
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
     let isRunning = false
-    function run() {
-        //setData({ fontFamily: 'Gmarket Sans', base64: loadedFontBase64, json: JSON.parse(loadedJson), texts: [ 'VIMONI V-LOG 123', 'Sub Title' ] }) // TITLE3
+
+    function extractPreview () {
+        const images = document.getElementsByTagName('img');
+        while(images.length > 0) {
+            images[0].parentNode.removeChild(images[0]);
+        }
+        // setData({ fontFamily: 'Gmarket Sans', base64: loadedFontBase64, json: JSON.parse(loadedJson), texts: [ 'VIMONI V-LOG 123', 'Sub Title' ] }) // TITLE3
         previewData = {}
         gridData = {}
         prevTime = 0
@@ -290,6 +307,180 @@
         textData = []
         if (isRunning) return
         if (!isInitialized) return
+
+        if (anim) {
+            anim.destroy()
+        }
+
+        anim = lottie.loadAnimation({
+            container: document.getElementById('bodymovin'),
+            renderer: 'svg',
+            loop: false,
+            autoplay: true,
+            animationData: currentJson
+        })
+
+        let currentFrame = 0
+
+        anim.addEventListener("complete", function (e) {
+            console.log(`analysis is started!`)
+            analysisPreview()
+        })
+
+        anim.addEventListener("enterFrame", function (e) {
+            if (prevTime > e.currentTime) {
+                return
+            }
+            prevTime = e.currentTime
+            const svgElement = document.getElementById('bodymovin').querySelector("svg")
+            gElement = document.getElementById('bodymovin').querySelector("svg > g")
+            if (gElement) {
+                if (gElement.getBoundingClientRect().width > gWidth) {
+                    gWidth = gElement.getBBox().width + 10
+                    gridData.x = gElement.getBoundingClientRect().x - 5
+                    gridData.width = gWidth
+                    svgX = svgElement.getBoundingClientRect().x - 5
+                }
+                if (gElement.getBoundingClientRect().height > gHeight) {
+                    gHeight = gElement.getBBox().height + 10
+                    gridData.y = gElement.getBoundingClientRect().y - 5
+                    gridData.height = gHeight
+                    svgY = svgElement.getBoundingClientRect().y - 5
+                }
+
+                // PREVIEW의 데이터 뽑기
+                if (parseInt(anim.currentRawFrame) === previewFrameNumber) {
+                    previewData["gElement"] = gElement.getBoundingClientRect()
+                    previewData["data"] = []
+                    textComps.forEach((name, index) => {
+                        const TEXTBOX = document.getElementById('bodymovin').querySelector(`g#${name.replace("#", "")}`)
+                        const rect = {}
+                        rect.x = TEXTBOX.getBBox().x
+                        rect.y = TEXTBOX.getBBox().y
+                        rect.width = TEXTBOX.getBBox().width
+                        rect.height = TEXTBOX.getBBox().height
+                        rect.top = TEXTBOX.getBoundingClientRect().top
+                        rect.left = TEXTBOX.getBoundingClientRect().left
+                        if (TEXTBOX) {
+                            previewData["data"].push({ key: name, rect: rect })
+                        }
+                    })
+                }
+            }
+        })
+
+        async function analysisPreview () {
+            try {
+                const now = Date.now()
+
+                const rootSVGElement = anim.renderer.svgElement.cloneNode(false)
+                const defsElement = document.createElement('defs')
+                rootSVGElement.appendChild(defsElement)
+
+                const styleEl = document.createElement('style')
+                styleEl.innerHTML = `
+                        @font-face {
+                            font-family: ${currentFontFamily};
+                            src: url(data:application/font-woff;charset=utf-8;base64,${currentFontBase64});
+                        }
+                    `
+                defsElement.appendChild(styleEl)
+
+                const height = anim.animationData.h * anim.totalFrames
+                rootSVGElement.setAttribute('viewBox', `0 0 1920 ${height}`)
+                rootSVGElement.setAttribute('height', height)
+
+                const AssignFrameNumber = (node, index) => {
+                    if (node.attributes) {
+                        for (let i = 0; i < node.attributes.length; i++) {
+                            const attribute = node.attributes[i]
+                            attribute.value = attribute.value.replace(/__lottie_element/gi, `__lottie_element_frame_${index}`)
+                        }
+                    }
+
+                    for (let i = 0; i < node.childNodes.length; i++) {
+                        AssignFrameNumber(node.childNodes[i], index)
+                    }
+
+                    return node
+                }
+
+                for (let i = 0; i < anim.totalFrames; i++) {
+                    lottie.goToAndStop(i, true)
+
+                    anim.renderer.svgElement.childNodes.forEach(node => {
+                        switch (node.tagName) {
+                            case 'defs': {
+                                rootSVGElement.appendChild(AssignFrameNumber(node.cloneNode(true), i))
+                            }
+                                break
+
+                            case 'g': {
+                                const gElement = node.cloneNode(true)
+                                gElement.setAttribute('transform', `matrix(1,0,0,1,0,${anim.animationData.h * i})`)
+                                rootSVGElement.appendChild(AssignFrameNumber(gElement, i))
+                            }
+                                break
+                        }
+                    })
+                }
+
+                const {preview } = await LoadPreview(rootSVGElement, anim)
+
+                // const previewImage = document.createElement('img')
+                // previewImage.src = preview.base64
+                // document.body.appendChild(previewImage)
+                //
+                // console.log(`To Preview Flutter data : `)
+                // console.dir({
+                //     width: gWidth,//anim.animationData.w,
+                //     height: gHeight,//anim.animationData.h,
+                //     frameRate: anim.animationData.fr,
+                //     preview,
+                //     textData
+                // })
+
+                if (window.flutter_inappwebview) {
+                    window.flutter_inappwebview.callHandler('TransferPreviewPNGData', {
+                        width: gWidth,//anim.animationData.w,
+                        height: gHeight,//anim.animationData.h,
+                        frameRate: anim.animationData.fr,
+                        preview,
+                        textData
+                    })
+                }
+                lottie.destroy()
+                console.log(`elapsed: ${Date.now() - now}ms`)
+            }
+            catch (e) {
+                console.log(String(e))
+                lottie.destroy()
+                isRunning = false
+
+                if (window.flutter_inappwebview) {
+                    window.flutter_inappwebview.callHandler('TransferPreviewFailed')
+                }
+            }
+        }
+    }
+
+    function extractAllSequence () {
+        const images = document.getElementsByTagName('img');
+        while(images.length > 0) {
+            images[0].parentNode.removeChild(images[0]);
+        }
+
+        // setData({ fontFamily: 'Gmarket Sans', base64: loadedFontBase64, json: JSON.parse(loadedJson), texts: [ 'VIMONI V-LOG 123', 'Sub Title' ] }) // TITLE3
+
+        previewData = {}
+        gridData = {}
+        prevTime = 0
+        gWidth = 0
+        gHeight = 0
+        textData = []
+        if (isRunning) return
+        if (!isInitialized) return
+
         if (anim) {
             anim.destroy()
         }
@@ -349,9 +540,6 @@
                     })
                 }
             }
-            // if (parseInt(anim.currentRawFrame) === anim.totalFrames - 1) {
-            //
-            // }
         })
 
         async function analysis () {
@@ -432,7 +620,7 @@
                 // })
 
                 if (window.flutter_inappwebview) {
-                    window.flutter_inappwebview.callHandler('TransferPNGData', {
+                    window.flutter_inappwebview.callHandler('TransferAllSequencePNGData', {
                         width: gWidth,//anim.animationData.w,
                         height: gHeight,//anim.animationData.h,
                         frameRate: anim.animationData.fr,
@@ -451,14 +639,10 @@
                 isRunning = false
 
                 if (window.flutter_inappwebview) {
-                    window.flutter_inappwebview.callHandler('TransferFailed')
+                    window.flutter_inappwebview.callHandler('TransferAllSequenceFailed')
                 }
             }
         }
-
-        // anim.addEventListener('DOMLoaded', async function (e) {
-        //
-        // })
     }
 </script>
 </body>

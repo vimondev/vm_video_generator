@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:myapp/vm_sdk/impl/lottie_text_widget.dart';
@@ -9,15 +11,20 @@ import 'dart:convert';
 import 'vm_sdk/impl/lottie_widget.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
-class TestWidget extends StatelessWidget {
+class TestWidget extends StatefulWidget {
   TestWidget({Key? key}) : super(key: key);
 
+  @override
+  State<TestWidget> createState() => _TestWidgetState();
+}
 
+class _TestWidgetState extends State<TestWidget> {
   // final VMSDKWidget _vmsdkWidget = VMSDKWidget();
-  final LottieTextWidget _lottieTextWidget = LottieTextWidget();
+  late LottieTextWidget _lottieTextWidget = LottieTextWidget();
+
+  List<String> imageList = [];
 
   void _run() async {
-
     print('This is _run method of TestWidget');
     final TitleData title = (await loadTitleData(ETitleType.title04))!;
     print('title is ');
@@ -28,13 +35,35 @@ class TestWidget extends StatelessWidget {
     print(title.texts);
 
     title.texts.addAll(["THIS IS VIMON V-LOG", "This is subtitle"]);
-    ExportedTitlePNGSequenceData exportedTitleData = await _lottieTextWidget.exportTitlePNGSequence(title);
 
-    print('TestWidget - ExportedTitlePNGSequenceData : ');
-    print(exportedTitleData.folderPath);
-    print(exportedTitleData.width);
-    print(exportedTitleData.height);
-    print(exportedTitleData.frameRate);
+    _lottieTextWidget.setData(title);
+
+    String? preview = await _lottieTextWidget.extractPreview();
+
+    preview = await _lottieTextWidget.setTextValue("#TEXT1", "이 앱은 VIIV입니다.");
+
+    preview = await _lottieTextWidget.setTextValue("#TEXT2", "가나다라마바사아자차카타파하0123456789");
+
+    // setState(() {
+    //   if (preview != null) imageList = [ preview ];
+    // });
+    // print('TestWidget result preview is : $preview');
+
+    List<String>? sequences = await _lottieTextWidget.extractAllSequence();
+
+    print("test.dart - sequences : ");
+    if (sequences != null) {
+      for (int i = 0; i < sequences.length; i++) {
+        print(sequences[i]);
+      }
+    }
+
+    setState(() {
+      if (sequences != null) imageList = sequences;
+    });
+
+
+
 
     // if (!_vmsdkWidget.isInitialized) {
     //   await _vmsdkWidget.initialize();
@@ -81,7 +110,30 @@ class TestWidget extends StatelessWidget {
       appBar: AppBar(
         title: const Text("VM SDK TEST"),
       ),
-      body: _lottieTextWidget,
+      resizeToAvoidBottomInset: false,
+      body: Container(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              ListView.builder(
+                itemCount: imageList.length,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    child: Image.file(
+                      File(imageList[index]),
+                      width: double.infinity,
+                      fit: BoxFit.fitWidth,
+                    ),
+                  );
+                },
+              ),
+              _lottieTextWidget,
+            ],
+          ),
+        ),
+      ),
       backgroundColor: Colors.grey,
       floatingActionButton: FloatingActionButton(
           onPressed: _run, tooltip: 'Run', child: const Icon(Icons.play_arrow)),
