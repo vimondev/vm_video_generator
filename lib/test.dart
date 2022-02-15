@@ -23,6 +23,9 @@ class _TestWidgetState extends State<TestWidget> {
   late LottieTextWidget _lottieTextWidget = LottieTextWidget();
 
   List<String> imageList = [];
+  double _width = 0;
+  double _height = 0;
+  Map<String, LottieText> _textDataMap = {};
 
   void _run() async {
     print('This is _run method of TestWidget');
@@ -40,12 +43,15 @@ class _TestWidgetState extends State<TestWidget> {
 
     String? preview = await _lottieTextWidget.extractPreview();
 
-    preview = await _lottieTextWidget.setTextValue("#TEXT1", "이 앱은 VIIV입니다.");
-
-    preview = await _lottieTextWidget.setTextValue("#TEXT2", "가나다라마바사아자차카타파하0123456789");
+    // preview = await _lottieTextWidget.setTextValue("#TEXT1", "이 앱은 VIIV입니다.");
+    //
+    // preview = await _lottieTextWidget.setTextValue("#TEXT2", "가나다라마바사아자차카타파하0123456789");
 
     setState(() {
-      if (preview != null) imageList = [ preview ];
+      if (preview != null) imageList = [ preview];
+      _width = _lottieTextWidget.width;
+      _height = _lottieTextWidget.height;
+      _textDataMap = _lottieTextWidget.textDataMap;
     });
     print('TestWidget result preview is : $preview');
 
@@ -59,6 +65,7 @@ class _TestWidgetState extends State<TestWidget> {
     // setState(() {
     //   if (sequences != null) imageList = sequences;
     // });
+
 
 
 
@@ -118,12 +125,31 @@ class _TestWidgetState extends State<TestWidget> {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    child: Image.file(
-                      File(imageList[index]),
-                      width: double.infinity,
-                      fit: BoxFit.fitWidth,
-                    ),
+                  bool isPreview = imageList.length == 1;
+                  return Stack(
+                    children: [
+                      Container(
+                        child: Image.file(
+                          File(imageList[index]),
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width,
+                          fit: BoxFit.fitWidth,
+                        ),
+                      ),
+                      isPreview ? CustomPaint(
+                        foregroundPainter: RectanglePainter(
+                          mediaWidth: MediaQuery
+                              .of(context)
+                              .size
+                              .width,
+                          width: _width,
+                          height: _height,
+                          textDataMap: _textDataMap,
+                        ),
+                      ) : Container(),
+                    ],
                   );
                 },
               ),
@@ -136,5 +162,55 @@ class _TestWidgetState extends State<TestWidget> {
       floatingActionButton: FloatingActionButton(
           onPressed: _run, tooltip: 'Run', child: const Icon(Icons.play_arrow)),
     );
+  }
+}
+
+class RectanglePainter extends CustomPainter {
+  double mediaWidth;
+  double width;
+  double height;
+  Map<String, LottieText> textDataMap;
+
+  RectanglePainter({
+    required this.mediaWidth,
+    required this.width,
+    required this.height,
+    required this.textDataMap
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    // TODO: implement paint
+    final paint = Paint()
+      ..color = Colors.amber
+      ..strokeWidth = 5
+      ..style = PaintingStyle.stroke;
+
+    int length = textDataMap.length;
+    for (int i = 0; i < textDataMap.length; i++) {
+      Rectangle rectangle = textDataMap[i.toString()]!.boundingBox;
+
+      final mediaHeight = height * mediaWidth / width;
+
+      final x = mediaWidth * rectangle.x / width;
+      final y = mediaHeight * rectangle.y / height;
+
+      final x2 = mediaWidth * (rectangle.x + rectangle.width) / width;
+      final y2 = mediaHeight * (rectangle.y + rectangle.height) / height;
+
+      print('x : $x, y : $y, x2 : $x2, y2 : $y2, width : $width, height: $height, mediaWidth : $mediaWidth, mediaHeight : $mediaHeight ');
+
+      final a = Offset(x, y);
+      final b = Offset(x2, y2);
+
+      Rect rect = Rect.fromPoints(a, b);
+      canvas.drawRect(rect, paint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    // TODO: implement shouldRepaint
+    return true;
   }
 }
