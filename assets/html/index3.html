@@ -84,12 +84,12 @@
         const textCompMap = {}
 
         assets.forEach(item => {
-            if (item.nm.toLowerCase().startsWith('#text')) {
+            if (item.nm && typeof item.nm == 'string' && item.nm.toLowerCase().startsWith('#text')) {
                 textCompMap[item.nm] = item
             }
         })
         layers.forEach(item => {
-            if (item.nm.toLowerCase().startsWith('@preview')) {
+            if (item.nm && typeof item.nm == 'string' && item.nm.toLowerCase().startsWith('@preview')) {
                 previewFrameNumber = parseInt(item.ip)
             }
         })
