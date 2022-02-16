@@ -8,7 +8,7 @@
 <body style="background-color: grey;">
     <input id="input-json" type="file" />
     <input id="input-font" type="file" />
-    <button onclick="run()">RUN</button>
+    <button onclick="handleClickButton()">RUN</button>
     <div id="bodymovin"></div>
 
     <script>
@@ -18,11 +18,21 @@
 
         let loadedJson = ''
         let loadedFontBase64 = ''
+        let loadedFontFamily = ''
+
         function loadJSON(file) {
             const reader = new FileReader()
             reader.readAsText(file, 'utf8')
             reader.onload = e => {
-                loadedJson = e.target.result
+                loadedJson = JSON.parse(e.target.result)
+                if (loadedJson && loadedJson.fonts && Array.isArray(loadedJson.fonts.list)) {
+                    for (let i = 0; i < loadedJson.fonts.list.length; i++) {
+                        const { fName } = loadedJson.fonts.list[i]
+                        loadedFontFamily = fName
+                        alert(fName)
+                        break
+                    }
+                }
             }
         }
         function loadFont(file) {
@@ -63,7 +73,7 @@
             const textCompMap = {}
 
             assets.forEach(item => {
-                if (item.nm.toLowerCase().startsWith('#text')) {
+                if (typeof item.nm === 'string' && item.nm.toLowerCase().startsWith('#text')) {
                     textCompMap[item.nm] = item
                 }
             })
@@ -107,7 +117,7 @@
         const canvas = document.createElement('canvas')
         const ctx = canvas.getContext('2d')
 
-        function DrawPNG(image, x, y, width, height) {
+        async function DrawPNG(image, x, y, width, height) {
             // return new Promise((resolve, reject) => {
             //     const canvas = document.createElement('canvas')
             //     const ctx = canvas.getContext('2d')
@@ -156,7 +166,7 @@
                                 frames.push({
                                     startFrame,
                                     endFrame: i,
-                                    base64: DrawPNG(image, 0, currentY, width, currentHeight)
+                                    base64: await DrawPNG(image, 0, currentY, width, currentHeight)
                                 })
                                 currentHeight = 0
                                 startFrame = i + 1
@@ -165,13 +175,15 @@
                                     frames.push({
                                         startFrame,
                                         endFrame: anim.totalFrames - 1,
-                                        base64: DrawPNG(image, 0, currentY, width, image.height - (currentY + height))
+                                        base64: await DrawPNG(image, 0, currentY, width, image.height - (currentY + height))
                                     })
                                     break
                                 }
                             }
                             currentHeight += height
                             currentY += height
+
+                            console.log(i)
                         }
 
                         resolve(frames)
@@ -195,8 +207,14 @@
 
         const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
+        function handleClickButton() {
+            isInitialized = true
+            setData({ fontFamily: loadedFontFamily, base64: loadedFontBase64, json: loadedJson, texts: [ 'VIDEOMONSTER TITLE TEST', 'VLOG TITLE' ] })
+            run()
+        }
+
         let isRunning = false
-        function run() {
+        async function run() {
             if (isRunning) return
             if (!isInitialized) return
 
@@ -211,6 +229,7 @@
             let currentFrame = 0
             anim.addEventListener('DOMLoaded', async function (e) {
                 try {
+                    await sleep(3000)
                     const now = Date.now()
 
                     const rootSVGElement = anim.renderer.svgElement.cloneNode(false)
@@ -253,7 +272,7 @@
                                 case 'defs': {
                                     rootSVGElement.appendChild(AssignFrameNumber(node.cloneNode(true), i))
                                 }
-                                break
+                                    break
 
                                 case 'g': {
                                     const gElement = node.cloneNode(true)
@@ -261,10 +280,11 @@
 
                                     rootSVGElement.appendChild(AssignFrameNumber(gElement, i))
                                 }
-                                break
+                                    break
                             }
                         })
                     }
+                    // document.body.appendChild(rootSVGElement)
 
                     const frames = await LoadFrames(rootSVGElement, anim)
                     if (window.flutter_inappwebview) {
@@ -276,6 +296,13 @@
                         })
                     }
                     lottie.destroy()
+
+                    // frames.forEach(frame => {
+                    //     const img = document.createElement('img')
+                    //     img.src = frame.base64
+                    //     document.body.appendChild(img)
+                    // })
+
                     console.log(`elapsed: ${Date.now() - now}ms`)
 
                 }

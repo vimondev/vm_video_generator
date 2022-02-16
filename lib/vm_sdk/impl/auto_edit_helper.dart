@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:path/path.dart';
+
 import '../types/types.dart';
 import 'global_helper.dart';
 
@@ -8,9 +10,9 @@ Map<int, EMediaLabel> classifiedLabelMap = {};
 Map<int, bool> definitiveLabelMap = {};
 
 Map<EMusicStyle, List<double>> tempDurationMap = {
-  EMusicStyle.styleA: [4, 5, 6, 4, 5, 6, 4, 5, 6, 4, 5, 6, 4, 5, 6],
-  EMusicStyle.styleB: [6, 7, 8, 6, 7, 8, 6, 7, 8, 6, 7, 8, 6, 7, 8],
-  EMusicStyle.styleC: [3, 4, 5, 3, 4, 5, 3, 4, 5, 3, 4, 5, 3, 4, 5]
+  EMusicStyle.styleA: [5, 3.5, 4, 3, 3.5, 4, 3, 3.5, 4, 3, 3.5, 4, 3],
+  EMusicStyle.styleB: [5, 4.5, 4, 5, 4.5, 4, 5, 4.5, 4, 5, 4.5, 4, 5],
+  EMusicStyle.styleC: [5, 3.5, 3, 2.5, 3.5, 3, 2.5, 3.5, 3, 2.5, 3.5, 3, 2.5]
 };
 
 Map<EMusicStyle, Map<ETransitionType, List<String>>> tempTransitionMap = {
@@ -31,10 +33,10 @@ Map<EMusicStyle, Map<ETransitionType, List<String>>> tempTransitionMap = {
       "Transition_HJ002",
       "Transition_ON001",
       "Transition_ON002",
-      "Transition_SW002",
+      // "Transition_SW002",
       "Transition_YJ001",
       "Transition_YJ002",
-      "Transition_YJ003",
+      // "Transition_YJ003",
     ],
   },
   EMusicStyle.styleB: {
@@ -54,10 +56,10 @@ Map<EMusicStyle, Map<ETransitionType, List<String>>> tempTransitionMap = {
       "Transition_HJ002",
       "Transition_ON001",
       "Transition_ON002",
-      "Transition_SW002",
+      // "Transition_SW002",
       "Transition_YJ001",
       "Transition_YJ002",
-      "Transition_YJ003",
+      // "Transition_YJ003",
     ],
   },
   EMusicStyle.styleC: {
@@ -77,10 +79,10 @@ Map<EMusicStyle, Map<ETransitionType, List<String>>> tempTransitionMap = {
       "Transition_HJ002",
       "Transition_ON001",
       "Transition_ON002",
-      "Transition_SW002",
+      // "Transition_SW002",
       "Transition_YJ001",
       "Transition_YJ002",
-      "Transition_YJ003",
+      // "Transition_YJ003",
     ],
   }
 };
@@ -97,20 +99,46 @@ Map<EMusicStyle, Map<EMediaLabel, List<String>>> tempStickerMap = {
       "Sticker_YJ010",
     ],
     EMediaLabel.object: [
-      "Sticker_YJ001",
-      "Sticker_YJ002",
-      "Sticker_YJ003",
-      "Sticker_YJ005",
-      "Sticker_YJ006",
-      "Sticker_YJ007",
-      "Stiker_ON001",
-      "Stiker_ON002",
-      "Stiker_ON003",
-      "Stiker_ON004",
-      "Stiker_ON005",
-      "Stiker_ON006",
-      "Stiker_ON007",
-      "Stiker_ON008",
+      "Sticker_DA001.webm",
+      "Sticker_DA002.webm",
+      "Sticker_DA003.webm",
+      "Sticker_DA004.webm",
+      "Sticker_DA005.webm",
+      "Sticker_DA007.webm",
+      "Sticker_HJ001.webm",
+      "Sticker_HJ002.webm",
+      "Sticker_HJ003.webm",
+      "Sticker_HJ005.webm",
+      "Sticker_SW003.webm",
+      "Sticker_SW004.webm",
+      "Sticker_SW005.webm",
+      "Sticker_YJ001.webm",
+      "Sticker_YJ002.webm",
+      "Sticker_YJ003.webm",
+      "Sticker_YJ004.webm",
+      "Sticker_YJ005.webm",
+      "Sticker_YJ006.webm",
+      "Sticker_YJ007.webm",
+      "Sticker_YJ008.webm",
+      "Sticker_YJ009.webm",
+      "Sticker_YJ010.webm",
+      "Stiker_ON005.webm",
+      "Stiker_ON006.webm",
+      "Stiker_ON007.webm",
+      "Stiker_ON008.webm",
+      // "Sticker_HJ006.webm",
+      // "Sticker_DA006.webm",
+      // "Sticker_DA008.webm",
+      // "Sticker_HJ004.webm",
+      // "Sticker_SW001.webm",
+      // "Sticker_SW002.webm",
+      // "Sticker_SW006.webm",
+      // "Sticker_SW007.webm",
+      // "Sticker_SW008.webm",
+      // "Stiker_ON001.webm",
+      // "Stiker_ON002.webm",
+      // "Stiker_ON003.webm",
+      // "Stiker_ON004.webm",
     ]
   },
   EMusicStyle.styleB: {
@@ -124,17 +152,46 @@ Map<EMusicStyle, Map<EMediaLabel, List<String>>> tempStickerMap = {
       "Sticker_YJ010",
     ],
     EMediaLabel.object: [
-      "Sticker_HJ001",
-      "Sticker_HJ002",
-      "Sticker_HJ003",
-      "Sticker_HJ004",
-      "Sticker_HJ005",
-      "Sticker_HJ006",
-      "Sticker_SW001",
-      "Sticker_SW003",
-      "Sticker_SW005",
-      "Sticker_SW007",
-      "Sticker_SW008",
+      "Sticker_DA001.webm",
+      "Sticker_DA002.webm",
+      "Sticker_DA003.webm",
+      "Sticker_DA004.webm",
+      "Sticker_DA005.webm",
+      "Sticker_DA007.webm",
+      "Sticker_HJ001.webm",
+      "Sticker_HJ002.webm",
+      "Sticker_HJ003.webm",
+      "Sticker_HJ005.webm",
+      "Sticker_SW003.webm",
+      "Sticker_SW004.webm",
+      "Sticker_SW005.webm",
+      "Sticker_YJ001.webm",
+      "Sticker_YJ002.webm",
+      "Sticker_YJ003.webm",
+      "Sticker_YJ004.webm",
+      "Sticker_YJ005.webm",
+      "Sticker_YJ006.webm",
+      "Sticker_YJ007.webm",
+      "Sticker_YJ008.webm",
+      "Sticker_YJ009.webm",
+      "Sticker_YJ010.webm",
+      "Stiker_ON005.webm",
+      "Stiker_ON006.webm",
+      "Stiker_ON007.webm",
+      "Stiker_ON008.webm",
+      // "Sticker_HJ006.webm",
+      // "Sticker_DA006.webm",
+      // "Sticker_DA008.webm",
+      // "Sticker_HJ004.webm",
+      // "Sticker_SW001.webm",
+      // "Sticker_SW002.webm",
+      // "Sticker_SW006.webm",
+      // "Sticker_SW007.webm",
+      // "Sticker_SW008.webm",
+      // "Stiker_ON001.webm",
+      // "Stiker_ON002.webm",
+      // "Stiker_ON003.webm",
+      // "Stiker_ON004.webm",
     ]
   },
   EMusicStyle.styleC: {
@@ -148,13 +205,46 @@ Map<EMusicStyle, Map<EMediaLabel, List<String>>> tempStickerMap = {
       "Sticker_YJ010",
     ],
     EMediaLabel.object: [
-      "Sticker_DA001",
-      "Sticker_DA002",
-      "Sticker_DA003",
-      "Sticker_DA004",
-      "Sticker_DA005",
-      "Sticker_DA006",
-      "Sticker_DA008",
+      "Sticker_DA001.webm",
+      "Sticker_DA002.webm",
+      "Sticker_DA003.webm",
+      "Sticker_DA004.webm",
+      "Sticker_DA005.webm",
+      "Sticker_DA007.webm",
+      "Sticker_HJ001.webm",
+      "Sticker_HJ002.webm",
+      "Sticker_HJ003.webm",
+      "Sticker_HJ005.webm",
+      "Sticker_SW003.webm",
+      "Sticker_SW004.webm",
+      "Sticker_SW005.webm",
+      "Sticker_YJ001.webm",
+      "Sticker_YJ002.webm",
+      "Sticker_YJ003.webm",
+      "Sticker_YJ004.webm",
+      "Sticker_YJ005.webm",
+      "Sticker_YJ006.webm",
+      "Sticker_YJ007.webm",
+      "Sticker_YJ008.webm",
+      "Sticker_YJ009.webm",
+      "Sticker_YJ010.webm",
+      "Stiker_ON005.webm",
+      "Stiker_ON006.webm",
+      "Stiker_ON007.webm",
+      "Stiker_ON008.webm",
+      // "Sticker_HJ006.webm",
+      // "Sticker_DA006.webm",
+      // "Sticker_DA008.webm",
+      // "Sticker_HJ004.webm",
+      // "Sticker_SW001.webm",
+      // "Sticker_SW002.webm",
+      // "Sticker_SW006.webm",
+      // "Sticker_SW007.webm",
+      // "Sticker_SW008.webm",
+      // "Stiker_ON001.webm",
+      // "Stiker_ON002.webm",
+      // "Stiker_ON003.webm",
+      // "Stiker_ON004.webm",
     ]
   }
 };
@@ -595,7 +685,7 @@ Future<AutoEditedData> generateAutoEditData(
   int overlayTransitionIndex =
       (Random()).nextInt(transitionMap[ETransitionType.overlay]!.length);
 
-  int clipCount = 4 + (Random()).nextInt(3);
+  int clipCount = 3 + (Random()).nextInt(3);
   bool isPassedBoundary = false;
 
   for (int i = 0; i < autoEditedData.autoEditMediaList.length - 1; i++) {
@@ -609,12 +699,12 @@ Future<AutoEditedData> generateAutoEditData(
       ETransitionType currentTransitionType = ETransitionType.xfade;
 
       if (isPassedBoundary) {
-        currentTransitionType = (Random()).nextDouble() >= 0.35
+        currentTransitionType = false && (Random()).nextDouble() >= 0.35
             ? ETransitionType.xfade
             : ETransitionType.overlay;
       } //
       else {
-        currentTransitionType = (Random()).nextDouble() >= 0.2
+        currentTransitionType = false && (Random()).nextDouble() >= 0.2
             ? ETransitionType.xfade
             : ETransitionType.overlay;
       }
@@ -648,7 +738,7 @@ Future<AutoEditedData> generateAutoEditData(
           currentTransitionList[index % currentTransitionList.length];
 
       lastTransitionInsertedIndex = i;
-      clipCount = 4 + (Random()).nextInt(3);
+      clipCount = 2 + (Random()).nextInt(3);
       isPassedBoundary = false;
     }
   }
@@ -664,7 +754,7 @@ Future<AutoEditedData> generateAutoEditData(
   }
 
   int lastStickerInsertedIndex = 0;
-  clipCount = 3 + (Random()).nextInt(3);
+  clipCount = 2 + (Random()).nextInt(3);
 
   for (int i = 0; i < autoEditedData.autoEditMediaList.length; i++) {
     final AutoEditMedia autoEditMedia = autoEditedData.autoEditMediaList[i];
@@ -701,22 +791,22 @@ Future<AutoEditedData> generateAutoEditData(
           currentStickerList[index % currentStickerList.length];
 
       lastStickerInsertedIndex = i;
-      clipCount = 3 + (Random()).nextInt(3);
+      clipCount = 1 + (Random()).nextInt(3);
     }
   }
 
-  // print("--------------------------------------");
-  // print("--------------------------------------");
-  // for (int i = 0; i < autoEditedData.autoEditMediaList.length; i++) {
-  //   final autoEditMedia = autoEditedData.autoEditMediaList[i];
-  //   print(
-  //       "${autoEditMedia.mediaData.absolutePath} : ${autoEditMedia.mediaLabel} : ${autoEditMedia.stickerKey}");
-  //   if (autoEditMedia.transitionKey != null) {
-  //     print("index : $i");
-  //     print(autoEditMedia.transitionKey);
-  //     print("");
-  //   }
-  // }
+  print("--------------------------------------");
+  print("--------------------------------------");
+  for (int i = 0; i < autoEditedData.autoEditMediaList.length; i++) {
+    final autoEditMedia = autoEditedData.autoEditMediaList[i];
+    print(
+        "${basename(autoEditMedia.mediaData.absolutePath)} / totalDuration:${autoEditMedia.mediaData.duration} / start:${autoEditMedia.startTime} / duration:${autoEditMedia.duration} / remain:${autoEditMedia.mediaData.duration != null ? (autoEditMedia.mediaData.duration! - autoEditMedia.startTime - autoEditMedia.duration) : 0} / ${autoEditMedia.mediaLabel} / sticker:${autoEditMedia.stickerKey}");
+    if (autoEditMedia.transitionKey != null) {
+      print("index : $i");
+      print(autoEditMedia.transitionKey);
+      print("");
+    }
+  }
 
   autoEditedData.musicList.addAll([
     MusicData("bgm03.m4a", 90),

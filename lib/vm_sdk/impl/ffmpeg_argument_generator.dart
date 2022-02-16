@@ -152,29 +152,29 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
   }
   // ADD TITLE
 
-  // exportedTitle.width = (exportedTitle.width * 1.25).floor();
-  // exportedTitle.height = (exportedTitle.height * 1.25).floor();
+  exportedTitle.width = (exportedTitle.width * 1.2).floor();
+  exportedTitle.height = (exportedTitle.height * 1.2).floor();
 
-  // final double startPosY = (videoHeight / 2) - (exportedTitle.height / 2);
+  final double startPosY = (videoHeight / 2) - (exportedTitle.height / 2);
 
-  // String titleMapVariable = "[title0]";
-  // String titleMergedMapVariable = "[title_merged_0]";
+  String titleMapVariable = "[title0]";
+  String titleMergedMapVariable = "[title_merged_0]";
 
-  // double currentPosX = (videoWidth / 2) - (exportedTitle.width / 2);
+  double currentPosX = (videoWidth / 2) - (exportedTitle.width / 2);
 
-  // inputArguments.addAll([
-  //   "-framerate",
-  //   exportedTitle.frameRate.toString(),
-  //   "-i",
-  //   "${exportedTitle.folderPath}/%d.png"
-  // ]);
+  inputArguments.addAll([
+    "-framerate",
+    exportedTitle.frameRate.toString(),
+    "-i",
+    "${exportedTitle.folderPath}/%d.png"
+  ]);
 
-  // filterStrings.add(
-  //     "[${inputFileCount++}:v]trim=0:${durationMap[0]!},setpts=PTS-STARTPTS,scale=${exportedTitle.width}:${exportedTitle.height}$titleMapVariable;");
-  // filterStrings.add(
-  //     "${videoMapVariables[0]!}${titleMapVariable}overlay=$currentPosX:$startPosY$titleMergedMapVariable;");
+  filterStrings.add(
+      "[${inputFileCount++}:v]trim=0:${autoEditMediaList[0].duration},setpts=PTS-STARTPTS,scale=${exportedTitle.width}:${exportedTitle.height}$titleMapVariable;");
+  filterStrings.add(
+      "${videoMapVariables[0]!}${titleMapVariable}overlay=$currentPosX:$startPosY$titleMergedMapVariable;");
 
-  // videoMapVariables[0] = titleMergedMapVariable;
+  videoMapVariables[0] = titleMergedMapVariable;
 
   // ADD XFADE TRANSITION
   // TO DO: Add some condition
@@ -253,8 +253,6 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
   arguments.addAll([
     "-map",
     currentOutputMapVariable,
-    "-c:a",
-    "aac",
     "-c:v",
     "libx264",
     "-preset",
@@ -284,46 +282,65 @@ Future<GenerateArgumentResponse> generateAudioRenderArgument(
   final String outputPath = "$appDirPath/audio_out.m4a";
   double totalDuration = 0;
 
-  final List<String> audioOutputList = <String>[];
   final List<String> inputArguments = <String>[];
   final List<String> filterStrings = <String>[];
 
   int inputFileCount = 0;
   double currentDuration = 0;
 
+  String? mergeClipSoundTargets;
+  int mergeClipSoundCount = 0;
+  String? clipSoundMergedOutput;
   for (int i = 0; i < autoEditMediaList.length; i++) {
     final AutoEditMedia autoEditMedia = autoEditMediaList[i];
     final MediaData mediaData = autoEditMedia.mediaData;
     final double duration = autoEditMedia.duration;
 
-    if (mediaData.type == EMediaType.video) {
-      inputArguments.addAll(["-i", mediaData.absolutePath]);
-      filterStrings.add(
-          "[$inputFileCount:a]atrim=${autoEditMedia.startTime}:${autoEditMedia.startTime + autoEditMedia.duration},adelay=${currentDuration * 1000}[aud$inputFileCount];");
-      audioOutputList.add("[aud$inputFileCount]");
-      inputFileCount++;
-    }
+    // if (mediaData.type == EMediaType.video) {
+    //   inputArguments.addAll(["-i", mediaData.absolutePath]);
+    //   filterStrings.add(
+    //       "[$inputFileCount:a]atrim=${autoEditMedia.startTime}:${autoEditMedia.startTime + autoEditMedia.duration}[trim$inputFileCount];[trim$inputFileCount]adelay=${(currentDuration * 1000).floor()}[aud$inputFileCount];");
+
+    //   mergeClipSoundTargets ??= "";
+    //   mergeClipSoundTargets += "[aud$inputFileCount]";
+    //   mergeClipSoundCount++;
+
+    //   inputFileCount++;
+    // }
 
     currentDuration += duration;
     totalDuration += duration;
   }
+  if (mergeClipSoundTargets != null) {
+    filterStrings.add(
+        "${mergeClipSoundTargets}amix=inputs=$mergeClipSoundCount[clip_mixed];[clip_mixed]atrim=0:$totalDuration[clipsound];");
+    clipSoundMergedOutput = "[clipsound]";
+  }
 
-  currentDuration = 0;
-
-  for (int i = 0; i < musicList.length; i++) {
-    final MusicData musicData = musicList[i];
+  const int fadeDuration = 3;
+  if (musicList.length == 1) {
+    final MusicData musicData = musicList[0];
     final double duration = musicData.duration;
 
-    inputArguments.addAll([
-      "-itsoffset",
-      currentDuration.toString(),
-      "-i",
-      "$appDirPath/${musicData.filename}"
-    ]);
-    audioOutputList.add("[$inputFileCount:a]");
+    inputArguments.addAll(["-i", "$appDirPath/${musicData.filename}"]);
+    filterStrings.add(
+        "[$inputFileCount:a]afade=t=out:st=${(duration - fadeDuration)}:d=$fadeDuration[faded0];[faded0]atrim=0:$duration[bgm];");
     inputFileCount++;
+  } //
+  else {
+    String mergeBgmTargets = "";
+    for (int i = 0; i < musicList.length; i++) {
+      final MusicData musicData = musicList[i];
+      final double duration = musicData.duration;
 
-    currentDuration += duration;
+      inputArguments.addAll(["-i", "$appDirPath/${musicData.filename}"]);
+      filterStrings.add(
+          "[$inputFileCount:a]afade=t=out:st=${(duration - fadeDuration)}:d=$fadeDuration[faded$i];[faded$i]atrim=0:$duration[aud$inputFileCount];");
+      mergeBgmTargets += "[aud$inputFileCount]";
+      inputFileCount++;
+    }
+    filterStrings
+        .add("${mergeBgmTargets}concat=n=${musicList.length}:v=0:a=1[bgm];");
   }
 
   String filterComplexStr = "";
@@ -331,24 +348,20 @@ Future<GenerateArgumentResponse> generateAudioRenderArgument(
     filterComplexStr += filterStr;
   }
 
-  if (audioOutputList.length == 1) {
-    filterComplexStr += "${audioOutputList[0]};atrim=0:$totalDuration[out]";
+  if (clipSoundMergedOutput != null) {
+    filterComplexStr +=
+        "$clipSoundMergedOutput[bgm]amix=inputs=2[all_mixed];[all_mixed]atrim=0:$totalDuration[out]";
   } //
   else {
-    String mergeTargetStr = "";
-    for (final String audioOutputStr in audioOutputList) {
-      mergeTargetStr += audioOutputStr;
-    }
-    final int audioInputCount = audioOutputList.length;
-
-    filterComplexStr +=
-        "${mergeTargetStr}amix=inputs=$audioInputCount[mixed];[mixed]atrim=0:$totalDuration[out]";
+    filterComplexStr += "[bgm]atrim=0:$totalDuration[out]";
   }
 
   String inputArgumentsStr = "";
   for (final String inputStr in inputArguments) {
-    inputArgumentsStr += inputStr + '\n';
+    inputArgumentsStr += inputStr + ',';
   }
+  print(inputArgumentsStr);
+  print(filterComplexStr);
 
   arguments.addAll(inputArguments);
   arguments.addAll(["-filter_complex", filterComplexStr]);

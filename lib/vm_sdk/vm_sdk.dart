@@ -50,11 +50,11 @@ class VMSDKWidget extends StatelessWidget {
     EMusicStyle selectedStyle = style ?? EMusicStyle.styleA;
 
     final AutoEditedData autoEditedData =
-        await generateAutoEditData(mediaList, EMusicStyle.styleA, isAutoEdit);
+        await generateAutoEditData(mediaList, selectedStyle, isAutoEdit);
 
     await _resourceManager.loadAutoEditAssets(autoEditedData);
 
-    final TitleData title = (await loadTitleData(ETitleType.title03))!;
+    final TitleData title = (await loadTitleData(ETitleType.title04))!;
     title.texts.addAll(titles);
 
     ExportedTitlePNGSequenceData exportedTitleData =
@@ -70,6 +70,14 @@ class VMSDKWidget extends StatelessWidget {
     double progress = 0, estimatedTime = 0;
 
     bool isSuccess =
+        await _ffmpegManager.execute(audioArgResponse.arguments, (statistics) {
+      if (progressCallback != null) {
+        progressCallback(EGenerateStatus.encoding, 0, 0);
+      }
+    });
+    if (!isSuccess) return null;
+
+    isSuccess =
         await _ffmpegManager.execute(videoArgResponse.arguments, (statistics) {
       if (progressCallback != null) {
         progress = min(
@@ -78,14 +86,6 @@ class VMSDKWidget extends StatelessWidget {
             (videoArgResponse.totalFrame! - statistics.videoFrameNumber) /
                 statistics.videoFps;
         progressCallback(EGenerateStatus.encoding, progress, estimatedTime);
-      }
-    });
-    if (!isSuccess) return null;
-
-    isSuccess =
-        await _ffmpegManager.execute(audioArgResponse.arguments, (statistics) {
-      if (progressCallback != null) {
-        progressCallback(EGenerateStatus.merge, 1.0, 0);
       }
     });
     if (!isSuccess) return null;
