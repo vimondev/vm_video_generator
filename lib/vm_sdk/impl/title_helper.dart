@@ -7,6 +7,7 @@ const Map<ETitleType, String> titleMap = {
   ETitleType.title02: "title02.json",
   ETitleType.title03: "title03.json",
   ETitleType.title04: "title04.json",
+  ETitleType.title05: "title05.json",
 };
 
 Future<TitleData?> loadTitleData(ETitleType titleType) async {

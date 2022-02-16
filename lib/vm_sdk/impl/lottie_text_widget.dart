@@ -188,10 +188,10 @@ class LottieTextWidget extends StatelessWidget {
   // }
 
   void _handleTransferPreviewPNGData(args) async {
-    _width = args[0]["width"];
-    _height = args[0]["height"];
+    _width = args[0]["width"].toDouble();
+    _height = args[0]["height"].toDouble();
     List textData = args[0]["textData"];
-    _frameRate = args[0]["frameRate"];
+    _frameRate = args[0]["frameRate"].toDouble();
     _textDataMap.clear();
     _allSequences.clear();
 
@@ -223,10 +223,10 @@ class LottieTextWidget extends StatelessWidget {
   }
 
   void _handleTransferAllSequencePNGData(args) async {
-    _width = args[0]["width"];
-    _height = args[0]["height"];
+    _width = args[0]["width"].toDouble();
+    _height = args[0]["height"].toDouble();
     List textData = args[0]["textData"];
-    _frameRate = args[0]["frameRate"];
+    _frameRate = args[0]["frameRate"].toDouble();
     List frames = args[0]["frames"];
     _totalFrames = frames.length;
     _textDataMap.clear();
