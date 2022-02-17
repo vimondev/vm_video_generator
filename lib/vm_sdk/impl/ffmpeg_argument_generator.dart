@@ -1,8 +1,8 @@
 import '../types/types.dart';
 import 'global_helper.dart';
 
-int videoWidth = 1920;
-int videoHeight = 1080;
+int videoWidth = 1280;
+int videoHeight = 720;
 int framerate = 30;
 
 class GenerateArgumentResponse {
