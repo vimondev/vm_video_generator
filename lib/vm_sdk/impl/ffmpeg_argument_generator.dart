@@ -100,6 +100,7 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
         "[$i:v]${trimStr}scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$videoWidth:$videoHeight:${cropData.cropPosX}:${cropData.cropPosY},setdar=dar=${videoWidth / videoHeight}[vid$i];");
     videoMapVariables[i] = "[vid$i]";
     calculatedDurationMap[i] = calculatedDuration;
+    totalDuration += autoEditMedia.duration;
   }
 
   ////////////////
