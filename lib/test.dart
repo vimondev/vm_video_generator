@@ -28,8 +28,11 @@ class _TestWidgetState extends State<TestWidget> {
   Map<String, LottieText> _textDataMap = {};
 
   void _run() async {
+    setState(() {
+      imageList = [];
+    });
     print('This is _run method of TestWidget');
-    final TitleData title = (await loadTitleData(ETitleType.title05))!;
+    final TitleData title = (await loadTitleData(ETitleType.title04))!;
     print('title is ');
 
     print(title.json);
@@ -198,7 +201,7 @@ class RectanglePainter extends CustomPainter {
       final x2 = mediaWidth * (rectangle.x + rectangle.width) / width;
       final y2 = mediaHeight * (rectangle.y + rectangle.height) / height;
 
-      print('x : $x, y : $y, x2 : $x2, y2 : $y2, width : $width, height: $height, mediaWidth : $mediaWidth, mediaHeight : $mediaHeight ');
+      print('x : $x, y : $y, x2 : $x2, y2 : $y2, width : $width, height: $height, mediaWidth : $mediaWidth, mediaHeight : $mediaHeight, rect.x : ${rectangle.x}, rect.y : ${rectangle.y}, rect.width : ${rectangle.width}, rect.height : ${rectangle.height} ');
 
       final a = Offset(x, y);
       final b = Offset(x2, y2);

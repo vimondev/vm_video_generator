@@ -1,6 +1,6 @@
 {
   "name": "title05",
   "filename": "title5.json",
-  "fontFamily": "Jalnan",
-  "fontFileName": "Jalnan.ttf"
+  "fontFamily": ["Jalnan"],
+  "fontFileName": ["Jalnan.ttf"]
 }

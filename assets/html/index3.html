@@ -12,18 +12,19 @@
 
 <body style="background-color: grey;">
 <input id="input-json" type="file" />
-<input id="input-font" type="file" />
+<input id="input-font" type="file" multiple />
 <button onclick="extractPreview()">extractPreview</button>
 <button onclick="extractAllSequence()">extractAllSequence</button>
 <div id="bodymovin" width="1920px"></div>
 
 <script>
-    let currentFontFamily = ''
-    let currentFontBase64 = ''
+    let currentFontFamily = []
+    let currentFontBase64 = []
     let currentJson = {}
 
     let loadedJson = ''
-    let loadedFontBase64 = ''
+    let loadedFontFamily = []
+    let loadedFontBase64 = []
     let previewFrameNumber = 0
     let previewData = {}
     let gridData = {}
@@ -39,17 +40,27 @@
     let anim
 
     function loadJSON(file) {
+        loadedFontFamily = []
         const reader = new FileReader()
         reader.readAsText(file, 'utf8')
         reader.onload = e => {
             loadedJson = e.target.result
+            const jsonData = JSON.parse(loadedJson)
+            for (let i = 0; i < jsonData.fonts.list.length; i++) {
+                loadedFontFamily.push(jsonData.fonts.list[i].fFamily)
+            }
+            // alert('font-family :' + loadedFontFamily.join(', '))
         }
     }
-    function loadFont(file) {
-        const reader = new FileReader()
-        reader.readAsDataURL(file, 'utf8')
-        reader.onload = e => {
-            loadedFontBase64 = e.target.result.split('base64,')[1]
+    function loadFont(files) {
+        loadedFontBase64 = []
+        for (let i = 0; i < files.length; i++) {
+            const reader = new FileReader()
+            const file = files[i]
+            reader.readAsDataURL(file, 'utf8')
+            reader.onload = e => {
+                loadedFontBase64.push(e.target.result.split('base64,')[1])
+            }
         }
     }
 
@@ -61,7 +72,7 @@
 
         const fontEl = document.getElementById("input-font")
         fontEl.addEventListener('change', e => {
-            loadFont(e.target.files[0])
+            loadFont(e.target.files)
         })
     }
 
@@ -71,14 +82,17 @@
         currentJson = json
         boundingBoxTexts = texts
 
-        const styleEl = document.createElement('style')
-        styleEl.innerHTML = `
+        for (let i = 0; i < currentFontFamily.length; i++) {
+            const styleEl = document.createElement('style')
+            styleEl.innerHTML = `
                 @font-face {
-                    font-family: ${currentFontFamily};
-                    src: url(data:application/font-woff;charset=utf-8;base64,${currentFontBase64});
+                    font-family: ${currentFontFamily[i]};
+                    src: url(data:application/font-woff;charset=utf-8;base64,${currentFontBase64[i]});
                 }
             `
-        document.head.appendChild(styleEl)
+            document.head.appendChild(styleEl)
+        }
+
 
         const { assets, layers } = currentJson
         const textCompMap = {}
@@ -298,7 +312,9 @@
         while(images.length > 0) {
             images[0].parentNode.removeChild(images[0]);
         }
-        // setData({ fontFamily: 'Gmarket Sans', base64: loadedFontBase64, json: JSON.parse(loadedJson), texts: [ 'VIMONI V-LOG 123', 'Sub Title' ] }) // TITLE3
+
+        // setData({ fontFamily: loadedFontFamily, base64: loadedFontBase64, json: JSON.parse(loadedJson), texts: [ 'VIMONI V-LOG 123', 'Sub Title' ] }) // TITLE3
+
         previewData = {}
         gridData = {}
         prevTime = 0
@@ -321,14 +337,16 @@
         })
 
         let currentFrame = 0
+        let isCompleteCalled = false
 
         anim.addEventListener("complete", function (e) {
+            isCompleteCalled = true
             console.log(`analysis is started!`)
             analysisPreview()
         })
 
         anim.addEventListener("enterFrame", function (e) {
-            if (prevTime > e.currentTime) {
+            if (prevTime > e.currentTime || isCompleteCalled) {
                 return
             }
             prevTime = e.currentTime
@@ -349,7 +367,13 @@
                 }
 
                 // PREVIEW의 데이터 뽑기
-                if (parseInt(anim.currentRawFrame) === previewFrameNumber) {
+                if (
+                    (parseInt(anim.currentRawFrame) === previewFrameNumber) ||
+                    (
+                        (parseInt(anim.currentRawFrame) > (previewFrameNumber - 2)) &&
+                        (parseInt(anim.currentRawFrame) < (previewFrameNumber + 2))
+                    )
+                ) {
                     previewData["gElement"] = gElement.getBoundingClientRect()
                     previewData["data"] = []
                     textComps.forEach((name, index) => {
@@ -377,14 +401,16 @@
                 const defsElement = document.createElement('defs')
                 rootSVGElement.appendChild(defsElement)
 
-                const styleEl = document.createElement('style')
-                styleEl.innerHTML = `
+                for (let i = 0; i < currentFontFamily.length; i++) {
+                    const styleEl = document.createElement('style')
+                    styleEl.innerHTML = `
                         @font-face {
-                            font-family: ${currentFontFamily};
-                            src: url(data:application/font-woff;charset=utf-8;base64,${currentFontBase64});
+                            font-family: ${currentFontFamily[i]};
+                            src: url(data:application/font-woff;charset=utf-8;base64,${currentFontBase64[i]});
                         }
                     `
-                defsElement.appendChild(styleEl)
+                    defsElement.appendChild(styleEl)
+                }
 
                 const height = anim.animationData.h * anim.totalFrames
                 rootSVGElement.setAttribute('viewBox', `0 0 1920 ${height}`)
@@ -470,7 +496,7 @@
             images[0].parentNode.removeChild(images[0]);
         }
 
-        // setData({ fontFamily: 'Gmarket Sans', base64: loadedFontBase64, json: JSON.parse(loadedJson), texts: [ 'VIMONI V-LOG 123', 'Sub Title' ] }) // TITLE3
+        // setData({ fontFamily: loadedFontFamily, base64: loadedFontBase64, json: JSON.parse(loadedJson), texts: [ 'VIMONI V-LOG 123', 'Sub Title' ] }) // TITLE3
 
         previewData = {}
         gridData = {}
@@ -494,14 +520,16 @@
         })
 
         let currentFrame = 0
+        let isCompleteCalled = false
 
         anim.addEventListener("complete", function (e) {
+            isCompleteCalled = true
             console.log(`analysis is started!`)
             analysis()
         })
 
         anim.addEventListener("enterFrame", function (e) {
-            if (prevTime > e.currentTime) {
+            if (prevTime > e.currentTime || isCompleteCalled) {
                 return
             }
             prevTime = e.currentTime
@@ -522,7 +550,13 @@
                 }
 
                 // PREVIEW의 데이터 뽑기
-                if (parseInt(anim.currentRawFrame) === previewFrameNumber) {
+                if (
+                    (parseInt(anim.currentRawFrame) === previewFrameNumber) ||
+                    (
+                        (parseInt(anim.currentRawFrame) > (previewFrameNumber - 2)) &&
+                        (parseInt(anim.currentRawFrame) < (previewFrameNumber + 2))
+                    )
+                ) {
                     previewData["gElement"] = gElement.getBoundingClientRect()
                     previewData["data"] = []
                     textComps.forEach((name, index) => {
@@ -550,14 +584,16 @@
                 const defsElement = document.createElement('defs')
                 rootSVGElement.appendChild(defsElement)
 
-                const styleEl = document.createElement('style')
-                styleEl.innerHTML = `
+                for (let i = 0; i < currentFontFamily.length; i++) {
+                    const styleEl = document.createElement('style')
+                    styleEl.innerHTML = `
                         @font-face {
-                            font-family: ${currentFontFamily};
-                            src: url(data:application/font-woff;charset=utf-8;base64,${currentFontBase64});
+                            font-family: ${currentFontFamily[i]};
+                            src: url(data:application/font-woff;charset=utf-8;base64,${currentFontBase64[i]});
                         }
                     `
-                defsElement.appendChild(styleEl)
+                    defsElement.appendChild(styleEl)
+                }
 
                 const height = anim.animationData.h * anim.totalFrames
                 rootSVGElement.setAttribute('viewBox', `0 0 1920 ${height}`)

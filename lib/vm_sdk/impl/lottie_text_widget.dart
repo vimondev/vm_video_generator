@@ -75,6 +75,33 @@ class LottieTextWidget extends StatelessWidget {
     print("_allSequences : $_allSequences");
   }
 
+  void removeAll () async {
+    if (_currentPreviewPath != null) {
+      Directory previewDir = Directory(_currentPreviewPath!);
+      if (await previewDir.exists()) {
+        previewDir.deleteSync(recursive: true);
+      }
+    }
+    if (_currentSequencePath != null) {
+      Directory sequenceDir = Directory(_currentSequencePath!);
+      if (await sequenceDir.exists()) {
+        sequenceDir.deleteSync(recursive: true);
+      }
+    }
+    if (_currentDirPath != null) {
+      Directory currentDir = Directory(_currentDirPath!);
+      if (await currentDir.exists()) {
+        currentDir.deleteSync(recursive: true);
+      }
+    }
+    _width = 0;
+    _height = 0;
+    _frameRate = 0;
+    _totalFrames = 0;
+    _textDataMap = {};
+    _allSequences = [];
+  }
+
   void setData (TitleData data) {
     _data = data;
   }
@@ -103,16 +130,29 @@ class LottieTextWidget extends StatelessWidget {
   }
 
   Future<String?> extractPreview() async {
-    if (_currentDirPath == null) {
-      _currentDirPath = "${await getAppDirectoryPath()}/${DateTime.now().millisecondsSinceEpoch}";
-      _currentPreviewPath = "$_currentDirPath/preview";
-      _currentSequencePath = "$_currentDirPath/sequences";
-      await _createDirectory(_currentDirPath!);
-      await _createDirectory(_currentPreviewPath!);
-      await _createDirectory(_currentSequencePath!);
+    if (_currentDirPath != null || _currentPreviewPath != null || _currentSequencePath != null) {
+      removeAll();
     }
+    _currentDirPath = "${await getAppDirectoryPath()}/${DateTime.now().millisecondsSinceEpoch}";
+    _currentPreviewPath = "$_currentDirPath/preview";
+    _currentSequencePath = "$_currentDirPath/sequences";
+    await _createDirectory(_currentDirPath!);
+    await _createDirectory(_currentPreviewPath!);
+    await _createDirectory(_currentSequencePath!);
 
     _currentPreviewCompleter = Completer();
+
+    String fontFamilyArr = "[";
+    for (int i = 0; i < _data.fontFamily.length; i++) {
+      fontFamilyArr += "'${_data.fontFamily[i]}',";
+    }
+    fontFamilyArr += "]";
+
+    String fontBase64Arr = "[";
+    for (int i = 0; i < _data.fontBase64.length; i++) {
+      fontBase64Arr += "'${_data.fontBase64[i]}',";
+    }
+    fontBase64Arr += "]";
 
     String textArr = "[";
     for (int i = 0; i < _data.texts.length; i++) {
@@ -122,23 +162,36 @@ class LottieTextWidget extends StatelessWidget {
 
     _controller!.evaluateJavascript(
         source:
-        "setData({ fontFamily: `${_data.fontFamily}`, base64: `${_data.fontBase64}`, json: ${_data.json}, texts: $textArr });");
+        "setData({ fontFamily: $fontFamilyArr, base64: $fontBase64Arr, json: ${_data.json}, texts: $textArr });");
     _controller!.evaluateJavascript(source: "extractPreview();");
 
     return _currentPreviewCompleter.future;
   }
 
   Future<List<String>?> extractAllSequence() async {
-    if (_currentDirPath == null) {
-      _currentDirPath = "${await getAppDirectoryPath()}/${DateTime.now().millisecondsSinceEpoch}";
-      _currentPreviewPath = "$_currentDirPath/preview";
-      _currentSequencePath = "$_currentDirPath/sequences";
-      await _createDirectory(_currentDirPath!);
-      await _createDirectory(_currentPreviewPath!);
-      await _createDirectory(_currentSequencePath!);
+    if (_currentDirPath != null || _currentPreviewPath != null || _currentSequencePath != null) {
+      removeAll();
     }
+    _currentDirPath = "${await getAppDirectoryPath()}/${DateTime.now().millisecondsSinceEpoch}";
+    _currentPreviewPath = "$_currentDirPath/preview";
+    _currentSequencePath = "$_currentDirPath/sequences";
+    await _createDirectory(_currentDirPath!);
+    await _createDirectory(_currentPreviewPath!);
+    await _createDirectory(_currentSequencePath!);
 
     _currentSequencesCompleter = Completer();
+
+    String fontFamilyArr = "[";
+    for (int i = 0; i < _data.fontFamily.length; i++) {
+      fontFamilyArr += "'${_data.fontFamily[i]}',";
+    }
+    fontFamilyArr += "]";
+
+    String fontBase64Arr = "[";
+    for (int i = 0; i < _data.fontBase64.length; i++) {
+      fontBase64Arr += "'${_data.fontBase64[i]}',";
+    }
+    fontBase64Arr += "]";
 
     String textArr = "[";
     for (int i = 0; i < _data.texts.length; i++) {
@@ -148,7 +201,7 @@ class LottieTextWidget extends StatelessWidget {
 
     _controller!.evaluateJavascript(
         source:
-        "setData({ fontFamily: `${_data.fontFamily}`, base64: `${_data.fontBase64}`, json: ${_data.json}, texts: $textArr });");
+        "setData({ fontFamily: $fontFamilyArr, base64: $fontBase64Arr, json: ${_data.json}, texts: $textArr });");
     _controller!.evaluateJavascript(source: "extractAllSequence();");
 
     return _currentSequencesCompleter.future;
