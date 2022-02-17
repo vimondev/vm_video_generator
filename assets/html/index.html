@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html style="width: 100%;height: 100%">
+
+<head>
+    <script src="lottie.js"></script>
+    <style>
+        @font-face {
+            font-family: Jalnan;
+            src: url('Jalnan.ttf');
+        }
+    </style>
+</head>
+
+<body style="background-color: grey;">
+    This is local html!!! HAHAHA
+    <input id="input-json" type="file" />
+    <input id="input-font" type="file" />
+    <button onclick="run()">RUN</button>
+    <div id="bodymovin"></div>
+
+    <script>
+        let currentFontFamily = ''
+        let currentFontBase64 = ''
+        let currentJson = {}
+
+        let loadedJson = ''
+        let loadedFontBase64 = ''
+        function loadJSON(file) {
+            const reader = new FileReader()
+            reader.readAsText(file, 'utf8')
+            reader.onload = e => {
+                loadedJson = e.target.result
+            }
+        }
+        function loadFont(file) {
+            const reader = new FileReader()
+            reader.readAsDataURL(file, 'utf8')
+            reader.onload = e => {
+                loadedFontBase64 = e.target.result.split('base64,')[1]
+            }
+        }
+
+        window.onload = function () {
+            const jsonEl = document.getElementById("input-json")
+            jsonEl.addEventListener('change', e => {
+                loadJSON(e.target.files[0])
+            })
+
+            const fontEl = document.getElementById("input-font")
+            fontEl.addEventListener('change', e => {
+                loadFont(e.target.files[0])
+            })
+        }
+
+        function setData({ fontFamily, base64, json, texts }) {
+            currentFontFamily = fontFamily
+            currentFontBase64 = base64
+            currentJson = json
+
+            const styleEl = document.createElement('style')
+            styleEl.innerHTML = `
+                @font-face {
+                    font-family: ${fontFamily};
+                    src: url(data:application/font-woff;charset=utf-8;base64,${currentFontBase64});
+                }
+            `
+            document.head.appendChild(styleEl)
+
+            const { assets, layers } = currentJson
+            const textCompMap = {}
+
+            assets.forEach(item => {
+                if (item.nm.toLowerCase().startsWith('#text')) {
+                    textCompMap[item.nm] = item
+                }
+            })
+            const textComps = Object.keys(textCompMap)
+            textComps.sort((a, b) => a > b ? 1 : a < b ? -1 : 0)
+            console.log(textComps)
+            console.log(textCompMap)
+
+            const replaceText = (layers, text) => {
+                let originalText = ''
+
+                for (let i = 0; i < layers.length; i++) {
+                    const layer = layers[i]
+                    if (layer.nm === '@Source') {
+                        originalText = String(layer.t.d.k[0].s.t)
+                        layer.t.d.k[0].s.t = text
+                        console.log(layer)
+                        break
+                    }
+                }
+                layers.forEach(layer => {
+                    if (layer.t &&
+                        layer.t.d &&
+                        layer.t.d.k &&
+                        layer.t.d.k[0] &&
+                        layer.t.d.k[0].s &&
+                        layer.t.d.k[0].s.t &&
+                        layer.t.d.k[0].s.t === originalText
+                    ) {
+                        layer.t.d.k[0].s.t = text
+                    }
+                })
+            }
+
+            textComps.forEach((name, index) => {
+                replaceText(textCompMap[name].layers, texts[index])
+            })
+
+            console.log(currentJson)
+        }
+
+        function svgToPng(frameNumber, svgAsXML, anim) {
+            return new Promise((resolve, reject) => {
+                const index = svgAsXML.indexOf('<defs>')
+                if (index !== -1) {
+                    const start = svgAsXML.substring(0, index + 6)
+                    const end = svgAsXML.substring(index + 6, svgAsXML.length)
+                    svgAsXML = `${start}<style>@font-face {font-family: ${currentFontFamily};src: url(data:application/font-woff;charset=utf-8;base64,${currentFontBase64});}</style>${end}`
+                }
+
+                const canvas = document.createElement('canvas')
+                const ctx = canvas.getContext('2d')
+                const loader = new Image()
+
+                loader.width = canvas.width = anim.animationData.w
+                loader.height = canvas.height = anim.animationData.h
+                loader.onload = function () {
+                    ctx.drawImage(loader, 0, 0, loader.width, loader.height)
+                    resolve({
+                        frameNumber,
+                        dataUrl: canvas.toDataURL('image/png')
+                    })
+                }
+                loader.onerror = function () {
+                    reject()
+                }
+                loader.src = 'data:image/svg+xml,' + encodeURIComponent(svgAsXML)
+            })
+        }
+
+        let isInitialized = false
+        window.addEventListener("flutterInAppWebViewPlatformReady", function (event) {
+            console.log('flutter webview initialized!')
+            isInitialized = true
+        })
+
+        let isRunning = false
+        function run() {
+            // setData({ fontFamily: 'THEFACESHOP', base64: loadedFontBase64, json: JSON.parse(loadedJson), texts: [ 'VIDEOMONSTER', 'VLOG' ] })
+
+            if (isRunning) return
+            // if (!isInitialized) return
+
+            const anim = lottie.loadAnimation({
+                container: document.getElementById('bodymovin'),
+                renderer: 'svg',
+                loop: false,
+                autoplay: false,
+                // path: 'cuo_music_title_text1.json'
+                animationData: currentJson
+            })
+
+            let currentFrame = 0
+            anim.addEventListener('DOMLoaded', function (e) {
+                const now = Date.now()
+                async function drawFrame() {
+                    try {
+                        lottie.goToAndStop(currentFrame, true)
+
+                        const { frameNumber, dataUrl } = await svgToPng(String(currentFrame), (new XMLSerializer).serializeToString(anim.renderer.svgElement), anim)
+
+                        console.log(frameNumber, dataUrl.length)
+                        const img = document.createElement('img')
+                        img.src = dataUrl
+                        document.body.appendChild(img)
+
+                        if (window.flutter_inappwebview) {
+                            window.flutter_inappwebview.callHandler('TransferPNGBase64', frameNumber, dataUrl)
+                        }
+
+                        currentFrame++
+                        if (currentFrame < anim.totalFrames) {
+                            requestAnimationFrame(drawFrame)
+                        }
+                        else {
+                            lottie.destroy()
+                            isRunning = false
+                            console.log(`elapsed: ${Date.now() - now}ms`)
+
+                            if (window.flutter_inappwebview) {
+                                window.flutter_inappwebview.callHandler('TransferComplete', anim.animationData.w, anim.animationData.h, anim.animationData.fr)
+                            }
+                        }
+                    }
+                    catch (e) {
+                        console.log(String(e))
+                        lottie.destroy()
+                        isRunning = false
+
+                        if (window.flutter_inappwebview) {
+                            window.flutter_inappwebview.callHandler('TransferFailed')
+                        }
+                    }
+                }
+                drawFrame();
+            })
+        }
+    </script>
+</body>
+
+</html>

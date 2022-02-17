@@ -7,10 +7,9 @@ class ResourceManager {
   static const audioAssetPath = "$rawAssetPath/audio";
   static const transitionAssetPath = "$rawAssetPath/transition";
   static const stickerAssetPath = "$rawAssetPath/sticker";
-  static const filterAssetPath = "$rawAssetPath/filter";
 
   Map<String, TransitionData> transitionMap = <String, TransitionData>{};
-  Map<String, FilterData> filterMap = <String, FilterData>{};
+  Map<String, StickerData> stickerMap = <String, StickerData>{};
 
   Future<void> loadResourceMap() async {
     final transitionJsonMap =
@@ -21,11 +20,12 @@ class ResourceManager {
           TransitionData.fromJson(transitionJsonMap[transitionKey]!);
     }
 
-    final filterJsonMap =
-        jsonDecode(await loadResourceString("data/filter.json"));
+    final stickerJsonMap =
+        jsonDecode(await loadResourceString("data/sticker.json"));
 
-    for (final String filterKey in filterJsonMap.keys) {
-      filterMap[filterKey] = FilterData.fromJson(filterJsonMap[filterKey]!);
+    for (final String stickerKey in stickerJsonMap.keys) {
+      stickerMap[stickerKey] =
+          StickerData.fromJson(stickerJsonMap[stickerKey]!);
     }
   }
 
@@ -42,11 +42,37 @@ class ResourceManager {
       }
     }
 
-    for (final String filterKey in templateData.filterDatas.keys) {
-      if (filterMap.containsKey(filterKey)) {
-        final FilterData filterData = filterMap[filterKey]!;
-        templateData.filterDatas[filterKey] = filterData;
-        await loadFilterFile(filterData.filename);
+    for (final String stickerKey in templateData.stickerDatas.keys) {
+      if (stickerMap.containsKey(stickerKey)) {
+        final StickerData stickerData = stickerMap[stickerKey]!;
+        templateData.stickerDatas[stickerKey] = stickerData;
+        await loadStickerFile(stickerData.filename);
+      }
+    }
+  }
+
+  Future<void> loadAutoEditAssets(AutoEditedData autoEditedData) async {
+    for (int i = 0; i < autoEditedData.musicList.length; i++) {
+      await loadAudioFile(autoEditedData.musicList[i].filename);
+    }
+
+    for (int i = 0; i < autoEditedData.autoEditMediaList.length; i++) {
+      final AutoEditMedia autoEditMedia = autoEditedData.autoEditMediaList[i];
+      String? transitionKey = autoEditMedia.transitionKey;
+      String? stickerKey = autoEditMedia.stickerKey;
+
+      final TransitionData? transitionData = transitionMap[transitionKey];
+      final StickerData? stickerData = stickerMap[stickerKey];
+
+      if (transitionData != null) {
+        autoEditedData.transitionMap[transitionKey!] = transitionData;
+        if (transitionData.filename != null) {
+          await loadTransitionFile(transitionData.filename!);
+        }
+      }
+      if (stickerData != null) {
+        autoEditedData.stickerMap[stickerKey!] = stickerData;
+        await loadStickerFile(stickerData.filename);
       }
     }
   }
@@ -61,9 +87,5 @@ class ResourceManager {
 
   Future<void> loadStickerFile(String filename) async {
     await copyAssetToLocalDirectory("$stickerAssetPath/$filename");
-  }
-
-  Future<void> loadFilterFile(String filename) async {
-    await copyAssetToLocalDirectory("$filterAssetPath/$filename");
   }
 }

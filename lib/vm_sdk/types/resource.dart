@@ -1,5 +1,5 @@
 enum ETransitionType { xfade, overlay }
-enum EFilterType { overlay }
+enum EStickerType { object, background }
 
 class MusicData {
   String filename;
@@ -10,58 +10,67 @@ class MusicData {
 
 class TransitionData {
   ETransitionType type = ETransitionType.xfade;
-  int width = 0;
-  int height = 0;
-  double duration = 0;
-  double transitionPoint = 0;
+  int? width;
+  int? height;
+  double? duration;
+  double? transitionPoint;
   String? filename;
+  String? filterName;
 
   TransitionData(this.type, this.width, this.height, this.duration,
-      this.transitionPoint, this.filename);
+      this.transitionPoint, this.filename, this.filterName);
 
   TransitionData.fromJson(Map map) {
     switch (map["type"]) {
       case "overlay":
-        type = ETransitionType.overlay;
+        {
+          width = map["width"];
+          height = map["height"];
+          duration = map["duration"] * 1.0;
+          transitionPoint = map["transitionPoint"] * 1.0;
+          filename = map["filename"];
+          type = ETransitionType.overlay;
+        }
         break;
 
       case "xfade":
       default:
-        type = ETransitionType.xfade;
+        {
+          filterName = map["filterName"];
+          type = ETransitionType.xfade;
+        }
         break;
     }
-    width = map["width"];
-    height = map["height"];
-    duration = map["duration"];
-    transitionPoint = map["transitionPoint"];
-
-    if (map.containsKey("filename")) filename = map["filename"];
-
-    TransitionData(type, width, height, duration, transitionPoint, filename);
   }
 }
 
-class FilterData {
-  EFilterType type = EFilterType.overlay;
+class StickerData {
+  EStickerType type = EStickerType.object;
   String filename = "";
   int width = 0;
   int height = 0;
   double duration = 0.0;
 
-  FilterData(this.type, this.filename, this.width, this.height, this.duration);
+  StickerData(this.type, this.filename, this.width, this.height, this.duration);
 
-  FilterData.fromJson(Map map) {
+  StickerData.fromJson(Map map) {
     switch (map["type"]) {
-      case "xfade":
+      case "background":
+        type = EStickerType.background;
+        break;
+
+      case "object":
+        type = EStickerType.object;
+        break;
+
       default:
-        type = EFilterType.overlay;
         break;
     }
     filename = map["filename"];
     width = map["width"];
     height = map["height"];
-    duration = map["duration"];
+    duration = map["duration"] * 1.0;
 
-    FilterData(type, filename, width, height, duration);
+    StickerData(type, filename, width, height, duration);
   }
 }

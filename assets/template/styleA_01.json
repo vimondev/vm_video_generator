@@ -32,9 +32,7 @@
         }
     ],
     "transitions": [
-        "trans1"
     ],
-    "filters": [
-        "filter01"
+    "stickers": [
     ]
 }
