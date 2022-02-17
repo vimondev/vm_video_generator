@@ -370,8 +370,8 @@
                 if (
                     (parseInt(anim.currentRawFrame) === previewFrameNumber) ||
                     (
-                        (parseInt(anim.currentRawFrame) > (previewFrameNumber - 2)) &&
-                        (parseInt(anim.currentRawFrame) < (previewFrameNumber + 2))
+                        (parseInt(anim.currentRawFrame) >= (previewFrameNumber - 2)) &&
+                        (parseInt(anim.currentRawFrame) <= (previewFrameNumber + 2))
                     )
                 ) {
                     previewData["gElement"] = gElement.getBoundingClientRect()
@@ -553,8 +553,8 @@
                 if (
                     (parseInt(anim.currentRawFrame) === previewFrameNumber) ||
                     (
-                        (parseInt(anim.currentRawFrame) > (previewFrameNumber - 2)) &&
-                        (parseInt(anim.currentRawFrame) < (previewFrameNumber + 2))
+                        (parseInt(anim.currentRawFrame) >= (previewFrameNumber - 2)) &&
+                        (parseInt(anim.currentRawFrame) <= (previewFrameNumber + 2))
                     )
                 ) {
                     previewData["gElement"] = gElement.getBoundingClientRect()
