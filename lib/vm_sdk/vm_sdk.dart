@@ -119,8 +119,8 @@ class VMSDKWidget extends StatelessWidget {
     final TitleData title = (await loadTitleData(ETitleType.title04))!;
     title.texts.addAll(titles);
 
-    ExportedTitlePNGSequenceData exportedTitleData =
-        await _lottieWidget.exportTitlePNGSequence(title);
+    // ExportedTitlePNGSequenceData exportedTitleData =
+    //     await _lottieWidget.exportTitlePNGSequence(title);
 
     final List<AutoEditMedia> autoEditMediaList =
         autoEditedData.autoEditMediaList;
@@ -135,10 +135,18 @@ class VMSDKWidget extends StatelessWidget {
       final AutoEditMedia autoEditMedia = autoEditMediaList[i];
       final StickerData? stickerData = stickerMap[autoEditMedia.stickerKey];
 
+      TransitionData? prevTransition, nextTransition;
+      if (i > 0) {
+        prevTransition = transitionMap[autoEditMediaList[i - 1].transitionKey];
+      }
+      if (i < autoEditMediaList.length - 1) {
+        nextTransition = transitionMap[autoEditMediaList[i].transitionKey];
+      }
+
+      // final RenderedData? clipData = await clipRender(autoEditMedia, i,
+      //     stickerData, i == 0 ? exportedTitleData : null, null);
       final RenderedData? clipData = await clipRender(autoEditMedia, i,
-          stickerData, i == 0 ? exportedTitleData : null, null);
-      // final RenderedData? clipData =
-      //     await clipRender(autoEditMedia, i, stickerData, null, null);
+          stickerData, prevTransition, nextTransition, null, null);
 
       if (clipData == null) return null;
       clipDataList.add(clipData);
@@ -152,6 +160,8 @@ class VMSDKWidget extends StatelessWidget {
     if (resultClip == null) return null;
 
     print(DateTime.now().difference(now).inSeconds);
+
+    return resultClip.absolutePath;
   }
 
   // cancel generate

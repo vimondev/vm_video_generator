@@ -49,6 +49,8 @@ Future<RenderedData?> clipRender(
     AutoEditMedia autoEditMedia,
     int clipIdx,
     StickerData? sticker,
+    TransitionData? prevTransition,
+    TransitionData? nextTransition,
     ExportedTitlePNGSequenceData? exportedTitle,
     Function(Statistics)? ffmpegCallback) async {
   final MediaData mediaData = autoEditMedia.mediaData;
@@ -56,7 +58,7 @@ Future<RenderedData?> clipRender(
 
   final List<String> arguments = <String>[];
   final String appDirPath = await getAppDirectoryPath();
-  final String outputPath = "$appDirPath/_clip$clipIdx.mp4";
+  final String outputPath = "$appDirPath/clip$clipIdx.mp4";
 
   final List<String> inputArguments = <String>[]; // -i arguments
   final List<String> filterStrings = <String>[]; // -filter_complex strings
@@ -78,14 +80,16 @@ Future<RenderedData?> clipRender(
   } //
   else {
     trimFilter =
-        "fps=$framerate,trim=${autoEditMedia.startTime}:${autoEditMedia.startTime + duration},setpts=PTS-STARTPTS,";
-    inputArguments.addAll(["-i", mediaData.absolutePath]);
+        "trim=${autoEditMedia.startTime}:${autoEditMedia.startTime + duration},setpts=PTS-STARTPTS,";
+    inputArguments
+        .addAll(["-r", framerate.toString(), "-i", mediaData.absolutePath]);
 
     filterStrings.add(
         "[0:a]atrim=${autoEditMedia.startTime}:${autoEditMedia.startTime + duration},asetpts=PTS-STARTPTS[aud];[aud][1:a]amix=inputs=2[aud_mixed];[aud_mixed]atrim=0:$duration,asetpts=PTS-STARTPTS[aud_trim];");
     audioOutputMapVariable = "[aud_trim]";
   }
 
+  // [1:a]
   inputArguments.addAll([
     "-f",
     "lavfi",
@@ -98,13 +102,14 @@ Future<RenderedData?> clipRender(
 
   final CropData cropData = generateCropData(mediaData.width, mediaData.height);
   filterStrings.add(
-      "[0:v]${trimFilter}scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$videoWidth:$videoHeight:${cropData.cropPosX}:${cropData.cropPosY},setdar=dar=${videoWidth / videoHeight}[vid_scaled];[vid_scaled]trim=0:$duration,setpts=PTS-STARTPTS[vid_trim];");
-  videoOutputMapVariable = "[vid_trim]";
+      "[0:v]${trimFilter}scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$videoWidth:$videoHeight:${cropData.cropPosX}:${cropData.cropPosY},setdar=dar=${videoWidth / videoHeight}[vid];");
+  videoOutputMapVariable = "[vid]";
   inputFileCount++;
 
   /////////////////
   // ADD STICKER //
   /////////////////
+
   if (sticker != null) {
     final int loopCount = (duration / sticker.duration).floor();
     const String stickerMapVariable = "[sticker]";
@@ -122,7 +127,7 @@ Future<RenderedData?> clipRender(
     if (sticker.type == EStickerType.background) {
       final CropData cropData = generateCropData(sticker.width, sticker.height);
       filterStrings.add(
-          "[${inputFileCount++}:v]fps=$framerate,trim=0:$duration,setpts=PTS-STARTPTS,scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$videoWidth:$videoHeight:${cropData.cropPosX}:${cropData.cropPosY},setdar=dar=${videoWidth / videoHeight}$stickerMapVariable;");
+          "[${inputFileCount++}:v]trim=0:$duration,setpts=PTS-STARTPTS,scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$videoWidth:$videoHeight:${cropData.cropPosX}:${cropData.cropPosY},setdar=dar=${videoWidth / videoHeight}$stickerMapVariable;");
       filterStrings.add(
           "$videoOutputMapVariable${stickerMapVariable}overlay$stickerMergedMapVariable;");
     } //
@@ -131,7 +136,7 @@ Future<RenderedData?> clipRender(
       final int y = videoHeight - sticker.height - 100;
 
       filterStrings.add(
-          "[${inputFileCount++}:v]fps=$framerate,trim=0:$duration,setpts=PTS-STARTPTS,setdar=dar=${sticker.width / sticker.height}$stickerMapVariable;");
+          "[${inputFileCount++}:v]trim=0:$duration,setpts=PTS-STARTPTS,setdar=dar=${sticker.width / sticker.height}$stickerMapVariable;");
       filterStrings.add(
           "$videoOutputMapVariable${stickerMapVariable}overlay=$x:$y$stickerMergedMapVariable;");
     }
@@ -167,6 +172,54 @@ Future<RenderedData?> clipRender(
         "$videoOutputMapVariable${titleMapVariable}overlay=$currentPosX:$startPosY$titleMergedMapVariable;");
 
     videoOutputMapVariable = titleMergedMapVariable;
+  }
+
+  ////////////////////////////
+  // ADD OVERLAY TRANSITION //
+  ////////////////////////////
+
+  if (prevTransition != null &&
+      prevTransition.type == ETransitionType.overlay) {
+    String transitionMapVariable = "[prev_trans]";
+    String transitionMergedMapVariable = "[prev_trans_merged]";
+
+    final CropData cropData =
+        generateCropData(prevTransition.width!, prevTransition.height!);
+
+    inputArguments.addAll([
+      "-c:v",
+      "libvpx-vp9",
+      "-i",
+      "$appDirPath/${prevTransition.filename!}"
+    ]);
+    filterStrings.add(
+        "[${inputFileCount++}:v]trim=${prevTransition.transitionPoint!}:${prevTransition.duration!},setpts=PTS-STARTPTS,scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$videoWidth:$videoHeight:${cropData.cropPosX}:${cropData.cropPosY}$transitionMapVariable;");
+    filterStrings.add(
+        "$videoOutputMapVariable${transitionMapVariable}overlay=enable='between(t\\,0,${prevTransition.duration! - prevTransition.transitionPoint!})'$transitionMergedMapVariable;");
+    videoOutputMapVariable = transitionMergedMapVariable;
+  }
+
+  if (nextTransition != null &&
+      nextTransition.type == ETransitionType.overlay) {
+    String transitionMapVariable = "[next_trans]";
+    String transitionMergedMapVariable = "[next_trans_merged]";
+
+    final CropData cropData =
+        generateCropData(nextTransition.width!, nextTransition.height!);
+
+    inputArguments.addAll([
+      "-c:v",
+      "libvpx-vp9",
+      "-itsoffset",
+      (duration - nextTransition.transitionPoint!).toString(),
+      "-i",
+      "$appDirPath/${nextTransition.filename!}"
+    ]);
+    filterStrings.add(
+        "[${inputFileCount++}:v]scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$videoWidth:$videoHeight:${cropData.cropPosX}:${cropData.cropPosY}$transitionMapVariable;");
+    filterStrings.add(
+        "$videoOutputMapVariable${transitionMapVariable}overlay=enable='between(t\\,${duration - nextTransition.transitionPoint!},$duration)',trim=0:$duration,setpts=PTS-STARTPTS$transitionMergedMapVariable;");
+    videoOutputMapVariable = transitionMergedMapVariable;
   }
 
   // generate -filter_complex
@@ -206,6 +259,8 @@ Future<RenderedData?> clipRender(
     "5M",
     "-pix_fmt",
     "yuv420p",
+    "-r",
+    framerate.toString(),
     outputPath,
     "-y"
   ]);
@@ -232,11 +287,11 @@ Future<RenderedData?> mergeVideoClip(List<RenderedData> clipList) async {
 
     if (currentList.length >= 50 || i == clipList.length - 1) {
       final String videoOutputPath =
-          "$appDirPath/_part_merged_video${mergedClipList.length}.mp4";
+          "$appDirPath/part_merged_video${mergedClipList.length}.mp4";
       final String audioOutputPath =
-          "$appDirPath/_part_merged_audio${mergedClipList.length}.m4a";
+          "$appDirPath/part_merged_audio${mergedClipList.length}.m4a";
       final String mergeOutputPath =
-          "$appDirPath/_part_merged_all${mergedClipList.length}.mp4";
+          "$appDirPath/part_merged_all${mergedClipList.length}.mp4";
       double mergedDuration = 0;
 
       if (currentList.length == 1) {
@@ -271,6 +326,8 @@ Future<RenderedData?> mergeVideoClip(List<RenderedData> clipList) async {
         String videoMergeTargets = "";
         String audioMergeTargets = "";
         String audioFilterComplexStr = "";
+
+        int currentDurationMS = 0;
         for (int j = 0; j < currentList.length; j++) {
           videoMergeTargets += "file '${currentList[j].absolutePath}'\n";
           mergedDuration += currentList[j].duration;
@@ -278,8 +335,10 @@ Future<RenderedData?> mergeVideoClip(List<RenderedData> clipList) async {
           String audioOutputVariable = "[aud$j]";
           audioArguments.addAll(["-i", currentList[j].absolutePath]);
           audioFilterComplexStr +=
-              "[$j:a]atrim=0:${currentList[j].duration}$audioOutputVariable;";
+              "[$j:a]atrim=0:${currentList[j].duration},asetpts=PTS-STARTPTS,adelay=$currentDurationMS|$currentDurationMS$audioOutputVariable;";
           audioMergeTargets += audioOutputVariable;
+
+          currentDurationMS += (currentList[j].duration * 1000).floor();
         }
         await mergeTextFile.writeAsString(videoMergeTargets);
 
@@ -290,14 +349,14 @@ Future<RenderedData?> mergeVideoClip(List<RenderedData> clipList) async {
           "0",
           "-i",
           mergeTextFile.path,
-          "-c:v",
+          "-c",
           "copy",
           videoOutputPath,
           "-y"
         ], null);
 
         audioFilterComplexStr +=
-            "${audioMergeTargets}concat=n=${currentList.length}:v=0:a=1[out]";
+            "${audioMergeTargets}amix=inputs=${currentList.length}:dropout_transition=99999,volume=${currentList.length}[out]";
         audioArguments.addAll([
           "-filter_complex",
           audioFilterComplexStr,
@@ -337,9 +396,9 @@ Future<RenderedData?> mergeVideoClip(List<RenderedData> clipList) async {
     }
   }
 
-  final String videoOutputPath = "$appDirPath/_allclip_merged_video.mp4";
-  final String audioOutputPath = "$appDirPath/_allclip_merged_audio.m4a";
-  final String mergeOutputPath = "$appDirPath/_allclip_merged_all.mp4";
+  final String videoOutputPath = "$appDirPath/allclip_merged_video.mp4";
+  final String audioOutputPath = "$appDirPath/allclip_merged_audio.m4a";
+  final String mergeOutputPath = "$appDirPath/allclip_merged_all.mp4";
 
   if (mergedClipList.length == 1) {
     bool isSuccess = await _ffmpegManager.execute([
@@ -372,14 +431,18 @@ Future<RenderedData?> mergeVideoClip(List<RenderedData> clipList) async {
     String videoMergeTargets = "";
     String audioMergeTargets = "";
     String audioFilterComplexStr = "";
+
+    int currentDurationMS = 0;
     for (int j = 0; j < mergedClipList.length; j++) {
       videoMergeTargets += "file '${mergedClipList[j].absolutePath}'\n";
 
       String audioOutputVariable = "[aud$j]";
       audioArguments.addAll(["-i", mergedClipList[j].absolutePath]);
       audioFilterComplexStr +=
-          "[$j:a]atrim=0:${mergedClipList[j].duration}$audioOutputVariable;";
+          "[$j:a]atrim=0:${mergedClipList[j].duration},asetpts=PTS-STARTPTS,adelay=$currentDurationMS|$currentDurationMS$audioOutputVariable;";
       audioMergeTargets += audioOutputVariable;
+
+      currentDurationMS += (mergedClipList[j].duration * 1000).floor();
     }
     await mergeTextFile.writeAsString(videoMergeTargets);
 
@@ -390,14 +453,14 @@ Future<RenderedData?> mergeVideoClip(List<RenderedData> clipList) async {
       "0",
       "-i",
       mergeTextFile.path,
-      "-c:v",
+      "-c",
       "copy",
       videoOutputPath,
       "-y"
     ], null);
 
     audioFilterComplexStr +=
-        "${audioMergeTargets}concat=n=${mergedClipList.length}:v=0:a=1[out]";
+        "${audioMergeTargets}amix=inputs=${mergedClipList.length}:dropout_transition=99999,volume=${mergedClipList.length}[out]";
     audioArguments.addAll([
       "-filter_complex",
       audioFilterComplexStr,
@@ -475,7 +538,7 @@ Future<RenderedData?> applyMusics(
   }
 
   filterStrings.addAll([
-    "[0:a][bgm_volume_applied]amix=inputs=2[merged];[merged]atrim=0:${mergedClip.duration}[out]"
+    "[0:a][bgm_volume_applied]amix=inputs=2:dropout_transition=99999,volume=2[merged];[merged]atrim=0:${mergedClip.duration}[out]"
   ]);
 
   String filterComplexStr = "";

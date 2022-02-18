@@ -33,10 +33,10 @@ Map<EMusicStyle, Map<ETransitionType, List<String>>> tempTransitionMap = {
       "Transition_HJ002",
       "Transition_ON001",
       "Transition_ON002",
-      // "Transition_SW002",
+      "Transition_SW002",
       "Transition_YJ001",
       "Transition_YJ002",
-      // "Transition_YJ003",
+      "Transition_YJ003",
     ],
   },
   EMusicStyle.styleB: {
@@ -56,10 +56,10 @@ Map<EMusicStyle, Map<ETransitionType, List<String>>> tempTransitionMap = {
       "Transition_HJ002",
       "Transition_ON001",
       "Transition_ON002",
-      // "Transition_SW002",
+      "Transition_SW002",
       "Transition_YJ001",
       "Transition_YJ002",
-      // "Transition_YJ003",
+      "Transition_YJ003",
     ],
   },
   EMusicStyle.styleC: {
@@ -79,10 +79,10 @@ Map<EMusicStyle, Map<ETransitionType, List<String>>> tempTransitionMap = {
       "Transition_HJ002",
       "Transition_ON001",
       "Transition_ON002",
-      // "Transition_SW002",
+      "Transition_SW002",
       "Transition_YJ001",
       "Transition_YJ002",
-      // "Transition_YJ003",
+      "Transition_YJ003",
     ],
   }
 };
@@ -685,7 +685,7 @@ Future<AutoEditedData> generateAutoEditData(
   int overlayTransitionIndex =
       (Random()).nextInt(transitionMap[ETransitionType.overlay]!.length);
 
-  int clipCount = 3 + (Random()).nextInt(3);
+  int clipCount = 5 + (Random()).nextInt(2);
   bool isPassedBoundary = false;
 
   for (int i = 0; i < autoEditedData.autoEditMediaList.length - 1; i++) {
@@ -704,6 +704,7 @@ Future<AutoEditedData> generateAutoEditData(
             : ETransitionType.overlay;
       } //
       else {
+        continue;
         currentTransitionType = false && (Random()).nextDouble() >= 0.2
             ? ETransitionType.xfade
             : ETransitionType.overlay;
@@ -738,7 +739,7 @@ Future<AutoEditedData> generateAutoEditData(
           currentTransitionList[index % currentTransitionList.length];
 
       lastTransitionInsertedIndex = i;
-      clipCount = 2 + (Random()).nextInt(3);
+      clipCount = 5 + (Random()).nextInt(2);
       isPassedBoundary = false;
     }
   }
@@ -754,7 +755,7 @@ Future<AutoEditedData> generateAutoEditData(
   }
 
   int lastStickerInsertedIndex = 0;
-  clipCount = 0; //2 + (Random()).nextInt(3);
+  clipCount = 4 + (Random()).nextInt(2);
 
   for (int i = 0; i < autoEditedData.autoEditMediaList.length; i++) {
     final AutoEditMedia autoEditMedia = autoEditedData.autoEditMediaList[i];
@@ -791,7 +792,7 @@ Future<AutoEditedData> generateAutoEditData(
           currentStickerList[index % currentStickerList.length];
 
       lastStickerInsertedIndex = i;
-      // clipCount = 2 + (Random()).nextInt(3);
+      clipCount = 2 + (Random()).nextInt(2);
     }
   }
 
@@ -809,8 +810,8 @@ Future<AutoEditedData> generateAutoEditData(
   }
 
   autoEditedData.musicList.addAll([
-    MusicData("bgm03.m4a", 90),
     MusicData("bgm04.m4a", 90),
+    MusicData("bgm03.m4a", 90),
     MusicData("bgm05.m4a", 90)
   ]);
 
