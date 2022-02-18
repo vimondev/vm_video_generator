@@ -69,6 +69,7 @@ class AutoEditMedia {
 
   double startTime = 0;
   double duration = 0;
+  double xfadeDuration = 0;
 
   String? stickerKey;
   String? transitionKey;

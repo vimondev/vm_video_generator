@@ -119,8 +119,8 @@ class VMSDKWidget extends StatelessWidget {
     final TitleData title = (await loadTitleData(ETitleType.title04))!;
     title.texts.addAll(titles);
 
-    // ExportedTitlePNGSequenceData exportedTitleData =
-    //     await _lottieWidget.exportTitlePNGSequence(title);
+    ExportedTitlePNGSequenceData exportedTitleData =
+        await _lottieWidget.exportTitlePNGSequence(title);
 
     final List<AutoEditMedia> autoEditMediaList =
         autoEditedData.autoEditMediaList;
@@ -143,16 +143,54 @@ class VMSDKWidget extends StatelessWidget {
         nextTransition = transitionMap[autoEditMediaList[i].transitionKey];
       }
 
+      final RenderedData? clipData = await clipRender(
+          autoEditMedia,
+          i,
+          stickerData,
+          prevTransition,
+          nextTransition,
+          i == 0 ? exportedTitleData : null,
+          null);
       // final RenderedData? clipData = await clipRender(autoEditMedia, i,
-      //     stickerData, i == 0 ? exportedTitleData : null, null);
-      final RenderedData? clipData = await clipRender(autoEditMedia, i,
-          stickerData, prevTransition, nextTransition, null, null);
+      //     stickerData, prevTransition, nextTransition, null, null);
 
       if (clipData == null) return null;
       clipDataList.add(clipData);
     }
 
-    final RenderedData? mergedClip = await mergeVideoClip(clipDataList);
+    final List<RenderedData> xfadeAppliedList = [];
+    for (int i = 0; i < clipDataList.length; i++) {
+      final RenderedData curRendered = clipDataList[i];
+      final AutoEditMedia autoEditMedia = autoEditMediaList[i];
+      TransitionData? xfadeTransition =
+          transitionMap[autoEditMediaList[i].transitionKey];
+
+      if (i < autoEditMediaList.length - 1 &&
+          autoEditMedia.xfadeDuration > 0 &&
+          xfadeTransition != null &&
+          xfadeTransition.type == ETransitionType.xfade &&
+          xfadeTransition.filterName != null) {
+        //
+        final RenderedData nextRendered = clipDataList[i + 1];
+
+        final RenderedData? xfadeApplied = await applyXFadeTransitions(
+            curRendered,
+            nextRendered,
+            i,
+            xfadeTransition.filterName!,
+            autoEditMedia.xfadeDuration,
+            null);
+        if (xfadeApplied == null) return null;
+
+        xfadeAppliedList.add(xfadeApplied);
+        i++;
+      } //
+      else {
+        xfadeAppliedList.add(curRendered);
+      }
+    }
+
+    final RenderedData? mergedClip = await mergeVideoClip(xfadeAppliedList);
     if (mergedClip == null) return null;
 
     final RenderedData? resultClip =
