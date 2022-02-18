@@ -33,10 +33,10 @@ Map<EMusicStyle, Map<ETransitionType, List<String>>> tempTransitionMap = {
       "Transition_HJ002",
       "Transition_ON001",
       "Transition_ON002",
-      // "Transition_SW002",
+      "Transition_SW002",
       "Transition_YJ001",
       "Transition_YJ002",
-      // "Transition_YJ003",
+      "Transition_YJ003",
     ],
   },
   EMusicStyle.styleB: {
@@ -56,10 +56,10 @@ Map<EMusicStyle, Map<ETransitionType, List<String>>> tempTransitionMap = {
       "Transition_HJ002",
       "Transition_ON001",
       "Transition_ON002",
-      // "Transition_SW002",
+      "Transition_SW002",
       "Transition_YJ001",
       "Transition_YJ002",
-      // "Transition_YJ003",
+      "Transition_YJ003",
     ],
   },
   EMusicStyle.styleC: {
@@ -79,10 +79,10 @@ Map<EMusicStyle, Map<ETransitionType, List<String>>> tempTransitionMap = {
       "Transition_HJ002",
       "Transition_ON001",
       "Transition_ON002",
-      // "Transition_SW002",
+      "Transition_SW002",
       "Transition_YJ001",
       "Transition_YJ002",
-      // "Transition_YJ003",
+      "Transition_YJ003",
     ],
   }
 };
@@ -99,46 +99,46 @@ Map<EMusicStyle, Map<EMediaLabel, List<String>>> tempStickerMap = {
       "Sticker_YJ010",
     ],
     EMediaLabel.object: [
-      "Sticker_DA001.webm",
-      "Sticker_DA002.webm",
-      "Sticker_DA003.webm",
-      "Sticker_DA004.webm",
-      "Sticker_DA005.webm",
-      "Sticker_DA007.webm",
-      "Sticker_HJ001.webm",
-      "Sticker_HJ002.webm",
-      "Sticker_HJ003.webm",
-      "Sticker_HJ005.webm",
-      "Sticker_SW003.webm",
-      "Sticker_SW004.webm",
-      "Sticker_SW005.webm",
-      "Sticker_YJ001.webm",
-      "Sticker_YJ002.webm",
-      "Sticker_YJ003.webm",
-      "Sticker_YJ004.webm",
-      "Sticker_YJ005.webm",
-      "Sticker_YJ006.webm",
-      "Sticker_YJ007.webm",
-      "Sticker_YJ008.webm",
-      "Sticker_YJ009.webm",
-      "Sticker_YJ010.webm",
-      "Stiker_ON005.webm",
-      "Stiker_ON006.webm",
-      "Stiker_ON007.webm",
-      "Stiker_ON008.webm",
-      // "Sticker_HJ006.webm",
-      // "Sticker_DA006.webm",
-      // "Sticker_DA008.webm",
-      // "Sticker_HJ004.webm",
-      // "Sticker_SW001.webm",
-      // "Sticker_SW002.webm",
-      // "Sticker_SW006.webm",
-      // "Sticker_SW007.webm",
-      // "Sticker_SW008.webm",
-      // "Stiker_ON001.webm",
-      // "Stiker_ON002.webm",
-      // "Stiker_ON003.webm",
-      // "Stiker_ON004.webm",
+      "Sticker_DA001",
+      "Sticker_DA002",
+      "Sticker_DA003",
+      "Sticker_DA004",
+      "Sticker_DA005",
+      "Sticker_DA007",
+      "Sticker_HJ001",
+      "Sticker_HJ002",
+      "Sticker_HJ003",
+      "Sticker_HJ005",
+      "Sticker_SW003",
+      "Sticker_SW004",
+      "Sticker_SW005",
+      "Sticker_YJ001",
+      "Sticker_YJ002",
+      "Sticker_YJ003",
+      "Sticker_YJ004",
+      "Sticker_YJ005",
+      "Sticker_YJ006",
+      "Sticker_YJ007",
+      "Sticker_YJ008",
+      "Sticker_YJ009",
+      "Sticker_YJ010",
+      "Stiker_ON005",
+      "Stiker_ON006",
+      "Stiker_ON007",
+      "Stiker_ON008",
+      // "Sticker_HJ006",
+      // "Sticker_DA006",
+      // "Sticker_DA008",
+      // "Sticker_HJ004",
+      // "Sticker_SW001",
+      // "Sticker_SW002",
+      // "Sticker_SW006",
+      // "Sticker_SW007",
+      // "Sticker_SW008",
+      // "Stiker_ON001",
+      // "Stiker_ON002",
+      // "Stiker_ON003",
+      // "Stiker_ON004",
     ]
   },
   EMusicStyle.styleB: {
@@ -152,46 +152,46 @@ Map<EMusicStyle, Map<EMediaLabel, List<String>>> tempStickerMap = {
       "Sticker_YJ010",
     ],
     EMediaLabel.object: [
-      "Sticker_DA001.webm",
-      "Sticker_DA002.webm",
-      "Sticker_DA003.webm",
-      "Sticker_DA004.webm",
-      "Sticker_DA005.webm",
-      "Sticker_DA007.webm",
-      "Sticker_HJ001.webm",
-      "Sticker_HJ002.webm",
-      "Sticker_HJ003.webm",
-      "Sticker_HJ005.webm",
-      "Sticker_SW003.webm",
-      "Sticker_SW004.webm",
-      "Sticker_SW005.webm",
-      "Sticker_YJ001.webm",
-      "Sticker_YJ002.webm",
-      "Sticker_YJ003.webm",
-      "Sticker_YJ004.webm",
-      "Sticker_YJ005.webm",
-      "Sticker_YJ006.webm",
-      "Sticker_YJ007.webm",
-      "Sticker_YJ008.webm",
-      "Sticker_YJ009.webm",
-      "Sticker_YJ010.webm",
-      "Stiker_ON005.webm",
-      "Stiker_ON006.webm",
-      "Stiker_ON007.webm",
-      "Stiker_ON008.webm",
-      // "Sticker_HJ006.webm",
-      // "Sticker_DA006.webm",
-      // "Sticker_DA008.webm",
-      // "Sticker_HJ004.webm",
-      // "Sticker_SW001.webm",
-      // "Sticker_SW002.webm",
-      // "Sticker_SW006.webm",
-      // "Sticker_SW007.webm",
-      // "Sticker_SW008.webm",
-      // "Stiker_ON001.webm",
-      // "Stiker_ON002.webm",
-      // "Stiker_ON003.webm",
-      // "Stiker_ON004.webm",
+      "Sticker_DA001",
+      "Sticker_DA002",
+      "Sticker_DA003",
+      "Sticker_DA004",
+      "Sticker_DA005",
+      "Sticker_DA007",
+      "Sticker_HJ001",
+      "Sticker_HJ002",
+      "Sticker_HJ003",
+      "Sticker_HJ005",
+      "Sticker_SW003",
+      "Sticker_SW004",
+      "Sticker_SW005",
+      "Sticker_YJ001",
+      "Sticker_YJ002",
+      "Sticker_YJ003",
+      "Sticker_YJ004",
+      "Sticker_YJ005",
+      "Sticker_YJ006",
+      "Sticker_YJ007",
+      "Sticker_YJ008",
+      "Sticker_YJ009",
+      "Sticker_YJ010",
+      "Stiker_ON005",
+      "Stiker_ON006",
+      "Stiker_ON007",
+      "Stiker_ON008",
+      // "Sticker_HJ006",
+      // "Sticker_DA006",
+      // "Sticker_DA008",
+      // "Sticker_HJ004",
+      // "Sticker_SW001",
+      // "Sticker_SW002",
+      // "Sticker_SW006",
+      // "Sticker_SW007",
+      // "Sticker_SW008",
+      // "Stiker_ON001",
+      // "Stiker_ON002",
+      // "Stiker_ON003",
+      // "Stiker_ON004",
     ]
   },
   EMusicStyle.styleC: {
@@ -205,46 +205,46 @@ Map<EMusicStyle, Map<EMediaLabel, List<String>>> tempStickerMap = {
       "Sticker_YJ010",
     ],
     EMediaLabel.object: [
-      "Sticker_DA001.webm",
-      "Sticker_DA002.webm",
-      "Sticker_DA003.webm",
-      "Sticker_DA004.webm",
-      "Sticker_DA005.webm",
-      "Sticker_DA007.webm",
-      "Sticker_HJ001.webm",
-      "Sticker_HJ002.webm",
-      "Sticker_HJ003.webm",
-      "Sticker_HJ005.webm",
-      "Sticker_SW003.webm",
-      "Sticker_SW004.webm",
-      "Sticker_SW005.webm",
-      "Sticker_YJ001.webm",
-      "Sticker_YJ002.webm",
-      "Sticker_YJ003.webm",
-      "Sticker_YJ004.webm",
-      "Sticker_YJ005.webm",
-      "Sticker_YJ006.webm",
-      "Sticker_YJ007.webm",
-      "Sticker_YJ008.webm",
-      "Sticker_YJ009.webm",
-      "Sticker_YJ010.webm",
-      "Stiker_ON005.webm",
-      "Stiker_ON006.webm",
-      "Stiker_ON007.webm",
-      "Stiker_ON008.webm",
-      // "Sticker_HJ006.webm",
-      // "Sticker_DA006.webm",
-      // "Sticker_DA008.webm",
-      // "Sticker_HJ004.webm",
-      // "Sticker_SW001.webm",
-      // "Sticker_SW002.webm",
-      // "Sticker_SW006.webm",
-      // "Sticker_SW007.webm",
-      // "Sticker_SW008.webm",
-      // "Stiker_ON001.webm",
-      // "Stiker_ON002.webm",
-      // "Stiker_ON003.webm",
-      // "Stiker_ON004.webm",
+      "Sticker_DA001",
+      "Sticker_DA002",
+      "Sticker_DA003",
+      "Sticker_DA004",
+      "Sticker_DA005",
+      "Sticker_DA007",
+      "Sticker_HJ001",
+      "Sticker_HJ002",
+      "Sticker_HJ003",
+      "Sticker_HJ005",
+      "Sticker_SW003",
+      "Sticker_SW004",
+      "Sticker_SW005",
+      "Sticker_YJ001",
+      "Sticker_YJ002",
+      "Sticker_YJ003",
+      "Sticker_YJ004",
+      "Sticker_YJ005",
+      "Sticker_YJ006",
+      "Sticker_YJ007",
+      "Sticker_YJ008",
+      "Sticker_YJ009",
+      "Sticker_YJ010",
+      "Stiker_ON005",
+      "Stiker_ON006",
+      "Stiker_ON007",
+      "Stiker_ON008",
+      // "Sticker_HJ006",
+      // "Sticker_DA006",
+      // "Sticker_DA008",
+      // "Sticker_HJ004",
+      // "Sticker_SW001",
+      // "Sticker_SW002",
+      // "Sticker_SW006",
+      // "Sticker_SW007",
+      // "Sticker_SW008",
+      // "Stiker_ON001",
+      // "Stiker_ON002",
+      // "Stiker_ON003",
+      // "Stiker_ON004",
     ]
   }
 };
@@ -685,7 +685,7 @@ Future<AutoEditedData> generateAutoEditData(
   int overlayTransitionIndex =
       (Random()).nextInt(transitionMap[ETransitionType.overlay]!.length);
 
-  int clipCount = 3 + (Random()).nextInt(3);
+  int clipCount = 5 + (Random()).nextInt(2);
   bool isPassedBoundary = false;
 
   for (int i = 0; i < autoEditedData.autoEditMediaList.length - 1; i++) {
@@ -704,6 +704,7 @@ Future<AutoEditedData> generateAutoEditData(
             : ETransitionType.overlay;
       } //
       else {
+        continue;
         currentTransitionType = false && (Random()).nextDouble() >= 0.2
             ? ETransitionType.xfade
             : ETransitionType.overlay;
@@ -738,7 +739,7 @@ Future<AutoEditedData> generateAutoEditData(
           currentTransitionList[index % currentTransitionList.length];
 
       lastTransitionInsertedIndex = i;
-      clipCount = 2 + (Random()).nextInt(3);
+      clipCount = 5 + (Random()).nextInt(2);
       isPassedBoundary = false;
     }
   }
@@ -754,7 +755,7 @@ Future<AutoEditedData> generateAutoEditData(
   }
 
   int lastStickerInsertedIndex = 0;
-  clipCount = 2 + (Random()).nextInt(3);
+  clipCount = 4 + (Random()).nextInt(2);
 
   for (int i = 0; i < autoEditedData.autoEditMediaList.length; i++) {
     final AutoEditMedia autoEditMedia = autoEditedData.autoEditMediaList[i];
@@ -791,7 +792,7 @@ Future<AutoEditedData> generateAutoEditData(
           currentStickerList[index % currentStickerList.length];
 
       lastStickerInsertedIndex = i;
-      clipCount = 1 + (Random()).nextInt(3);
+      clipCount = 2 + (Random()).nextInt(2);
     }
   }
 
@@ -809,8 +810,8 @@ Future<AutoEditedData> generateAutoEditData(
   }
 
   autoEditedData.musicList.addAll([
-    MusicData("bgm03.m4a", 90),
     MusicData("bgm04.m4a", 90),
+    MusicData("bgm03.m4a", 90),
     MusicData("bgm05.m4a", 90)
   ]);
 
