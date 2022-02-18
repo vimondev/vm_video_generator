@@ -22,10 +22,43 @@ class _TestWidgetState extends State<TestWidget> {
   // final VMSDKWidget _vmsdkWidget = VMSDKWidget();
   late LottieTextWidget _lottieTextWidget = LottieTextWidget();
 
+  TextEditingController _textController1 = TextEditingController();
+  TextEditingController _textController2 = TextEditingController();
+
   List<String> imageList = [];
   double _width = 0;
   double _height = 0;
   Map<String, LottieText> _textDataMap = {};
+
+  void _handlePressedTitleField () async {
+    if (_textController1.text.isEmpty) {
+    } else {
+      String? preview = await _lottieTextWidget.setTextValue("#TEXT1", _textController1.text);
+
+      setState(() {
+        if (preview != null) imageList = [preview];
+        _width = _lottieTextWidget.width;
+        _height = _lottieTextWidget.height;
+        _textDataMap = _lottieTextWidget.textDataMap;
+      });
+    }
+    _textController1.clear();
+  }
+
+  void _handlePressedSubtitleField () async {
+    if (_textController2.text.isEmpty) {
+    } else {
+      String? preview = await _lottieTextWidget.setTextValue("#TEXT2", _textController2.text);
+
+      setState(() {
+        if (preview != null) imageList = [preview];
+        _width = _lottieTextWidget.width;
+        _height = _lottieTextWidget.height;
+        _textDataMap = _lottieTextWidget.textDataMap;
+      });
+    }
+    _textController2.clear();
+  }
 
   void _run() async {
     setState(() {
@@ -51,7 +84,7 @@ class _TestWidgetState extends State<TestWidget> {
     // preview = await _lottieTextWidget.setTextValue("#TEXT2", "가나다라마바사아자차카타파하0123456789");
 
     setState(() {
-      if (preview != null) imageList = [ preview];
+      if (preview != null) imageList = [preview];
       _width = _lottieTextWidget.width;
       _height = _lottieTextWidget.height;
       _textDataMap = _lottieTextWidget.textDataMap;
@@ -68,10 +101,6 @@ class _TestWidgetState extends State<TestWidget> {
     // setState(() {
     //   if (sequences != null) imageList = sequences;
     // });
-
-
-
-
 
     // if (!_vmsdkWidget.isInitialized) {
     //   await _vmsdkWidget.initialize();
@@ -123,6 +152,50 @@ class _TestWidgetState extends State<TestWidget> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              Container(
+                height: 50,
+                width: double.infinity,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        controller: _textController1,
+                        autofocus: false,
+                        decoration: InputDecoration(
+                          hintText: "Please enter Title",
+                        ),
+                      ),
+                    ),
+                    Spacer(),
+                    ElevatedButton(
+                      onPressed: _handlePressedTitleField,
+                      child: Text("Apply"),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                height: 50,
+                width: double.infinity,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        controller: _textController2,
+                        autofocus: false,
+                        decoration: InputDecoration(
+                          hintText: "Please enter Subtitle",
+                        ),
+                      ),
+                    ),
+                    Spacer(),
+                    ElevatedButton(
+                      onPressed: _handlePressedSubtitleField,
+                      child: Text("Apply"),
+                    ),
+                  ],
+                ),
+              ),
               ListView.builder(
                 itemCount: imageList.length,
                 shrinkWrap: true,
@@ -134,24 +207,20 @@ class _TestWidgetState extends State<TestWidget> {
                       Container(
                         child: Image.file(
                           File(imageList[index]),
-                          width: MediaQuery
-                              .of(context)
-                              .size
-                              .width,
+                          width: MediaQuery.of(context).size.width,
                           fit: BoxFit.fitWidth,
                         ),
                       ),
-                      isPreview ? CustomPaint(
-                        foregroundPainter: RectanglePainter(
-                          mediaWidth: MediaQuery
-                              .of(context)
-                              .size
-                              .width,
-                          width: _width,
-                          height: _height,
-                          textDataMap: _textDataMap,
-                        ),
-                      ) : Container(),
+                      isPreview
+                          ? CustomPaint(
+                              foregroundPainter: RectanglePainter(
+                                mediaWidth: MediaQuery.of(context).size.width,
+                                width: _width,
+                                height: _height,
+                                textDataMap: _textDataMap,
+                              ),
+                            )
+                          : Container(),
                     ],
                   );
                 },
@@ -174,12 +243,11 @@ class RectanglePainter extends CustomPainter {
   double height;
   Map<String, LottieText> textDataMap;
 
-  RectanglePainter({
-    required this.mediaWidth,
-    required this.width,
-    required this.height,
-    required this.textDataMap
-  });
+  RectanglePainter(
+      {required this.mediaWidth,
+      required this.width,
+      required this.height,
+      required this.textDataMap});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -201,7 +269,8 @@ class RectanglePainter extends CustomPainter {
       final x2 = mediaWidth * (rectangle.x + rectangle.width) / width;
       final y2 = mediaHeight * (rectangle.y + rectangle.height) / height;
 
-      print('x : $x, y : $y, x2 : $x2, y2 : $y2, width : $width, height: $height, mediaWidth : $mediaWidth, mediaHeight : $mediaHeight, rect.x : ${rectangle.x}, rect.y : ${rectangle.y}, rect.width : ${rectangle.width}, rect.height : ${rectangle.height} ');
+      print(
+          'x : $x, y : $y, x2 : $x2, y2 : $y2, width : $width, height: $height, mediaWidth : $mediaWidth, mediaHeight : $mediaHeight, rect.x : ${rectangle.x}, rect.y : ${rectangle.y}, rect.width : ${rectangle.width}, rect.height : ${rectangle.height} ');
 
       final a = Offset(x, y);
       final b = Offset(x2, y2);
