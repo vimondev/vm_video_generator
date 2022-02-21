@@ -158,7 +158,39 @@ class VMSDKWidget extends StatelessWidget {
       clipDataList.add(clipData);
     }
 
-    final RenderedData? mergedClip = await mergeVideoClip(clipDataList);
+    final List<RenderedData> xfadeAppliedList = [];
+    for (int i = 0; i < clipDataList.length; i++) {
+      final RenderedData curRendered = clipDataList[i];
+      final AutoEditMedia autoEditMedia = autoEditMediaList[i];
+      TransitionData? xfadeTransition =
+          transitionMap[autoEditMediaList[i].transitionKey];
+
+      if (i < autoEditMediaList.length - 1 &&
+          autoEditMedia.xfadeDuration > 0 &&
+          xfadeTransition != null &&
+          xfadeTransition.type == ETransitionType.xfade &&
+          xfadeTransition.filterName != null) {
+        //
+        final RenderedData nextRendered = clipDataList[i + 1];
+
+        final RenderedData? xfadeApplied = await applyXFadeTransitions(
+            curRendered,
+            nextRendered,
+            i,
+            xfadeTransition.filterName!,
+            autoEditMedia.xfadeDuration,
+            null);
+        if (xfadeApplied == null) return null;
+
+        xfadeAppliedList.add(xfadeApplied);
+        i++;
+      } //
+      else {
+        xfadeAppliedList.add(curRendered);
+      }
+    }
+
+    final RenderedData? mergedClip = await mergeVideoClip(xfadeAppliedList);
     if (mergedClip == null) return null;
 
     final RenderedData? resultClip =

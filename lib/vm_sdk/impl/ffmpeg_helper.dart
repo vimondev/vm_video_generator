@@ -54,7 +54,7 @@ Future<RenderedData?> clipRender(
     ExportedTitlePNGSequenceData? exportedTitle,
     Function(Statistics)? ffmpegCallback) async {
   final MediaData mediaData = autoEditMedia.mediaData;
-  double duration = autoEditMedia.duration;
+  double duration = autoEditMedia.duration + autoEditMedia.xfadeDuration;
 
   final List<String> arguments = <String>[];
   final String appDirPath = await getAppDirectoryPath();
@@ -269,6 +269,62 @@ Future<RenderedData?> clipRender(
   if (!isSuccess) return null;
 
   return RenderedData(outputPath, duration);
+}
+
+Future<RenderedData?> applyXFadeTransitions(
+    RenderedData curClip,
+    RenderedData nextClip,
+    int clipIdx,
+    String xfadeKey,
+    double xfadeDuration,
+    Function(Statistics)? ffmpegCallback) async {
+  final String appDirPath = await getAppDirectoryPath();
+  final String outputPath = "$appDirPath/xfade_merged$clipIdx.mp4";
+
+  final double xfadeOffset = curClip.duration - xfadeDuration - 0.01;
+  String filterComplexStr = "";
+
+  filterComplexStr +=
+      "[0:v][1:v]xfade=transition=$xfadeKey:duration=$xfadeDuration:offset=$xfadeOffset[vid];";
+  filterComplexStr +=
+      "[1:a]adelay=${(xfadeOffset * 1000).floor()}|${(xfadeOffset * 1000).floor()}[delayed];";
+  filterComplexStr +=
+      "[0:a][delayed]amix=inputs=2:dropout_transition=99999,volume=2[aud]";
+
+  bool isSuccess = await _ffmpegManager.execute([
+    "-i",
+    curClip.absolutePath,
+    "-i",
+    nextClip.absolutePath,
+    "-filter_complex",
+    filterComplexStr,
+    "-map",
+    "[vid]",
+    "-map",
+    "[aud]",
+    "-c:v",
+    "libx264",
+    "-preset",
+    "superfast",
+    "-c:a",
+    "aac",
+    "-b:a",
+    "256k",
+    "-maxrate",
+    "5M",
+    "-bufsize",
+    "5M",
+    "-pix_fmt",
+    "yuv420p",
+    "-r",
+    framerate.toString(),
+    outputPath,
+    "-y"
+  ], ffmpegCallback);
+  if (!isSuccess) return null;
+
+  return RenderedData(
+      outputPath, curClip.duration + nextClip.duration - xfadeDuration - 0.01);
 }
 
 Future<RenderedData?> mergeVideoClip(List<RenderedData> clipList) async {

@@ -685,7 +685,11 @@ Future<AutoEditedData> generateAutoEditData(
   int overlayTransitionIndex =
       (Random()).nextInt(transitionMap[ETransitionType.overlay]!.length);
 
-  int clipCount = 5 + (Random()).nextInt(2);
+  int clipCount = 0;
+  // 5 + (Random()).nextInt(2);
+
+  ETransitionType flag = ETransitionType.xfade;
+
   bool isPassedBoundary = false;
 
   for (int i = 0; i < autoEditedData.autoEditMediaList.length - 1; i++) {
@@ -698,17 +702,19 @@ Future<AutoEditedData> generateAutoEditData(
     if (diff >= clipCount) {
       ETransitionType currentTransitionType = ETransitionType.xfade;
 
-      if (isPassedBoundary) {
-        currentTransitionType = false && (Random()).nextDouble() >= 0.35
-            ? ETransitionType.xfade
-            : ETransitionType.overlay;
-      } //
-      else {
-        continue;
-        currentTransitionType = false && (Random()).nextDouble() >= 0.2
-            ? ETransitionType.xfade
-            : ETransitionType.overlay;
-      }
+      currentTransitionType = flag;
+
+      // if (isPassedBoundary) {
+      //   currentTransitionType = true || (Random()).nextDouble() >= 0.35
+      //       ? ETransitionType.xfade
+      //       : ETransitionType.overlay;
+      // } //
+      // else {
+      //   // continue;
+      //   currentTransitionType = true || (Random()).nextDouble() >= 0.35
+      //       ? ETransitionType.xfade
+      //       : ETransitionType.overlay;
+      // }
 
       if (currentTransitionType == ETransitionType.xfade) {
         final double mediaRemainDuration = max(
@@ -717,10 +723,14 @@ Future<AutoEditedData> generateAutoEditData(
                 autoEditMedia.duration -
                 autoEditMedia.startTime));
 
-        if (mediaRemainDuration < 1) {
-          currentTransitionType = ETransitionType.overlay;
-          // OR
+        if (mediaRemainDuration < 0.8) {
+          // xfadeTransitionIndex--;
           // continue;
+          currentTransitionType = ETransitionType.overlay;
+          flag = ETransitionType.overlay;
+        } //
+        else {
+          autoEditMedia.xfadeDuration = 0.8;
         }
       }
 
@@ -739,8 +749,12 @@ Future<AutoEditedData> generateAutoEditData(
           currentTransitionList[index % currentTransitionList.length];
 
       lastTransitionInsertedIndex = i;
-      clipCount = 5 + (Random()).nextInt(2);
+      // clipCount = 5 + (Random()).nextInt(2);
       isPassedBoundary = false;
+
+      flag = flag == ETransitionType.xfade
+          ? ETransitionType.overlay
+          : ETransitionType.xfade;
     }
   }
 
@@ -755,7 +769,8 @@ Future<AutoEditedData> generateAutoEditData(
   }
 
   int lastStickerInsertedIndex = 0;
-  clipCount = 4 + (Random()).nextInt(2);
+  clipCount = 0;
+  //4 + (Random()).nextInt(2);
 
   for (int i = 0; i < autoEditedData.autoEditMediaList.length; i++) {
     final AutoEditMedia autoEditMedia = autoEditedData.autoEditMediaList[i];
@@ -792,7 +807,7 @@ Future<AutoEditedData> generateAutoEditData(
           currentStickerList[index % currentStickerList.length];
 
       lastStickerInsertedIndex = i;
-      clipCount = 2 + (Random()).nextInt(2);
+      // clipCount = 2 + (Random()).nextInt(2);
     }
   }
 
