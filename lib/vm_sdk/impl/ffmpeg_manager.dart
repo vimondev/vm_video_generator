@@ -10,6 +10,9 @@ class FFMpegManager {
       List<String> args, Function(Statistics)? callback) async {
     if (callback != null) {
       ffmpegConfig.enableStatisticsCallback(callback);
+    } //
+    else {
+      ffmpegConfig.disableStatistics();
     }
     return (await ffmpegIns.executeWithArguments(args)) == 0;
   }

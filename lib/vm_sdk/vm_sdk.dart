@@ -1,14 +1,16 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 
 import 'types/types.dart';
 import 'impl/title_helper.dart';
 import 'impl/ffmpeg_manager.dart';
-import 'impl/ffmpeg_argument_generator.dart';
+// import 'impl/ffmpeg_argument_generator.dart';
 import 'impl/resource_manager.dart';
 import 'impl/auto_edit_helper.dart';
 import 'impl/ml_kit_helper.dart';
 import 'impl/lottie_widget.dart';
+import 'impl/template_helper.dart';
 
 import 'impl/ffmpeg_helper.dart';
 
@@ -20,6 +22,12 @@ class VMSDKWidget extends StatelessWidget {
   bool _isInitialized = false;
   final FFMpegManager _ffmpegManager = FFMpegManager();
   final ResourceManager _resourceManager = ResourceManager();
+
+  Timer? _currentTimer;
+  EGenerateStatus _currentStatus = EGenerateStatus.encoding;
+  int _currentRenderedFrame = 0;
+  int _currentRenderedFrameInCallback = 0;
+  int _allFrame = 0;
 
   bool get isInitialized {
     return _isInitialized;
@@ -110,16 +118,23 @@ class VMSDKWidget extends StatelessWidget {
     // return outputPath;
 
     EMusicStyle selectedStyle = style ?? EMusicStyle.styleA;
+    final List<TemplateData>? templateList =
+        await loadTemplateData(selectedStyle);
+    if (templateList == null) return null;
 
-    final AutoEditedData autoEditedData =
-        await generateAutoEditData(mediaList, selectedStyle, isAutoEdit);
+    final AutoEditedData autoEditedData = await generateAutoEditData(
+        mediaList, selectedStyle, templateList, isAutoEdit);
 
     await _resourceManager.loadAutoEditAssets(autoEditedData);
 
-    final TitleData title = (await loadTitleData(ETitleType.title04))!;
+    const List<ETitleType> titleList = ETitleType.values;
+    final ETitleType pickedTitle =
+        titleList[(Random()).nextInt(titleList.length) % titleList.length];
+
+    final TitleData title = (await loadTitleData(pickedTitle))!;
     title.texts.addAll(titles);
 
-    ExportedTitlePNGSequenceData exportedTitleData =
+    ExportedTitlePNGSequenceData? exportedTitleData =
         await _lottieWidget.exportTitlePNGSequence(title);
 
     final List<AutoEditMedia> autoEditMediaList =
@@ -127,6 +142,49 @@ class VMSDKWidget extends StatelessWidget {
     final Map<String, TransitionData> transitionMap =
         autoEditedData.transitionMap;
     final Map<String, StickerData> stickerMap = autoEditedData.stickerMap;
+
+    _currentStatus = EGenerateStatus.encoding;
+    _currentRenderedFrame = 0;
+    _currentRenderedFrameInCallback = 0;
+    _allFrame = 0;
+
+    int videoFramerate = getFramerate();
+    for (int i = 0; i < autoEditMediaList.length; i++) {
+      final AutoEditMedia autoEditMedia = autoEditMediaList[i];
+      _allFrame += ((autoEditMedia.duration + autoEditMedia.xfadeDuration) *
+              videoFramerate)
+          .floor();
+
+      if (i < autoEditMediaList.length - 1) {
+        TransitionData? transition = transitionMap[autoEditMedia.transitionKey];
+        if (transition != null && transition.type == ETransitionType.xfade) {
+          final AutoEditMedia nextMedia = autoEditMediaList[i + 1];
+          _allFrame += ((autoEditMedia.duration +
+                      nextMedia.duration -
+                      autoEditMedia.xfadeDuration -
+                      0.01) *
+                  videoFramerate)
+              .floor();
+        }
+      }
+    }
+
+    if (_currentTimer != null) {
+      _currentTimer!.cancel();
+    }
+
+    _currentTimer = Timer.periodic(const Duration(milliseconds: 250), (timer) {
+      _currentTimer = timer;
+      if (progressCallback != null) {
+        progressCallback(
+            _currentStatus,
+            min(
+                1.0,
+                (_currentRenderedFrame + _currentRenderedFrameInCallback) /
+                    _allFrame),
+            0);
+      }
+    });
 
     DateTime now = DateTime.now();
 
@@ -150,9 +208,14 @@ class VMSDKWidget extends StatelessWidget {
           prevTransition,
           nextTransition,
           i == 0 ? exportedTitleData : null,
-          null);
-      // final RenderedData? clipData = await clipRender(autoEditMedia, i,
-      //     stickerData, prevTransition, nextTransition, null, null);
+          (statistics) =>
+              _currentRenderedFrameInCallback = statistics.videoFrameNumber);
+
+      _currentRenderedFrameInCallback = 0;
+      _currentRenderedFrame +=
+          ((autoEditMedia.duration + autoEditMedia.xfadeDuration) *
+                  videoFramerate)
+              .floor();
 
       if (clipData == null) return null;
       clipDataList.add(clipData);
@@ -179,9 +242,18 @@ class VMSDKWidget extends StatelessWidget {
             i,
             xfadeTransition.filterName!,
             autoEditMedia.xfadeDuration,
-            null);
-        if (xfadeApplied == null) return null;
+            (statistics) =>
+                _currentRenderedFrameInCallback = statistics.videoFrameNumber);
 
+        _currentRenderedFrameInCallback = 0;
+        _currentRenderedFrame += ((curRendered.duration +
+                    nextRendered.duration -
+                    autoEditMedia.xfadeDuration -
+                    0.01) *
+                videoFramerate)
+            .floor();
+
+        if (xfadeApplied == null) return null;
         xfadeAppliedList.add(xfadeApplied);
         i++;
       } //
@@ -189,6 +261,8 @@ class VMSDKWidget extends StatelessWidget {
         xfadeAppliedList.add(curRendered);
       }
     }
+
+    _currentStatus = EGenerateStatus.merge;
 
     final RenderedData? mergedClip = await mergeVideoClip(xfadeAppliedList);
     if (mergedClip == null) return null;
@@ -198,6 +272,11 @@ class VMSDKWidget extends StatelessWidget {
     if (resultClip == null) return null;
 
     print(DateTime.now().difference(now).inSeconds);
+
+    if (_currentTimer != null) {
+      _currentTimer!.cancel();
+    }
+    _currentTimer = null;
 
     return resultClip.absolutePath;
   }

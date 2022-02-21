@@ -1,0 +1,175 @@
+{
+    "name": "~/repo/encoding-virtualtemplate/VirtualTemplate_Project/가상템플릿_001/가상템플릿_YJ001.aep",
+    "version": 1.0,
+    "music": {
+        "duration": 108.141474808141,
+        "startTime": 0,
+        "filename": "out-of-the-cycle by eill Artlist.mp3"
+    },
+    "width": 1920,
+    "height": 1080,
+    "duration": 105.872539205873,
+    "scenes": [
+        {
+            "name": "#CUT1",
+            "duration": 5.87253920587254
+        },
+        {
+            "name": "#CUT2",
+            "duration": 4.57123790457124
+        },
+        {
+            "name": "#CUT3",
+            "duration": 2.4024024024024
+        },
+        {
+            "name": "#CUT4",
+            "duration": 3.6036036036036
+        },
+        {
+            "name": "#CUT5",
+            "duration": 2.93626960293627
+        },
+        {
+            "name": "#CUT6",
+            "duration": 4.80480480480481
+        },
+        {
+            "name": "#CUT7",
+            "duration": 2.46913580246914
+        },
+        {
+            "name": "#CUT8",
+            "duration": 3.33667000333667
+        },
+        {
+            "name": "#CUT9",
+            "duration": 4.8048048048048
+        },
+        {
+            "name": "#CUT10",
+            "duration": 1.46813480146813
+        },
+        {
+            "name": "#CUT11",
+            "duration": 2.4024024024024
+        },
+        {
+            "name": "#CUT12",
+            "duration": 2.43576910243577
+        },
+        {
+            "name": "#CUT13",
+            "duration": 2.33566900233567
+        },
+        {
+            "name": "#CUT14",
+            "duration": 1.2012012012012
+        },
+        {
+            "name": "#CUT15",
+            "duration": 1.26793460126793
+        },
+        {
+            "name": "#CUT16",
+            "duration": 1.76843510176843
+        },
+        {
+            "name": "#CUT17",
+            "duration": 1.16783450116783
+        },
+        {
+            "name": "#CUT18",
+            "duration": 2.4024024024024
+        },
+        {
+            "name": "#CUT19",
+            "duration": 1.8018018018018
+        },
+        {
+            "name": "#CUT20",
+            "duration": 2.4024024024024
+        },
+        {
+            "name": "#CUT21",
+            "duration": 2.4024024024024
+        },
+        {
+            "name": "#CUT22",
+            "duration": 2.6026026026026
+        },
+        {
+            "name": "#CUT23",
+            "duration": 2.2022022022022
+        },
+        {
+            "name": "#CUT24",
+            "duration": 2.33566900233567
+        },
+        {
+            "name": "#CUT25",
+            "duration": 7.24057390724057
+        },
+        {
+            "name": "#CUT26",
+            "duration": 1.8018018018018
+        },
+        {
+            "name": "#CUT27",
+            "duration": 2.30230230230231
+        },
+        {
+            "name": "#CUT28",
+            "duration": 4.03737070403737
+        },
+        {
+            "name": "#CUT29",
+            "duration": 2.4024024024024
+        },
+        {
+            "name": "#CUT30",
+            "duration": 2.4024024024024
+        },
+        {
+            "name": "#CUT31",
+            "duration": 2.4024024024024
+        },
+        {
+            "name": "#CUT32",
+            "duration": 2.36903570236903
+        },
+        {
+            "name": "#CUT33",
+            "duration": 2.43576910243577
+        },
+        {
+            "name": "#CUT34",
+            "duration": 2.66933600266934
+        },
+        {
+            "name": "#CUT35",
+            "duration": 2.4024024024024
+        },
+        {
+            "name": "#CUT36",
+            "duration": 2.4024024024024
+        },
+        {
+            "name": "#CUT37",
+            "duration": 6.006006006006
+        }
+    ],
+    "transitions": [
+        "TRANSITION_YJ001",
+        "TRANSITION_SW003"
+    ],
+    "stickers": [
+        "STICKER_YJ011",
+        "STICKER_YJ020",
+        "STICKER_YJ024",
+        "STICKER_YJ027"
+    ],
+    "titles": [
+        "TITLE_SW010"
+    ]
+}

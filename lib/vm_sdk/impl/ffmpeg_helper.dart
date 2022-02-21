@@ -624,3 +624,7 @@ Future<RenderedData?> applyMusics(
 
   return RenderedData(outputPath, mergedClip.duration);
 }
+
+int getFramerate() {
+  return framerate;
+}

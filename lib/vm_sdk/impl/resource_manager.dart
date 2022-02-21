@@ -29,28 +29,6 @@ class ResourceManager {
     }
   }
 
-  Future<void> loadTemplateAssets(TemplateData templateData) async {
-    await loadAudioFile(templateData.music.filename);
-
-    for (final String transitionKey in templateData.transitionDatas.keys) {
-      if (transitionMap.containsKey(transitionKey)) {
-        final TransitionData transitionData = transitionMap[transitionKey]!;
-        templateData.transitionDatas[transitionKey] = transitionData;
-        if (transitionData.filename != null) {
-          await loadTransitionFile(transitionData.filename!);
-        }
-      }
-    }
-
-    for (final String stickerKey in templateData.stickerDatas.keys) {
-      if (stickerMap.containsKey(stickerKey)) {
-        final StickerData stickerData = stickerMap[stickerKey]!;
-        templateData.stickerDatas[stickerKey] = stickerData;
-        await loadStickerFile(stickerData.filename);
-      }
-    }
-  }
-
   Future<void> loadAutoEditAssets(AutoEditedData autoEditedData) async {
     for (int i = 0; i < autoEditedData.musicList.length; i++) {
       await loadAudioFile(autoEditedData.musicList[i].filename);
