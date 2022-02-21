@@ -1,91 +1,139 @@
 {
-    "Transition_DA001": {
+    "TRANSITION_DA001": {
         "width": 1920,
         "height": 1080,
         "duration": 1.001,
         "transitionPoint": 0.434,
         "type": "overlay",
-        "filename": "Transition_DA001.webm"
+        "filename": "TRANSITION_DA001.webm"
     },
-    "Transition_DA002": {
+    "TRANSITION_DA002": {
         "width": 1920,
         "height": 1080,
         "duration": 1.52,
         "transitionPoint": 0.56,
         "type": "overlay",
-        "filename": "Transition_DA002.webm"
+        "filename": "TRANSITION_DA002.webm"
     },
-    "Transition_HJ001": {
+    "TRANSITION_DA003": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 0.92,
+        "transitionPoint": 0.28,
+        "type": "overlay",
+        "filename": "TRANSITION_DA003.webm"
+    },
+    "TRANSITION_HJ001": {
         "width": 1920,
         "height": 1080,
         "duration": 1.234,
         "transitionPoint": 0.633,
         "type": "overlay",
-        "filename": "Transition_HJ001.webm"
+        "filename": "TRANSITION_HJ001.webm"
     },
-    "Transition_HJ002": {
+    "TRANSITION_HJ002": {
         "width": 1920,
         "height": 1080,
         "duration": 2,
         "transitionPoint": 0.967,
         "type": "overlay",
-        "filename": "Transition_HJ002.webm"
+        "filename": "TRANSITION_HJ002.webm"
     },
-    "Transition_ON001": {
+    "TRANSITION_HJ003": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 1.001,
+        "transitionPoint": 0.233,
+        "type": "overlay",
+        "filename": "TRANSITION_HJ003.webm"
+    },
+    "TRANSITION_ON001": {
         "width": 1920,
         "height": 1080,
         "duration": 1.134,
         "transitionPoint": 0.501,
         "type": "overlay",
-        "filename": "Transition_ON001.webm"
+        "filename": "TRANSITION_ON001.webm"
     },
-    "Transition_ON002": {
+    "TRANSITION_ON002": {
         "width": 1920,
         "height": 1080,
         "duration": 1.868,
         "transitionPoint": 0.267,
         "type": "overlay",
-        "filename": "Transition_ON002.webm"
+        "filename": "TRANSITION_ON002.webm"
     },
-    "Transition_SW001": {
+    "TRANSITION_ON003": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 1.034,
+        "transitionPoint": 0.467,
+        "type": "overlay",
+        "filename": "TRANSITION_ON003.webm"
+    },
+    "TRANSITION_SW001": {
         "width": 1920,
         "height": 1080,
         "duration": 2,
         "transitionPoint": 0.72,
         "type": "overlay",
-        "filename": "Transition_SW001.webm"
+        "filename": "TRANSITION_SW001.webm"
     },
-    "Transition_SW002": {
+    "TRANSITION_SW002": {
         "width": 1920,
         "height": 1080,
         "duration": 1.24,
         "transitionPoint": 0.64,
         "type": "overlay",
-        "filename": "Transition_SW002.webm"
+        "filename": "TRANSITION_SW002.webm"
     },
-    "Transition_YJ001": {
+    "TRANSITION_SW003": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 1.48,
+        "transitionPoint": 0.56,
+        "type": "overlay",
+        "filename": "TRANSITION_SW003.webm"
+    },
+    "TRANSITION_YJ001": {
         "width": 1920,
         "height": 1080,
         "duration": 5.005,
         "transitionPoint": 0.334,
         "type": "overlay",
-        "filename": "Transition_YJ001.webm"
+        "filename": "TRANSITION_YJ001.webm"
     },
-    "Transition_YJ002": {
+    "TRANSITION_YJ002": {
         "width": 1920,
         "height": 1080,
         "duration": 1.067,
         "transitionPoint": 0.334,
         "type": "overlay",
-        "filename": "Transition_YJ002.webm"
+        "filename": "TRANSITION_YJ002.webm"
     },
-    "Transition_YJ003": {
+    "TRANSITION_YJ003": {
         "width": 1920,
         "height": 1080,
         "duration": 1.768,
         "transitionPoint": 0.868,
         "type": "overlay",
-        "filename": "Transition_YJ003.webm"
+        "filename": "TRANSITION_YJ003.webm"
+    },
+    "TRANSITION_YJ004": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 2.669,
+        "transitionPoint": 1.101,
+        "type": "overlay",
+        "filename": "TRANSITION_YJ004.webm"
+    },
+    "TRANSITION_YJ005": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 1.034,
+        "transitionPoint": 0.367,
+        "type": "overlay",
+        "filename": "TRANSITION_YJ005.webm"
     },
     "xfade_fade": {
         "type": "xfade",

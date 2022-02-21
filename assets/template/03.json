@@ -1,0 +1,220 @@
+{
+    "name": "~/repo/encoding-virtualtemplate/VirtualTemplate_Project/가상템플릿_003/가상템플릿_YJ003 경쾌.aep",
+    "version": 1.0,
+    "music": {
+        "duration": 138.672005338672,
+        "startTime": 0,
+        "filename": "feel---instrumental-version by peter-spacey Artlist.mp3"
+    },
+    "width": 1920,
+    "height": 1080,
+    "duration": 138.672005338672,
+    "scenes": [
+        {
+            "name": "#CUT1",
+            "duration": 4.5045045045045
+        },
+        {
+            "name": "#CUT2",
+            "duration": 6.67334000667334
+        },
+        {
+            "name": "#CUT3",
+            "duration": 5.7057057057057
+        },
+        {
+            "name": "#CUT4",
+            "duration": 1.26793460126794
+        },
+        {
+            "name": "#CUT5",
+            "duration": 1.33466800133467
+        },
+        {
+            "name": "#CUT6",
+            "duration": 6.84017350684017
+        },
+        {
+            "name": "#CUT7",
+            "duration": 2.26893560226894
+        },
+        {
+            "name": "#CUT8",
+            "duration": 5.4054054054054
+        },
+        {
+            "name": "#CUT9",
+            "duration": 5.47213880547214
+        },
+        {
+            "name": "#CUT10",
+            "duration": 4.33767100433767
+        },
+        {
+            "name": "#CUT11",
+            "duration": 4.1041041041041
+        },
+        {
+            "name": "#CUT12",
+            "duration": 1.73506840173507
+        },
+        {
+            "name": "#CUT13",
+            "duration": 2.26893560226893
+        },
+        {
+            "name": "#CUT14",
+            "duration": 0.63396730063397
+        },
+        {
+            "name": "#CUT15",
+            "duration": 0.56723390056723
+        },
+        {
+            "name": "#CUT16",
+            "duration": 0.53386720053387
+        },
+        {
+            "name": "#CUT17",
+            "duration": 0.4004004004004
+        },
+        {
+            "name": "#CUT18",
+            "duration": 0.46713380046713
+        },
+        {
+            "name": "#CUT19",
+            "duration": 0.4004004004004
+        },
+        {
+            "name": "#CUT20",
+            "duration": 0.4004004004004
+        },
+        {
+            "name": "#CUT21",
+            "duration": 0.43376710043377
+        },
+        {
+            "name": "#CUT22",
+            "duration": 1.2012012012012
+        },
+        {
+            "name": "#CUT23",
+            "duration": 1.93526860193527
+        },
+        {
+            "name": "#CUT24",
+            "duration": 2.36903570236903
+        },
+        {
+            "name": "#CUT25",
+            "duration": 1.16783450116783
+        },
+        {
+            "name": "#CUT26",
+            "duration": 1.16783450116783
+        },
+        {
+            "name": "#CUT27",
+            "duration": 0.93426760093426
+        },
+        {
+            "name": "#CUT28",
+            "duration": 1.13446780113446
+        },
+        {
+            "name": "#CUT29",
+            "duration": 2.30230230230231
+        },
+        {
+            "name": "#CUT30",
+            "duration": 1.90190190190191
+        },
+        {
+            "name": "#CUT31",
+            "duration": 2.16883550216883
+        },
+        {
+            "name": "#CUT32",
+            "duration": 2.16883550216883
+        },
+        {
+            "name": "#CUT33",
+            "duration": 2.2022022022022
+        },
+        {
+            "name": "#CUT34",
+            "duration": 6.50650650650651
+        },
+        {
+            "name": "#CUT35",
+            "duration": 4.50450450450451
+        },
+        {
+            "name": "#CUT36",
+            "duration": 4.4044044044044
+        },
+        {
+            "name": "#CUT37",
+            "duration": 4.33767100433766
+        },
+        {
+            "name": "#CUT38",
+            "duration": 4.4044044044044
+        },
+        {
+            "name": "#CUT39",
+            "duration": 3.23656990323657
+        },
+        {
+            "name": "#CUT40",
+            "duration": 0.43376710043377
+        },
+        {
+            "name": "#CUT41",
+            "duration": 0.43376710043377
+        },
+        {
+            "name": "#CUT42",
+            "duration": 3.87053720387054
+        },
+        {
+            "name": "#CUT43",
+            "duration": 4.6046046046046
+        },
+        {
+            "name": "#CUT44",
+            "duration": 8.67534200867534
+        },
+        {
+            "name": "#CUT45",
+            "duration": 2.66933600266934
+        },
+        {
+            "name": "#CUT46",
+            "duration": 2.2022022022022
+        },
+        {
+            "name": "#CUT47",
+            "duration": 4.33767100433766
+        },
+        {
+            "name": "#CUT48",
+            "duration": 7.7077077077077
+        }
+    ],
+    "transitions": [
+        "TRANSITION_YJ003"
+    ],
+    "stickers": [
+        "STICKER_ON010",
+        "STICKER_YJ012",
+        "STICKER_YJ016",
+        "STICKER_YJ025",
+        "STICKER_YJ026",
+        "STICKER_YJ027"
+    ],
+    "titles": [
+        "TITLE_ON006"
+    ]
+}

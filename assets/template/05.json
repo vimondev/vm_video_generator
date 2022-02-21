@@ -1,0 +1,125 @@
+{
+    "name": "~/repo/encoding-virtualtemplate/VirtualTemplate_Project/가상템플릿_005/가상템플릿 5.aep",
+    "version": 1.0,
+    "music": {
+        "filename": "따스한 선물.mp3",
+        "duration": 127.6,
+        "startTime": 0
+    },
+    "width": 1920,
+    "height": 1080,
+    "duration": 127.6,
+    "scenes": [
+        {
+            "name": "#CUT1",
+            "duration": 5.83333333333333
+        },
+        {
+            "name": "#CUT2",
+            "duration": 7.13333333333333
+        },
+        {
+            "name": "#CUT3",
+            "duration": 5.66666666666667
+        },
+        {
+            "name": "#CUT4",
+            "duration": 12.8666666666667
+        },
+        {
+            "name": "#CUT5",
+            "duration": 5.73333333333333
+        },
+        {
+            "name": "#CUT6",
+            "duration": 7.16666666666666
+        },
+        {
+            "name": "#CUT7",
+            "duration": 6.4
+        },
+        {
+            "name": "#CUT8",
+            "duration": 4.3
+        },
+        {
+            "name": "#CUT9",
+            "duration": 4.33333333333334
+        },
+        {
+            "name": "#CUT10",
+            "duration": 4.3
+        },
+        {
+            "name": "#CUT11",
+            "duration": 4.3
+        },
+        {
+            "name": "#CUT12",
+            "duration": 2.09999999999999
+        },
+        {
+            "name": "#CUT13",
+            "duration": 5.43333333333334
+        },
+        {
+            "name": "#CUT14",
+            "duration": 5.66666666666667
+        },
+        {
+            "name": "#CUT15",
+            "duration": 3.83333333333333
+        },
+        {
+            "name": "#CUT16",
+            "duration": 5.40000000000001
+        },
+        {
+            "name": "#CUT17",
+            "duration": 5.33333333333333
+        },
+        {
+            "name": "#CUT18",
+            "duration": 4.16666666666667
+        },
+        {
+            "name": "#CUT19",
+            "duration": 4.43333333333334
+        },
+        {
+            "name": "#CUT20",
+            "duration": 4.3
+        },
+        {
+            "name": "#CUT21",
+            "duration": 4.26666666666667
+        },
+        {
+            "name": "#CUT22",
+            "duration": 4.36666666666666
+        },
+        {
+            "name": "#CUT23",
+            "duration": 5.23333333333333
+        },
+        {
+            "name": "#CUT24",
+            "duration": 5.03333333333333
+        }
+    ],
+    "transitions": [
+        "TRANSITION_SW003"
+    ],
+    "stickers": [
+        "STICKER_YJ005",
+        "STICKER_SW009",
+        "STICKER_HJ011",
+        "STICKER_SW012",
+        "STICKER_SW013",
+        "STICKER_SW019",
+        "STICKER_SW020"
+    ],
+    "titles": [
+        "TITLE_SW007"
+    ]
+}

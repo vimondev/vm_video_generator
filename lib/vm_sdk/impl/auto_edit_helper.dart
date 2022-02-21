@@ -9,244 +9,146 @@ import 'global_helper.dart';
 Map<int, EMediaLabel> classifiedLabelMap = {};
 Map<int, bool> definitiveLabelMap = {};
 
-Map<EMusicStyle, List<double>> tempDurationMap = {
-  EMusicStyle.styleA: [5, 3.5, 4, 3, 3.5, 4, 3, 3.5, 4, 3, 3.5, 4, 3],
-  EMusicStyle.styleB: [5, 4.5, 4, 5, 4.5, 4, 5, 4.5, 4, 5, 4.5, 4, 5],
-  EMusicStyle.styleC: [5, 3.5, 3, 2.5, 3.5, 3, 2.5, 3.5, 3, 2.5, 3.5, 3, 2.5]
+Map<ETransitionType, List<String>> tempTransitionMap = {
+  ETransitionType.xfade: [
+    "xfade_fade",
+    "xfade_wiperight",
+    "xfade_slideright",
+    "xfade_rectcrop",
+    "xfade_circlecrop",
+    "xfade_radial"
+  ],
+  ETransitionType.overlay: [
+    "TRANSITION_DA001",
+    "TRANSITION_DA002",
+    "TRANSITION_DA003",
+    "TRANSITION_HJ001",
+    "TRANSITION_HJ002",
+    "TRANSITION_HJ003",
+    "TRANSITION_ON001",
+    "TRANSITION_ON002",
+    "TRANSITION_ON003",
+    // "TRANSITION_SW002",
+    "TRANSITION_SW003",
+    "TRANSITION_YJ001",
+    "TRANSITION_YJ002",
+    "TRANSITION_YJ003",
+    "TRANSITION_YJ004",
+    "TRANSITION_YJ005",
+    // "TRANSITION_SW001"
+  ],
 };
 
-Map<EMusicStyle, Map<ETransitionType, List<String>>> tempTransitionMap = {
-  EMusicStyle.styleA: {
-    ETransitionType.xfade: [
-      "xfade_fade",
-      "xfade_wiperight",
-      "xfade_slideright",
-      "xfade_rectcrop",
-      "xfade_circlecrop",
-      "xfade_radial"
-    ],
-    ETransitionType.overlay: [
-      "Transition_SW001",
-      "Transition_DA001",
-      "Transition_DA002",
-      "Transition_HJ001",
-      "Transition_HJ002",
-      "Transition_ON001",
-      "Transition_ON002",
-      "Transition_SW002",
-      "Transition_YJ001",
-      "Transition_YJ002",
-      "Transition_YJ003",
-    ],
-  },
-  EMusicStyle.styleB: {
-    ETransitionType.xfade: [
-      "xfade_wiperight",
-      "xfade_rectcrop",
-      "xfade_radial",
-      "xfade_slideright",
-      "xfade_fade",
-      "xfade_circlecrop"
-    ],
-    ETransitionType.overlay: [
-      "Transition_SW001",
-      "Transition_DA001",
-      "Transition_DA002",
-      "Transition_HJ001",
-      "Transition_HJ002",
-      "Transition_ON001",
-      "Transition_ON002",
-      "Transition_SW002",
-      "Transition_YJ001",
-      "Transition_YJ002",
-      "Transition_YJ003",
-    ],
-  },
-  EMusicStyle.styleC: {
-    ETransitionType.xfade: [
-      "xfade_circlecrop",
-      "xfade_fade",
-      "xfade_radial",
-      "xfade_wiperight",
-      "xfade_rectcrop",
-      "xfade_slideright"
-    ],
-    ETransitionType.overlay: [
-      "Transition_SW001",
-      "Transition_DA001",
-      "Transition_DA002",
-      "Transition_HJ001",
-      "Transition_HJ002",
-      "Transition_ON001",
-      "Transition_ON002",
-      "Transition_SW002",
-      "Transition_YJ001",
-      "Transition_YJ002",
-      "Transition_YJ003",
-    ],
-  }
-};
+Map<EMediaLabel, List<String>> tempStickerMap = {
+  EMediaLabel.background: [
+    "STICKER_DA007",
+    "STICKER_HJ009",
+    "STICKER_HJ014",
+    "STICKER_HJ016",
+    "STICKER_ON014",
+    "STICKER_ON016",
+    "STICKER_ON019",
+    "STICKER_ON020",
+    "STICKER_SW009",
+    "STICKER_SW011",
+    "STICKER_SW012",
+    "STICKER_SW014",
+    "STICKER_SW015",
+    "STICKER_SW017",
+    "STICKER_YJ008",
+    "STICKER_YJ014",
+    "STICKER_YJ015",
+    "STICKER_YJ017",
+    "STICKER_YJ019",
+    "STICKER_YJ020",
+    "STICKER_YJ021",
+    "STICKER_YJ026",
+    "STICKER_YJ027",
+  ],
+  EMediaLabel.object: [
+    "STICKER_DA003",
+    "STICKER_DA009",
+    "STICKER_DA018",
+    "STICKER_DA019",
+    "STICKER_DA020",
+    "STICKER_DA021",
+    "STICKER_HJ001",
+    "STICKER_HJ005",
+    "STICKER_HJ010",
+    "STICKER_HJ011",
+    "STICKER_HJ015",
+    "STICKER_ON009",
+    "STICKER_ON013",
+    "STICKER_ON015",
+    "STICKER_SW001",
+    "STICKER_SW010",
+    "STICKER_SW018",
+    "STICKER_SW020",
+    "STICKER_YJ001",
+    "STICKER_YJ002",
+    "STICKER_YJ003",
+    "STICKER_YJ005",
+    "STICKER_YJ006",
+    "STICKER_YJ007",
+    // "STICKER_YJ011",
+    // "STICKER_YJ012",
+    "STICKER_YJ018",
+    "STICKER_YJ022",
+    "STIKER_ON004",
+    "STIKER_ON005",
+    "STIKER_ON008",
 
-Map<EMusicStyle, Map<EMediaLabel, List<String>>> tempStickerMap = {
-  EMusicStyle.styleA: {
-    EMediaLabel.background: [
-      "Sticker_DA007",
-      "Sticker_SW002",
-      "Sticker_SW004",
-      "Sticker_YJ004",
-      "Sticker_YJ008",
-      "Sticker_YJ009",
-      "Sticker_YJ010",
-    ],
-    EMediaLabel.object: [
-      "Sticker_DA001",
-      "Sticker_DA002",
-      "Sticker_DA003",
-      "Sticker_DA004",
-      "Sticker_DA005",
-      "Sticker_DA007",
-      "Sticker_HJ001",
-      "Sticker_HJ002",
-      "Sticker_HJ003",
-      "Sticker_HJ005",
-      "Sticker_SW003",
-      "Sticker_SW004",
-      "Sticker_SW005",
-      "Sticker_YJ001",
-      "Sticker_YJ002",
-      "Sticker_YJ003",
-      "Sticker_YJ004",
-      "Sticker_YJ005",
-      "Sticker_YJ006",
-      "Sticker_YJ007",
-      "Sticker_YJ008",
-      "Sticker_YJ009",
-      "Sticker_YJ010",
-      "Stiker_ON005",
-      "Stiker_ON006",
-      "Stiker_ON007",
-      "Stiker_ON008",
-      // "Sticker_HJ006",
-      // "Sticker_DA006",
-      // "Sticker_DA008",
-      // "Sticker_HJ004",
-      // "Sticker_SW001",
-      // "Sticker_SW002",
-      // "Sticker_SW006",
-      // "Sticker_SW007",
-      // "Sticker_SW008",
-      // "Stiker_ON001",
-      // "Stiker_ON002",
-      // "Stiker_ON003",
-      // "Stiker_ON004",
-    ]
-  },
-  EMusicStyle.styleB: {
-    EMediaLabel.background: [
-      "Sticker_DA007",
-      "Sticker_SW002",
-      "Sticker_SW004",
-      "Sticker_YJ004",
-      "Sticker_YJ008",
-      "Sticker_YJ009",
-      "Sticker_YJ010",
-    ],
-    EMediaLabel.object: [
-      "Sticker_DA001",
-      "Sticker_DA002",
-      "Sticker_DA003",
-      "Sticker_DA004",
-      "Sticker_DA005",
-      "Sticker_DA007",
-      "Sticker_HJ001",
-      "Sticker_HJ002",
-      "Sticker_HJ003",
-      "Sticker_HJ005",
-      "Sticker_SW003",
-      "Sticker_SW004",
-      "Sticker_SW005",
-      "Sticker_YJ001",
-      "Sticker_YJ002",
-      "Sticker_YJ003",
-      "Sticker_YJ004",
-      "Sticker_YJ005",
-      "Sticker_YJ006",
-      "Sticker_YJ007",
-      "Sticker_YJ008",
-      "Sticker_YJ009",
-      "Sticker_YJ010",
-      "Stiker_ON005",
-      "Stiker_ON006",
-      "Stiker_ON007",
-      "Stiker_ON008",
-      // "Sticker_HJ006",
-      // "Sticker_DA006",
-      // "Sticker_DA008",
-      // "Sticker_HJ004",
-      // "Sticker_SW001",
-      // "Sticker_SW002",
-      // "Sticker_SW006",
-      // "Sticker_SW007",
-      // "Sticker_SW008",
-      // "Stiker_ON001",
-      // "Stiker_ON002",
-      // "Stiker_ON003",
-      // "Stiker_ON004",
-    ]
-  },
-  EMusicStyle.styleC: {
-    EMediaLabel.background: [
-      "Sticker_DA007",
-      "Sticker_SW002",
-      "Sticker_SW004",
-      "Sticker_YJ004",
-      "Sticker_YJ008",
-      "Sticker_YJ009",
-      "Sticker_YJ010",
-    ],
-    EMediaLabel.object: [
-      "Sticker_DA001",
-      "Sticker_DA002",
-      "Sticker_DA003",
-      "Sticker_DA004",
-      "Sticker_DA005",
-      "Sticker_DA007",
-      "Sticker_HJ001",
-      "Sticker_HJ002",
-      "Sticker_HJ003",
-      "Sticker_HJ005",
-      "Sticker_SW003",
-      "Sticker_SW004",
-      "Sticker_SW005",
-      "Sticker_YJ001",
-      "Sticker_YJ002",
-      "Sticker_YJ003",
-      "Sticker_YJ004",
-      "Sticker_YJ005",
-      "Sticker_YJ006",
-      "Sticker_YJ007",
-      "Sticker_YJ008",
-      "Sticker_YJ009",
-      "Sticker_YJ010",
-      "Stiker_ON005",
-      "Stiker_ON006",
-      "Stiker_ON007",
-      "Stiker_ON008",
-      // "Sticker_HJ006",
-      // "Sticker_DA006",
-      // "Sticker_DA008",
-      // "Sticker_HJ004",
-      // "Sticker_SW001",
-      // "Sticker_SW002",
-      // "Sticker_SW006",
-      // "Sticker_SW007",
-      // "Sticker_SW008",
-      // "Stiker_ON001",
-      // "Stiker_ON002",
-      // "Stiker_ON003",
-      // "Stiker_ON004",
-    ]
-  }
+// "STICKER_DA002",
+// "STICKER_DA004",
+// "STICKER_DA005",
+// "STICKER_DA006",
+// "STICKER_DA008",
+// "STICKER_DA011",
+// "STICKER_DA012",
+// "STICKER_DA013",
+// "STICKER_DA014",
+// "STICKER_DA015",
+// "STICKER_DA016",
+// "STICKER_DA017",
+// "STICKER_HJ002",
+// "STICKER_HJ003",
+// "STICKER_HJ004",
+// "STICKER_HJ006",
+// "STICKER_HJ007",
+// "STICKER_HJ012",
+// "STICKER_HJ013",
+// "STICKER_ON010",
+// "STICKER_ON011",
+// "STICKER_ON012",
+// "STICKER_ON017",
+// "STICKER_ON018",
+// "STICKER_SW002",
+// "STICKER_SW003",
+// "STICKER_SW004",
+// "STICKER_SW005",
+// "STICKER_SW006",
+// "STICKER_SW007",
+// "STICKER_SW008",
+// "STICKER_SW013",
+// "STICKER_SW016",
+// "STICKER_SW019",
+// "STICKER_YJ004",
+// "STICKER_YJ009",
+// "STICKER_YJ010",
+// "STICKER_YJ013",
+// "STICKER_YJ016",
+// "STICKER_YJ023",
+// "STICKER_YJ024",
+// "STICKER_YJ025",
+// "STIKER_ON001",
+// "STIKER_ON002",
+// "STIKER_ON003",
+// "STIKER_ON006",
+// "STIKER_ON007",
+
+// "STICKER_DA010",
+// "STICKER_HJ008",
+  ]
 };
 
 Future<void> loadLabelMap() async {
@@ -359,7 +261,10 @@ Future<EMediaLabel> detectMediaLabel(
 }
 
 Future<AutoEditedData> generateAutoEditData(
-    List<MediaData> list, EMusicStyle musicStyle, bool isAutoSelect) async {
+    List<MediaData> list,
+    EMusicStyle musicStyle,
+    List<TemplateData> templateList,
+    bool isAutoSelect) async {
   final AutoEditedData autoEditedData = AutoEditedData();
 
   list.sort((a, b) => a.createDate.compareTo(b.createDate));
@@ -584,7 +489,14 @@ Future<AutoEditedData> generateAutoEditData(
   // SET CLIP DURATION, SET MEDIA LABEL //
   ////////////////////////////////////////
 
-  final List<double> durationList = tempDurationMap[musicStyle]!;
+  final List<double> durationList = [];
+  for (int i = 0; i < templateList.length; i++) {
+    final List<SceneData> scenes = templateList[i].scenes;
+
+    for (int j = 0; j < scenes.length; j++) {
+      durationList.add(scenes[j].duration);
+    }
+  }
   int currentMediaIndex = 0;
   double totalRemainDuration = 0;
 
@@ -676,19 +588,18 @@ Future<AutoEditedData> generateAutoEditData(
   // INSERT TRANSITION //
   ///////////////////////
 
-  final Map<ETransitionType, List<String>> transitionMap =
-      tempTransitionMap[musicStyle]!;
+  // TO DO : Load from Template Data
+  final Map<ETransitionType, List<String>> transitionMap = tempTransitionMap;
+  final List<String> originXfadeTransitionList =
+          transitionMap[ETransitionType.xfade]!,
+      originOverlayTransitionList = transitionMap[ETransitionType.overlay]!;
+
+  final List<String> curXfadeTransitionList = [], curOverlayTransitionList = [];
+  curXfadeTransitionList.addAll(originXfadeTransitionList);
+  curOverlayTransitionList.addAll(originOverlayTransitionList);
 
   int lastTransitionInsertedIndex = 0;
-  int xfadeTransitionIndex =
-      (Random()).nextInt(transitionMap[ETransitionType.xfade]!.length);
-  int overlayTransitionIndex =
-      (Random()).nextInt(transitionMap[ETransitionType.overlay]!.length);
-
-  int clipCount = 0;
-  // 5 + (Random()).nextInt(2);
-
-  ETransitionType flag = ETransitionType.xfade;
+  int clipCount = 5 + (Random()).nextInt(2);
 
   bool isPassedBoundary = false;
 
@@ -702,19 +613,26 @@ Future<AutoEditedData> generateAutoEditData(
     if (diff >= clipCount) {
       ETransitionType currentTransitionType = ETransitionType.xfade;
 
-      currentTransitionType = flag;
+      double xfadeDuration = 1;
+      if (musicStyle == EMusicStyle.styleB) {
+        xfadeDuration = 0.8;
+      } //
+      else if (musicStyle == EMusicStyle.styleC) {
+        xfadeDuration = 0.5;
+      }
 
-      // if (isPassedBoundary) {
-      //   currentTransitionType = true || (Random()).nextDouble() >= 0.35
-      //       ? ETransitionType.xfade
-      //       : ETransitionType.overlay;
-      // } //
-      // else {
-      //   // continue;
-      //   currentTransitionType = true || (Random()).nextDouble() >= 0.35
-      //       ? ETransitionType.xfade
-      //       : ETransitionType.overlay;
-      // }
+      if (autoEditMedia.duration < 2) continue;
+      if (autoEditedData.autoEditMediaList[i + 1].duration <
+          (xfadeDuration + 0.1)) continue;
+
+      if (isPassedBoundary) {
+        currentTransitionType = (Random()).nextDouble() >= 0.4
+            ? ETransitionType.xfade
+            : ETransitionType.overlay;
+      } //
+      else {
+        currentTransitionType = ETransitionType.xfade;
+      }
 
       if (currentTransitionType == ETransitionType.xfade) {
         final double mediaRemainDuration = max(
@@ -723,38 +641,36 @@ Future<AutoEditedData> generateAutoEditData(
                 autoEditMedia.duration -
                 autoEditMedia.startTime));
 
-        if (mediaRemainDuration < 0.8) {
-          // xfadeTransitionIndex--;
-          // continue;
-          currentTransitionType = ETransitionType.overlay;
-          flag = ETransitionType.overlay;
+        if (mediaRemainDuration < xfadeDuration) {
+          continue;
         } //
         else {
-          autoEditMedia.xfadeDuration = 0.8;
+          autoEditMedia.xfadeDuration = xfadeDuration;
         }
       }
 
-      int index = 0;
       if (currentTransitionType == ETransitionType.xfade) {
-        index = xfadeTransitionIndex++;
+        int randIdx = (Random()).nextInt(curXfadeTransitionList.length) %
+            curXfadeTransitionList.length;
+        autoEditMedia.transitionKey = curXfadeTransitionList[randIdx];
+        curXfadeTransitionList.removeAt(randIdx);
+        if (curXfadeTransitionList.isEmpty) {
+          curXfadeTransitionList.addAll(originXfadeTransitionList);
+        }
       } //
       else if (currentTransitionType == ETransitionType.overlay) {
-        index = overlayTransitionIndex++;
+        int randIdx = (Random()).nextInt(curOverlayTransitionList.length) %
+            curOverlayTransitionList.length;
+        autoEditMedia.transitionKey = curOverlayTransitionList[randIdx];
+        curOverlayTransitionList.removeAt(randIdx);
+        if (curOverlayTransitionList.isEmpty) {
+          curOverlayTransitionList.addAll(originXfadeTransitionList);
+        }
       }
 
-      List<String> currentTransitionList =
-          transitionMap[currentTransitionType]!;
-
-      autoEditMedia.transitionKey =
-          currentTransitionList[index % currentTransitionList.length];
-
       lastTransitionInsertedIndex = i;
-      // clipCount = 5 + (Random()).nextInt(2);
+      clipCount = 5 + (Random()).nextInt(2);
       isPassedBoundary = false;
-
-      flag = flag == ETransitionType.xfade
-          ? ETransitionType.overlay
-          : ETransitionType.xfade;
     }
   }
 
@@ -762,21 +678,25 @@ Future<AutoEditedData> generateAutoEditData(
   // INSERT STICKER //
   ////////////////////
 
-  final Map<EMediaLabel, List<String>> stickerMap = tempStickerMap[musicStyle]!;
-  final Map<EMediaLabel, int> stickerIndexMap = {};
-  for (final entry in stickerMap.entries) {
-    stickerIndexMap[entry.key] = (Random()).nextInt(entry.value.length);
+  // TO DO : Load from Template Data
+  final Map<EMediaLabel, List<String>> originStickerMap = tempStickerMap,
+      curStickerMap = {};
+
+  for (final key in originStickerMap.keys) {
+    curStickerMap[key] = [];
+    curStickerMap[key]!.addAll(originStickerMap[key]!);
   }
 
   int lastStickerInsertedIndex = 0;
-  clipCount = 0;
-  //4 + (Random()).nextInt(2);
+  clipCount = 4 + (Random()).nextInt(3);
 
   for (int i = 0; i < autoEditedData.autoEditMediaList.length; i++) {
     final AutoEditMedia autoEditMedia = autoEditedData.autoEditMediaList[i];
 
     final int diff = i - lastStickerInsertedIndex;
     if (diff >= clipCount) {
+      if (autoEditMedia.duration < 2) continue;
+
       EMediaLabel mediaLabel = autoEditMedia.mediaLabel;
 
       switch (mediaLabel) {
@@ -797,17 +717,20 @@ Future<AutoEditedData> generateAutoEditData(
           break;
       }
 
-      if (!stickerMap.containsKey(mediaLabel)) continue;
+      if (!curStickerMap.containsKey(mediaLabel)) continue;
 
-      int index = stickerIndexMap[mediaLabel]!;
-      stickerIndexMap[mediaLabel] = stickerIndexMap[mediaLabel]! + 1;
+      List<String> curStickerList = curStickerMap[mediaLabel]!;
+      int randIdx =
+          (Random()).nextInt(curStickerList.length) % curStickerList.length;
+      autoEditMedia.stickerKey = curStickerList[randIdx];
 
-      List<String> currentStickerList = stickerMap[mediaLabel]!;
-      autoEditMedia.stickerKey =
-          currentStickerList[index % currentStickerList.length];
+      curStickerList.removeAt(randIdx);
+      if (curStickerList.isEmpty) {
+        curStickerList.addAll(originStickerMap[mediaLabel]!);
+      }
 
       lastStickerInsertedIndex = i;
-      // clipCount = 2 + (Random()).nextInt(2);
+      clipCount = 4 + (Random()).nextInt(3);
     }
   }
 
@@ -824,11 +747,9 @@ Future<AutoEditedData> generateAutoEditData(
     }
   }
 
-  autoEditedData.musicList.addAll([
-    MusicData("bgm04.m4a", 90),
-    MusicData("bgm03.m4a", 90),
-    MusicData("bgm05.m4a", 90)
-  ]);
+  for (int i = 0; i < templateList.length; i++) {
+    autoEditedData.musicList.add(templateList[i].music);
+  }
 
   return autoEditedData;
 }

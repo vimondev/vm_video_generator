@@ -1,0 +1,178 @@
+{
+    "name": "~/repo/encoding-virtualtemplate/VirtualTemplate_Project/가상템플릿_004/가상템플릿 4.aep",
+    "version": 1.0,
+    "music": {
+        "filename": "Dough by IanPost Artlist.mp3",
+        "duration": 72.9333333333333,
+        "startTime": 0
+    },
+    "width": 1920,
+    "height": 1080,
+    "duration": 72.9333333333333,
+    "scenes": [
+        {
+            "name": "#CUT1",
+            "duration": 6.4
+        },
+        {
+            "name": "#CUT2",
+            "duration": 2.46666666666667
+        },
+        {
+            "name": "#CUT3",
+            "duration": 1.9
+        },
+        {
+            "name": "#CUT4",
+            "duration": 2.2
+        },
+        {
+            "name": "#CUT5",
+            "duration": 4.6
+        },
+        {
+            "name": "#CUT6",
+            "duration": 1.9
+        },
+        {
+            "name": "#CUT7",
+            "duration": 2.2
+        },
+        {
+            "name": "#CUT8",
+            "duration": 2.16666666666667
+        },
+        {
+            "name": "#CUT9",
+            "duration": 2.46666666666667
+        },
+        {
+            "name": "#CUT10",
+            "duration": 1.86666666666667
+        },
+        {
+            "name": "#CUT11",
+            "duration": 2.2
+        },
+        {
+            "name": "#CUT12",
+            "duration": 2.2
+        },
+        {
+            "name": "#CUT13",
+            "duration": 2.43333333333333
+        },
+        {
+            "name": "#CUT14",
+            "duration": 1.4
+        },
+        {
+            "name": "#CUT15",
+            "duration": 1.76666666666667
+        },
+        {
+            "name": "#CUT16",
+            "duration": 2.16666666666666
+        },
+        {
+            "name": "#CUT17",
+            "duration": 0.4
+        },
+        {
+            "name": "#CUT18",
+            "duration": 0.3
+        },
+        {
+            "name": "#CUT19",
+            "duration": 0.53333333333333
+        },
+        {
+            "name": "#CUT20",
+            "duration": 0.96666666666667
+        },
+        {
+            "name": "#CUT21",
+            "duration": 1.2
+        },
+        {
+            "name": "#CUT22",
+            "duration": 1.5
+        },
+        {
+            "name": "#CUT23",
+            "duration": 1.23333333333333
+        },
+        {
+            "name": "#CUT24",
+            "duration": 0.96666666666667
+        },
+        {
+            "name": "#CUT25",
+            "duration": 0.16666666666666
+        },
+        {
+            "name": "#CUT26",
+            "duration": 0.13333333333333
+        },
+        {
+            "name": "#CUT27",
+            "duration": 0.1
+        },
+        {
+            "name": "#CUT28",
+            "duration": 0.3
+        },
+        {
+            "name": "#CUT29",
+            "duration": 1.6
+        },
+        {
+            "name": "#CUT30",
+            "duration": 2.73333333333333
+        },
+        {
+            "name": "#CUT31",
+            "duration": 2.16666666666666
+        },
+        {
+            "name": "#CUT32",
+            "duration": 3.13333333333333
+        },
+        {
+            "name": "#CUT33",
+            "duration": 3.43333333333333
+        },
+        {
+            "name": "#CUT34",
+            "duration": 3.26666666666667
+        },
+        {
+            "name": "#CUT35",
+            "duration": 2.2
+        },
+        {
+            "name": "#CUT36",
+            "duration": 3.26666666666667
+        },
+        {
+            "name": "#CUT37",
+            "duration": 3
+        }
+    ],
+    "transitions": [
+        "TRANSITION_HJ001",
+        "TRANSITION_DA001",
+        "TRANSITION_DA003",
+        "TRANSITION_ON003",
+        "TRANSITION_YJ004"
+    ],
+    "stickers": [
+        "STICKER_DA001",
+        "STICKER_HJ005",
+        "STICKER_ON012",
+        "STICKER_ON019"
+    ],
+    "titles": [
+        "TITLE_SW009"
+    ]
+}

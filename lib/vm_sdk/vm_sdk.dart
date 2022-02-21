@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'types/types.dart';
 import 'impl/title_helper.dart';
 import 'impl/ffmpeg_manager.dart';
-import 'impl/ffmpeg_argument_generator.dart';
+// import 'impl/ffmpeg_argument_generator.dart';
 import 'impl/resource_manager.dart';
 import 'impl/auto_edit_helper.dart';
 import 'impl/ml_kit_helper.dart';
 import 'impl/lottie_widget.dart';
+import 'impl/template_helper.dart';
 
 import 'impl/ffmpeg_helper.dart';
 
@@ -110,13 +111,20 @@ class VMSDKWidget extends StatelessWidget {
     // return outputPath;
 
     EMusicStyle selectedStyle = style ?? EMusicStyle.styleA;
+    final List<TemplateData>? templateList =
+        await loadTemplateData(selectedStyle);
+    if (templateList == null) return null;
 
-    final AutoEditedData autoEditedData =
-        await generateAutoEditData(mediaList, selectedStyle, isAutoEdit);
+    final AutoEditedData autoEditedData = await generateAutoEditData(
+        mediaList, selectedStyle, templateList, isAutoEdit);
 
     await _resourceManager.loadAutoEditAssets(autoEditedData);
 
-    final TitleData title = (await loadTitleData(ETitleType.title04))!;
+    const List<ETitleType> titleList = ETitleType.values;
+    final ETitleType pickedTitle =
+        titleList[(Random()).nextInt(titleList.length) % titleList.length];
+
+    final TitleData title = (await loadTitleData(pickedTitle))!;
     title.texts.addAll(titles);
 
     ExportedTitlePNGSequenceData exportedTitleData =
