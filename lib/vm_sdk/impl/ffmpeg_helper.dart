@@ -79,7 +79,7 @@ Future<RenderedData?> clipRender(
         .addAll(["-framerate", "$framerate", "-loop", "1", "-t", "$duration"]);
     inputArguments.addAll(["-t", "$duration", "-i", mediaData.absolutePath]);
 
-    audioOutputMapVariable = "[1:a]";
+    audioOutputMapVariable = "1:a";
   } //
   else {
     trimFilter =
