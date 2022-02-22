@@ -635,18 +635,18 @@ Future<AutoEditedData> generateAutoEditData(
       }
 
       if (currentTransitionType == ETransitionType.xfade) {
-        final double mediaRemainDuration = max(
-            0,
-            (autoEditMedia.mediaData.duration! -
-                autoEditMedia.duration -
-                autoEditMedia.startTime));
+        if (autoEditMedia.mediaData.type == EMediaType.video) {
+          final double mediaRemainDuration = max(
+              0,
+              (autoEditMedia.mediaData.duration! -
+                  autoEditMedia.duration -
+                  autoEditMedia.startTime));
 
-        if (mediaRemainDuration < xfadeDuration) {
-          continue;
-        } //
-        else {
-          autoEditMedia.xfadeDuration = xfadeDuration;
+          if (mediaRemainDuration < xfadeDuration) {
+            continue;
+          }
         }
+        autoEditMedia.xfadeDuration = xfadeDuration;
       }
 
       if (currentTransitionType == ETransitionType.xfade) {
