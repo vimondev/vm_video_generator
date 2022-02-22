@@ -599,7 +599,7 @@ Future<AutoEditedData> generateAutoEditData(
   curOverlayTransitionList.addAll(originOverlayTransitionList);
 
   int lastTransitionInsertedIndex = 0;
-  int clipCount = 5 + (Random()).nextInt(3);
+  int clipCount = 4 + (Random()).nextInt(3);
 
   bool isPassedBoundary = false;
 
@@ -669,7 +669,7 @@ Future<AutoEditedData> generateAutoEditData(
       }
 
       lastTransitionInsertedIndex = i;
-      clipCount = 5 + (Random()).nextInt(3);
+      clipCount = 4 + (Random()).nextInt(3);
       isPassedBoundary = false;
     }
   }
@@ -688,7 +688,7 @@ Future<AutoEditedData> generateAutoEditData(
   }
 
   int lastStickerInsertedIndex = 0;
-  clipCount = 4 + (Random()).nextInt(3);
+  clipCount = 3 + (Random()).nextInt(2);
 
   for (int i = 0; i < autoEditedData.autoEditMediaList.length; i++) {
     final AutoEditMedia autoEditMedia = autoEditedData.autoEditMediaList[i];
@@ -730,7 +730,7 @@ Future<AutoEditedData> generateAutoEditData(
       }
 
       lastStickerInsertedIndex = i;
-      clipCount = 4 + (Random()).nextInt(3);
+      clipCount = 3 + (Random()).nextInt(2);
     }
   }
 
