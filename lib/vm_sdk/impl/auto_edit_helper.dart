@@ -599,7 +599,7 @@ Future<AutoEditedData> generateAutoEditData(
   curOverlayTransitionList.addAll(originOverlayTransitionList);
 
   int lastTransitionInsertedIndex = 0;
-  int clipCount = 5 + (Random()).nextInt(2);
+  int clipCount = 5 + (Random()).nextInt(3);
 
   bool isPassedBoundary = false;
 
@@ -669,7 +669,7 @@ Future<AutoEditedData> generateAutoEditData(
       }
 
       lastTransitionInsertedIndex = i;
-      clipCount = 5 + (Random()).nextInt(2);
+      clipCount = 5 + (Random()).nextInt(3);
       isPassedBoundary = false;
     }
   }

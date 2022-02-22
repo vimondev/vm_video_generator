@@ -8,6 +8,8 @@ int videoWidth = 1280;
 int videoHeight = 720;
 int framerate = 30;
 
+double minDurationFactor = 1 / framerate;
+
 class CropData {
   int scaledWidth = 0;
   int scaledHeight = 0;
@@ -55,6 +57,7 @@ Future<RenderedData?> clipRender(
     Function(Statistics)? ffmpegCallback) async {
   final MediaData mediaData = autoEditMedia.mediaData;
   double duration = autoEditMedia.duration + autoEditMedia.xfadeDuration;
+  duration -= duration % minDurationFactor;
 
   final List<String> arguments = <String>[];
   final String appDirPath = await getAppDirectoryPath();
@@ -132,11 +135,14 @@ Future<RenderedData?> clipRender(
           "$videoOutputMapVariable${stickerMapVariable}overlay$stickerMergedMapVariable;");
     } //
     else {
-      final int x = videoWidth - sticker.width - 100;
-      final int y = videoHeight - sticker.height - 100;
+      final int scaledWidth = (sticker.width * (2 / 3)).floor();
+      final int scaledHeight = (sticker.height * (2 / 3)).floor();
+
+      final int x = videoWidth - scaledWidth;
+      final int y = videoHeight - scaledHeight;
 
       filterStrings.add(
-          "[${inputFileCount++}:v]trim=0:$duration,setpts=PTS-STARTPTS,setdar=dar=${sticker.width / sticker.height}$stickerMapVariable;");
+          "[${inputFileCount++}:v]trim=0:$duration,setpts=PTS-STARTPTS,scale=$scaledWidth:$scaledHeight,setdar=dar=${scaledWidth / scaledHeight}$stickerMapVariable;");
       filterStrings.add(
           "$videoOutputMapVariable${stickerMapVariable}overlay=$x:$y$stickerMergedMapVariable;");
     }
@@ -282,10 +288,13 @@ Future<RenderedData?> applyXFadeTransitions(
   final String outputPath = "$appDirPath/xfade_merged$clipIdx.mp4";
 
   final double xfadeOffset = curClip.duration - xfadeDuration - 0.01;
-  String filterComplexStr = "";
+  double duration =
+      (curClip.duration + nextClip.duration - xfadeDuration - 0.01);
+  duration -= duration % minDurationFactor;
 
+  String filterComplexStr = "";
   filterComplexStr +=
-      "[0:v][1:v]xfade=transition=$xfadeKey:duration=$xfadeDuration:offset=$xfadeOffset[vid];";
+      "[0:v][1:v]xfade=transition=$xfadeKey:duration=$xfadeDuration:offset=$xfadeOffset[trans_applied];[trans_applied]trim=0:$duration,setpts=PTS-STARTPTS[vid];";
   filterComplexStr +=
       "[1:a]adelay=${(xfadeOffset * 1000).floor()}|${(xfadeOffset * 1000).floor()}[delayed];";
   filterComplexStr +=
@@ -323,8 +332,7 @@ Future<RenderedData?> applyXFadeTransitions(
   ], ffmpegCallback);
   if (!isSuccess) return null;
 
-  return RenderedData(
-      outputPath, curClip.duration + nextClip.duration - xfadeDuration - 0.01);
+  return RenderedData(outputPath, duration);
 }
 
 Future<RenderedData?> mergeVideoClip(List<RenderedData> clipList) async {
@@ -615,6 +623,7 @@ Future<RenderedData?> applyMusics(
     "aac",
     "-b:a",
     "256k",
+    "-shortest",
     outputPath,
     "-y"
   ]);

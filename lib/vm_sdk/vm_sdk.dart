@@ -26,6 +26,7 @@ class VMSDKWidget extends StatelessWidget {
   Timer? _currentTimer;
   EGenerateStatus _currentStatus = EGenerateStatus.encoding;
   int _currentRenderedFrame = 0;
+  int _maxRenderedFrame = 0;
   int _currentRenderedFrameInCallback = 0;
   int _allFrame = 0;
 
@@ -145,26 +146,28 @@ class VMSDKWidget extends StatelessWidget {
 
     _currentStatus = EGenerateStatus.encoding;
     _currentRenderedFrame = 0;
+    _maxRenderedFrame = 0;
     _currentRenderedFrameInCallback = 0;
     _allFrame = 0;
+    double minDurationFactor = 1 / framerate;
 
     int videoFramerate = getFramerate();
     for (int i = 0; i < autoEditMediaList.length; i++) {
       final AutoEditMedia autoEditMedia = autoEditMediaList[i];
-      _allFrame += ((autoEditMedia.duration + autoEditMedia.xfadeDuration) *
-              videoFramerate)
-          .floor();
+      double duration = autoEditMedia.duration + autoEditMedia.xfadeDuration;
+      duration -= duration % minDurationFactor;
+      _allFrame += (duration * videoFramerate).floor();
 
       if (i < autoEditMediaList.length - 1) {
         TransitionData? transition = transitionMap[autoEditMedia.transitionKey];
         if (transition != null && transition.type == ETransitionType.xfade) {
           final AutoEditMedia nextMedia = autoEditMediaList[i + 1];
-          _allFrame += ((autoEditMedia.duration +
-                      nextMedia.duration -
-                      autoEditMedia.xfadeDuration -
-                      0.01) *
-                  videoFramerate)
-              .floor();
+          double duration = autoEditMedia.duration +
+              nextMedia.duration -
+              autoEditMedia.xfadeDuration -
+              0.01;
+          duration -= duration % minDurationFactor;
+          _allFrame += (duration * videoFramerate).floor();
         }
       }
     }
@@ -176,13 +179,14 @@ class VMSDKWidget extends StatelessWidget {
     _currentTimer = Timer.periodic(const Duration(milliseconds: 250), (timer) {
       _currentTimer = timer;
       if (progressCallback != null) {
+        if (_currentRenderedFrame + _currentRenderedFrameInCallback >
+            _maxRenderedFrame) {
+          _maxRenderedFrame =
+              _currentRenderedFrame + _currentRenderedFrameInCallback;
+        }
+
         progressCallback(
-            _currentStatus,
-            min(
-                1.0,
-                (_currentRenderedFrame + _currentRenderedFrameInCallback) /
-                    _allFrame),
-            0);
+            _currentStatus, min(1.0, _maxRenderedFrame / _allFrame), 0);
       }
     });
 
@@ -212,10 +216,10 @@ class VMSDKWidget extends StatelessWidget {
               _currentRenderedFrameInCallback = statistics.videoFrameNumber);
 
       _currentRenderedFrameInCallback = 0;
-      _currentRenderedFrame +=
-          ((autoEditMedia.duration + autoEditMedia.xfadeDuration) *
-                  videoFramerate)
-              .floor();
+
+      double duration = autoEditMedia.duration + autoEditMedia.xfadeDuration;
+      duration -= duration % minDurationFactor;
+      _currentRenderedFrame += (duration * videoFramerate).floor();
 
       if (clipData == null) return null;
       clipDataList.add(clipData);
@@ -246,12 +250,12 @@ class VMSDKWidget extends StatelessWidget {
                 _currentRenderedFrameInCallback = statistics.videoFrameNumber);
 
         _currentRenderedFrameInCallback = 0;
-        _currentRenderedFrame += ((curRendered.duration +
-                    nextRendered.duration -
-                    autoEditMedia.xfadeDuration -
-                    0.01) *
-                videoFramerate)
-            .floor();
+        double duration = curRendered.duration +
+            nextRendered.duration -
+            autoEditMedia.xfadeDuration -
+            0.01;
+        duration -= duration % minDurationFactor;
+        _currentRenderedFrame += (duration * videoFramerate).floor();
 
         if (xfadeApplied == null) return null;
         xfadeAppliedList.add(xfadeApplied);
@@ -263,6 +267,7 @@ class VMSDKWidget extends StatelessWidget {
     }
 
     _currentStatus = EGenerateStatus.merge;
+    _currentRenderedFrame = _allFrame;
 
     final RenderedData? mergedClip = await mergeVideoClip(xfadeAppliedList);
     if (mergedClip == null) return null;
