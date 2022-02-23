@@ -343,18 +343,24 @@ Future<RenderedData?> applyXFadeTransitions(
 Future<RenderedData?> mergeVideoClip(List<RenderedData> clipList) async {
   final String appDirPath = await getAppDirectoryPath();
 
+  List<RenderedData> fileredClipList = [];
+  for (int i = 0; i < clipList.length; i++) {
+    final RenderedData clip = clipList[i];
+    if (clip.duration > 0) fileredClipList.add(clip);
+  }
+
   List<RenderedData> mergedClipList = [];
   List<RenderedData> currentList = [];
 
   final File mergeTextFile = File("$appDirPath/merge.txt");
   double totalDuration = 0;
 
-  for (int i = 0; i < clipList.length; i++) {
-    final RenderedData clipData = clipList[i];
+  for (int i = 0; i < fileredClipList.length; i++) {
+    final RenderedData clipData = fileredClipList[i];
     currentList.add(clipData);
     totalDuration += clipData.duration;
 
-    if (currentList.length >= 50 || i == clipList.length - 1) {
+    if (currentList.length >= 50 || i == fileredClipList.length - 1) {
       final String videoOutputPath =
           "$appDirPath/part_merged_video${mergedClipList.length}.mp4";
       final String audioOutputPath =
