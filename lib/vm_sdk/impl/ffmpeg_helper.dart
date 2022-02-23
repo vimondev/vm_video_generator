@@ -8,7 +8,7 @@ int videoWidth = 1280;
 int videoHeight = 720;
 int framerate = 30;
 
-double minDurationFactor = 1 / framerate;
+double _minDurationFactor = 1 / framerate;
 
 class CropData {
   int scaledWidth = 0;
@@ -56,8 +56,9 @@ Future<RenderedData?> clipRender(
     ExportedTitlePNGSequenceData? exportedTitle,
     Function(Statistics)? ffmpegCallback) async {
   final MediaData mediaData = autoEditMedia.mediaData;
-  double duration = autoEditMedia.duration + autoEditMedia.xfadeDuration;
-  duration -= duration % minDurationFactor;
+  double duration =
+      normalizeTime(autoEditMedia.duration + autoEditMedia.xfadeDuration);
+  double startTime = normalizeTime(autoEditMedia.startTime);
 
   final List<String> arguments = <String>[];
   final String appDirPath = await getAppDirectoryPath();
@@ -82,13 +83,12 @@ Future<RenderedData?> clipRender(
     audioOutputMapVariable = "1:a";
   } //
   else {
-    trimFilter =
-        "trim=${autoEditMedia.startTime}:${autoEditMedia.startTime + duration},setpts=PTS-STARTPTS,";
+    trimFilter = "trim=$startTime:${startTime + duration},setpts=PTS-STARTPTS,";
     inputArguments
         .addAll(["-r", framerate.toString(), "-i", mediaData.absolutePath]);
 
     filterStrings.add(
-        "[0:a]atrim=${autoEditMedia.startTime}:${autoEditMedia.startTime + duration},asetpts=PTS-STARTPTS[aud];[aud][1:a]amix=inputs=2[aud_mixed];[aud_mixed]atrim=0:$duration,asetpts=PTS-STARTPTS[aud_trim];");
+        "[0:a]atrim=$startTime:${startTime + duration},asetpts=PTS-STARTPTS[aud];[aud][1:a]amix=inputs=2[aud_mixed];[aud_mixed]atrim=0:$duration,asetpts=PTS-STARTPTS[aud_trim];");
     audioOutputMapVariable = "[aud_trim]";
   }
 
@@ -224,9 +224,13 @@ Future<RenderedData?> clipRender(
     filterStrings.add(
         "[${inputFileCount++}:v]scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$videoWidth:$videoHeight:${cropData.cropPosX}:${cropData.cropPosY}$transitionMapVariable;");
     filterStrings.add(
-        "$videoOutputMapVariable${transitionMapVariable}overlay=enable='between(t\\,${duration - nextTransition.transitionPoint!},$duration)',trim=0:$duration,setpts=PTS-STARTPTS$transitionMergedMapVariable;");
+        "$videoOutputMapVariable${transitionMapVariable}overlay=enable='between(t\\,${duration - nextTransition.transitionPoint!},$duration)'$transitionMergedMapVariable;");
     videoOutputMapVariable = transitionMergedMapVariable;
   }
+
+  filterStrings.add(
+      "${videoOutputMapVariable}trim=0:$duration,setpts=PTS-STARTPTS[out_vid];");
+  videoOutputMapVariable = "[out_vid]";
 
   // generate -filter_complex
   String filterComplexStr = "";
@@ -267,6 +271,7 @@ Future<RenderedData?> clipRender(
     "yuv420p",
     "-r",
     framerate.toString(),
+    "-shortest",
     outputPath,
     "-y"
   ]);
@@ -287,10 +292,10 @@ Future<RenderedData?> applyXFadeTransitions(
   final String appDirPath = await getAppDirectoryPath();
   final String outputPath = "$appDirPath/xfade_merged$clipIdx.mp4";
 
-  final double xfadeOffset = curClip.duration - xfadeDuration - 0.01;
-  double duration =
-      (curClip.duration + nextClip.duration - xfadeDuration - 0.01);
-  duration -= duration % minDurationFactor;
+  final double xfadeOffset =
+      normalizeTime(curClip.duration - xfadeDuration - 0.01);
+  double duration = normalizeTime(
+      curClip.duration + nextClip.duration - xfadeDuration - 0.01);
 
   String filterComplexStr = "";
   filterComplexStr +=
@@ -636,4 +641,9 @@ Future<RenderedData?> applyMusics(
 
 int getFramerate() {
   return framerate;
+}
+
+double normalizeTime(double duration) {
+  duration -= duration % _minDurationFactor;
+  return (duration * 1000).floor() / 1000.0;
 }

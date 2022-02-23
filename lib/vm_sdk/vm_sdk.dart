@@ -118,172 +118,181 @@ class VMSDKWidget extends StatelessWidget {
     // String outputPath = mergeArgResponse.outputPath;
     // return outputPath;
 
-    EMusicStyle selectedStyle = style ?? EMusicStyle.styleA;
-    final List<TemplateData>? templateList =
-        await loadTemplateData(selectedStyle);
-    if (templateList == null) return null;
+    try {
+      EMusicStyle selectedStyle = style ?? EMusicStyle.styleA;
+      final List<TemplateData>? templateList =
+          await loadTemplateData(selectedStyle);
+      if (templateList == null) return null;
 
-    final AutoEditedData autoEditedData = await generateAutoEditData(
-        mediaList, selectedStyle, templateList, isAutoEdit);
+      final AutoEditedData autoEditedData = await generateAutoEditData(
+          mediaList, selectedStyle, templateList, isAutoEdit);
 
-    await _resourceManager.loadAutoEditAssets(autoEditedData);
+      await _resourceManager.loadAutoEditAssets(autoEditedData);
 
-    const List<ETitleType> titleList = ETitleType.values;
-    final ETitleType pickedTitle =
-        titleList[(Random()).nextInt(titleList.length) % titleList.length];
+      const List<ETitleType> titleList = ETitleType.values;
+      final ETitleType pickedTitle =
+          titleList[(Random()).nextInt(titleList.length) % titleList.length];
 
-    final TitleData title = (await loadTitleData(pickedTitle))!;
-    title.texts.addAll(titles);
+      final TitleData title = (await loadTitleData(pickedTitle))!;
+      title.texts.addAll(titles);
 
-    ExportedTitlePNGSequenceData? exportedTitleData =
-        await _lottieWidget.exportTitlePNGSequence(title);
+      ExportedTitlePNGSequenceData? exportedTitleData =
+          await _lottieWidget.exportTitlePNGSequence(title);
 
-    final List<AutoEditMedia> autoEditMediaList =
-        autoEditedData.autoEditMediaList;
-    final Map<String, TransitionData> transitionMap =
-        autoEditedData.transitionMap;
-    final Map<String, StickerData> stickerMap = autoEditedData.stickerMap;
+      final List<AutoEditMedia> autoEditMediaList =
+          autoEditedData.autoEditMediaList;
+      final Map<String, TransitionData> transitionMap =
+          autoEditedData.transitionMap;
+      final Map<String, StickerData> stickerMap = autoEditedData.stickerMap;
 
-    _currentStatus = EGenerateStatus.encoding;
-    _currentRenderedFrame = 0;
-    _maxRenderedFrame = 0;
-    _currentRenderedFrameInCallback = 0;
-    _allFrame = 0;
-    double minDurationFactor = 1 / framerate;
-
-    int videoFramerate = getFramerate();
-    for (int i = 0; i < autoEditMediaList.length; i++) {
-      final AutoEditMedia autoEditMedia = autoEditMediaList[i];
-      double duration = autoEditMedia.duration + autoEditMedia.xfadeDuration;
-      duration -= duration % minDurationFactor;
-      _allFrame += (duration * videoFramerate).floor();
-
-      if (i < autoEditMediaList.length - 1) {
-        TransitionData? transition = transitionMap[autoEditMedia.transitionKey];
-        if (transition != null && transition.type == ETransitionType.xfade) {
-          final AutoEditMedia nextMedia = autoEditMediaList[i + 1];
-          double duration = autoEditMedia.duration +
-              nextMedia.duration -
-              autoEditMedia.xfadeDuration -
-              0.01;
-          duration -= duration % minDurationFactor;
-          _allFrame += (duration * videoFramerate).floor();
-        }
-      }
-    }
-
-    if (_currentTimer != null) {
-      _currentTimer!.cancel();
-    }
-
-    _currentTimer = Timer.periodic(const Duration(milliseconds: 250), (timer) {
-      _currentTimer = timer;
-      if (progressCallback != null) {
-        if (_currentRenderedFrame + _currentRenderedFrameInCallback >
-            _maxRenderedFrame) {
-          _maxRenderedFrame =
-              _currentRenderedFrame + _currentRenderedFrameInCallback;
-        }
-
-        progressCallback(
-            _currentStatus, min(1.0, _maxRenderedFrame / _allFrame), 0);
-      }
-    });
-
-    DateTime now = DateTime.now();
-
-    final List<RenderedData> clipDataList = [];
-    for (int i = 0; i < autoEditMediaList.length; i++) {
-      final AutoEditMedia autoEditMedia = autoEditMediaList[i];
-      final StickerData? stickerData = stickerMap[autoEditMedia.stickerKey];
-
-      TransitionData? prevTransition, nextTransition;
-      if (i > 0) {
-        prevTransition = transitionMap[autoEditMediaList[i - 1].transitionKey];
-      }
-      if (i < autoEditMediaList.length - 1) {
-        nextTransition = transitionMap[autoEditMediaList[i].transitionKey];
-      }
-
-      final RenderedData? clipData = await clipRender(
-          autoEditMedia,
-          i,
-          stickerData,
-          prevTransition,
-          nextTransition,
-          i == 0 ? exportedTitleData : null,
-          (statistics) =>
-              _currentRenderedFrameInCallback = statistics.videoFrameNumber);
-
+      _currentStatus = EGenerateStatus.encoding;
+      _currentRenderedFrame = 0;
+      _maxRenderedFrame = 0;
       _currentRenderedFrameInCallback = 0;
+      _allFrame = 0;
 
-      double duration = autoEditMedia.duration + autoEditMedia.xfadeDuration;
-      duration -= duration % minDurationFactor;
-      _currentRenderedFrame += (duration * videoFramerate).floor();
+      int videoFramerate = getFramerate();
+      for (int i = 0; i < autoEditMediaList.length; i++) {
+        final AutoEditMedia autoEditMedia = autoEditMediaList[i];
+        double duration =
+            normalizeTime(autoEditMedia.duration + autoEditMedia.xfadeDuration);
+        _allFrame += (duration * videoFramerate).floor();
 
-      if (clipData == null) return null;
-      clipDataList.add(clipData);
-    }
+        if (i < autoEditMediaList.length - 1) {
+          TransitionData? transition =
+              transitionMap[autoEditMedia.transitionKey];
+          if (transition != null && transition.type == ETransitionType.xfade) {
+            final AutoEditMedia nextMedia = autoEditMediaList[i + 1];
+            double duration = normalizeTime(autoEditMedia.duration +
+                nextMedia.duration -
+                autoEditMedia.xfadeDuration -
+                0.01);
+            _allFrame += (duration * videoFramerate).floor();
+          }
+        }
+      }
 
-    final List<RenderedData> xfadeAppliedList = [];
-    for (int i = 0; i < clipDataList.length; i++) {
-      final RenderedData curRendered = clipDataList[i];
-      final AutoEditMedia autoEditMedia = autoEditMediaList[i];
-      TransitionData? xfadeTransition =
-          transitionMap[autoEditMediaList[i].transitionKey];
+      if (_currentTimer != null) {
+        _currentTimer!.cancel();
+      }
 
-      if (i < autoEditMediaList.length - 1 &&
-          autoEditMedia.xfadeDuration > 0 &&
-          xfadeTransition != null &&
-          xfadeTransition.type == ETransitionType.xfade &&
-          xfadeTransition.filterName != null) {
-        //
-        final RenderedData nextRendered = clipDataList[i + 1];
+      _currentTimer =
+          Timer.periodic(const Duration(milliseconds: 250), (timer) {
+        _currentTimer = timer;
+        if (progressCallback != null) {
+          if (_currentRenderedFrame + _currentRenderedFrameInCallback >
+              _maxRenderedFrame) {
+            _maxRenderedFrame =
+                _currentRenderedFrame + _currentRenderedFrameInCallback;
+          }
 
-        final RenderedData? xfadeApplied = await applyXFadeTransitions(
-            curRendered,
-            nextRendered,
+          progressCallback(
+              _currentStatus, min(1.0, _maxRenderedFrame / _allFrame), 0);
+        }
+      });
+
+      DateTime now = DateTime.now();
+
+      final List<RenderedData> clipDataList = [];
+      for (int i = 0; i < autoEditMediaList.length; i++) {
+        final AutoEditMedia autoEditMedia = autoEditMediaList[i];
+        final StickerData? stickerData = stickerMap[autoEditMedia.stickerKey];
+
+        TransitionData? prevTransition, nextTransition;
+        if (i > 0) {
+          prevTransition =
+              transitionMap[autoEditMediaList[i - 1].transitionKey];
+        }
+        if (i < autoEditMediaList.length - 1) {
+          nextTransition = transitionMap[autoEditMediaList[i].transitionKey];
+        }
+
+        final RenderedData? clipData = await clipRender(
+            autoEditMedia,
             i,
-            xfadeTransition.filterName!,
-            autoEditMedia.xfadeDuration,
+            stickerData,
+            prevTransition,
+            nextTransition,
+            i == 0 ? exportedTitleData : null,
             (statistics) =>
                 _currentRenderedFrameInCallback = statistics.videoFrameNumber);
 
         _currentRenderedFrameInCallback = 0;
-        double duration = curRendered.duration +
-            nextRendered.duration -
-            autoEditMedia.xfadeDuration -
-            0.01;
-        duration -= duration % minDurationFactor;
+
+        double duration =
+            normalizeTime(autoEditMedia.duration + autoEditMedia.xfadeDuration);
         _currentRenderedFrame += (duration * videoFramerate).floor();
 
-        if (xfadeApplied == null) return null;
-        xfadeAppliedList.add(xfadeApplied);
-        i++;
-      } //
-      else {
-        xfadeAppliedList.add(curRendered);
+        if (clipData == null) return null;
+        clipDataList.add(clipData);
       }
+
+      final List<RenderedData> xfadeAppliedList = [];
+      for (int i = 0; i < clipDataList.length; i++) {
+        final RenderedData curRendered = clipDataList[i];
+        final AutoEditMedia autoEditMedia = autoEditMediaList[i];
+        TransitionData? xfadeTransition =
+            transitionMap[autoEditMediaList[i].transitionKey];
+
+        if (i < autoEditMediaList.length - 1 &&
+            autoEditMedia.xfadeDuration > 0 &&
+            xfadeTransition != null &&
+            xfadeTransition.type == ETransitionType.xfade &&
+            xfadeTransition.filterName != null) {
+          //
+          final RenderedData nextRendered = clipDataList[i + 1];
+
+          final RenderedData? xfadeApplied = await applyXFadeTransitions(
+              curRendered,
+              nextRendered,
+              i,
+              xfadeTransition.filterName!,
+              autoEditMedia.xfadeDuration,
+              (statistics) => _currentRenderedFrameInCallback =
+                  statistics.videoFrameNumber);
+
+          _currentRenderedFrameInCallback = 0;
+          double duration = normalizeTime(curRendered.duration +
+              nextRendered.duration -
+              autoEditMedia.xfadeDuration -
+              0.01);
+          _currentRenderedFrame += (duration * videoFramerate).floor();
+
+          if (xfadeApplied == null) return null;
+          xfadeAppliedList.add(xfadeApplied);
+          i++;
+        } //
+        else {
+          xfadeAppliedList.add(curRendered);
+        }
+      }
+
+      _currentStatus = EGenerateStatus.merge;
+      _currentRenderedFrame = _allFrame;
+
+      final RenderedData? mergedClip = await mergeVideoClip(xfadeAppliedList);
+      if (mergedClip == null) return null;
+
+      final RenderedData? resultClip =
+          await applyMusics(mergedClip, autoEditedData.musicList);
+      if (resultClip == null) return null;
+
+      print(DateTime.now().difference(now).inSeconds);
+
+      if (_currentTimer != null) {
+        _currentTimer!.cancel();
+      }
+      _currentTimer = null;
+
+      return resultClip.absolutePath;
+    } //
+    catch (e) {
+      if (_currentTimer != null) {
+        _currentTimer!.cancel();
+      }
+      _currentTimer = null;
+      return null;
     }
-
-    _currentStatus = EGenerateStatus.merge;
-    _currentRenderedFrame = _allFrame;
-
-    final RenderedData? mergedClip = await mergeVideoClip(xfadeAppliedList);
-    if (mergedClip == null) return null;
-
-    final RenderedData? resultClip =
-        await applyMusics(mergedClip, autoEditedData.musicList);
-    if (resultClip == null) return null;
-
-    print(DateTime.now().difference(now).inSeconds);
-
-    if (_currentTimer != null) {
-      _currentTimer!.cancel();
-    }
-    _currentTimer = null;
-
-    return resultClip.absolutePath;
   }
 
   // cancel generate
