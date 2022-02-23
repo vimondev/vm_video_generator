@@ -291,7 +291,8 @@ class VMSDKWidget extends StatelessWidget {
         _currentTimer!.cancel();
       }
       _currentTimer = null;
-      return null;
+
+      rethrow;
     }
   }
 
