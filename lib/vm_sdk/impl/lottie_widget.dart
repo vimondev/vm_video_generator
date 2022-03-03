@@ -223,7 +223,7 @@ class _LottieWidgetState extends State<LottieWidget> {
               offset: const Offset(-99999, -99999),
               // offset: const Offset(0, 0),
               child: InAppWebView(
-                  initialFile: "assets/html/index3.html",
+                  initialFile: "assets/html/index4.html",
                   onWebViewCreated: (controller) {
                     _setController(controller);
                   },

@@ -309,8 +309,10 @@
 
     function extractPreview () {
         const images = document.getElementsByTagName('img');
-        while(images.length > 0) {
-            images[0].parentNode.removeChild(images[0]);
+        if (images && images.length) {
+            while(images.length > 0) {
+                images[0].parentNode.removeChild(images[0]);
+            }
         }
 
         // setData({ fontFamily: loadedFontFamily, base64: loadedFontBase64, json: JSON.parse(loadedJson), texts: [ 'VIMONI V-LOG 123', 'Sub Title' ] }) // TITLE3
@@ -492,8 +494,10 @@
 
     function extractAllSequence () {
         const images = document.getElementsByTagName('img');
-        while(images.length > 0) {
-            images[0].parentNode.removeChild(images[0]);
+        if (images && images.length) {
+            while(images.length > 0) {
+                images[0].parentNode.removeChild(images[0]);
+            }
         }
 
         // setData({ fontFamily: loadedFontFamily, base64: loadedFontBase64, json: JSON.parse(loadedJson), texts: [ 'VIMONI V-LOG 123', 'Sub Title' ] }) // TITLE3

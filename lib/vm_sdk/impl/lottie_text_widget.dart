@@ -252,7 +252,7 @@ class LottieTextWidget extends StatelessWidget {
     String previewUrl = "$_currentPreviewPath/preview.png";
     writeFileFromBase64(
         previewUrl,
-        preview["base64"]
+        preview
             .toString()
             .replaceAll("data:image/png;base64,", ""));
 
@@ -278,40 +278,20 @@ class LottieTextWidget extends StatelessWidget {
   void _handleTransferAllSequencePNGData(args) async {
     _width = args[0]["width"].toDouble();
     _height = args[0]["height"].toDouble();
-    List textData = args[0]["textData"];
     _frameRate = args[0]["frameRate"].toDouble();
     List frames = args[0]["frames"];
     _totalFrames = frames.length;
-    _textDataMap.clear();
     _allSequences.clear();
-
-    final preview = args[0]["preview"];
-    String previewUrl = "$_currentPreviewPath/preview.png";
-    writeFileFromBase64(
-        previewUrl,
-        preview["base64"]
-            .toString()
-            .replaceAll("data:image/png;base64,", ""));
-
-    for (int i = 0; i < textData.length; i++) {
-      _textDataMap[i.toString()] = LottieText(
-          textData[i]['key'],
-          textData[i]['value'],
-          Rectangle(textData[i]['x'].toDouble(), textData[i]['y'].toDouble(), textData[i]['width'].toDouble(), textData[i]['height'].toDouble())
-      );
-    }
 
     for (int i = 0; i < frames.length; i++) {
       final String sequenceFilePath = "$_currentSequencePath/$i.png";
       _allSequences.add(sequenceFilePath);
       writeFileFromBase64(
           sequenceFilePath,
-          frames[i]["base64"]
+          frames[i]
               .toString()
               .replaceAll("data:image/png;base64,", ""));
     }
-
-    _previewImage = previewUrl;
 
     printAllData();
 
@@ -346,7 +326,7 @@ class LottieTextWidget extends StatelessWidget {
         offset: const Offset(-99999, -99999),
         // offset: const Offset(0, 0),
         child: InAppWebView(
-            initialFile: "assets/html/index3.html",
+            initialFile: "assets/html/index4.html",
             onWebViewCreated: (controller) {
               _setController(controller);
             },
