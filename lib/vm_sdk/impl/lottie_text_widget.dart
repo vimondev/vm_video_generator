@@ -160,10 +160,12 @@ class LottieTextWidget extends StatelessWidget {
     }
     textArr += "]";
 
+    print('extractPreview - 11111');
     _controller!.evaluateJavascript(
         source:
         "setData({ fontFamily: $fontFamilyArr, base64: $fontBase64Arr, json: ${_data.json}, texts: $textArr });");
     _controller!.evaluateJavascript(source: "extractPreview();");
+    print('extractPreview - 22222');
 
     return _currentPreviewCompleter.future;
   }

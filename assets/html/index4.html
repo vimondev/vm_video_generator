@@ -4,7 +4,6 @@
 <head>
     <script src="lottie.js"></script>
     <script src="opentype.min.js"></script>
-    <script src="pixi.min.js"></script>
     <style>
         #bodymovin {
             width: 1920px;
@@ -101,9 +100,11 @@
         })
     }
 
-    function setData({ fontFamily, fontFilename, fontBase64, json, texts }) {
+    function setData({ fontFamily, base64, json, texts }) {
+        const fontBase64 = base64
+        console.log(`setData is called..`)
         currentFontFamily = fontFamily
-        currentFontFilename = fontFilename
+        currentFontFilename = []
         currentFontBase64 = fontBase64
         currentJson = json
         boundingBoxTexts = texts
