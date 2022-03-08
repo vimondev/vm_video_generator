@@ -56,7 +56,7 @@ class VMSDKWidget extends StatelessWidget {
           progressCallback) async {
     EMusicStyle selectedStyle = style ?? EMusicStyle.styleA;
 
-    final TitleData title = (await loadTitleData(ETitleType.title03))!;
+    final TitleData title = (await loadTitleData(ETitleType.title06))!;
     title.texts.addAll(titles);
 
     ExportedTitlePNGSequenceData exportedTitleData =

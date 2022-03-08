@@ -29,6 +29,8 @@ class _TestWidgetState extends State<TestWidget> {
   double _width = 0;
   double _height = 0;
   Map<String, LottieText> _textDataMap = {};
+  ETitleType? _title;
+  bool _isPlaying = false;
 
   void _handlePressedTitleField () async {
     if (_textController1.text.isEmpty) {
@@ -61,11 +63,33 @@ class _TestWidgetState extends State<TestWidget> {
   }
 
   void _run() async {
+    if (_isPlaying == true) return;
+    _isPlaying = true;
     setState(() {
       imageList = [];
     });
     print('This is _run method of TestWidget');
-    final TitleData title = (await loadTitleData(ETitleType.title33))!;
+    // final TitleData title = (await loadTitleData(ETitleType.title33))!;
+
+    if (_title == null) {
+      _title = ETitleType.title06;
+    } else {
+      bool isNext = false;
+      for (var value in ETitleType.values) {
+        if (isNext == true) {
+          _title = value;
+          break;
+        }
+        if (_title == value) {
+          isNext = true;
+        }
+      }
+      if (isNext == true && _title == ETitleType.title33) {
+        _title = ETitleType.title06;
+      }
+    }
+
+    final TitleData title = (await loadTitleData(_title!))!;
     print('title is ');
 
     print(title.json);
@@ -139,6 +163,7 @@ class _TestWidgetState extends State<TestWidget> {
     // if (videoPath != null) {
     //   await GallerySaver.saveVideo(videoPath);
     // }
+    _isPlaying = false;
   }
 
   @override
@@ -276,7 +301,7 @@ class RectanglePainter extends CustomPainter {
       final b = Offset(x2, y2);
 
       Rect rect = Rect.fromPoints(a, b);
-      canvas.drawRect(rect, paint);
+      // canvas.drawRect(rect, paint);
     }
   }
 
