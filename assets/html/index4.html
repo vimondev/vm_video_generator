@@ -2,7 +2,7 @@
 <html style="width: 100%;height: 100%">
 
 <head>
-    <script src="lottie.js"></script>
+    <script src="lottie.min.js"></script>
     <script src="opentype.min.js"></script>
     <style>
         #bodymovin {
@@ -45,6 +45,7 @@
     let gWidth = 0
     let gHeight = 0
     let textComps
+    let styleList = []
 
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -113,6 +114,11 @@
             openTypeFont.push(opentype.parse(base64ToArrayBuffer(currentFontBase64[i])))
         }
 
+        while (styleList.length > 0) {
+            const s = styleList.pop()
+            document.head.removeChild(s)
+        }
+
         for (let i = 0; i < currentFontFamily.length; i++) {
             const styleEl = document.createElement('style')
             // styleEl.innerHTML = `
@@ -127,7 +133,9 @@
                     src: url(data:application/font-woff;charset=utf-8;base64,${currentFontBase64[i]});
                 }
             `
+
             document.head.appendChild(styleEl)
+            styleList.push(styleEl)
         }
 
         const { assets, layers } = currentJson
@@ -372,7 +380,7 @@
             anim.destroy()
         }
 
-        anim = lottie.loadAnimation({
+        anim = bodymovin.loadAnimation({
             container: document.getElementById('bodymovin'),
             renderer: 'svg',
             loop: false,
@@ -386,7 +394,7 @@
                 const list = []
                 const now = Date.now()
 
-                lottie.goToAndStop(previewFrameNumber, true)
+                bodymovin.goToAndStop(previewFrameNumber, true)
 
                 const rootSVGElement = anim.renderer.svgElement.cloneNode(false)
                 rootSVGElement.style.width = ''
@@ -474,13 +482,12 @@
                         textData
                     })
                 }
-                lottie.destroy()
-                lottie.destroy()
+                //bodymovin.destroy()
                 console.log(`elapsed - : ${Date.now() - now}ms`)
             }
             catch (e) {
                 console.log(String(e))
-                lottie.destroy()
+                bodymovin.destroy()
                 isRunning = false
 
                 if (window.flutter_inappwebview) {
@@ -505,7 +512,7 @@
             anim.destroy()
         }
 
-        anim = lottie.loadAnimation({
+        anim = bodymovin.loadAnimation({
             container: document.getElementById('bodymovin'),
             renderer: 'svg',
             loop: false,
@@ -520,7 +527,7 @@
                 const now = Date.now()
 
                 for (let i = 0; i < anim.totalFrames; i++) {
-                    lottie.goToAndStop(i, true)
+                    bodymovin.goToAndStop(i, true)
 
                     const rootSVGElement = anim.renderer.svgElement.cloneNode(false)
                     rootSVGElement.style.width = ''
@@ -609,12 +616,12 @@
                         frames: results,
                     })
                 }
-                lottie.destroy()
+                //bodymovin.destroy()
                 console.log(`elapsed - : ${Date.now() - now}ms`)
             }
             catch (e) {
                 console.log(String(e))
-                lottie.destroy()
+                bodymovin.destroy()
                 isRunning = false
 
                 if (window.flutter_inappwebview) {

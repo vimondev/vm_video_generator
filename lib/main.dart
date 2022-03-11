@@ -8,6 +8,8 @@ import 'firebase_options.dart';
 
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
+import 'test2.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(

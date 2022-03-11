@@ -101,6 +101,7 @@ class _TestWidgetState extends State<TestWidget> {
 
     _lottieTextWidget.setData(title);
 
+    await _lottieTextWidget.extractPreview();
     String? preview = await _lottieTextWidget.extractPreview();
 
     // preview = await _lottieTextWidget.setTextValue("#TEXT1", "이 앱은 VIIV입니다.");

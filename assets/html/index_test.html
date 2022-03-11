@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-AU-compatible" content="ie=edge">
+      <script src="lottie.js"></script>
+      
+    <title>Lottie Test For Flutter</title>
+    <style>
+      .lottie {
+        margin-top:20px;
+        height: 300px;
+        background-color: #ababab;
+      }
+
+      .top-item {
+        display:inline-block;
+        width: 30%;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <h1>주의사항: 꼭 JSON 파일 선택 후에 Font 파일을 선택해주세요!</h1>
+    </div>
+    <div>
+      <div class="top-item"><label for="json-file">JSON 파일 선택</label><br /><input type="file" id="json-file" name="json-file"  /></div>
+      <div class="top-item"><label for="font-file">Font 파일 선택</label><br /><input type="file" id="font-file" name="font-file" multiple /></div>
+      <div class="top-item"><button id="btn-play">재생</button></div>
+    </div>
+    <div class="lottie" id="lottie"></div>
+    <script>
+var jsonData;
+var fontFamily = [];
+var string = '';
+var loadCount = 0;
+var anim;
+let currentFontFamily = []
+let currentFontFilename = []
+let currentFontBase64 = []
+let currentJson = {}
+
+let loadedFontFamily = []
+let loadedFontFilename = []
+let loadedFontBase64 = []
+let loadedJson = ''
+let TITLE = 'THIS IS VIMON V-LOG'
+let SUBTITLE = 'This is subtitle'
+let boundingBoxTexts = []
+
+
+   const jsonFile = document.getElementById('json-file');
+   jsonFile.addEventListener('change', (event) => {
+      const file = event.target.files[0]
+      loadedFontFamily = []
+      const reader = new FileReader()
+      reader.readAsText(file, 'utf8')
+      reader.onload = e => {
+          loadedJson = JSON.parse(e.target.result)
+          if (loadedJson && loadedJson.fonts && Array.isArray(loadedJson.fonts.list)) {
+              for (let i = 0; i < loadedJson.fonts.list.length; i++) {
+                  const { fFamily } = loadedJson.fonts.list[i]
+                  loadedFontFamily.push(fFamily)
+              }
+              alert('font-family : ' + loadedFontFamily.join(', '))
+          }
+      }
+   });
+
+   function setData({ fontFamily, base64, json, texts }) {
+      const fontBase64 = base64
+      console.log(`setData is called..`)
+      currentFontFamily = fontFamily
+      currentFontFilename = []
+      currentFontBase64 = fontBase64
+      currentJson = json
+      boundingBoxTexts = texts
+
+      for (let i = 0; i < currentFontFamily.length; i++) {
+          const styleEl = document.createElement('style')
+          // styleEl.innerHTML = `
+          //     @font-face {
+          //         font-family: ${currentFontFamily[i]};
+          //         src: url("${currentFontFilename[i]}");
+          //     }
+          // `
+          styleEl.innerHTML = `
+              @font-face {
+                  font-family: ${currentFontFamily[i]};
+                  src: url(data:application/font-woff;charset=utf-8;base64,${currentFontBase64[i]});
+              }
+          `
+          document.head.appendChild(styleEl)
+      }
+
+      const { assets, layers } = currentJson
+      const textCompMap = {}
+
+      assets.forEach(item => {
+          if (item.nm && typeof item.nm === 'string' && item.nm.toLowerCase().startsWith('#text')) {
+              textCompMap[item.nm] = item
+          }
+      })
+      layers.forEach(item => {
+          if (item.nm && typeof item.nm == 'string' && item.nm.toLowerCase().startsWith('@preview')) {
+              previewFrameNumber = parseInt(item.ip)
+          }
+      })
+      textComps = Object.keys(textCompMap)
+      textComps.sort((a, b) => a > b ? 1 : a < b ? -1 : 0)
+      console.log(textComps.join('\n'))
+      console.log(textCompMap)
+
+      const replaceText = (layers, text) => {
+          let originalText = ''
+          if (!text) text = ''
+
+          for (let i = 0; i < layers.length; i++) {
+              const layer = layers[i]
+              if (layer.nm === '@Source') {
+                  originalText = String(layer.t.d.k[0].s.t)
+                  layer.t.d.k[0].s.t = text
+                  console.log(layer)
+                  break
+              }
+          }
+          layers.forEach(layer => {
+              if (layer.t &&
+                  layer.t.d &&
+                  layer.t.d.k &&
+                  layer.t.d.k[0] &&
+                  layer.t.d.k[0].s &&
+                  layer.t.d.k[0].s.t &&
+                  layer.t.d.k[0].s.t === originalText
+              ) {
+                  layer.t.d.k[0].s.t = text
+              }
+          })
+      }
+      textComps.forEach((name, index) => {
+          replaceText(textCompMap[name].layers, texts[index])
+      })
+  }
+
+  let isInitialized = false
+  window.addEventListener("flutterInAppWebViewPlatformReady", function (event) {
+      console.log('flutter webview initialized!')
+      isInitialized = true
+  })
+
+  function run() {
+      if (anim) {
+        anim.destroy();
+      }
+
+      isInitialized = true
+
+      const images = document.getElementsByTagName('img');
+      while(images.length > 0) {
+          images[0].parentNode.removeChild(images[0]);
+      }
+
+//      setData({
+//         fontFamily: loadedFontFamily,
+//         base64: loadedFontBase64,
+//         json: loadedJson,
+//         texts: [ TITLE, SUBTITLE ]
+//      })
+
+      anim = lottie.loadAnimation({
+         container: document.querySelector('#lottie'),
+         animationData: currentJson,
+         renderer: 'svg',
+         loop: true,
+         autoplay: true,
+      });
+  }
+
+   const fontFile = document.getElementById('font-file');
+   fontFile.addEventListener('change', (event) => {
+      const files = event.target.files
+      loadedFontFilename = []
+      for (let i = 0; i < files.length; i++) {
+          const reader = new FileReader()
+          const file = files[i]
+          loadedFontFilename.push(file.name)
+          reader.readAsDataURL(file, 'utf8')
+          reader.onload = e => {
+              loadedFontBase64.push(e.target.result.split('base64,')[1])
+          }
+      }
+   });
+
+   
+   const btnPlay = document.getElementById('btn-play');
+   btnPlay.addEventListener('click', (event) => {
+    //  if (!jsonData) {
+    //     alert('JSON 파일과 Font 선택 후 다시 시도해주세요.')
+    //  }
+     if (anim) {
+        anim.destroy();
+     }
+
+     run()
+   })
+
+    </script>
+  </body>
+</html>
