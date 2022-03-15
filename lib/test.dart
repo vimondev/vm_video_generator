@@ -90,12 +90,12 @@ class _TestWidgetState extends State<TestWidget> {
     }
 
     final TitleData title = (await loadTitleData(_title!))!;
-    print('title is ');
-
-    print(title.json);
-    print(title.fontFamily);
-    print(title.fontBase64);
-    print(title.texts);
+    // print('title is ');
+    //
+    // print(title.json);
+    // print(title.fontFamily);
+    // print(title.fontBase64);
+    // print(title.texts);
 
     title.texts.addAll(["THIS IS VIMON V-LOG", "This is subtitle"]);
 
@@ -114,7 +114,7 @@ class _TestWidgetState extends State<TestWidget> {
       _height = _lottieTextWidget.height;
       _textDataMap = _lottieTextWidget.textDataMap;
     });
-    print('TestWidget result preview is : $preview');
+    // print('TestWidget result preview is : $preview');
 
     // List<String>? sequences = await _lottieTextWidget.extractAllSequence();
     // print("test.dart - sequences : ");
@@ -164,7 +164,36 @@ class _TestWidgetState extends State<TestWidget> {
     // if (videoPath != null) {
     //   await GallerySaver.saveVideo(videoPath);
     // }
+
+    print('title is $_title');
     _isPlaying = false;
+  }
+
+  List<Widget> RectanglePainterList (isPreview) {
+
+    List<Widget> list = [];
+
+    list.add(Container(
+      child: Image.file(
+        File(imageList[0]),
+        width: MediaQuery.of(context).size.width,
+        fit: BoxFit.fitWidth,
+      ),
+    ));
+
+    if (isPreview) {
+      for (int i = 0; i < _textDataMap.length; i++) {
+        list.add(
+            RectangleBox(
+                mediaWidth: MediaQuery.of(context).size.width,
+                width: _width,
+                height: _height,
+                lottieText: _textDataMap[i.toString()]!
+            )
+        );
+      }
+    }
+    return list;
   }
 
   @override
@@ -229,25 +258,25 @@ class _TestWidgetState extends State<TestWidget> {
                 itemBuilder: (BuildContext context, int index) {
                   bool isPreview = imageList.length == 1;
                   return Stack(
-                    children: [
-                      Container(
-                        child: Image.file(
-                          File(imageList[index]),
-                          width: MediaQuery.of(context).size.width,
-                          fit: BoxFit.fitWidth,
-                        ),
-                      ),
-                      isPreview
-                          ? CustomPaint(
-                              foregroundPainter: RectanglePainter(
-                                mediaWidth: MediaQuery.of(context).size.width,
-                                width: _width,
-                                height: _height,
-                                textDataMap: _textDataMap,
-                              ),
-                            )
-                          : Container(),
-                    ],
+                    children: RectanglePainterList(isPreview), //[
+                      // Container(
+                      //   child: Image.file(
+                      //     File(imageList[index]),
+                      //     width: MediaQuery.of(context).size.width,
+                      //     fit: BoxFit.fitWidth,
+                      //   ),
+                      // ),
+
+
+                      // isPreview ?
+                      //   Flexible(
+                      //     flex: 1,
+                      //     fit: FlexFit.tight,
+                      //     child: Column(
+                      //       children: RectanglePainterList(),
+                      //     ),
+                      //   ) : Container(),
+                    //],
                   );
                 },
               ),
@@ -263,52 +292,94 @@ class _TestWidgetState extends State<TestWidget> {
   }
 }
 
+class RectangleBox extends StatelessWidget {
+  double mediaWidth;
+  double width;
+  double height;
+  LottieText lottieText;
+
+  RectangleBox({
+    Key? key,
+    required this.mediaWidth,
+    required this.width,
+    required this.height,
+    required this.lottieText,}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Rectangle rectangle = lottieText.boundingBox;
+
+    final mediaHeight = height * mediaWidth / width;
+
+    final x = mediaWidth * rectangle.x / width;
+    final y = mediaHeight * rectangle.y / height;
+
+    final w = mediaWidth * rectangle.width / width;
+    final h = mediaHeight * rectangle.height / height;
+
+    return Positioned(
+      top: y,
+      left: x,
+      child: GestureDetector(
+        onTap: () {
+          print(lottieText.value);
+        },
+        child: Container(
+          width: w,
+          height: h,
+          color: Colors.grey.shade800.withOpacity(0.3),
+        ),
+      )
+    );
+  }
+}
+
+
+
 class RectanglePainter extends CustomPainter {
   double mediaWidth;
   double width;
   double height;
-  Map<String, LottieText> textDataMap;
+  LottieText lottieText;
 
   RectanglePainter(
       {required this.mediaWidth,
       required this.width,
       required this.height,
-      required this.textDataMap});
+      required this.lottieText,});
 
   @override
   void paint(Canvas canvas, Size size) {
     // TODO: implement paint
+    print('paint is called!!!');
+
     final paint = Paint()
       ..color = Colors.amber
       ..strokeWidth = 5
       ..style = PaintingStyle.stroke;
 
-    int length = textDataMap.length;
-    for (int i = 0; i < textDataMap.length; i++) {
-      Rectangle rectangle = textDataMap[i.toString()]!.boundingBox;
+    Rectangle rectangle = lottieText.boundingBox;
 
-      final mediaHeight = height * mediaWidth / width;
+    final mediaHeight = height * mediaWidth / width;
 
-      final x = mediaWidth * rectangle.x / width;
-      final y = mediaHeight * rectangle.y / height;
+    final x = mediaWidth * rectangle.x / width;
+    final y = mediaHeight * rectangle.y / height;
 
-      final x2 = mediaWidth * (rectangle.x + rectangle.width) / width;
-      final y2 = mediaHeight * (rectangle.y + rectangle.height) / height;
+    final x2 = mediaWidth * (rectangle.x + rectangle.width) / width;
+    final y2 = mediaHeight * (rectangle.y + rectangle.height) / height;
 
-      print(
-          'x : $x, y : $y, x2 : $x2, y2 : $y2, width : $width, height: $height, mediaWidth : $mediaWidth, mediaHeight : $mediaHeight, rect.x : ${rectangle.x}, rect.y : ${rectangle.y}, rect.width : ${rectangle.width}, rect.height : ${rectangle.height} ');
+    // print('x : $x, y : $y, x2 : $x2, y2 : $y2, width : $width, height: $height, mediaWidth : $mediaWidth, mediaHeight : $mediaHeight, rect.x : ${rectangle.x}, rect.y : ${rectangle.y}, rect.width : ${rectangle.width}, rect.height : ${rectangle.height} ');
 
-      final a = Offset(x, y);
-      final b = Offset(x2, y2);
+    final a = Offset(x, y);
+    final b = Offset(x2, y2);
 
-      Rect rect = Rect.fromPoints(a, b);
-      // canvas.drawRect(rect, paint);
-    }
+    Rect rect = Rect.fromPoints(a, b);
+    canvas.drawRect(rect, paint);
   }
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     // TODO: implement shouldRepaint
-    return true;
+    return false;
   }
 }
