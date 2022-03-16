@@ -22,9 +22,6 @@ class _TestWidgetState extends State<TestWidget> {
   // final VMSDKWidget _vmsdkWidget = VMSDKWidget();
   late LottieTextWidget _lottieTextWidget = LottieTextWidget();
 
-  TextEditingController _textController1 = TextEditingController();
-  TextEditingController _textController2 = TextEditingController();
-
   List<String> imageList = [];
   double _width = 0;
   double _height = 0;
@@ -32,34 +29,16 @@ class _TestWidgetState extends State<TestWidget> {
   ETitleType? _title;
   bool _isPlaying = false;
 
-  void _handlePressedTitleField () async {
-    if (_textController1.text.isEmpty) {
-    } else {
-      String? preview = await _lottieTextWidget.setTextValue("#TEXT1", _textController1.text);
+  void callback(number, textController) async {
+    String? preview =
+    await _lottieTextWidget.setTextValue("#TEXT$number", textController.text);
 
-      setState(() {
-        if (preview != null) imageList = [preview];
-        _width = _lottieTextWidget.width;
-        _height = _lottieTextWidget.height;
-        _textDataMap = _lottieTextWidget.textDataMap;
-      });
-    }
-    _textController1.clear();
-  }
-
-  void _handlePressedSubtitleField () async {
-    if (_textController2.text.isEmpty) {
-    } else {
-      String? preview = await _lottieTextWidget.setTextValue("#TEXT2", _textController2.text);
-
-      setState(() {
-        if (preview != null) imageList = [preview];
-        _width = _lottieTextWidget.width;
-        _height = _lottieTextWidget.height;
-        _textDataMap = _lottieTextWidget.textDataMap;
-      });
-    }
-    _textController2.clear();
+    setState(() {
+      if (preview != null) imageList = [preview];
+      _width = _lottieTextWidget.width;
+      _height = _lottieTextWidget.height;
+      _textDataMap = _lottieTextWidget.textDataMap;
+    });
   }
 
   void _run() async {
@@ -169,13 +148,12 @@ class _TestWidgetState extends State<TestWidget> {
     _isPlaying = false;
   }
 
-  List<Widget> RectanglePainterList (isPreview) {
-
+  List<Widget> RectangleBoxList(isPreview, index) {
     List<Widget> list = [];
 
     list.add(Container(
       child: Image.file(
-        File(imageList[0]),
+        File(imageList[index]),
         width: MediaQuery.of(context).size.width,
         fit: BoxFit.fitWidth,
       ),
@@ -183,14 +161,14 @@ class _TestWidgetState extends State<TestWidget> {
 
     if (isPreview) {
       for (int i = 0; i < _textDataMap.length; i++) {
-        list.add(
-            RectangleBox(
-                mediaWidth: MediaQuery.of(context).size.width,
-                width: _width,
-                height: _height,
-                lottieText: _textDataMap[i.toString()]!
-            )
-        );
+        list.add(RectangleBox(
+          mediaWidth: MediaQuery.of(context).size.width,
+          width: _width,
+          height: _height,
+          lottieText: _textDataMap[i.toString()]!,
+          textDataMapIndex: i,
+          callback: callback,
+        ));
       }
     }
     return list;
@@ -207,50 +185,6 @@ class _TestWidgetState extends State<TestWidget> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                height: 50,
-                width: double.infinity,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: _textController1,
-                        autofocus: false,
-                        decoration: InputDecoration(
-                          hintText: "Please enter Title",
-                        ),
-                      ),
-                    ),
-                    Spacer(),
-                    ElevatedButton(
-                      onPressed: _handlePressedTitleField,
-                      child: Text("Apply"),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                height: 50,
-                width: double.infinity,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: _textController2,
-                        autofocus: false,
-                        decoration: InputDecoration(
-                          hintText: "Please enter Subtitle",
-                        ),
-                      ),
-                    ),
-                    Spacer(),
-                    ElevatedButton(
-                      onPressed: _handlePressedSubtitleField,
-                      child: Text("Apply"),
-                    ),
-                  ],
-                ),
-              ),
               ListView.builder(
                 itemCount: imageList.length,
                 shrinkWrap: true,
@@ -258,25 +192,7 @@ class _TestWidgetState extends State<TestWidget> {
                 itemBuilder: (BuildContext context, int index) {
                   bool isPreview = imageList.length == 1;
                   return Stack(
-                    children: RectanglePainterList(isPreview), //[
-                      // Container(
-                      //   child: Image.file(
-                      //     File(imageList[index]),
-                      //     width: MediaQuery.of(context).size.width,
-                      //     fit: BoxFit.fitWidth,
-                      //   ),
-                      // ),
-
-
-                      // isPreview ?
-                      //   Flexible(
-                      //     flex: 1,
-                      //     fit: FlexFit.tight,
-                      //     child: Column(
-                      //       children: RectanglePainterList(),
-                      //     ),
-                      //   ) : Container(),
-                    //],
+                    children: RectangleBoxList(isPreview, index),
                   );
                 },
               ),
@@ -297,13 +213,20 @@ class RectangleBox extends StatelessWidget {
   double width;
   double height;
   LottieText lottieText;
+  int textDataMapIndex;
+  var callback;
+
+  TextEditingController _textController = TextEditingController();
 
   RectangleBox({
     Key? key,
     required this.mediaWidth,
     required this.width,
     required this.height,
-    required this.lottieText,}) : super(key: key);
+    required this.lottieText,
+    required this.textDataMapIndex,
+    required this.callback,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -318,68 +241,66 @@ class RectangleBox extends StatelessWidget {
     final h = mediaHeight * rectangle.height / height;
 
     return Positioned(
-      top: y,
-      left: x,
-      child: GestureDetector(
-        onTap: () {
-          print(lottieText.value);
-        },
-        child: Container(
-          width: w,
-          height: h,
-          color: Colors.grey.shade800.withOpacity(0.3),
-        ),
-      )
-    );
-  }
-}
+        top: y,
+        left: x,
+        child: GestureDetector(
+          onTap: () {
+            print(
+                'textDataMapIndex: $textDataMapIndex, value : ${lottieText.value}');
+            _textController.text = lottieText.value;
+            showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                builder: (context) => Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 18),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only(
+                                bottom:
+                                    MediaQuery.of(context).viewInsets.bottom),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Expanded(
+                                  child: TextFormField(
+                                    controller: _textController,
+                                    autofocus: true,
+                                    decoration: InputDecoration(
+                                      hintText: "Please enter text",
+                                      isDense: true,
+                                      filled: true,
+                                    ),
+                                  ),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    if (_textController.text.isEmpty) {
+                                    } else {
+                                      callback(textDataMapIndex + 1, _textController);
+                                    }
+                                    _textController.clear();
 
-
-
-class RectanglePainter extends CustomPainter {
-  double mediaWidth;
-  double width;
-  double height;
-  LottieText lottieText;
-
-  RectanglePainter(
-      {required this.mediaWidth,
-      required this.width,
-      required this.height,
-      required this.lottieText,});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    // TODO: implement paint
-    print('paint is called!!!');
-
-    final paint = Paint()
-      ..color = Colors.amber
-      ..strokeWidth = 5
-      ..style = PaintingStyle.stroke;
-
-    Rectangle rectangle = lottieText.boundingBox;
-
-    final mediaHeight = height * mediaWidth / width;
-
-    final x = mediaWidth * rectangle.x / width;
-    final y = mediaHeight * rectangle.y / height;
-
-    final x2 = mediaWidth * (rectangle.x + rectangle.width) / width;
-    final y2 = mediaHeight * (rectangle.y + rectangle.height) / height;
-
-    // print('x : $x, y : $y, x2 : $x2, y2 : $y2, width : $width, height: $height, mediaWidth : $mediaWidth, mediaHeight : $mediaHeight, rect.x : ${rectangle.x}, rect.y : ${rectangle.y}, rect.width : ${rectangle.width}, rect.height : ${rectangle.height} ');
-
-    final a = Offset(x, y);
-    final b = Offset(x2, y2);
-
-    Rect rect = Rect.fromPoints(a, b);
-    canvas.drawRect(rect, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    // TODO: implement shouldRepaint
-    return false;
+                                    Navigator.pop(context);
+                                    print('Done is clicked!!');
+                                  },
+                                  child: Text("Done"),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                        ],
+                      ),
+                    ));
+          },
+          child: Container(
+            width: w,
+            height: h,
+            color: Colors.grey.shade800.withOpacity(0.3),
+          ),
+        ));
   }
 }
