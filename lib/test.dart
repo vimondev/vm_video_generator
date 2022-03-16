@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:gallery_saver/gallery_saver.dart';
@@ -208,15 +209,13 @@ class _TestWidgetState extends State<TestWidget> {
   }
 }
 
-class RectangleBox extends StatelessWidget {
+class RectangleBox extends StatefulWidget {
   double mediaWidth;
   double width;
   double height;
   LottieText lottieText;
   int textDataMapIndex;
   var callback;
-
-  TextEditingController _textController = TextEditingController();
 
   RectangleBox({
     Key? key,
@@ -229,16 +228,52 @@ class RectangleBox extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<RectangleBox> createState() => _RectangleBoxState();
+}
+
+class _RectangleBoxState extends State<RectangleBox> {
+  TextEditingController _textController = TextEditingController();
+
+  var _timer;
+  var _now;
+
+
+  @override
+  void initState() {
+    super.initState();
+    _textController.addListener(() {
+      _now = DateTime.now();
+      _timer = Timer(Duration(seconds: 1), () {
+        int diff = _now.difference(DateTime.now()).inSeconds;
+        if (diff <= -1) {
+          if (_textController.text.isEmpty) {
+          } else {
+            widget.callback(widget.textDataMapIndex + 1, _textController);
+          }
+        }
+      });
+
+    });
+  }
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    _timer.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    Rectangle rectangle = lottieText.boundingBox;
+    Rectangle rectangle = widget.lottieText.boundingBox;
 
-    final mediaHeight = height * mediaWidth / width;
+    final mediaHeight = widget.height * widget.mediaWidth / widget.width;
 
-    final x = mediaWidth * rectangle.x / width;
-    final y = mediaHeight * rectangle.y / height;
+    final x = widget.mediaWidth * rectangle.x / widget.width;
+    final y = mediaHeight * rectangle.y / widget.height;
 
-    final w = mediaWidth * rectangle.width / width;
-    final h = mediaHeight * rectangle.height / height;
+    final w = widget.mediaWidth * rectangle.width / widget.width;
+    final h = mediaHeight * rectangle.height / widget.height;
 
     return Positioned(
         top: y,
@@ -246,8 +281,8 @@ class RectangleBox extends StatelessWidget {
         child: GestureDetector(
           onTap: () {
             print(
-                'textDataMapIndex: $textDataMapIndex, value : ${lottieText.value}');
-            _textController.text = lottieText.value;
+                'textDataMapIndex: ${widget.textDataMapIndex}, value : ${widget.lottieText.value}');
+            _textController.text = widget.lottieText.value;
             showModalBottomSheet(
                 context: context,
                 isScrollControlled: true,
@@ -277,16 +312,9 @@ class RectangleBox extends StatelessWidget {
                                 ),
                                 ElevatedButton(
                                   onPressed: () {
-                                    if (_textController.text.isEmpty) {
-                                    } else {
-                                      callback(textDataMapIndex + 1, _textController);
-                                    }
-                                    _textController.clear();
-
                                     Navigator.pop(context);
-                                    print('Done is clicked!!');
                                   },
-                                  child: Text("Done"),
+                                  child: Text("Close"),
                                 ),
                               ],
                             ),
