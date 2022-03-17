@@ -6,6 +6,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:myapp/vm_sdk/impl/ml_kit_helper.dart';
 import 'package:myapp/vm_sdk/types/types.dart';
 import 'package:myapp/vm_sdk/impl/global_helper.dart';
+import 'package:myapp/vm_sdk/widgets/webview.dart';
 
 import 'ffmpeg_manager.dart';
 
@@ -325,14 +326,10 @@ class LottieTextWidget extends StatelessWidget {
       child: Transform.translate(
         offset: const Offset(-99999, -99999),
         // offset: const Offset(0, 0),
-        child: InAppWebView(
-            initialFile: "assets/html/index4.html",
-            onWebViewCreated: (controller) {
-              _setController(controller);
-            },
-            onConsoleMessage: (controller, consoleMessage) {
-              print(consoleMessage);
-            }),
+        child: Webview(
+          callback: _setController,
+          initialFile: "assets/html/index4.html",
+        ),
       ),
     );
   }

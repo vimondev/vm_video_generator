@@ -259,7 +259,9 @@ class _RectangleBoxState extends State<RectangleBox> {
   @override
   void dispose() {
     _textController.dispose();
-    _timer.cancel();
+    if (_timer != null) {
+      _timer.cancel();
+    }
     super.dispose();
   }
 
