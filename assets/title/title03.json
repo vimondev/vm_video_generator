@@ -1,6 +1,7 @@
 {
-    "name": "title03",
-    "filename": "title3.json",
-    "fontFamily": ["YANGJIN"],
-    "fontFileName": ["YANGJIN.ttf"]
+  "name": "title03",
+  "filename": "title3.json",
+  "fontFamily": ["Gmarket Sans", "Gmarket Sans"],
+  "fontFileName": ["GmarketSansBold.otf", "GmarketSansMedium.otf"],
+  "originalFilename": "Title_DA003.json"
 }

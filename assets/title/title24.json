@@ -1,7 +1,7 @@
 {
   "name": "title24",
   "filename": "title24.json",
-  "fontFamily": ["Black Han Sans"],
-  "fontFileName": ["BlackHanSans-Regular.ttf"],
-  "originalFilename": "Title_YJ001.json"
+  "fontFamily": ["TTTogether"],
+  "fontFileName": ["TTTogether.otf"],
+  "originalFilename": "Title_HJ006.json"
 }

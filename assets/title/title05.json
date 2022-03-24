@@ -1,6 +1,7 @@
 {
   "name": "title05",
   "filename": "title5.json",
-  "fontFamily": ["Jalnan"],
-  "fontFileName": ["Jalnan.ttf"]
+  "fontFamily": ["TTTogether"],
+  "fontFileName": ["TTTogether.otf"],
+  "originalFilename": "Title_DA005.json"
 }

@@ -1,7 +1,7 @@
 {
   "name": "title22",
   "filename": "title22.json",
-  "fontFamily": ["BazziRegular", "MaplestoryBold"],
-  "fontFileName": ["Bazzi.ttf", "MaplestoryBold.ttf"],
-  "originalFilename": "Title_SW010.json"
+  "fontFamily": ["TTTogether"],
+  "fontFileName": ["TTTogether.otf"],
+  "originalFilename": "Title_HJ004.json"
 }

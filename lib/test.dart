@@ -52,20 +52,34 @@ class _TestWidgetState extends State<TestWidget> {
     // final TitleData title = (await loadTitleData(ETitleType.title33))!;
 
     if (_title == null) {
-      _title = ETitleType.title06;
+      _title = ETitleType.title01;
     } else {
       bool isNext = false;
       for (var value in ETitleType.values) {
         if (isNext == true) {
-          _title = value;
-          break;
+          if (
+            ETitleType.title04 == value ||
+            ETitleType.title13 == value ||
+            ETitleType.title23 == value ||
+            ETitleType.title26 == value ||
+            ETitleType.title32 == value ||
+            ETitleType.title36 == value ||
+            ETitleType.title46 == value ||
+            ETitleType.title51 == value ||
+            ETitleType.title60 == value
+          ) {
+            continue;
+          } else {
+            _title = value;
+            break;
+          }
         }
         if (_title == value) {
           isNext = true;
         }
       }
-      if (isNext == true && _title == ETitleType.title33) {
-        _title = ETitleType.title06;
+      if (isNext == true && _title == ETitleType.title78) {
+        _title = ETitleType.title01;
       }
     }
 

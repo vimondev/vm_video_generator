@@ -1,7 +1,7 @@
 {
   "name": "title20",
   "filename": "title20.json",
-  "fontFamily": ["SangSangFlowerRoad"],
-  "fontFileName": ["SSFlowerRoadRegular.ttf"],
-  "originalFilename": "Title_SW008.json"
+  "fontFamily": ["SANGJU Gotgam"],
+  "fontFileName": ["SANGJUGotgam.ttf"],
+  "originalFilename": "Title_HJ002.json"
 }

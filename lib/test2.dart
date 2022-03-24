@@ -26,7 +26,7 @@ class _TestWidget2State extends State<TestWidget2> {
 
   void _run() async {
     if (_title == null) {
-      _title = ETitleType.title16;
+      _title = ETitleType.title01;
     } else {
       bool isNext = false;
       for (var value in ETitleType.values) {
@@ -39,7 +39,7 @@ class _TestWidget2State extends State<TestWidget2> {
         }
       }
       if (isNext == true && _title == ETitleType.title33) {
-        _title = ETitleType.title06;
+        _title = ETitleType.title01;
       }
     }
 

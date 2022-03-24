@@ -1,7 +1,7 @@
 {
   "name": "title17",
   "filename": "title17.json",
-  "fontFamily": ["NeoDunggeunmo"],
-  "fontFileName": ["neodgm.ttf"],
-  "originalFilename": "Title_SW005.json"
+  "fontFamily": ["Gmarket Sans TTF"],
+  "fontFileName": ["GmarketSansTTFBold.ttf"],
+  "originalFilename": "Title_DA017.json"
 }

@@ -1,7 +1,7 @@
 {
   "name": "title16",
   "filename": "title16.json",
-  "fontFamily": ["Gmarket Sans TTF"],
-  "fontFileName": ["GmarketSansTTFBold.ttf"],
-  "originalFilename": "Title_SW003.json"
+  "fontFamily": ["Gmarket Sans TTF", "SB Aggro"],
+  "fontFileName": ["GmarketSansTTFBold.ttf", "SBAggro.ttf"],
+  "originalFilename": "Title_DA016.json"
 }

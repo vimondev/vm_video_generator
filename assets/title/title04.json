@@ -1,6 +1,7 @@
 {
   "name": "title04",
   "filename": "title4.json",
-  "fontFamily": ["Gmarket Sans"],
-  "fontFileName": ["GmarketSansBold.otf"]
+  "fontFamily": ["NEXON Footbal Gothic B"],
+  "fontFileName": ["NEXONFootballGothicB.ttf"],
+  "originalFilename": "Title_DA004.json"
 }

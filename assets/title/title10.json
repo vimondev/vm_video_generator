@@ -1,7 +1,7 @@
 {
   "name": "title10",
   "filename": "title10.json",
-  "fontFamily": ["JSongMyung"],
-  "fontFileName": ["JSongMyung.otf"],
-  "originalFilename": "Title_HJ001.json"
+  "fontFamily": ["BBTreeC_B", "Jalnan OTF"],
+  "fontFileName": ["BBTreeC_B.otf", "JalnanOTF.otf"],
+  "originalFilename": "Title_DA010.json"
 }
