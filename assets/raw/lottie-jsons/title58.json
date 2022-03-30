@@ -34,7 +34,7 @@
               "a": 0,
               "k": [
                 960,
-                250,
+                150,
                 0
               ],
               "ix": 2,
@@ -356,7 +356,7 @@
           "ddd": 0,
           "ind": 2,
           "ty": 5,
-          "nm": "T1",
+          "nm": "@Source",
           "sr": 1,
           "ks": {
             "o": {
@@ -446,7 +446,7 @@
               "a": 0,
               "k": [
                 956.5,
-                246.5,
+                146.5,
                 0
               ],
               "ix": 2,
@@ -513,9 +513,9 @@
                   "v": {
                     "a": 0,
                     "k": [
-                      0.20000000298,
-                      0.43137255311,
-                      0.29411765933,
+                      0.216193765402,
+                      0.835294127464,
+                      0.468031227589,
                       1
                     ],
                     "ix": 3
@@ -566,180 +566,6 @@
                   }
                 }
               ]
-            },
-            {
-              "ty": 5,
-              "nm": "Glow",
-              "np": 16,
-              "mn": "ADBE Glo2",
-              "ix": 2,
-              "en": 1,
-              "ef": [
-                {
-                  "ty": 7,
-                  "nm": "Glow Based On",
-                  "mn": "ADBE Glo2-0001",
-                  "ix": 1,
-                  "v": {
-                    "a": 0,
-                    "k": 2,
-                    "ix": 1
-                  }
-                },
-                {
-                  "ty": 0,
-                  "nm": "Glow Threshold",
-                  "mn": "ADBE Glo2-0002",
-                  "ix": 2,
-                  "v": {
-                    "a": 0,
-                    "k": 93,
-                    "ix": 2
-                  }
-                },
-                {
-                  "ty": 0,
-                  "nm": "Glow Radius",
-                  "mn": "ADBE Glo2-0003",
-                  "ix": 3,
-                  "v": {
-                    "a": 0,
-                    "k": 6,
-                    "ix": 3
-                  }
-                },
-                {
-                  "ty": 0,
-                  "nm": "Glow Intensity",
-                  "mn": "ADBE Glo2-0004",
-                  "ix": 4,
-                  "v": {
-                    "a": 0,
-                    "k": 1,
-                    "ix": 4
-                  }
-                },
-                {
-                  "ty": 7,
-                  "nm": "Composite Original",
-                  "mn": "ADBE Glo2-0005",
-                  "ix": 5,
-                  "v": {
-                    "a": 0,
-                    "k": 2,
-                    "ix": 5
-                  }
-                },
-                {
-                  "ty": 7,
-                  "nm": "Glow Operation",
-                  "mn": "ADBE Glo2-0006",
-                  "ix": 6,
-                  "v": {
-                    "a": 0,
-                    "k": 3,
-                    "ix": 6
-                  }
-                },
-                {
-                  "ty": 7,
-                  "nm": "Glow Colors",
-                  "mn": "ADBE Glo2-0007",
-                  "ix": 7,
-                  "v": {
-                    "a": 0,
-                    "k": 1,
-                    "ix": 7
-                  }
-                },
-                {
-                  "ty": 7,
-                  "nm": "Color Looping",
-                  "mn": "ADBE Glo2-0008",
-                  "ix": 8,
-                  "v": {
-                    "a": 0,
-                    "k": 3,
-                    "ix": 8
-                  }
-                },
-                {
-                  "ty": 0,
-                  "nm": "Color Loops",
-                  "mn": "ADBE Glo2-0009",
-                  "ix": 9,
-                  "v": {
-                    "a": 0,
-                    "k": 1,
-                    "ix": 9
-                  }
-                },
-                {
-                  "ty": 0,
-                  "nm": "Color Phase",
-                  "mn": "ADBE Glo2-0010",
-                  "ix": 10,
-                  "v": {
-                    "a": 0,
-                    "k": 0,
-                    "ix": 10
-                  }
-                },
-                {
-                  "ty": 0,
-                  "nm": "A & B Midpoint",
-                  "mn": "ADBE Glo2-0011",
-                  "ix": 11,
-                  "v": {
-                    "a": 0,
-                    "k": 0.5,
-                    "ix": 11
-                  }
-                },
-                {
-                  "ty": 2,
-                  "nm": "Color A",
-                  "mn": "ADBE Glo2-0012",
-                  "ix": 12,
-                  "v": {
-                    "a": 0,
-                    "k": [
-                      1,
-                      1,
-                      1,
-                      0
-                    ],
-                    "ix": 12
-                  }
-                },
-                {
-                  "ty": 2,
-                  "nm": "Color B",
-                  "mn": "ADBE Glo2-0013",
-                  "ix": 13,
-                  "v": {
-                    "a": 0,
-                    "k": [
-                      0,
-                      0,
-                      0,
-                      0
-                    ],
-                    "ix": 13
-                  }
-                },
-                {
-                  "ty": 7,
-                  "nm": "Glow Dimensions",
-                  "mn": "ADBE Glo2-0014",
-                  "ix": 14,
-                  "v": {
-                    "a": 0,
-                    "k": 1,
-                    "ix": 14
-                  }
-                }
-              ]
             }
           ],
           "t": {
@@ -749,7 +575,7 @@
                   "s": {
                     "s": 109,
                     "f": "TTTogether",
-                    "t": "Spring Shower",
+                    "t": "SHOOTING STARS",
                     "ca": 0,
                     "j": 2,
                     "tr": -13,
@@ -764,8 +590,7 @@
                   },
                   "t": 0
                 }
-              ],
-              "x": "var $bm_rt;\n$bm_rt = thisComp.layer('@Source').text.sourceText;"
+              ]
             },
             "p": {},
             "m": {
@@ -790,7 +615,7 @@
           "ddd": 0,
           "ind": 3,
           "ty": 5,
-          "nm": "T2",
+          "nm": "@Source",
           "sr": 1,
           "ks": {
             "o": {
@@ -880,7 +705,7 @@
               "a": 0,
               "k": [
                 963.5,
-                254,
+                154,
                 0
               ],
               "ix": 2,
@@ -1000,180 +825,6 @@
                   }
                 }
               ]
-            },
-            {
-              "ty": 5,
-              "nm": "Glow",
-              "np": 16,
-              "mn": "ADBE Glo2",
-              "ix": 2,
-              "en": 1,
-              "ef": [
-                {
-                  "ty": 7,
-                  "nm": "Glow Based On",
-                  "mn": "ADBE Glo2-0001",
-                  "ix": 1,
-                  "v": {
-                    "a": 0,
-                    "k": 2,
-                    "ix": 1
-                  }
-                },
-                {
-                  "ty": 0,
-                  "nm": "Glow Threshold",
-                  "mn": "ADBE Glo2-0002",
-                  "ix": 2,
-                  "v": {
-                    "a": 0,
-                    "k": 93,
-                    "ix": 2
-                  }
-                },
-                {
-                  "ty": 0,
-                  "nm": "Glow Radius",
-                  "mn": "ADBE Glo2-0003",
-                  "ix": 3,
-                  "v": {
-                    "a": 0,
-                    "k": 6,
-                    "ix": 3
-                  }
-                },
-                {
-                  "ty": 0,
-                  "nm": "Glow Intensity",
-                  "mn": "ADBE Glo2-0004",
-                  "ix": 4,
-                  "v": {
-                    "a": 0,
-                    "k": 1,
-                    "ix": 4
-                  }
-                },
-                {
-                  "ty": 7,
-                  "nm": "Composite Original",
-                  "mn": "ADBE Glo2-0005",
-                  "ix": 5,
-                  "v": {
-                    "a": 0,
-                    "k": 2,
-                    "ix": 5
-                  }
-                },
-                {
-                  "ty": 7,
-                  "nm": "Glow Operation",
-                  "mn": "ADBE Glo2-0006",
-                  "ix": 6,
-                  "v": {
-                    "a": 0,
-                    "k": 3,
-                    "ix": 6
-                  }
-                },
-                {
-                  "ty": 7,
-                  "nm": "Glow Colors",
-                  "mn": "ADBE Glo2-0007",
-                  "ix": 7,
-                  "v": {
-                    "a": 0,
-                    "k": 1,
-                    "ix": 7
-                  }
-                },
-                {
-                  "ty": 7,
-                  "nm": "Color Looping",
-                  "mn": "ADBE Glo2-0008",
-                  "ix": 8,
-                  "v": {
-                    "a": 0,
-                    "k": 3,
-                    "ix": 8
-                  }
-                },
-                {
-                  "ty": 0,
-                  "nm": "Color Loops",
-                  "mn": "ADBE Glo2-0009",
-                  "ix": 9,
-                  "v": {
-                    "a": 0,
-                    "k": 1,
-                    "ix": 9
-                  }
-                },
-                {
-                  "ty": 0,
-                  "nm": "Color Phase",
-                  "mn": "ADBE Glo2-0010",
-                  "ix": 10,
-                  "v": {
-                    "a": 0,
-                    "k": 0,
-                    "ix": 10
-                  }
-                },
-                {
-                  "ty": 0,
-                  "nm": "A & B Midpoint",
-                  "mn": "ADBE Glo2-0011",
-                  "ix": 11,
-                  "v": {
-                    "a": 0,
-                    "k": 0.5,
-                    "ix": 11
-                  }
-                },
-                {
-                  "ty": 2,
-                  "nm": "Color A",
-                  "mn": "ADBE Glo2-0012",
-                  "ix": 12,
-                  "v": {
-                    "a": 0,
-                    "k": [
-                      1,
-                      1,
-                      1,
-                      0
-                    ],
-                    "ix": 12
-                  }
-                },
-                {
-                  "ty": 2,
-                  "nm": "Color B",
-                  "mn": "ADBE Glo2-0013",
-                  "ix": 13,
-                  "v": {
-                    "a": 0,
-                    "k": [
-                      0,
-                      0,
-                      0,
-                      0
-                    ],
-                    "ix": 13
-                  }
-                },
-                {
-                  "ty": 7,
-                  "nm": "Glow Dimensions",
-                  "mn": "ADBE Glo2-0014",
-                  "ix": 14,
-                  "v": {
-                    "a": 0,
-                    "k": 1,
-                    "ix": 14
-                  }
-                }
-              ]
             }
           ],
           "t": {
@@ -1183,7 +834,7 @@
                   "s": {
                     "s": 109,
                     "f": "TTTogether",
-                    "t": "Spring Shower",
+                    "t": "SHOOTING STARS",
                     "ca": 0,
                     "j": 2,
                     "tr": -13,
@@ -1198,8 +849,7 @@
                   },
                   "t": 0
                 }
-              ],
-              "x": "var $bm_rt;\n$bm_rt = thisComp.layer('@Source').text.sourceText;"
+              ]
             },
             "p": {},
             "m": {
@@ -1248,7 +898,7 @@
               "a": 0,
               "k": [
                 960,
-                250,
+                150,
                 0
               ],
               "ix": 2,
@@ -1276,182 +926,6 @@
             }
           },
           "ao": 0,
-          "ef": [
-            {
-              "ty": 5,
-              "nm": "Glow",
-              "np": 16,
-              "mn": "ADBE Glo2",
-              "ix": 1,
-              "en": 1,
-              "ef": [
-                {
-                  "ty": 7,
-                  "nm": "Glow Based On",
-                  "mn": "ADBE Glo2-0001",
-                  "ix": 1,
-                  "v": {
-                    "a": 0,
-                    "k": 2,
-                    "ix": 1
-                  }
-                },
-                {
-                  "ty": 0,
-                  "nm": "Glow Threshold",
-                  "mn": "ADBE Glo2-0002",
-                  "ix": 2,
-                  "v": {
-                    "a": 0,
-                    "k": 93,
-                    "ix": 2
-                  }
-                },
-                {
-                  "ty": 0,
-                  "nm": "Glow Radius",
-                  "mn": "ADBE Glo2-0003",
-                  "ix": 3,
-                  "v": {
-                    "a": 0,
-                    "k": 6,
-                    "ix": 3
-                  }
-                },
-                {
-                  "ty": 0,
-                  "nm": "Glow Intensity",
-                  "mn": "ADBE Glo2-0004",
-                  "ix": 4,
-                  "v": {
-                    "a": 0,
-                    "k": 0.34,
-                    "ix": 4
-                  }
-                },
-                {
-                  "ty": 7,
-                  "nm": "Composite Original",
-                  "mn": "ADBE Glo2-0005",
-                  "ix": 5,
-                  "v": {
-                    "a": 0,
-                    "k": 2,
-                    "ix": 5
-                  }
-                },
-                {
-                  "ty": 7,
-                  "nm": "Glow Operation",
-                  "mn": "ADBE Glo2-0006",
-                  "ix": 6,
-                  "v": {
-                    "a": 0,
-                    "k": 3,
-                    "ix": 6
-                  }
-                },
-                {
-                  "ty": 7,
-                  "nm": "Glow Colors",
-                  "mn": "ADBE Glo2-0007",
-                  "ix": 7,
-                  "v": {
-                    "a": 0,
-                    "k": 1,
-                    "ix": 7
-                  }
-                },
-                {
-                  "ty": 7,
-                  "nm": "Color Looping",
-                  "mn": "ADBE Glo2-0008",
-                  "ix": 8,
-                  "v": {
-                    "a": 0,
-                    "k": 3,
-                    "ix": 8
-                  }
-                },
-                {
-                  "ty": 0,
-                  "nm": "Color Loops",
-                  "mn": "ADBE Glo2-0009",
-                  "ix": 9,
-                  "v": {
-                    "a": 0,
-                    "k": 1,
-                    "ix": 9
-                  }
-                },
-                {
-                  "ty": 0,
-                  "nm": "Color Phase",
-                  "mn": "ADBE Glo2-0010",
-                  "ix": 10,
-                  "v": {
-                    "a": 0,
-                    "k": 0,
-                    "ix": 10
-                  }
-                },
-                {
-                  "ty": 0,
-                  "nm": "A & B Midpoint",
-                  "mn": "ADBE Glo2-0011",
-                  "ix": 11,
-                  "v": {
-                    "a": 0,
-                    "k": 0.5,
-                    "ix": 11
-                  }
-                },
-                {
-                  "ty": 2,
-                  "nm": "Color A",
-                  "mn": "ADBE Glo2-0012",
-                  "ix": 12,
-                  "v": {
-                    "a": 0,
-                    "k": [
-                      1,
-                      1,
-                      1,
-                      0
-                    ],
-                    "ix": 12
-                  }
-                },
-                {
-                  "ty": 2,
-                  "nm": "Color B",
-                  "mn": "ADBE Glo2-0013",
-                  "ix": 13,
-                  "v": {
-                    "a": 0,
-                    "k": [
-                      0,
-                      0,
-                      0,
-                      0
-                    ],
-                    "ix": 13
-                  }
-                },
-                {
-                  "ty": 7,
-                  "nm": "Glow Dimensions",
-                  "mn": "ADBE Glo2-0014",
-                  "ix": 14,
-                  "v": {
-                    "a": 0,
-                    "k": 1,
-                    "ix": 14
-                  }
-                }
-              ]
-            }
-          ],
           "t": {
             "d": {
               "k": [
@@ -1570,7 +1044,7 @@
           "ddd": 0,
           "ind": 2,
           "ty": 5,
-          "nm": "T1",
+          "nm": "@Source",
           "sr": 1,
           "ks": {
             "o": {
@@ -1660,7 +1134,7 @@
               "a": 0,
               "k": [
                 956.5,
-                246.5,
+                146.5,
                 0
               ],
               "ix": 2,
@@ -1780,180 +1254,6 @@
                   }
                 }
               ]
-            },
-            {
-              "ty": 5,
-              "nm": "Glow",
-              "np": 16,
-              "mn": "ADBE Glo2",
-              "ix": 2,
-              "en": 1,
-              "ef": [
-                {
-                  "ty": 7,
-                  "nm": "Glow Based On",
-                  "mn": "ADBE Glo2-0001",
-                  "ix": 1,
-                  "v": {
-                    "a": 0,
-                    "k": 2,
-                    "ix": 1
-                  }
-                },
-                {
-                  "ty": 0,
-                  "nm": "Glow Threshold",
-                  "mn": "ADBE Glo2-0002",
-                  "ix": 2,
-                  "v": {
-                    "a": 0,
-                    "k": 93,
-                    "ix": 2
-                  }
-                },
-                {
-                  "ty": 0,
-                  "nm": "Glow Radius",
-                  "mn": "ADBE Glo2-0003",
-                  "ix": 3,
-                  "v": {
-                    "a": 0,
-                    "k": 6,
-                    "ix": 3
-                  }
-                },
-                {
-                  "ty": 0,
-                  "nm": "Glow Intensity",
-                  "mn": "ADBE Glo2-0004",
-                  "ix": 4,
-                  "v": {
-                    "a": 0,
-                    "k": 1,
-                    "ix": 4
-                  }
-                },
-                {
-                  "ty": 7,
-                  "nm": "Composite Original",
-                  "mn": "ADBE Glo2-0005",
-                  "ix": 5,
-                  "v": {
-                    "a": 0,
-                    "k": 2,
-                    "ix": 5
-                  }
-                },
-                {
-                  "ty": 7,
-                  "nm": "Glow Operation",
-                  "mn": "ADBE Glo2-0006",
-                  "ix": 6,
-                  "v": {
-                    "a": 0,
-                    "k": 3,
-                    "ix": 6
-                  }
-                },
-                {
-                  "ty": 7,
-                  "nm": "Glow Colors",
-                  "mn": "ADBE Glo2-0007",
-                  "ix": 7,
-                  "v": {
-                    "a": 0,
-                    "k": 1,
-                    "ix": 7
-                  }
-                },
-                {
-                  "ty": 7,
-                  "nm": "Color Looping",
-                  "mn": "ADBE Glo2-0008",
-                  "ix": 8,
-                  "v": {
-                    "a": 0,
-                    "k": 3,
-                    "ix": 8
-                  }
-                },
-                {
-                  "ty": 0,
-                  "nm": "Color Loops",
-                  "mn": "ADBE Glo2-0009",
-                  "ix": 9,
-                  "v": {
-                    "a": 0,
-                    "k": 1,
-                    "ix": 9
-                  }
-                },
-                {
-                  "ty": 0,
-                  "nm": "Color Phase",
-                  "mn": "ADBE Glo2-0010",
-                  "ix": 10,
-                  "v": {
-                    "a": 0,
-                    "k": 0,
-                    "ix": 10
-                  }
-                },
-                {
-                  "ty": 0,
-                  "nm": "A & B Midpoint",
-                  "mn": "ADBE Glo2-0011",
-                  "ix": 11,
-                  "v": {
-                    "a": 0,
-                    "k": 0.5,
-                    "ix": 11
-                  }
-                },
-                {
-                  "ty": 2,
-                  "nm": "Color A",
-                  "mn": "ADBE Glo2-0012",
-                  "ix": 12,
-                  "v": {
-                    "a": 0,
-                    "k": [
-                      1,
-                      1,
-                      1,
-                      0
-                    ],
-                    "ix": 12
-                  }
-                },
-                {
-                  "ty": 2,
-                  "nm": "Color B",
-                  "mn": "ADBE Glo2-0013",
-                  "ix": 13,
-                  "v": {
-                    "a": 0,
-                    "k": [
-                      0,
-                      0,
-                      0,
-                      0
-                    ],
-                    "ix": 13
-                  }
-                },
-                {
-                  "ty": 7,
-                  "nm": "Glow Dimensions",
-                  "mn": "ADBE Glo2-0014",
-                  "ix": 14,
-                  "v": {
-                    "a": 0,
-                    "k": 1,
-                    "ix": 14
-                  }
-                }
-              ]
             }
           ],
           "t": {
@@ -1963,7 +1263,7 @@
                   "s": {
                     "s": 109,
                     "f": "TTTogether",
-                    "t": "Spring Shower",
+                    "t": "IN THE NIGHT SKY",
                     "ca": 0,
                     "j": 2,
                     "tr": -13,
@@ -1978,8 +1278,7 @@
                   },
                   "t": 0
                 }
-              ],
-              "x": "var $bm_rt;\n$bm_rt = thisComp.layer('@Source').text.sourceText;"
+              ]
             },
             "p": {},
             "m": {
@@ -2004,7 +1303,7 @@
           "ddd": 0,
           "ind": 3,
           "ty": 5,
-          "nm": "T2",
+          "nm": "@Source",
           "sr": 1,
           "ks": {
             "o": {
@@ -2094,7 +1393,7 @@
               "a": 0,
               "k": [
                 964,
-                254,
+                154,
                 0
               ],
               "ix": 2,
@@ -2214,180 +1513,6 @@
                   }
                 }
               ]
-            },
-            {
-              "ty": 5,
-              "nm": "Glow",
-              "np": 16,
-              "mn": "ADBE Glo2",
-              "ix": 2,
-              "en": 1,
-              "ef": [
-                {
-                  "ty": 7,
-                  "nm": "Glow Based On",
-                  "mn": "ADBE Glo2-0001",
-                  "ix": 1,
-                  "v": {
-                    "a": 0,
-                    "k": 2,
-                    "ix": 1
-                  }
-                },
-                {
-                  "ty": 0,
-                  "nm": "Glow Threshold",
-                  "mn": "ADBE Glo2-0002",
-                  "ix": 2,
-                  "v": {
-                    "a": 0,
-                    "k": 93,
-                    "ix": 2
-                  }
-                },
-                {
-                  "ty": 0,
-                  "nm": "Glow Radius",
-                  "mn": "ADBE Glo2-0003",
-                  "ix": 3,
-                  "v": {
-                    "a": 0,
-                    "k": 6,
-                    "ix": 3
-                  }
-                },
-                {
-                  "ty": 0,
-                  "nm": "Glow Intensity",
-                  "mn": "ADBE Glo2-0004",
-                  "ix": 4,
-                  "v": {
-                    "a": 0,
-                    "k": 1,
-                    "ix": 4
-                  }
-                },
-                {
-                  "ty": 7,
-                  "nm": "Composite Original",
-                  "mn": "ADBE Glo2-0005",
-                  "ix": 5,
-                  "v": {
-                    "a": 0,
-                    "k": 2,
-                    "ix": 5
-                  }
-                },
-                {
-                  "ty": 7,
-                  "nm": "Glow Operation",
-                  "mn": "ADBE Glo2-0006",
-                  "ix": 6,
-                  "v": {
-                    "a": 0,
-                    "k": 3,
-                    "ix": 6
-                  }
-                },
-                {
-                  "ty": 7,
-                  "nm": "Glow Colors",
-                  "mn": "ADBE Glo2-0007",
-                  "ix": 7,
-                  "v": {
-                    "a": 0,
-                    "k": 1,
-                    "ix": 7
-                  }
-                },
-                {
-                  "ty": 7,
-                  "nm": "Color Looping",
-                  "mn": "ADBE Glo2-0008",
-                  "ix": 8,
-                  "v": {
-                    "a": 0,
-                    "k": 3,
-                    "ix": 8
-                  }
-                },
-                {
-                  "ty": 0,
-                  "nm": "Color Loops",
-                  "mn": "ADBE Glo2-0009",
-                  "ix": 9,
-                  "v": {
-                    "a": 0,
-                    "k": 1,
-                    "ix": 9
-                  }
-                },
-                {
-                  "ty": 0,
-                  "nm": "Color Phase",
-                  "mn": "ADBE Glo2-0010",
-                  "ix": 10,
-                  "v": {
-                    "a": 0,
-                    "k": 0,
-                    "ix": 10
-                  }
-                },
-                {
-                  "ty": 0,
-                  "nm": "A & B Midpoint",
-                  "mn": "ADBE Glo2-0011",
-                  "ix": 11,
-                  "v": {
-                    "a": 0,
-                    "k": 0.5,
-                    "ix": 11
-                  }
-                },
-                {
-                  "ty": 2,
-                  "nm": "Color A",
-                  "mn": "ADBE Glo2-0012",
-                  "ix": 12,
-                  "v": {
-                    "a": 0,
-                    "k": [
-                      1,
-                      1,
-                      1,
-                      0
-                    ],
-                    "ix": 12
-                  }
-                },
-                {
-                  "ty": 2,
-                  "nm": "Color B",
-                  "mn": "ADBE Glo2-0013",
-                  "ix": 13,
-                  "v": {
-                    "a": 0,
-                    "k": [
-                      0,
-                      0,
-                      0,
-                      0
-                    ],
-                    "ix": 13
-                  }
-                },
-                {
-                  "ty": 7,
-                  "nm": "Glow Dimensions",
-                  "mn": "ADBE Glo2-0014",
-                  "ix": 14,
-                  "v": {
-                    "a": 0,
-                    "k": 1,
-                    "ix": 14
-                  }
-                }
-              ]
             }
           ],
           "t": {
@@ -2397,7 +1522,7 @@
                   "s": {
                     "s": 109,
                     "f": "TTTogether",
-                    "t": "Spring Shower",
+                    "t": "IN THE NIGHT SKY",
                     "ca": 0,
                     "j": 2,
                     "tr": -13,
@@ -2412,8 +1537,7 @@
                   },
                   "t": 0
                 }
-              ],
-              "x": "var $bm_rt;\n$bm_rt = thisComp.layer('@Source').text.sourceText;"
+              ]
             },
             "p": {},
             "m": {
@@ -7156,7 +6280,7 @@
         "fWeight": "",
         "fStyle": "Regular",
         "fName": "TTTogether",
-        "ascent": 85.5987796783447
+        "ascent": 84.5987796783447
       }
     ]
   },
@@ -7248,7 +6372,7 @@
           "a": 0,
           "k": [
             960,
-            250,
+            150,
             0
           ],
           "ix": 1,
@@ -7267,7 +6391,7 @@
       },
       "ao": 0,
       "w": 1920,
-      "h": 500,
+      "h": 300,
       "ip": 0,
       "op": 300.00001221925,
       "st": 0,
@@ -7306,7 +6430,7 @@
           "a": 0,
           "k": [
             960,
-            250,
+            150,
             0
           ],
           "ix": 1,
@@ -7325,9 +6449,9 @@
       },
       "ao": 0,
       "w": 1920,
-      "h": 500,
+      "h": 300,
       "ip": 41.0000016699642,
-      "op": 341.000013889215,
+      "op": 300.00001221925,
       "st": 41.0000016699642,
       "bm": 0
     },

@@ -82,7 +82,27 @@ const Map<ETitleType, String> titleMap = {
   ETitleType.title77: "title77.json",
   ETitleType.title78: "title78.json",
   ETitleType.title79: "title79.json",
-  ETitleType.title80: "title80.json"
+  ETitleType.title80: "title80.json",
+  ETitleType.title81: "title81.json",
+  ETitleType.title82: "title82.json",
+  ETitleType.title83: "title83.json",
+  ETitleType.title84: "title84.json",
+  ETitleType.title85: "title85.json",
+  ETitleType.title86: "title86.json",
+  ETitleType.title87: "title87.json",
+  ETitleType.title88: "title88.json",
+  ETitleType.title89: "title89.json",
+  ETitleType.title90: "title90.json",
+  ETitleType.title91: "title91.json",
+  ETitleType.title92: "title92.json",
+  ETitleType.title93: "title93.json",
+  ETitleType.title94: "title94.json",
+  ETitleType.title95: "title95.json",
+  ETitleType.title96: "title96.json",
+  ETitleType.title97: "title97.json",
+  ETitleType.title98: "title98.json",
+  ETitleType.title99: "title99.json",
+  ETitleType.title100: "title100.json"
 };
 
 Future<TitleData?> loadTitleData(ETitleType titleType) async {

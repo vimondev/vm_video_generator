@@ -78,7 +78,27 @@ enum ETitleType {
   title77,
   title78,
   title79,
-  title80
+  title80,
+  title81,
+  title82,
+  title83,
+  title84,
+  title85,
+  title86,
+  title87,
+  title88,
+  title89,
+  title90,
+  title91,
+  title92,
+  title93,
+  title94,
+  title95,
+  title96,
+  title97,
+  title98,
+  title99,
+  title100,
 }
 
 class TitleData {

@@ -100,7 +100,7 @@
         })
     }
 
-    function setData({ fontFamily, base64, json, texts }) {
+    async function setData({ fontFamily, base64, json, texts }) {
         const fontBase64 = base64
         console.log(`setData is called..`)
         currentFontFamily = fontFamily
@@ -109,6 +109,16 @@
         currentJson = json
         boundingBoxTexts = texts
         openTypeFont = []
+
+        //const elements1 = document.getElementsByClassName("lottie-for-font-load-temporary-tags")
+        //while (elements1.length > 0) {
+        //    elements1[0].parentNode.removeChild(elements1[0])
+        //}
+
+        //const elements2 = document.getElementsByClassName("font-tags")
+        //while (elements2.length > 0) {
+        //    elements2[0].parentNode.removeChild(elements2[0])
+        //}
 
         for (let i = 0; i < currentFontBase64.length; i++) {
             openTypeFont.push(opentype.parse(base64ToArrayBuffer(currentFontBase64[i])))
@@ -121,6 +131,7 @@
 
         for (let i = 0; i < currentFontFamily.length; i++) {
             const styleEl = document.createElement('style')
+            styleEl.className = `font-tags`
             // styleEl.innerHTML = `
             //     @font-face {
             //         font-family: ${currentFontFamily[i]};
@@ -136,10 +147,28 @@
 
             document.head.appendChild(styleEl)
             styleList.push(styleEl)
+
+            const div = document.createElement('div')
+            div.className = `lottie-for-font-load-temporary-tags`
+            div.style.position = 'absolute'
+            div.style.left = '-99999px'
+            div.style.fontFamily = currentFontFamily[i]
+            div.style.visibility = 'hidden'
+            div.innerText = currentFontFamily[i]
+            document.body.appendChild(div)
+
+            // 최대 60초동안 로드
+            for (let x = 0; x < 100; x++) {
+                await sleep(100)
+                console.log(currentFontFamily[i], document.fonts.check(`12px ${currentFontFamily[i]}`))
+                if (document.fonts.check(`12px ${currentFontFamily[i]}`)) break
+            }
         }
 
         const { assets, layers } = currentJson
         const textCompMap = {}
+
+        console.log('111111111111111111111111');
 
         assets.forEach(item => {
             if (item.nm && typeof item.nm === 'string' && item.nm.toLowerCase().startsWith('#text')) {
@@ -151,6 +180,8 @@
                 previewFrameNumber = parseInt(item.ip)
             }
         })
+
+        console.log('222222222222222222222222');
         textComps = Object.keys(textCompMap)
         textComps.sort((a, b) => a > b ? 1 : a < b ? -1 : 0)
         console.log(textComps.join('\n'))
@@ -193,7 +224,7 @@
         isInitialized = true
     })
 
-    function extractPreview() {
+    async function extractPreview() {
         isInitialized = true
 
         const images = document.getElementsByTagName('img');
@@ -211,7 +242,7 @@
         runPreview()
     }
 
-    function extractAllSequence() {
+    async function extractAllSequence() {
         isInitialized = true
 
         const images = document.getElementsByTagName('img');

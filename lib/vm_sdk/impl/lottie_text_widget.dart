@@ -161,10 +161,10 @@ class LottieTextWidget extends StatelessWidget {
     }
     textArr += "]";
 
-    _controller!.evaluateJavascript(
+    await _controller!.evaluateJavascript(
         source:
-        "setData({ fontFamily: $fontFamilyArr, base64: $fontBase64Arr, json: ${_data.json}, texts: $textArr });");
-    _controller!.evaluateJavascript(source: "extractPreview();");
+        "(async function () { await setData({ fontFamily: $fontFamilyArr, base64: $fontBase64Arr, json: ${_data.json}, texts: $textArr }); extractPreview(); })()"
+    );
 
     return _currentPreviewCompleter.future;
   }
@@ -202,8 +202,8 @@ class LottieTextWidget extends StatelessWidget {
 
     _controller!.evaluateJavascript(
         source:
-        "setData({ fontFamily: $fontFamilyArr, base64: $fontBase64Arr, json: ${_data.json}, texts: $textArr });");
-    _controller!.evaluateJavascript(source: "extractAllSequence();");
+        "(async function () { await setData({ fontFamily: $fontFamilyArr, base64: $fontBase64Arr, json: ${_data.json}, texts: $textArr }); extractAllSequence(); })()"
+    );
 
     return _currentSequencesCompleter.future;
   }
@@ -324,7 +324,7 @@ class LottieTextWidget extends StatelessWidget {
     return Container(
       height: 100,
       child: Transform.translate(
-        offset: const Offset(-99999, -99999),
+        offset: const Offset(-9999999, -99999),
         // offset: const Offset(0, 0),
         child: Webview(
           callback: _setController,

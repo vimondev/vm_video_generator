@@ -57,16 +57,23 @@ class _TestWidgetState extends State<TestWidget> {
       bool isNext = false;
       for (var value in ETitleType.values) {
         if (isNext == true) {
-          if (
-            ETitleType.title04 == value ||
-            ETitleType.title13 == value ||
-            ETitleType.title23 == value ||
-            ETitleType.title26 == value ||
-            ETitleType.title32 == value ||
-            ETitleType.title36 == value ||
-            ETitleType.title46 == value ||
-            ETitleType.title51 == value ||
-            ETitleType.title60 == value
+          if ( // 오류있는 타이틀 제외
+              ETitleType.title07 == value ||
+              ETitleType.title11 == value ||
+              ETitleType.title14 == value ||
+              ETitleType.title25 == value ||
+              ETitleType.title32 == value ||
+              ETitleType.title33 == value ||
+              ETitleType.title37 == value ||
+              ETitleType.title41 == value ||
+              ETitleType.title46 == value ||
+              ETitleType.title49 == value ||
+              ETitleType.title54 == value ||
+              ETitleType.title58 == value ||
+              ETitleType.title69 == value ||
+              ETitleType.title84 == value ||
+              ETitleType.title87 == value ||
+              ETitleType.title91 == value
           ) {
             continue;
           } else {
@@ -78,29 +85,21 @@ class _TestWidgetState extends State<TestWidget> {
           isNext = true;
         }
       }
-      if (isNext == true && _title == ETitleType.title78) {
+      if (isNext == true && _title == ETitleType.title99) {
         _title = ETitleType.title01;
       }
     }
 
     final TitleData title = (await loadTitleData(_title!))!;
-    // print('title is ');
-    //
-    // print(title.json);
-    // print(title.fontFamily);
-    // print(title.fontBase64);
-    // print(title.texts);
 
     title.texts.addAll(["THIS IS VIMON V-LOG", "This is subtitle"]);
 
     _lottieTextWidget.setData(title);
-
-    await _lottieTextWidget.extractPreview();
-    String? preview = await _lottieTextWidget.extractPreview();
-
     // preview = await _lottieTextWidget.setTextValue("#TEXT1", "이 앱은 VIIV입니다.");
     //
     // preview = await _lottieTextWidget.setTextValue("#TEXT2", "가나다라마바사아자차카타파하0123456789");
+
+    String? preview = await _lottieTextWidget.extractPreview();
 
     setState(() {
       if (preview != null) imageList = [preview];
@@ -108,56 +107,12 @@ class _TestWidgetState extends State<TestWidget> {
       _height = _lottieTextWidget.height;
       _textDataMap = _lottieTextWidget.textDataMap;
     });
-    // print('TestWidget result preview is : $preview');
 
     // List<String>? sequences = await _lottieTextWidget.extractAllSequence();
-    // print("test.dart - sequences : ");
-    // if (sequences != null) {
-    //   for (int i = 0; i < sequences.length; i++) {
-    //     print(sequences[i]);
-    //   }
-    // }
+    //
     // setState(() {
     //   if (sequences != null) imageList = sequences;
     // });
-
-    // if (!_vmsdkWidget.isInitialized) {
-    //   await _vmsdkWidget.initialize();
-    // }
-    //
-    // final String assetPath = "_test/set01";
-    // final filelist =
-    //     json.decode(await loadResourceString("$assetPath/test.json"));
-    //
-    // final List<MediaData> mediaList = <MediaData>[];
-    //
-    // for (final Map file in filelist) {
-    //   final String filename = file["filename"];
-    //   final EMediaType type =
-    //       file["type"] == "image" ? EMediaType.image : EMediaType.video;
-    //   final int width = file["width"];
-    //   final int height = file["height"];
-    //   DateTime createDate = DateTime.parse(file["createDate"]);
-    //   String gpsString = file["gpsString"];
-    //
-    //   double? duration;
-    //   if (file.containsKey("duration")) duration = file["duration"];
-    //
-    //   final mediaFile = await copyAssetToLocalDirectory("$assetPath/$filename");
-    //   mediaList.add(MediaData(mediaFile.path, type, width, height, duration,
-    //       createDate, gpsString, null));
-    // }
-    //
-    // final String? videoPath = await _vmsdkWidget.generateVideo(
-    //     mediaList,
-    //     EMusicStyle.styleB,
-    //     // ["THIS IS", "VIMON V-LOG"],
-    //     ["THIS IS VIMON V-LOG"],
-    //     (status, progress, estimatedTime) {});
-    //
-    // if (videoPath != null) {
-    //   await GallerySaver.saveVideo(videoPath);
-    // }
 
     print('title is $_title');
     _isPlaying = false;
