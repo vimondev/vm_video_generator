@@ -21,7 +21,23 @@ class Webview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    InAppWebViewGroupOptions option = InAppWebViewGroupOptions(
+      crossPlatform: InAppWebViewOptions(
+        javaScriptEnabled: true,
+        javaScriptCanOpenWindowsAutomatically: true,
+        useShouldOverrideUrlLoading: true,
+        useShouldInterceptFetchRequest: true,
+      ),
+      android: AndroidInAppWebViewOptions(
+        useHybridComposition: true,
+        mixedContentMode: AndroidMixedContentMode.MIXED_CONTENT_ALWAYS_ALLOW,
+        supportMultipleWindows: true,
+        useShouldInterceptRequest: true
+      ),
+    );
+
     return InAppWebView(
+      initialOptions: option,
           initialFile: _initialFile,
           onWebViewCreated: (controller) {
             _callback(controller);

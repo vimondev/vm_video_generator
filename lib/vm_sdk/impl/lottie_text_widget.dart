@@ -208,7 +208,11 @@ class LottieTextWidget extends StatelessWidget {
     return _currentSequencesCompleter.future;
   }
 
-
+  void reload() {
+    if (_controller != null) {
+      _controller?.reload();
+    }
+  }
 
   // Future<ExportedTitlePNGSequenceData> exportTitlePNGSequence(
   //     TitleData data) async {
@@ -318,6 +322,8 @@ class LottieTextWidget extends StatelessWidget {
     controller.addJavaScriptHandler(handlerName: "TransferAllSequenceFailed", callback: _handleTransferAllSequenceFailed);
     _controller = controller;
   }
+
+
 
   @override
   Widget build(BuildContext context) {
