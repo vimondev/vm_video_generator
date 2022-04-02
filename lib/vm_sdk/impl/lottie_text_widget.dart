@@ -210,40 +210,9 @@ class LottieTextWidget extends StatelessWidget {
 
   void reload() {
     if (_controller != null) {
-      _controller?.reload();
+      _controller!.reload();
     }
   }
-
-  // Future<ExportedTitlePNGSequenceData> exportTitlePNGSequence(
-  //     TitleData data) async {
-  //   _currentDirPath =
-  //   "${await getAppDirectoryPath()}/${DateTime.now().millisecondsSinceEpoch}";
-  //   _currentSequencePath = "$_currentDirPath/sequences";
-  //
-  //   await _createDirectory(_currentDirPath);
-  //   await _createDirectory(_currentSequencePath);
-  //
-  //   _currentTitleCompleter = Completer();
-  //
-  //   String textArr = "[";
-  //   for (int i = 0; i < data.texts.length; i++) {
-  //     textArr += "'${data.texts[i]}',";
-  //   }
-  //   textArr += "]";
-  //
-  //   print("============= !!! ===========");
-  //   print("fontFamily : ${data.fontFamily}");
-  //   print("fontBase64 : ${data.fontBase64}");
-  //   print("json: ${data.json}");
-  //   print("texts : $textArr");
-  //
-  //   _controller!.evaluateJavascript(
-  //       source:
-  //       "setData({ fontFamily: `${data.fontFamily}`, base64: `${data.fontBase64}`, json: ${data.json}, texts: $textArr });");
-  //   _controller!.evaluateJavascript(source: "run();");
-  //
-  //   return _currentTitleCompleter.future;
-  // }
 
   void _handleTransferPreviewPNGData(args) async {
     _width = args[0]["width"].toDouble();
@@ -262,16 +231,15 @@ class LottieTextWidget extends StatelessWidget {
             .replaceAll("data:image/png;base64,", ""));
 
     for (int i = 0; i < textData.length; i++) {
+      print('key is ${textData[i]['key']}');
+      print('value is ${textData[i]['value']}');
+
       _textDataMap[i.toString()] = LottieText(
           textData[i]['key'],
           textData[i]['value'],
           Rectangle(textData[i]['x'].toDouble(), textData[i]['y'].toDouble(), textData[i]['width'].toDouble(), textData[i]['height'].toDouble())
       );
     }
-
-    // setState(() {
-    //   _previewImage = previewUrl;
-    // });
 
     _previewImage = previewUrl;
 
@@ -311,10 +279,6 @@ class LottieTextWidget extends StatelessWidget {
     _currentSequencesCompleter.completeError(Object());
   }
 
-  // void _handleTransferFailed(args) {
-  //   _currentTitleCompleter.completeError(Object());
-  // }
-
   void _setController(InAppWebViewController controller) {
     controller.addJavaScriptHandler(handlerName: "TransferPreviewPNGData", callback: _handleTransferPreviewPNGData);
     controller.addJavaScriptHandler(handlerName: "TransferAllSequencePNGData", callback: _handleTransferAllSequencePNGData);
@@ -322,8 +286,6 @@ class LottieTextWidget extends StatelessWidget {
     controller.addJavaScriptHandler(handlerName: "TransferAllSequenceFailed", callback: _handleTransferAllSequenceFailed);
     _controller = controller;
   }
-
-
 
   @override
   Widget build(BuildContext context) {

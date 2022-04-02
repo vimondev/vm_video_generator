@@ -53,8 +53,6 @@ class _TestWidgetState extends State<TestWidget> {
     print('This is _run method of TestWidget');
     // final TitleData title = (await loadTitleData(ETitleType.title33))!;
 
-
-
     if (_title == null) {
       _title = ETitleType.title01;
     } else {
@@ -103,20 +101,21 @@ class _TestWidgetState extends State<TestWidget> {
     //
     // preview = await _lottieTextWidget.setTextValue("#TEXT2", "가나다라마바사아자차카타파하0123456789");
 
-    // String? preview = await _lottieTextWidget.extractPreview();
+    // 1. extractPreview
+    String? preview = await _lottieTextWidget.extractPreview();
+    setState(() {
+      if (preview != null) imageList = [preview];
+      _width = _lottieTextWidget.width;
+      _height = _lottieTextWidget.height;
+      _textDataMap = _lottieTextWidget.textDataMap;
+    });
+
+    // 2. extractAllSequence
+    // List<String>? sequences = await _lottieTextWidget.extractAllSequence();
     //
     // setState(() {
-    //   if (preview != null) imageList = [preview];
-    //   _width = _lottieTextWidget.width;
-    //   _height = _lottieTextWidget.height;
-    //   _textDataMap = _lottieTextWidget.textDataMap;
+    //   if (sequences != null) imageList = sequences;
     // });
-
-    List<String>? sequences = await _lottieTextWidget.extractAllSequence();
-
-    setState(() {
-      if (sequences != null) imageList = sequences;
-    });
 
     print('title is $_title');
     _isPlaying = false;
@@ -209,7 +208,6 @@ class _RectangleBoxState extends State<RectangleBox> {
 
   var _timer;
   var _now;
-
 
   @override
   void initState() {
