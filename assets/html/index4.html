@@ -363,15 +363,15 @@
                 canvas.width = gWidth
                 canvas.height = gHeight
 
-                ctx.drawImage(image, x, y, gWidth, gHeight, 0, 0, gWidth, gHeight)
+                ctx.drawImage(image, x - 15, y - 15, gWidth, gHeight, 0, 0, gWidth, gHeight)
 
                 if (isPreview && previewData && previewData.data && previewData.data.length > 0) {
                     textData = []
                     previewData.data.forEach(function (item, index) {
                         const rectX = (previewData.data[index].rect.x - gridData.x)
                         const rectY = (previewData.data[index].rect.top - gridData.y)
-                        const rectWidth = previewData.data[index].rect.width + 10
-                        const rectHeight = previewData.data[index].rect.height + 10
+                        const rectWidth = previewData.data[index].rect.width + 45
+                        const rectHeight = previewData.data[index].rect.height + 30
                         textData.push({
                             key: item.key,
                             value: boundingBoxTexts[index],
@@ -453,14 +453,14 @@
                     const tempsvg = document.body.querySelector('#tempsvg')
                     tempsvg.appendChild(rootSVGElement)
 
-                    if (gElement.getBBox().width > gWidth) {
-                        gWidth = gElement.getBBox().width
+                    if (gElement.getBBox().width + 30 > gWidth) {
+                        gWidth = gElement.getBBox().width + 30
                         gridData.x = gElement.getBoundingClientRect().x
                         gridData.width = gWidth
                         svgX = rootSVGElement.getBoundingClientRect().x
                     }
-                    if (gElement.getBBox().height > gHeight) {
-                        gHeight = gElement.getBBox().height
+                    if (gElement.getBBox().height + 30 > gHeight) {
+                        gHeight = gElement.getBBox().height + 30
                         gridData.y = gElement.getBoundingClientRect().y
                         gridData.height = gHeight
                         svgY = rootSVGElement.getBoundingClientRect().y
@@ -586,14 +586,14 @@
                         const tempsvg = document.body.querySelector('#tempsvg')
                         tempsvg.appendChild(rootSVGElement)
 
-                        if (gElement.getBBox().width > gWidth) {
-                            gWidth = gElement.getBBox().width
+                        if (gElement.getBBox().width + 30 > gWidth) {
+                            gWidth = gElement.getBBox().width + 30
                             gridData.x = gElement.getBoundingClientRect().x
                             gridData.width = gWidth
                             svgX = rootSVGElement.getBoundingClientRect().x
                         }
-                        if (gElement.getBBox().height > gHeight) {
-                            gHeight = gElement.getBBox().height
+                        if (gElement.getBBox().height + 30 > gHeight) {
+                            gHeight = gElement.getBBox().height + 30
                             gridData.y = gElement.getBoundingClientRect().y
                             gridData.height = gHeight
                             svgY = rootSVGElement.getBoundingClientRect().y
