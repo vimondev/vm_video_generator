@@ -396,6 +396,30 @@
 
     let isRunning = false
 
+  setNodeMaskClipPath = (node, isText) => {
+    if (!node.nodeValue) {
+      const id = node.getAttribute('id')
+      if (!isText && id && id.toLowerCase().startsWith('text')) {
+          isText = true
+      }
+      if (isText) {
+        if (node.getAttribute('clip-path')) {
+            node.setAttribute('clip-path', '')
+        }
+        if (node.getAttribute('mask')) {
+            node.setAttribute('mask', '')
+        }
+      }
+    //   console.log(`isText : ${isText}, id : ${id}`);
+    }
+
+    if (node.hasChildNodes()) {
+      node.childNodes.forEach(childNode => {
+        setNodeMaskClipPath(childNode, isText)
+      })
+    }
+  }
+
     async function runPreview() {
         if (isRunning) return
         if (!isInitialized) return
@@ -439,6 +463,8 @@
                             break
 
                         case 'g': {
+                            setNodeMaskClipPath(node, false)
+
                             const gEl = node.cloneNode(true)
                             const textElements = convertTextToPath(gEl)
                             textElements.forEach(element => element.remove())
@@ -572,6 +598,8 @@
                             break
 
                             case 'g': {
+                                setNodeMaskClipPath(node, false)
+
                                 const gEl = node.cloneNode(true)
                                 const textElements = convertTextToPath(gEl)
                                 textElements.forEach(element => element.remove())
