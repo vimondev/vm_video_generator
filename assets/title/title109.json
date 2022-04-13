@@ -1,7 +1,7 @@
 {
-  "name": "title09",
-  "filename": "title9.json",
-  "fontFamily": ["BBTreeC_B", "JalnanOTF"],
-  "fontFileName": ["BBTreeC_B.otf", "JalnanOTF.otf"],
-  "originalFilename": "Title_DA010.json"
+  "name": "title109",
+  "filename": "title109.json",
+  "fontFamily": ["Nanum HaNaSonGeurSsi"],
+  "fontFileName": ["NanumHaNaSonGeurSsi.ttf"],
+  "originalFilename": "Caption_YJ002.json"
 }

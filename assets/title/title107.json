@@ -1,7 +1,7 @@
 {
-  "name": "title07",
-  "filename": "title7.json",
-  "fontFamily": ["TTTogether"],
-  "fontFileName": ["TTTogether.otf"],
-  "originalFilename": "Title_DA005.json"
+  "name": "title107",
+  "filename": "title107.json",
+  "fontFamily": ["drfont_daraehand"],
+  "fontFileName": ["drfont_daraehand_Basic.ttf"],
+  "originalFilename": "Caption_SW004.json"
 }

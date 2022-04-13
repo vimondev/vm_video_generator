@@ -1,7 +1,7 @@
 {
-  "name": "title06",
-  "filename": "title6.json",
-  "fontFamily": ["Typo_SsangmunDong"],
-  "fontFileName": ["Typo_SsangmunDongB.ttf"],
-  "originalFilename": "Title_DA004.json"
+  "name": "title106",
+  "filename": "title106.json",
+  "fontFamily": ["MapoDPP"],
+  "fontFileName": ["MapoDPP.ttf"],
+  "originalFilename": "Caption_SW003.json"
 }
