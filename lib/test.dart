@@ -54,7 +54,7 @@ class _TestWidgetState extends State<TestWidget> {
     // final TitleData title = (await loadTitleData(ETitleType.title33))!;
 
     if (_title == null) {
-      _title = ETitleType.title17;
+      _title = ETitleType.title01;
     } else {
       bool isNext = false;
       for (var value in ETitleType.values) {
@@ -103,19 +103,19 @@ class _TestWidgetState extends State<TestWidget> {
     // preview = await _lottieTextWidget.setTextValue("#TEXT2", "가나다라마바사아자차카타파하0123456789");
 
     // 1. extractPreview
-    // String? preview = await _lottieTextWidget.extractPreview();
-    // setState(() {
-    //   if (preview != null) imageList = [preview];
-    //   _width = _lottieTextWidget.width;
-    //   _height = _lottieTextWidget.height;
-    //   _textDataMap = _lottieTextWidget.textDataMap;
-    // });
+    String? preview = await _lottieTextWidget.extractPreview();
+    setState(() {
+      if (preview != null) imageList = [preview];
+      _width = _lottieTextWidget.width;
+      _height = _lottieTextWidget.height;
+      _textDataMap = _lottieTextWidget.textDataMap;
+    });
 
     // 2. extractAllSequence
-    List<String>? sequences = await _lottieTextWidget.extractAllSequence();
-    setState(() {
-      if (sequences != null) imageList = sequences;
-    });
+    // List<String>? sequences = await _lottieTextWidget.extractAllSequence();
+    // setState(() {
+    //   if (sequences != null) imageList = sequences;
+    // });
 
 
     print('title is $_title');
