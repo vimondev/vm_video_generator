@@ -273,6 +273,22 @@
         return node
     }
 
+    const ResetUnusedDefs = defsNode => {
+        if (defsNode.hasChildNodes()) {
+            defsNode.childNodes.forEach(childNode => {
+                if (childNode.tagName === 'filter' && childNode.getAttribute('filterUnits') === 'objectBoundingBox') {
+                    childNode.removeAttribute('x')
+                    childNode.removeAttribute('y')
+                    childNode.removeAttribute('width')
+                    childNode.removeAttribute('height')
+                }
+                else if (childNode.tagName === 'text') {
+                    childNode.remove()
+                }
+            })
+        }
+    }
+
     const convertTextToPath = (node, textElements = []) => {
         const findParent = node => {
             if (node.hasAttribute('font-family')) return node
@@ -458,7 +474,9 @@
                 anim.renderer.svgElement.childNodes.forEach(node => {
                     switch (node.tagName) {
                         case 'defs': {
-                            rootSVGElement.appendChild(AssignFrameNumber(node.cloneNode(true), previewFrameNumber))
+                            const defsEl = AssignFrameNumber(node.cloneNode(true), previewFrameNumber)
+                            ResetUnusedDefs(defsEl)
+                            rootSVGElement.appendChild(defsEl)
                         }
                             break
 
@@ -593,7 +611,9 @@
                     anim.renderer.svgElement.childNodes.forEach(node => {
                         switch (node.tagName) {
                             case 'defs': {
-                                rootSVGElement.appendChild(AssignFrameNumber(node.cloneNode(true), i))
+                                const defsEl = AssignFrameNumber(node.cloneNode(true), i)
+                                ResetUnusedDefs(defsEl)
+                                rootSVGElement.appendChild(defsEl)
                             }
                             break
 
