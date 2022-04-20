@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'types/types.dart';
 import 'impl/template_helper.dart';
-import 'impl/title_helper.dart';
+import 'impl/text_helper.dart';
 import 'impl/ffmpeg_manager.dart';
 import 'impl/ffmpeg_argument_generator.dart';
 import 'impl/resource_manager.dart';
