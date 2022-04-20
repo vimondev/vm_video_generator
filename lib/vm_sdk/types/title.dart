@@ -1,4 +1,4 @@
-enum ETitleType {
+enum ETextID {
   title01,
   title02,
   title03,
@@ -113,29 +113,29 @@ enum ETitleType {
   title112,
   title113,
   title114,
-  title115,
-  title116,
-  title117,
-  title118,
-  title119,
-  title120
+  title115
 }
 
-class TitleData {
+enum ETextType {
+  Title,
+  Caption
+}
+class TextData {
+  ETextType type;
   String json;
+
   List<String> fontFamily;
   List<String> fontBase64;
   List<String> texts = [];
 
-  TitleData(this.json, this.fontFamily, this.fontBase64);
+  TextData(this.type, this.json, this.fontFamily, this.fontBase64);
 }
-
-class ExportedTitlePNGSequenceData {
+class ExportedTextPNGSequenceData {
   String folderPath;
   double width;
   double height;
   double frameRate;
 
-  ExportedTitlePNGSequenceData(
+  ExportedTextPNGSequenceData(
       this.folderPath, this.width, this.height, this.frameRate);
 }

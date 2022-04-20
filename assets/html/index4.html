@@ -390,7 +390,7 @@
                         const rectHeight = previewData.data[index].rect.height + 30
                         textData.push({
                             key: item.key,
-                            value: boundingBoxTexts[index],
+                            value: boundingBoxTexts[index] || '',
                             x: rectX,
                             y: rectY,
                             width: rectWidth,

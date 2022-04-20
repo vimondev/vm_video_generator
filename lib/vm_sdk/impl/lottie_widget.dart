@@ -19,13 +19,13 @@ class LottieWidget extends StatefulWidget {
     return _lottieWidgetState;
   }
 
-  Future<ExportedTitlePNGSequenceData> exportTitlePNGSequence(
-      TitleData data) async {
-    ExportedTitlePNGSequenceData exportedTitleData =
-        await _lottieWidgetState.exportTitlePNGSequence(data);
+  Future<ExportedTextPNGSequenceData> exportTextPNGSequence(
+      TextData data) async {
+    ExportedTextPNGSequenceData exportedTextData =
+        await _lottieWidgetState.exportTextPNGSequence(data);
     print('function 1');
-    print(exportedTitleData);
-    return exportedTitleData;
+    print(exportedTextData);
+    return exportedTextData;
   }
 }
 
@@ -40,7 +40,7 @@ class _LottieWidgetState extends State<LottieWidget> {
 
   String _imgUrl = '';
 
-  late Completer<ExportedTitlePNGSequenceData> _currentTitleCompleter;
+  late Completer<ExportedTextPNGSequenceData> _currentTextCompleter;
 
   Future<void> _createDirectory(String path) async {
     Directory dir = Directory(path);
@@ -50,8 +50,8 @@ class _LottieWidgetState extends State<LottieWidget> {
     await dir.create(recursive: true);
   }
 
-  Future<ExportedTitlePNGSequenceData> exportTitlePNGSequence(
-      TitleData data) async {
+  Future<ExportedTextPNGSequenceData> exportTextPNGSequence(
+      TextData data) async {
     _currentDirPath =
         "${await getAppDirectoryPath()}/${DateTime.now().millisecondsSinceEpoch}";
     _currentSequencePath = "$_currentDirPath/sequences";
@@ -59,7 +59,7 @@ class _LottieWidgetState extends State<LottieWidget> {
     await _createDirectory(_currentDirPath);
     await _createDirectory(_currentSequencePath);
 
-    _currentTitleCompleter = Completer();
+    _currentTextCompleter = Completer();
 
     String textArr = "[";
     for (int i = 0; i < data.texts.length; i++) {
@@ -80,7 +80,7 @@ class _LottieWidgetState extends State<LottieWidget> {
             "setData({ fontFamily: `${data.fontFamily}`, base64: `${data.fontBase64}`, json: ${data.json}, texts: $textArr });");
     _controller!.evaluateJavascript(source: "run();");
 
-    return _currentTitleCompleter.future;
+    return _currentTextCompleter.future;
   }
 
   void _handleTransferPNGFile(args) {
@@ -169,7 +169,7 @@ class _LottieWidgetState extends State<LottieWidget> {
     // bool isSuccess = await _ffmpegManager.execute(arguments, (p0) => null);
     // print(isSuccess);
 
-    _currentTitleCompleter.complete(ExportedTitlePNGSequenceData(
+    _currentTextCompleter.complete(ExportedTextPNGSequenceData(
         _currentDirPath, width, height, frameRate));
   }
 
@@ -178,7 +178,7 @@ class _LottieWidgetState extends State<LottieWidget> {
     String height = args[1].toString();
     String frameRate = args[2].toString();
 
-    _currentTitleCompleter.complete(ExportedTitlePNGSequenceData(
+    _currentTextCompleter.complete(ExportedTextPNGSequenceData(
         _currentDirPath,
         double.parse(width),
         double.parse(height),
@@ -186,7 +186,7 @@ class _LottieWidgetState extends State<LottieWidget> {
   }
 
   void _handleTransferFailed(args) {
-    _currentTitleCompleter.completeError(Object());
+    _currentTextCompleter.completeError(Object());
   }
 
   void _setController(InAppWebViewController controller) {

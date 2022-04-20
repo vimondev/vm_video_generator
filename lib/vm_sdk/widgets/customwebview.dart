@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
-class Webview extends StatelessWidget {
-  static final Webview _instance = Webview._internal();
+class CustomWebView extends StatelessWidget {
+  static final CustomWebView _instance = CustomWebView._internal();
   static var _callback;
   static String? _initialFile;
 
 
-  factory Webview({callback, initialFile}) {
+  factory CustomWebView({callback, initialFile}) {
     _callback = callback;
     _initialFile = initialFile;
     return _instance;
   }
 
-  Webview._internal() {
+  CustomWebView._internal() {
 
   }
 
