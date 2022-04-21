@@ -124,7 +124,7 @@ Future<TextData?> loadTextData(ETextID id) async {
   if (!textMap.containsKey(id)) return null;
 
   final Map<String, dynamic> loadedMap =
-      jsonDecode(await loadResourceString("title/${textMap[id]}"));
+      jsonDecode(await loadResourceString("text/${textMap[id]}"));
 
   final ETextType type = ETextType.Title;
   final String filename = loadedMap["filename"];

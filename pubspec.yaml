@@ -76,8 +76,7 @@ flutter:
     - assets/_test/set01/
     - assets/data/
     - assets/html/
-    - assets/text/titles/
-    - assets/text/captions/
+    - assets/text/
     - assets/template/
     - assets/raw/audio/
     - assets/raw/filter/
