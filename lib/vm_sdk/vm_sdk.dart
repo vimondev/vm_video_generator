@@ -3,7 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import 'types/types.dart';
-import 'impl/title_helper.dart';
+import 'impl/template_helper.dart';
+import 'impl/text_helper.dart';
 import 'impl/ffmpeg_manager.dart';
 // import 'impl/ffmpeg_argument_generator.dart';
 import 'impl/resource_manager.dart';
@@ -55,7 +56,7 @@ class VMSDKWidget extends StatelessWidget {
       List<MediaData> mediaList,
       EMusicStyle? style,
       bool isAutoEdit,
-      List<String> titles,
+      List<String> texts,
       Function(EGenerateStatus status, double progress, double estimatedTime)?
           progressCallback) async {
     // EMusicStyle selectedStyle = style ?? EMusicStyle.styleA;
@@ -128,16 +129,11 @@ class VMSDKWidget extends StatelessWidget {
           mediaList, selectedStyle, templateList, isAutoEdit);
 
       await _resourceManager.loadAutoEditAssets(autoEditedData);
+    final TextData textData = (await loadTextData(ETextID.Title_DA001))!;
+    textData.texts.addAll(texts);
 
-      const List<ETitleType> titleList = ETitleType.values;
-      final ETitleType pickedTitle =
-          titleList[(Random()).nextInt(titleList.length) % titleList.length];
-
-      final TitleData title = (await loadTitleData(pickedTitle))!;
-      title.texts.addAll(titles);
-
-      ExportedTitlePNGSequenceData? exportedTitleData =
-          await _lottieWidget.exportTitlePNGSequence(title);
+    ExportedTextPNGSequenceData exportedTextData =
+        await _lottieWidget.exportTextPNGSequence(textData);
 
       final List<AutoEditMedia> autoEditMediaList =
           autoEditedData.autoEditMediaList;
@@ -213,7 +209,7 @@ class VMSDKWidget extends StatelessWidget {
             stickerData,
             prevTransition,
             nextTransition,
-            i == 0 ? exportedTitleData : null,
+            i == 0 ? exportedTextData : null,
             (statistics) =>
                 _currentRenderedFrameInCallback = statistics.videoFrameNumber);
 

@@ -42,6 +42,7 @@ CropData generateCropData(int width, int height) {
 }
 
 Future<GenerateArgumentResponse> generateVideoRenderArgument(
+<<<<<<< HEAD
     AutoEditedData autoEditedData,
     ExportedTitlePNGSequenceData exportedTitle) async {
   final List<AutoEditMedia> autoEditMediaList =
@@ -50,6 +51,11 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
       autoEditedData.transitionMap;
   final Map<String, StickerData> stickerMap = autoEditedData.stickerMap;
 
+=======
+    TemplateData templateData,
+    ExportedTextPNGSequenceData exportedText,
+    List<MediaData> list) async {
+>>>>>>> feat/lottie-widget
   final List<String> arguments = <String>[];
   final String appDirPath = await getAppDirectoryPath();
   final String outputPath = "$appDirPath/video_out.mp4";
@@ -153,29 +159,38 @@ Future<GenerateArgumentResponse> generateVideoRenderArgument(
   }
   // ADD TITLE
 
+<<<<<<< HEAD
   exportedTitle.width = (exportedTitle.width * 1.2).floor();
   exportedTitle.height = (exportedTitle.height * 1.2).floor();
+=======
+  exportedText.width = ((exportedText.width * 1.25).floor()).toDouble();
+  exportedText.height = ((exportedText.height * 1.25).floor()).toDouble();
+>>>>>>> feat/lottie-widget
 
-  final double startPosY = (videoHeight / 2) - (exportedTitle.height / 2);
+  final double startPosY = (videoHeight / 2) - (exportedText.height / 2);
 
-  String titleMapVariable = "[title0]";
-  String titleMergedMapVariable = "[title_merged_0]";
+  String textMapVariable = "[text0]";
+  String textMergedMapVariable = "[text_merged_0]";
 
-  double currentPosX = (videoWidth / 2) - (exportedTitle.width / 2);
+  double currentPosX = (videoWidth / 2) - (exportedText.width / 2);
 
   inputArguments.addAll([
     "-framerate",
-    exportedTitle.frameRate.toString(),
+    exportedText.frameRate.toString(),
     "-i",
-    "${exportedTitle.folderPath}/%d.png"
+    "${exportedText.folderPath}/%d.png"
   ]);
 
   filterStrings.add(
+<<<<<<< HEAD
       "[${inputFileCount++}:v]trim=0:${autoEditMediaList[0].duration},setpts=PTS-STARTPTS,scale=${exportedTitle.width}:${exportedTitle.height}$titleMapVariable;");
+=======
+      "[${inputFileCount++}:v]trim=0:${durationMap[0]!},setpts=PTS-STARTPTS,scale=${exportedText.width}:${exportedText.height}$textMapVariable;");
+>>>>>>> feat/lottie-widget
   filterStrings.add(
-      "${videoMapVariables[0]!}${titleMapVariable}overlay=$currentPosX:$startPosY$titleMergedMapVariable;");
+      "${videoMapVariables[0]!}${textMapVariable}overlay=$currentPosX:$startPosY$textMergedMapVariable;");
 
-  videoMapVariables[0] = titleMergedMapVariable;
+  videoMapVariables[0] = textMergedMapVariable;
 
   // ADD XFADE TRANSITION
   // TO DO: Add some condition
