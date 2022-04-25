@@ -25,6 +25,8 @@
     let textComps
     let styleList = []
 
+    const space = 200
+
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
     function base64ToArrayBuffer(base64) {
@@ -368,18 +370,18 @@
                 canvas.width = gWidth
                 canvas.height = gHeight
 
-                ctx.drawImage(image, x - 15, y - 15, gWidth, gHeight, 0, 0, gWidth, gHeight)
+                ctx.drawImage(image, x, y, gWidth, gHeight, 0, 0, gWidth, gHeight)
 
                 if (isPreview && previewData && previewData.data && previewData.data.length > 0) {
                     textData = []
                     previewData.data.forEach(function (item, index) {
-                        const rectX = (previewData.data[index].rect.x - gridData.x)
-                        const rectY = (previewData.data[index].rect.top - gridData.y)
-                        const rectWidth = previewData.data[index].rect.width + 45
-                        const rectHeight = previewData.data[index].rect.height + 30
+                        const rectX = (previewData.data[index].rect.x - gridData.x) - 10
+                        const rectY = (previewData.data[index].rect.y - gridData.y) - 10
+                        const rectWidth = previewData.data[index].rect.width + 20
+                        const rectHeight = previewData.data[index].rect.height + 20
                         textData.push({
                             key: item.key,
-                            value: boundingBoxTexts[index] || '',
+                            value: boundingBoxTexts[index],
                             x: rectX,
                             y: rectY,
                             width: rectWidth,
@@ -415,7 +417,6 @@
             node.setAttribute('mask', '')
         }
       }
-    //   console.log(`isText : ${isText}, id : ${id}`);
     }
 
     if (node.hasChildNodes()) {
@@ -486,31 +487,32 @@
                     const tempsvg = document.body.querySelector('#tempsvg')
                     tempsvg.appendChild(rootSVGElement)
 
-                    if (gElement.getBBox().width + 30 > gWidth) {
-                        gWidth = gElement.getBBox().width + 30
-                        gridData.x = gElement.getBoundingClientRect().x
+                    const svgBoundingBox = rootSVGElement.getBoundingClientRect()
+                    const gBoundingBox = gElement.getBoundingClientRect()
+
+                    if (gBoundingBox.width + space > gWidth) {
+                        gWidth = Math.min(gBoundingBox.width + space, svgBoundingBox.width)
                         gridData.width = gWidth
-                        svgX = rootSVGElement.getBoundingClientRect().x
+                        gridData.x = (anim.animationData.w - gWidth) / 2
                     }
-                    if (gElement.getBBox().height + 30 > gHeight) {
-                        gHeight = gElement.getBBox().height + 30
-                        gridData.y = gElement.getBoundingClientRect().y
+                    if (gBoundingBox.height + space > gHeight) {
+                        gHeight = Math.min(gBoundingBox.height + space, svgBoundingBox.height)
                         gridData.height = gHeight
-                        svgY = rootSVGElement.getBoundingClientRect().y
+                        gridData.y = (anim.animationData.h - gHeight) / 2
                     }
 
                     // PREVIEW의 데이터 뽑기
-                    previewData["gElement"] = gElement.getBoundingClientRect()
                     previewData["data"] = []
                     textComps.forEach((name, index) => {
                         const TEXTBOX = rootSVGElement.querySelector(`g#${name.replace("#", "")}`)
                         const rect = {}
-                        rect.x = TEXTBOX.getBBox().x
-                        rect.y = TEXTBOX.getBBox().y
-                        rect.width = TEXTBOX.getBBox().width
-                        rect.height = TEXTBOX.getBBox().height
-                        rect.top = TEXTBOX.getBoundingClientRect().top
-                        rect.left = TEXTBOX.getBoundingClientRect().left
+
+                        const textBoundingBox = TEXTBOX.getBoundingClientRect()
+
+                        rect.x = textBoundingBox.x - svgBoundingBox.x
+                        rect.y = textBoundingBox.y - svgBoundingBox.y
+                        rect.width = textBoundingBox.width
+                        rect.height = textBoundingBox.height
 
                         if (TEXTBOX) {
                             previewData["data"].push({ key: name, rect: rect })
@@ -520,33 +522,15 @@
                 }
                 list.push(rootSVGElement)
 
-                const results = await Promise.all(list.map((svg, idx) => DrawPNG(svg, anim, gridData.x - svgX, gridData.y - svgY, idx, true)))
-
-                // for (const idx in results) {
-                //     const image = new Image()
-                //     image.src = results[idx]
-                //     document.body.appendChild(image)
-                // }
-
-                // console.log(`To Flutter Preview data : `)
-                // console.dir({
-                //     width: gWidth,
-                //     height: gHeight,
-                //     frameRate: anim.animationData.fr,
-                //     preview: results[0],
-                //     textData
-                // })
-
                 if (window.flutter_inappwebview) {
                     window.flutter_inappwebview.callHandler('TransferPreviewPNGData', {
-                        width: gWidth,//anim.animationData.w,
-                        height: gHeight,//anim.animationData.h,
+                        width: gWidth,
+                        height: gHeight,
                         frameRate: anim.animationData.fr,
-                        preview: results[0],
+                        preview: await DrawPNG(list[0], anim, gridData.x, gridData.y, 0, true),
                         textData
                     })
                 }
-                //bodymovin.destroy()
                 console.log(`elapsed - : ${Date.now() - now}ms`)
             }
             catch (e) {
@@ -623,68 +607,44 @@
                         const tempsvg = document.body.querySelector('#tempsvg')
                         tempsvg.appendChild(rootSVGElement)
 
-                        if (gElement.getBBox().width + 30 > gWidth) {
-                            gWidth = gElement.getBBox().width + 30
-                            gridData.x = gElement.getBoundingClientRect().x
+                        const svgBoundingBox = rootSVGElement.getBoundingClientRect()
+                        const gBoundingBox = gElement.getBoundingClientRect()
+
+                        if (gBoundingBox.width + space > gWidth) {
+                            gWidth = Math.min(gBoundingBox.width + space, svgBoundingBox.width)
                             gridData.width = gWidth
-                            svgX = rootSVGElement.getBoundingClientRect().x
+                            gridData.x = (anim.animationData.w - gWidth) / 2
                         }
-                        if (gElement.getBBox().height + 30 > gHeight) {
-                            gHeight = gElement.getBBox().height + 30
-                            gridData.y = gElement.getBoundingClientRect().y
+                        if (gBoundingBox.height + space > gHeight) {
+                            gHeight = Math.min(gBoundingBox.height + space, svgBoundingBox.height)
                             gridData.height = gHeight
-                            svgY = rootSVGElement.getBoundingClientRect().y
+                            gridData.y = (anim.animationData.h - gHeight) / 2
                         }
 
-                        // PREVIEW의 데이터 뽑기
-                        if (i === previewFrameNumber) {
-                            previewData["gElement"] = gElement.getBoundingClientRect()
-                            previewData["data"] = []
-                            textComps.forEach((name, index) => {
-                                const TEXTBOX = rootSVGElement.querySelector(`g#${name.replace("#", "")}`)
-                                const rect = {}
-                                rect.x = TEXTBOX.getBBox().x
-                                rect.y = TEXTBOX.getBBox().y
-                                rect.width = TEXTBOX.getBBox().width
-                                rect.height = TEXTBOX.getBBox().height
-                                rect.top = TEXTBOX.getBoundingClientRect().top
-                                rect.left = TEXTBOX.getBoundingClientRect().left
-
-                                if (TEXTBOX) {
-                                    previewData["data"].push({ key: name, rect: rect })
-                                }
-                            })
-                        }
                         tempsvg.removeChild(rootSVGElement)
                     }
                     list.push(rootSVGElement)
                 }
 
-                const results = await Promise.all(list.map((svg, idx) => DrawPNG(svg, anim, gridData.x - svgX, gridData.y - svgY, idx, false)))
-
-                // for (const idx in results) {
-                //     const image = new Image()
-                //     image.src = results[idx]
-                //     document.body.appendChild(image)
-                // }
-
-                // console.log(`To Flutter All Sequence data : `)
-                // console.dir({
-                //     width: gWidth,
-                //     height: gHeight,
-                //     frameRate: anim.animationData.fr,
-                //     frames: results
-                // })
-
                 if (window.flutter_inappwebview) {
-                    window.flutter_inappwebview.callHandler('TransferAllSequencePNGData', {
-                        width: gWidth,//anim.animationData.w,
-                        height: gHeight,//anim.animationData.h,
-                        frameRate: anim.animationData.fr,
-                        frames: results,
+                    window.flutter_inappwebview.callHandler('TransferAllSequenceStart', {
+                        width: gWidth,
+                        height: gHeight,
+                        frameRate: anim.animationData.fr
                     })
+                    for (let i = 0; i < list.length; i++) {
+                        const svg = list[i]
+                        console.log(i, list.length)
+                        
+                        window.flutter_inappwebview.callHandler('TransferAllSequencePNGData', {
+                            frameNumber: i,
+                            data: await DrawPNG(svg, anim, gridData.x, gridData.y, i, false)
+                        })
+                    }
+                    await sleep(1000)
+
+                    window.flutter_inappwebview.callHandler('TransferAllSequenceComplete')
                 }
-                //bodymovin.destroy()
                 console.log(`elapsed - : ${Date.now() - now}ms`)
             }
             catch (e) {

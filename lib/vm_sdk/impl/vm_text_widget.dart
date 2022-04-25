@@ -45,8 +45,11 @@ class VMTextWidget extends StatelessWidget {
   Map<String, VMText> _textDataMap = {};
 
   String? _previewImagePath;
+  String? _allSequencesPath;
+  Map<int, String> _allSequencePathMap = {};
   List<String> _allSequencePaths = [];
 
+  // late ETextID _id;
   late TextData _data;
   late Completer<void> _reloadCompleter;
   late Completer<void> _currentPreviewCompleter;
@@ -59,15 +62,18 @@ class VMTextWidget extends StatelessWidget {
   Map<String, VMText> get textDataMap => _textDataMap;
 
   String? get previewImagePath => _previewImagePath;
+  String? get allSequencesPath => _allSequencesPath;
   List<String> get allSequencePaths => _allSequencePaths;
 
   Future<void> loadText(ETextID id) async {
+    // _id = id;
     _data = (await loadTextData(id))!;
 
-    _data.texts.add("TITLE");
-    _data.texts.add("SUBTITLE");
+    _data.texts.add("THIS IS TITLE!");
+    _data.texts.add("This is sub-title");
 
     await _extractPreview();
+    await _extractAllSequence();
   }
 
   Future<void> setTextValue(String key, String value) async {
@@ -123,9 +129,9 @@ class VMTextWidget extends StatelessWidget {
 
   Future<void> _createDirectory(String path) async {
     Directory dir = Directory(path);
-    if (await dir.exists()) {
-      await dir.delete(recursive: true);
-    }
+    // if (await dir.exists()) {
+    //   await dir.delete(recursive: true);
+    // }
     await dir.create(recursive: true);
   }
 
@@ -134,6 +140,8 @@ class VMTextWidget extends StatelessWidget {
     await _removeAll();
     _currentDirPath =
         "${await getAppDirectoryPath()}/${DateTime.now().millisecondsSinceEpoch}";
+    // _currentDirPath =
+    //     "${await getAppDirectoryPath()}/${_id.toString().replaceAll("ETextID.", "")}";
     _currentPreviewPath = "$_currentDirPath/preview";
     _currentSequencePath = "$_currentDirPath/sequences";
     await _createDirectory(_currentDirPath!);
@@ -173,6 +181,8 @@ class VMTextWidget extends StatelessWidget {
 
     _currentDirPath =
         "${await getAppDirectoryPath()}/${DateTime.now().millisecondsSinceEpoch}";
+    // _currentDirPath =
+    //     "${await getAppDirectoryPath()}/${_id.toString().replaceAll("ETextID.", "")}";
     _currentPreviewPath = "$_currentDirPath/preview";
     _currentSequencePath = "$_currentDirPath/sequences";
     await _createDirectory(_currentDirPath!);
@@ -255,26 +265,70 @@ class VMTextWidget extends StatelessWidget {
     }
   }
 
-  void _handleTransferAllSequencePNGData(args) async {
+  // void _handleTransferAllSequencePNGData(args) async {
+  //   try {
+  //     _width = args[0]["width"].toDouble();
+  //     _height = args[0]["height"].toDouble();
+  //     _frameRate = args[0]["frameRate"].toDouble();
+  //     List frames = args[0]["frames"];
+  //     _totalFrameCount = frames.length;
+  //     _allSequencePaths.clear();
+
+  //     for (int i = 0; i < frames.length; i++) {
+  //       final String sequenceFilePath = "$_currentSequencePath/$i.png";
+  //       _allSequencePaths.add(sequenceFilePath);
+  //       writeFileFromBase64(sequenceFilePath,
+  //           frames[i].toString().replaceAll("data:image/png;base64,", ""));
+  //     }
+
+  //     _printAllData();
+  //     _currentSequencesCompleter.complete();
+  //   } catch (e) {
+  //     _currentSequencesCompleter.completeError(e);
+  //   }
+  // }
+
+  void _handleTransferAllSequenceStart(args) async {
     try {
       _width = args[0]["width"].toDouble();
       _height = args[0]["height"].toDouble();
       _frameRate = args[0]["frameRate"].toDouble();
-      List frames = args[0]["frames"];
-      _totalFrameCount = frames.length;
-      _allSequencePaths.clear();
+      _allSequencePaths = [];
+      _allSequencePathMap = {};
+    } catch (e) {
+      _currentSequencesCompleter.completeError(e);
+    }
+  }
 
-      for (int i = 0; i < frames.length; i++) {
-        final String sequenceFilePath = "$_currentSequencePath/$i.png";
-        _allSequencePaths.add(sequenceFilePath);
-        writeFileFromBase64(sequenceFilePath,
-            frames[i].toString().replaceAll("data:image/png;base64,", ""));
+  void _handleTransferAllSequencePNGData(args) async {
+    try {
+      int frameNumber = int.parse(args[0]["frameNumber"].toString());
+      String data =
+          args[0]["data"].toString().replaceAll("data:image/png;base64,", "");
+
+      final String sequenceFilePath = "$_currentSequencePath/$frameNumber.png";
+      _allSequencePathMap[frameNumber] = sequenceFilePath;
+      writeFileFromBase64(sequenceFilePath, data);
+    } catch (e) {
+      _currentSequencesCompleter.completeError(e);
+    }
+  }
+
+  void _handleTransferAllSequenceComplete(args) async {
+    try {
+      List<int> frameNumbers = _allSequencePathMap.keys.toList();
+      frameNumbers.sort();
+
+      for (final int frameNumber in frameNumbers) {
+        _allSequencePaths.add(_allSequencePathMap[frameNumber]!);
       }
 
+      _allSequencesPath = _currentSequencePath;
       _printAllData();
+      
       _currentSequencesCompleter.complete();
     } catch (e) {
-      _currentPreviewCompleter.completeError(e);
+      _currentSequencesCompleter.completeError(e);
     }
   }
 
@@ -288,14 +342,22 @@ class VMTextWidget extends StatelessWidget {
 
   void _setController(InAppWebViewController controller) {
     controller.addJavaScriptHandler(
-        handlerName: "TransferInit",
-        callback: _handleTransferInit);
+        handlerName: "TransferInit", callback: _handleTransferInit);
     controller.addJavaScriptHandler(
         handlerName: "TransferPreviewPNGData",
         callback: _handleTransferPreviewPNGData);
+    // controller.addJavaScriptHandler(
+    //     handlerName: "TransferAllSequencePNGData",
+    //     callback: _handleTransferAllSequencePNGData);
+    controller.addJavaScriptHandler(
+        handlerName: "TransferAllSequenceStart",
+        callback: _handleTransferAllSequenceStart);
     controller.addJavaScriptHandler(
         handlerName: "TransferAllSequencePNGData",
         callback: _handleTransferAllSequencePNGData);
+    controller.addJavaScriptHandler(
+        handlerName: "TransferAllSequenceComplete",
+        callback: _handleTransferAllSequenceComplete);
     controller.addJavaScriptHandler(
         handlerName: "TransferPreviewFailed",
         callback: _handleTransferPreviewFailed);

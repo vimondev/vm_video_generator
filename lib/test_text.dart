@@ -30,32 +30,50 @@ class _TestWidgetState extends State<TestWidget> {
   }
 
   void _run() async {
-    if (_isRunning) return;
-    _isRunning = true;
+    // if (_isRunning) return;
+    // _isRunning = true;
     try {
       setState(() {
         imageList = [];
       });
 
+      // final List<ETextID> allTexts = ETextID.values;
+      // final ETextID currentText =
+      //     allTexts[(_currentIndex) % allTexts.length];
+
+      // print('text is $currentText');
+      // print('_currentIndex is $_currentIndex');
+
+      // await _vmTextWidget.loadText(currentText);
+
+      // String? preview = _vmTextWidget.previewImagePath;
+      // setState(() {
+      //   if (preview != null) imageList = [preview];
+      // });
+
+      // _currentIndex++;
+
+
       final List<ETextID> allTexts = ETextID.values;
-      final ETextID currentText =
-          allTexts[(_currentIndex) % allTexts.length];
+      for (int i = 0; i < allTexts.length; i++) {
+        final ETextID currentText = allTexts[i];
 
-      print('text is $currentText');
-      print('_currentIndex is $_currentIndex');
+        print('text is $currentText');
+        print('_currentIndex is $i');
 
-      await _vmTextWidget.loadText(currentText);
+        await _vmTextWidget.loadText(currentText);
 
-      String? preview = _vmTextWidget.previewImagePath;
-      setState(() {
-        if (preview != null) imageList = [preview];
-      });
+        String? preview = _vmTextWidget.previewImagePath;
+        setState(() {
+          if (preview != null) imageList = [preview];
+        });
 
-      _currentIndex++;
+        await Future.delayed(const Duration(seconds: 1));
+      }
     } catch (e) {
       print(e);
     } finally {
-      _isRunning = false;
+      // _isRunning = false;
     }
   }
 
