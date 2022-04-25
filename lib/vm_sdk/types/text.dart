@@ -131,8 +131,8 @@ class TextData {
 
 class ExportedTextPNGSequenceData {
   String folderPath;
-  double width;
-  double height;
+  int width;
+  int height;
   double frameRate;
 
   ExportedTextPNGSequenceData(

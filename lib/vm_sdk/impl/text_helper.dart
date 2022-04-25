@@ -2,7 +2,7 @@ import '../types/types.dart';
 import 'global_helper.dart';
 import 'dart:convert';
 
-const Map<ETextID, String> textMap = {
+const Map<ETextID, String> _textMap = {
   ETextID.Title_DA001: "Title_DA001.json",
   ETextID.Title_DA002: "Title_DA002.json",
   ETextID.Title_DA003: "Title_DA003.json",
@@ -120,16 +120,122 @@ const Map<ETextID, String> textMap = {
   ETextID.Caption_YJ008: "Caption_YJ008.json",
 };
 
+const List<ETextID> oneLineTitles = [
+  ETextID.Title_DA009,
+  ETextID.Title_HJ001,
+  ETextID.Title_HJ002,
+  ETextID.Title_HJ003,
+  ETextID.Title_HJ004,
+  ETextID.Title_HJ005,
+  ETextID.Title_HJ007,
+  ETextID.Title_HJ008,
+  ETextID.Title_HJ009,
+  ETextID.Title_HJ010,
+  ETextID.Title_ON001,
+  ETextID.Title_ON002,
+  ETextID.Title_ON003,
+  ETextID.Title_ON005,
+  ETextID.Title_ON006,
+  ETextID.Title_ON007,
+  ETextID.Title_ON008,
+  ETextID.Title_ON009,
+  ETextID.Title_SW004,
+  ETextID.Title_SW006,
+  ETextID.Title_SW008,
+  ETextID.Title_YJ016,
+  ETextID.Title_YJ019
+];
+
+const List<ETextID> twoLineTitles = [
+  ETextID.Title_DA001,
+  ETextID.Title_DA002,
+  ETextID.Title_DA003,
+  ETextID.Title_DA004,
+  ETextID.Title_DA005,
+  ETextID.Title_DA006,
+  ETextID.Title_DA007,
+  ETextID.Title_DA008,
+// ETextID.Title_DA010,
+  ETextID.Title_DA011,
+  ETextID.Title_DA012,
+  ETextID.Title_DA013,
+  ETextID.Title_DA014,
+  ETextID.Title_DA015,
+  ETextID.Title_DA016,
+  ETextID.Title_DA017,
+  ETextID.Title_DA018,
+// ETextID.Title_DA019,
+  ETextID.Title_DA020,
+  ETextID.Title_DA021,
+  ETextID.Title_DA022,
+  ETextID.Title_DA023,
+// ETextID.Title_DA024,
+  ETextID.Title_HJ006,
+  ETextID.Title_HJ011,
+  ETextID.Title_HJ012,
+  ETextID.Title_HJ013,
+  ETextID.Title_HJ014,
+  ETextID.Title_HJ015,
+  ETextID.Title_HJ018,
+  ETextID.Title_HJ019,
+// ETextID.Title_HJ020,
+  ETextID.Title_ON010,
+  ETextID.Title_ON011,
+  ETextID.Title_ON012,
+// ETextID.Title_ON013,
+  ETextID.Title_SW001,
+  ETextID.Title_SW002,
+  ETextID.Title_SW003,
+  ETextID.Title_SW005,
+  ETextID.Title_SW007,
+  ETextID.Title_SW009,
+// ETextID.Title_SW010,
+  ETextID.Title_SW011,
+  ETextID.Title_SW012,
+  ETextID.Title_SW013,
+  ETextID.Title_SW014,
+  ETextID.Title_SW015,
+  ETextID.Title_SW016,
+  ETextID.Title_SW017,
+  ETextID.Title_SW018,
+// ETextID.Title_SW019,
+  ETextID.Title_SW020,
+  ETextID.Title_SW021,
+  ETextID.Title_SW022,
+// ETextID.Title_SW023,
+// ETextID.Title_YJ001,
+// ETextID.Title_YJ002,
+  ETextID.Title_YJ003,
+  ETextID.Title_YJ004,
+  ETextID.Title_YJ005,
+  ETextID.Title_YJ006,
+  ETextID.Title_YJ007,
+  ETextID.Title_YJ008,
+// ETextID.Title_YJ009,
+  ETextID.Title_YJ010,
+  ETextID.Title_YJ011,
+  ETextID.Title_YJ012,
+  ETextID.Title_YJ013,
+// ETextID.Title_YJ014,
+  ETextID.Title_YJ017,
+  ETextID.Title_YJ018,
+  ETextID.Title_YJ020,
+  ETextID.Title_YJ021,
+  ETextID.Title_YJ022
+];
+
 Future<TextData?> loadTextData(ETextID id) async {
-  if (!textMap.containsKey(id)) return null;
+  if (!_textMap.containsKey(id)) return null;
 
   final Map<String, dynamic> loadedMap =
-      jsonDecode(await loadResourceString("text/${textMap[id]}"));
+      jsonDecode(await loadResourceString("text/${_textMap[id]}"));
 
-  final ETextType type = ETextType.Title;
+  final ETextType type =
+      id.toString().startsWith("Caption") ? ETextType.Caption : ETextType.Title;
   final String filename = loadedMap["filename"];
   final List<String> fontFamily = List<String>.from(loadedMap["fontFamily"]);
-  final List<String> fontFileName = List<String>.from(loadedMap["fontFileName"]);
+  final List<String> fontFileName =
+      List<String>.from(loadedMap["fontFileName"]);
 
   final String json = await loadResourceString("raw/lottie-jsons/$filename");
 

@@ -72,11 +72,11 @@ class VMTextWidget extends StatelessWidget {
     _data.texts.add("THIS IS TITLE!");
     _data.texts.add("This is sub-title");
 
-    await _extractPreview();
-    await _extractAllSequence();
+    await extractPreview();
   }
 
-  Future<void> setTextValue(String key, String value) async {
+  Future<void> setTextValue(String key, String value,
+      {bool isExtractPreviewImmediate = true}) async {
     final List<VMText> texts = _textDataMap.values.toList();
     for (int i = 0; i < texts.length; i++) {
       VMText text = texts[i];
@@ -86,7 +86,9 @@ class VMTextWidget extends StatelessWidget {
       }
     }
 
-    await _extractPreview();
+    if (isExtractPreviewImmediate) {
+      await extractPreview();
+    }
   }
 
   void _printAllData() {
@@ -135,7 +137,7 @@ class VMTextWidget extends StatelessWidget {
     await dir.create(recursive: true);
   }
 
-  Future<void> _extractPreview() async {
+  Future<void> extractPreview() async {
     await _reload();
     await _removeAll();
     _currentDirPath =
@@ -175,7 +177,7 @@ class VMTextWidget extends StatelessWidget {
     return _currentPreviewCompleter.future;
   }
 
-  Future<void> _extractAllSequence() async {
+  Future<void> extractAllSequence() async {
     await _reload();
     await _removeAll();
 
@@ -325,7 +327,7 @@ class VMTextWidget extends StatelessWidget {
 
       _allSequencesPath = _currentSequencePath;
       _printAllData();
-      
+
       _currentSequencesCompleter.complete();
     } catch (e) {
       _currentSequencesCompleter.completeError(e);
