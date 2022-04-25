@@ -1,9 +1,10 @@
 {
+    
     "TRANSITION_DA001": {
         "width": 1920,
         "height": 1080,
         "duration": 1.001,
-        "transitionPoint": 0.434,
+        "transitionPoint": 0.433,
         "type": "overlay",
         "filename": "TRANSITION_DA001.webm"
     },
@@ -35,7 +36,7 @@
         "width": 1920,
         "height": 1080,
         "duration": 2,
-        "transitionPoint": 0.967,
+        "transitionPoint": 0.966,
         "type": "overlay",
         "filename": "TRANSITION_HJ002.webm"
     },
@@ -51,7 +52,7 @@
         "width": 1920,
         "height": 1080,
         "duration": 1.134,
-        "transitionPoint": 0.501,
+        "transitionPoint": 0.5,
         "type": "overlay",
         "filename": "TRANSITION_ON001.webm"
     },
@@ -59,7 +60,7 @@
         "width": 1920,
         "height": 1080,
         "duration": 1.868,
-        "transitionPoint": 0.267,
+        "transitionPoint": 0.266,
         "type": "overlay",
         "filename": "TRANSITION_ON002.webm"
     },
@@ -95,11 +96,35 @@
         "type": "overlay",
         "filename": "TRANSITION_SW003.webm"
     },
+    "TRANSITION_SW004": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 6.439,
+        "transitionPoint": 2.869,
+        "type": "overlay",
+        "filename": "TRANSITION_SW004.webm"
+    },
+    "TRANSITION_SW005": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 4.037,
+        "transitionPoint": 1.701,
+        "type": "overlay",
+        "filename": "TRANSITION_SW005.webm"
+    },
+    "TRANSITION_SW006": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 3.003,
+        "transitionPoint": 1.334,
+        "type": "overlay",
+        "filename": "TRANSITION_SW006.webm"
+    },
     "TRANSITION_YJ001": {
         "width": 1920,
         "height": 1080,
         "duration": 5.005,
-        "transitionPoint": 0.334,
+        "transitionPoint": 0.333,
         "type": "overlay",
         "filename": "TRANSITION_YJ001.webm"
     },
@@ -107,7 +132,7 @@
         "width": 1920,
         "height": 1080,
         "duration": 1.067,
-        "transitionPoint": 0.334,
+        "transitionPoint": 0.333,
         "type": "overlay",
         "filename": "TRANSITION_YJ002.webm"
     },
@@ -115,7 +140,7 @@
         "width": 1920,
         "height": 1080,
         "duration": 1.768,
-        "transitionPoint": 0.868,
+        "transitionPoint": 0.867,
         "type": "overlay",
         "filename": "TRANSITION_YJ003.webm"
     },
@@ -134,6 +159,46 @@
         "transitionPoint": 0.367,
         "type": "overlay",
         "filename": "TRANSITION_YJ005.webm"
+    },
+    "TRANSITION_YJ006": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 3.803,
+        "transitionPoint": 1.968,
+        "type": "overlay",
+        "filename": "TRANSITION_YJ006.webm"
+    },
+    "TRANSITION_YJ007": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 2.969,
+        "transitionPoint": 0.967,
+        "type": "overlay",
+        "filename": "TRANSITION_YJ007.webm"
+    },
+    "TRANSITION_YJ008": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 4.237,
+        "transitionPoint": 1.434,
+        "type": "overlay",
+        "filename": "TRANSITION_YJ008.webm"
+    },
+    "TRANSITION_YJ009": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 1.167,
+        "transitionPoint": 0.5,
+        "type": "overlay",
+        "filename": "TRANSITION_YJ009.webm"
+    },
+    "TRANSITION_YJ010": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 4.637,
+        "transitionPoint": 1.501,
+        "type": "overlay",
+        "filename": "TRANSITION_YJ010.webm"
     },
     "xfade_fade": {
         "type": "xfade",

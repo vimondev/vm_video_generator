@@ -146,6 +146,34 @@
         "type": "object",
         "filename": "STICKER_DA021.webm"
     },
+    "STICKER_DA022": {
+        "width": 600,
+        "height": 600,
+        "duration": 5.005,
+        "type": "object",
+        "filename": "STICKER_DA022.webm"
+    },
+    "STICKER_DA023": {
+        "width": 600,
+        "height": 600,
+        "duration": 5.005,
+        "type": "object",
+        "filename": "STICKER_DA023.webm"
+    },
+    "STICKER_DA024": {
+        "width": 600,
+        "height": 600,
+        "duration": 5.005,
+        "type": "object",
+        "filename": "STICKER_DA024.webm"
+    },
+    "STICKER_DA025": {
+        "width": 600,
+        "height": 600,
+        "duration": 5.005,
+        "type": "object",
+        "filename": "STICKER_DA025.webm"
+    },
     "STICKER_HJ001": {
         "width": 500,
         "height": 500,
@@ -258,6 +286,27 @@
         "type": "background",
         "filename": "STICKER_HJ016.webm"
     },
+    "STICKER_HJ017": {
+        "width": 1080,
+        "height": 1080,
+        "duration": 4,
+        "type": "object",
+        "filename": "STICKER_HJ017.webm"
+    },
+    "STICKER_HJ018": {
+        "width": 1080,
+        "height": 1080,
+        "duration": 4,
+        "type": "object",
+        "filename": "STICKER_HJ018.webm"
+    },
+    "STICKER_HJ019": {
+        "width": 1080,
+        "height": 1080,
+        "duration": 4,
+        "type": "object",
+        "filename": "STICKER_HJ019.webm"
+    },
     "STICKER_ON009": {
         "width": 500,
         "height": 230,
@@ -341,6 +390,27 @@
         "duration": 3.003,
         "type": "background",
         "filename": "STICKER_ON020.webm"
+    },
+    "STICKER_ON021": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 5.005,
+        "type": "background",
+        "filename": "STICKER_ON021.webm"
+    },
+    "STICKER_ON022": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 3.003,
+        "type": "background",
+        "filename": "STICKER_ON022.webm"
+    },
+    "STICKER_ON023": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 3.003,
+        "type": "background",
+        "filename": "STICKER_ON023.webm"
     },
     "STICKER_SW001": {
         "width": 200,
@@ -481,6 +551,34 @@
         "duration": 5,
         "type": "object",
         "filename": "STICKER_SW020.webm"
+    },
+    "STICKER_SW021": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 5,
+        "type": "background",
+        "filename": "STICKER_SW021.webm"
+    },
+    "STICKER_SW022": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 5,
+        "type": "background",
+        "filename": "STICKER_SW022.webm"
+    },
+    "STICKER_SW023": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 5,
+        "type": "background",
+        "filename": "STICKER_SW023.webm"
+    },
+    "STICKER_SW024": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 5,
+        "type": "background",
+        "filename": "STICKER_SW024.webm"
     },
     "STICKER_YJ001": {
         "width": 300,
@@ -670,6 +768,41 @@
         "duration": 4.004,
         "type": "background",
         "filename": "STICKER_YJ027.webm"
+    },
+    "STICKER_YJ028": {
+        "width": 900,
+        "height": 700,
+        "duration": 5.372,
+        "type": "object",
+        "filename": "STICKER_YJ028.webm"
+    },
+    "STICKER_YJ029": {
+        "width": 800,
+        "height": 800,
+        "duration": 5.005,
+        "type": "object",
+        "filename": "STICKER_YJ029.webm"
+    },
+    "STICKER_YJ030": {
+        "width": 800,
+        "height": 800,
+        "duration": 6.006,
+        "type": "object",
+        "filename": "STICKER_YJ030.webm"
+    },
+    "STICKER_YJ031": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 5.005,
+        "type": "background",
+        "filename": "STICKER_YJ031.webm"
+    },
+    "STICKER_YJ032": {
+        "width": 1920,
+        "height": 1080,
+        "duration": 5.005,
+        "type": "background",
+        "filename": "STICKER_YJ032.webm"
     },
     "STIKER_ON001": {
         "width": 439,
