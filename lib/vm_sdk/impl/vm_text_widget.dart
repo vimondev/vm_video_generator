@@ -48,6 +48,7 @@ class VMTextWidget extends StatelessWidget {
   List<String> _allSequencePaths = [];
 
   late TextData _data;
+  late Completer<void> _reloadCompleter;
   late Completer<void> _currentPreviewCompleter;
   late Completer<void> _currentSequencesCompleter;
 
@@ -209,6 +210,12 @@ class VMTextWidget extends StatelessWidget {
     if (_controller != null) {
       await _controller!.reload();
     }
+    _reloadCompleter = Completer();
+    return _reloadCompleter.future;
+  }
+
+  void _handleTransferInit(args) async {
+    _reloadCompleter.complete();
   }
 
   void _handleTransferPreviewPNGData(args) async {
@@ -280,6 +287,9 @@ class VMTextWidget extends StatelessWidget {
   }
 
   void _setController(InAppWebViewController controller) {
+    controller.addJavaScriptHandler(
+        handlerName: "TransferInit",
+        callback: _handleTransferInit);
     controller.addJavaScriptHandler(
         handlerName: "TransferPreviewPNGData",
         callback: _handleTransferPreviewPNGData);

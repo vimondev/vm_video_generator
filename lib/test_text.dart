@@ -18,6 +18,7 @@ class _TestWidgetState extends State<TestWidget> {
   List<String> imageList = [];
 
   int _currentIndex = 0;
+  bool _isRunning = false;
 
   void updateTextCallback(String key, String text) async {
     await _vmTextWidget.setTextValue(key, text);
@@ -29,6 +30,8 @@ class _TestWidgetState extends State<TestWidget> {
   }
 
   void _run() async {
+    if (_isRunning) return;
+    _isRunning = true;
     try {
       setState(() {
         imageList = [];
@@ -51,6 +54,8 @@ class _TestWidgetState extends State<TestWidget> {
       _currentIndex++;
     } catch (e) {
       print(e);
+    } finally {
+      _isRunning = false;
     }
   }
 
