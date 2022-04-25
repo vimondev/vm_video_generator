@@ -74,16 +74,16 @@ flutter:
     # - assets/_mlkittest/set02/
     # - assets/_mlkittest/subin/
     - assets/_test/mediajson-joined/
-    - assets/_test/
     - assets/data/
     - assets/html/
-    - assets/title/
+    - assets/text/
     - assets/template/
     - assets/raw/audio/
     - assets/raw/sticker/
     - assets/raw/transition/
     - assets/raw/lottie-jsons/
     - assets/raw/fonts/
+    - assets/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

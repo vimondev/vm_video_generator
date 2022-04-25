@@ -1,23 +1,22 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:myapp/vm_sdk/impl/text_helper.dart';
 
 import 'types/types.dart';
-import 'impl/title_helper.dart';
+import 'impl/template_helper.dart';
 import 'impl/ffmpeg_manager.dart';
-// import 'impl/ffmpeg_argument_generator.dart';
 import 'impl/resource_manager.dart';
 import 'impl/auto_edit_helper.dart';
 import 'impl/ml_kit_helper.dart';
-import 'impl/lottie_widget.dart';
-import 'impl/template_helper.dart';
+import 'impl/vm_text_widget.dart';
 
 import 'impl/ffmpeg_helper.dart';
 
 class VMSDKWidget extends StatelessWidget {
   VMSDKWidget({Key? key}) : super(key: key);
 
-  final LottieWidget _lottieWidget = LottieWidget();
+  final VMTextWidget _textWidget = VMTextWidget();
 
   bool _isInitialized = false;
   final FFMpegManager _ffmpegManager = FFMpegManager();
@@ -55,69 +54,9 @@ class VMSDKWidget extends StatelessWidget {
       List<MediaData> mediaList,
       EMusicStyle? style,
       bool isAutoEdit,
-      List<String> titles,
+      List<String> texts,
       Function(EGenerateStatus status, double progress, double estimatedTime)?
           progressCallback) async {
-    // EMusicStyle selectedStyle = style ?? EMusicStyle.styleA;
-
-    // final AutoEditedData autoEditedData =
-    //     await generateAutoEditData(mediaList, selectedStyle, isAutoEdit);
-
-    // await _resourceManager.loadAutoEditAssets(autoEditedData);
-
-    // final TitleData title = (await loadTitleData(ETitleType.title04))!;
-    // title.texts.addAll(titles);
-
-    // ExportedTitlePNGSequenceData exportedTitleData =
-    //     await _lottieWidget.exportTitlePNGSequence(title);
-
-    // final GenerateArgumentResponse videoArgResponse =
-    //     await generateVideoRenderArgument(autoEditedData, exportedTitleData);
-
-    // final GenerateArgumentResponse audioArgResponse =
-    //     await generateAudioRenderArgument(autoEditedData);
-
-    // DateTime now = DateTime.now();
-    // double progress = 0, estimatedTime = 0;
-
-    // bool isSuccess =
-    //     await _ffmpegManager.execute(audioArgResponse.arguments, (statistics) {
-    //   if (progressCallback != null) {
-    //     progressCallback(EGenerateStatus.encoding, 0, 0);
-    //   }
-    // });
-    // if (!isSuccess) return null;
-
-    // isSuccess =
-    //     await _ffmpegManager.execute(videoArgResponse.arguments, (statistics) {
-    //   if (progressCallback != null) {
-    //     progress = min(
-    //         1.0, statistics.videoFrameNumber / videoArgResponse.totalFrame!);
-    //     estimatedTime =
-    //         (videoArgResponse.totalFrame! - statistics.videoFrameNumber) /
-    //             statistics.videoFps;
-    //     progressCallback(EGenerateStatus.encoding, progress, estimatedTime);
-    //   }
-    // });
-    // if (!isSuccess) return null;
-
-    // final GenerateArgumentResponse mergeArgResponse =
-    //     await generateMergeArgument(
-    //         videoArgResponse.outputPath, audioArgResponse.outputPath);
-
-    // isSuccess =
-    //     await _ffmpegManager.execute(mergeArgResponse.arguments, (statistics) {
-    //   if (progressCallback != null) {
-    //     progressCallback(EGenerateStatus.merge, 1.0, 0);
-    //   }
-    // });
-    // print(isSuccess);
-    // print(DateTime.now().difference(now).inSeconds);
-    // if (!isSuccess) return null;
-
-    // String outputPath = mergeArgResponse.outputPath;
-    // return outputPath;
-
     try {
       EMusicStyle selectedStyle = style ?? EMusicStyle.styleA;
       final List<TemplateData>? templateList =
@@ -129,15 +68,29 @@ class VMSDKWidget extends StatelessWidget {
 
       await _resourceManager.loadAutoEditAssets(autoEditedData);
 
-      const List<ETitleType> titleList = ETitleType.values;
-      final ETitleType pickedTitle =
-          titleList[(Random()).nextInt(titleList.length) % titleList.length];
+      late List<ETextID> textIds;
+      if (texts.length >= 2) {
+        textIds = twoLineTitles;
+      }
+      //
+      else {
+        textIds = oneLineTitles;
+      }
+      final ETextID pickedTextId = textIds[(Random()).nextInt(textIds.length) % textIds.length];
+      await _textWidget.loadText(pickedTextId);
 
-      final TitleData title = (await loadTitleData(pickedTitle))!;
-      title.texts.addAll(titles);
+      for (int i=0; i<texts.length; i++) {
+        final String key = "#TEXT${(i + 1)}";
+        await _textWidget.setTextValue(key, texts[i], isExtractPreviewImmediate: false);
+      }
+      await _textWidget.extractAllSequence();
 
-      ExportedTitlePNGSequenceData? exportedTitleData =
-          await _lottieWidget.exportTitlePNGSequence(title);
+      ExportedTextPNGSequenceData exportedTextData =
+          ExportedTextPNGSequenceData(
+              _textWidget.allSequencesPath!,
+              _textWidget.width.floor(),
+              _textWidget.height.floor(),
+              _textWidget.frameRate);
 
       final List<AutoEditMedia> autoEditMediaList =
           autoEditedData.autoEditMediaList;
@@ -213,7 +166,7 @@ class VMSDKWidget extends StatelessWidget {
             stickerData,
             prevTransition,
             nextTransition,
-            i == 0 ? exportedTitleData : null,
+            i == 0 ? exportedTextData : null,
             (statistics) =>
                 _currentRenderedFrameInCallback = statistics.videoFrameNumber);
 
@@ -308,6 +261,6 @@ class VMSDKWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _lottieWidget;
+    return _textWidget;
   }
 }

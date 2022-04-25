@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html style="width: 100%;height: 100%">
+
+<head>
+    <script src="lottie.min.js"></script>
+    <script src="opentype.min.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+    <style>
+        #bodymovin {
+            width: 1920px;
+        }
+    </style>
+</head>
+
+<body style="background-color: grey;">
+<input id="input-json" type="file" />
+<input id="input-font" type="file" />
+<button onclick="extractPreview()">Extract Preview</button>
+<button onclick="extractAllSequence()">Extract All Sequence</button>
+<div id="bodymovin" width="1920px"></div>
+<div id="tempsvg"></div>
+</body>
+</html>
