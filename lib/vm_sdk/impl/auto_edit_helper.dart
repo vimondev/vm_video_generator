@@ -280,50 +280,58 @@ Future<AutoEditedData> generateAutoEditData(
   final Map<int, List<MediaData>> groupMap = <int, List<MediaData>>{};
   int curGroupIndex = 0;
 
-  for (int i = 0; i < list.length - 1; i++) {
-    final MediaData curData = list[i], nextData = list[i + 1];
-    bool isGrouped = false;
+  if (list.length > 1) {
+    for (int i = 0; i < list.length - 1; i++) {
+      final MediaData curData = list[i], nextData = list[i + 1];
+      bool isGrouped = false;
 
-    final int totalSecondsDiff =
-        (curData.createDate.difference(nextData.createDate).inSeconds).abs();
-    final int minutesDiff = ((totalSecondsDiff / 60) % 60).floor();
-    final int hoursDiff = ((totalSecondsDiff / 3600) % 60).floor();
+      final int totalSecondsDiff =
+          (curData.createDate.difference(nextData.createDate).inSeconds).abs();
+      final int minutesDiff = ((totalSecondsDiff / 60) % 60).floor();
+      final int hoursDiff = ((totalSecondsDiff / 3600) % 60).floor();
 
-    if (minutesDiff >= 10 || hoursDiff >= 1) {
-      isGrouped = true;
-    } //
-    else {
-      for (int j = 0; j < 3; j++) {
-        final diffThreshold = j <= 1 ? 0 : 15;
-        final double latitudeDiff =
-            (curData.gpsData.latitude[j] - nextData.gpsData.latitude[j]).abs();
-        final double longitudeDiff =
-            (curData.gpsData.longitude[j] - nextData.gpsData.longitude[j])
-                .abs();
+      if (minutesDiff >= 10 || hoursDiff >= 1) {
+        isGrouped = true;
+      } //
+      else {
+        for (int j = 0; j < 3; j++) {
+          final diffThreshold = j <= 1 ? 0 : 15;
+          final double latitudeDiff =
+              (curData.gpsData.latitude[j] - nextData.gpsData.latitude[j])
+                  .abs();
+          final double longitudeDiff =
+              (curData.gpsData.longitude[j] - nextData.gpsData.longitude[j])
+                  .abs();
 
-        if (latitudeDiff > diffThreshold || longitudeDiff > diffThreshold) {
-          isGrouped = true;
-          break;
+          if (latitudeDiff > diffThreshold || longitudeDiff > diffThreshold) {
+            isGrouped = true;
+            break;
+          }
         }
       }
-    }
 
-    if (!groupMap.containsKey(curGroupIndex)) {
-      groupMap[curGroupIndex] = <MediaData>[];
-    }
-    groupMap[curGroupIndex]!.add(curData);
-
-    if (isGrouped) {
-      curGroupIndex++;
-    }
-
-    // last Element
-    if (i + 1 == list.length - 1) {
       if (!groupMap.containsKey(curGroupIndex)) {
         groupMap[curGroupIndex] = <MediaData>[];
       }
-      groupMap[curGroupIndex]!.add(nextData);
+      groupMap[curGroupIndex]!.add(curData);
+
+      if (isGrouped) {
+        curGroupIndex++;
+      }
+
+      // last Element
+      if (i + 1 == list.length - 1) {
+        if (!groupMap.containsKey(curGroupIndex)) {
+          groupMap[curGroupIndex] = <MediaData>[];
+        }
+        groupMap[curGroupIndex]!.add(nextData);
+      }
     }
+  }
+  //
+  else {
+    groupMap[curGroupIndex] = <MediaData>[];
+    groupMap[curGroupIndex]!.add(list[0]);
   }
 
   ////////////////////////////////////////////

@@ -12,7 +12,7 @@ enum EMediaLabel {
   others
 }
 enum EMusicStyle { styleA, styleB, styleC }
-enum EGenerateStatus { none, encoding, merge }
+enum EGenerateStatus { none, titleExport, encoding, finishing }
 
 List<double> parseGPS(String gpsString) {
   final List<String> splitted1 = gpsString.split("\"")[0].split("' ");

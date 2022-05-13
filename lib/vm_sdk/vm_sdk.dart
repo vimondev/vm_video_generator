@@ -55,9 +55,11 @@ class VMSDKWidget extends StatelessWidget {
       EMusicStyle? style,
       bool isAutoEdit,
       List<String> texts,
-      Function(EGenerateStatus status, double progress, double estimatedTime)?
+      Function(EGenerateStatus status, double progress)?
           progressCallback) async {
     try {
+      _currentStatus = EGenerateStatus.titleExport;
+
       EMusicStyle selectedStyle = style ?? EMusicStyle.styleA;
       final List<TemplateData>? templateList =
           await loadTemplateData(selectedStyle);
@@ -83,7 +85,11 @@ class VMSDKWidget extends StatelessWidget {
         final String key = "#TEXT${(i + 1)}";
         await _textWidget.setTextValue(key, texts[i], isExtractPreviewImmediate: false);
       }
-      await _textWidget.extractAllSequence();
+      await _textWidget.extractAllSequence((progress) {
+        if (progressCallback != null) {
+          progressCallback(_currentStatus, progress);
+        }
+      });
 
       ExportedTextPNGSequenceData exportedTextData =
           ExportedTextPNGSequenceData(
@@ -140,7 +146,7 @@ class VMSDKWidget extends StatelessWidget {
           }
 
           progressCallback(
-              _currentStatus, min(1.0, _maxRenderedFrame / _allFrame), 0);
+              _currentStatus, min(1.0, _maxRenderedFrame / _allFrame));
         }
       });
 
@@ -220,7 +226,7 @@ class VMSDKWidget extends StatelessWidget {
         }
       }
 
-      _currentStatus = EGenerateStatus.merge;
+      _currentStatus = EGenerateStatus.finishing;
       _currentRenderedFrame = _allFrame;
 
       final RenderedData? mergedClip = await mergeVideoClip(xfadeAppliedList);
