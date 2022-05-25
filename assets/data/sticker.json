@@ -41,13 +41,6 @@
         "type": "object",
         "filename": "STICKER_DA006.webm"
     },
-    "STICKER_DA007": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 1.501,
-        "type": "background",
-        "filename": "STICKER_DA007.webm"
-    },
     "STICKER_DA008": {
         "width": 500,
         "height": 400,
@@ -61,13 +54,6 @@
         "duration": 3.003,
         "type": "object",
         "filename": "STICKER_DA009.webm"
-    },
-    "STICKER_DA010": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 3.003,
-        "type": "background",
-        "filename": "STICKER_DA010.webm"
     },
     "STICKER_DA011": {
         "width": 400,
@@ -96,13 +82,6 @@
         "duration": 3.003,
         "type": "object",
         "filename": "STICKER_DA014.webm"
-    },
-    "STICKER_DA015": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 3.003,
-        "type": "background",
-        "filename": "STICKER_DA015.webm"
     },
     "STICKER_DA016": {
         "width": 500,
@@ -223,20 +202,6 @@
         "type": "object",
         "filename": "STICKER_HJ007.webm"
     },
-    "STICKER_HJ008": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 3,
-        "type": "background",
-        "filename": "STICKER_HJ008.webm"
-    },
-    "STICKER_HJ009": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 4,
-        "type": "background",
-        "filename": "STICKER_HJ009.webm"
-    },
     "STICKER_HJ010": {
         "width": 400,
         "height": 400,
@@ -262,15 +227,8 @@
         "width": 850,
         "height": 1080,
         "duration": 3,
-        "type": "background",
+        "type": "object",
         "filename": "STICKER_HJ013.webm"
-    },
-    "STICKER_HJ014": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 3,
-        "type": "background",
-        "filename": "STICKER_HJ014.webm"
     },
     "STICKER_HJ015": {
         "width": 300,
@@ -279,30 +237,23 @@
         "type": "object",
         "filename": "STICKER_HJ015.webm"
     },
-    "STICKER_HJ016": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 3,
-        "type": "background",
-        "filename": "STICKER_HJ016.webm"
-    },
     "STICKER_HJ017": {
-        "width": 1080,
-        "height": 1080,
+        "width": 500,
+        "height": 500,
         "duration": 4,
         "type": "object",
         "filename": "STICKER_HJ017.webm"
     },
     "STICKER_HJ018": {
-        "width": 1080,
-        "height": 1080,
+        "width": 500,
+        "height": 300,
         "duration": 4,
         "type": "object",
         "filename": "STICKER_HJ018.webm"
     },
     "STICKER_HJ019": {
-        "width": 1080,
-        "height": 1080,
+        "width": 600,
+        "height": 400,
         "duration": 4,
         "type": "object",
         "filename": "STICKER_HJ019.webm"
@@ -314,40 +265,12 @@
         "type": "object",
         "filename": "STICKER_ON009.webm"
     },
-    "STICKER_ON010": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 3.003,
-        "type": "background",
-        "filename": "STICKER_ON010.webm"
-    },
-    "STICKER_ON011": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 3.003,
-        "type": "background",
-        "filename": "STICKER_ON011.webm"
-    },
-    "STICKER_ON012": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 3.003,
-        "type": "background",
-        "filename": "STICKER_ON012.webm"
-    },
     "STICKER_ON013": {
         "width": 600,
         "height": 280,
         "duration": 3.336,
         "type": "object",
         "filename": "STICKER_ON013.webm"
-    },
-    "STICKER_ON014": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 3.003,
-        "type": "background",
-        "filename": "STICKER_ON014.webm"
     },
     "STICKER_ON015": {
         "width": 700,
@@ -356,61 +279,12 @@
         "type": "object",
         "filename": "STICKER_ON015.webm"
     },
-    "STICKER_ON016": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 5.005,
-        "type": "background",
-        "filename": "STICKER_ON016.webm"
-    },
     "STICKER_ON017": {
-        "width": 1920,
-        "height": 1080,
+        "width": 600,
+        "height": 600,
         "duration": 3.003,
-        "type": "background",
+        "type": "object",
         "filename": "STICKER_ON017.webm"
-    },
-    "STICKER_ON018": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 3.003,
-        "type": "background",
-        "filename": "STICKER_ON018.webm"
-    },
-    "STICKER_ON019": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 3.003,
-        "type": "background",
-        "filename": "STICKER_ON019.webm"
-    },
-    "STICKER_ON020": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 3.003,
-        "type": "background",
-        "filename": "STICKER_ON020.webm"
-    },
-    "STICKER_ON021": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 5.005,
-        "type": "background",
-        "filename": "STICKER_ON021.webm"
-    },
-    "STICKER_ON022": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 3.003,
-        "type": "background",
-        "filename": "STICKER_ON022.webm"
-    },
-    "STICKER_ON023": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 3.003,
-        "type": "background",
-        "filename": "STICKER_ON023.webm"
     },
     "STICKER_SW001": {
         "width": 200,
@@ -419,26 +293,12 @@
         "type": "object",
         "filename": "STICKER_SW001.webm"
     },
-    "STICKER_SW002": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 5,
-        "type": "background",
-        "filename": "STICKER_SW002.webm"
-    },
     "STICKER_SW003": {
         "width": 313,
         "height": 173,
         "duration": 5,
         "type": "object",
         "filename": "STICKER_SW003.webm"
-    },
-    "STICKER_SW004": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 5,
-        "type": "background",
-        "filename": "STICKER_SW004.webm"
     },
     "STICKER_SW005": {
         "width": 300,
@@ -468,13 +328,6 @@
         "type": "object",
         "filename": "STICKER_SW008.webm"
     },
-    "STICKER_SW009": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 5,
-        "type": "background",
-        "filename": "STICKER_SW009.webm"
-    },
     "STICKER_SW010": {
         "width": 244,
         "height": 106,
@@ -482,54 +335,12 @@
         "type": "object",
         "filename": "STICKER_SW010.webm"
     },
-    "STICKER_SW011": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 5,
-        "type": "background",
-        "filename": "STICKER_SW011.webm"
-    },
-    "STICKER_SW012": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 5,
-        "type": "background",
-        "filename": "STICKER_SW012.webm"
-    },
     "STICKER_SW013": {
         "width": 283,
         "height": 146,
         "duration": 5,
         "type": "object",
         "filename": "STICKER_SW013.webm"
-    },
-    "STICKER_SW014": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 5,
-        "type": "background",
-        "filename": "STICKER_SW014.webm"
-    },
-    "STICKER_SW015": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 4.8,
-        "type": "background",
-        "filename": "STICKER_SW015.webm"
-    },
-    "STICKER_SW016": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 5,
-        "type": "background",
-        "filename": "STICKER_SW016.webm"
-    },
-    "STICKER_SW017": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 3.76,
-        "type": "background",
-        "filename": "STICKER_SW017.webm"
     },
     "STICKER_SW018": {
         "width": 110,
@@ -539,10 +350,10 @@
         "filename": "STICKER_SW018.webm"
     },
     "STICKER_SW019": {
-        "width": 1920,
-        "height": 1080,
+        "width": 1080,
+        "height": 800,
         "duration": 2.64,
-        "type": "background",
+        "type": "object",
         "filename": "STICKER_SW019.webm"
     },
     "STICKER_SW020": {
@@ -556,29 +367,15 @@
         "width": 1920,
         "height": 1080,
         "duration": 5,
-        "type": "background",
+        "type": "object",
         "filename": "STICKER_SW021.webm"
     },
-    "STICKER_SW022": {
+    "STICKER_SW026": {
         "width": 1920,
         "height": 1080,
-        "duration": 5,
-        "type": "background",
-        "filename": "STICKER_SW022.webm"
-    },
-    "STICKER_SW023": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 5,
-        "type": "background",
-        "filename": "STICKER_SW023.webm"
-    },
-    "STICKER_SW024": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 5,
-        "type": "background",
-        "filename": "STICKER_SW024.webm"
+        "duration": 10,
+        "type": "object",
+        "filename": "STICKER_SW026.webm"
     },
     "STICKER_YJ001": {
         "width": 300,
@@ -601,15 +398,8 @@
         "type": "object",
         "filename": "STICKER_YJ003.webm"
     },
-    "STICKER_YJ004": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 4.671,
-        "type": "background",
-        "filename": "STICKER_YJ004.webm"
-    },
     "STICKER_YJ005": {
-        "width": 1150,
+        "width": 1080,
         "height": 800,
         "duration": 5.005,
         "type": "object",
@@ -629,75 +419,12 @@
         "type": "object",
         "filename": "STICKER_YJ007.webm"
     },
-    "STICKER_YJ008": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 4.037,
-        "type": "background",
-        "filename": "STICKER_YJ008.webm"
-    },
-    "STICKER_YJ009": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 3.403,
-        "type": "background",
-        "filename": "STICKER_YJ009.webm"
-    },
-    "STICKER_YJ010": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 4.037,
-        "type": "background",
-        "filename": "STICKER_YJ010.webm"
-    },
     "STICKER_YJ011": {
         "width": 1080,
         "height": 1080,
         "duration": 5.038,
-        "type": "background",
-        "filename": "STICKER_YJ011.webm"
-    },
-    "STICKER_YJ012": {
-        "width": 1670,
-        "height": 980,
-        "duration": 5.005,
         "type": "object",
-        "filename": "STICKER_YJ012.webm"
-    },
-    "STICKER_YJ013": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 5.005,
-        "type": "background",
-        "filename": "STICKER_YJ013.webm"
-    },
-    "STICKER_YJ014": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 3.803,
-        "type": "background",
-        "filename": "STICKER_YJ014.webm"
-    },
-    "STICKER_YJ015": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 4.004,
-        "type": "background",
-        "filename": "STICKER_YJ015.webm"
-    },
-    "STICKER_YJ016": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 4.004,
-        "type": "background",
-        "filename": "STICKER_YJ016.webm"
-    },
-    "STICKER_YJ017": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 4.004,
-        "type": "background",
-        "filename": "STICKER_YJ017.webm"
+        "filename": "STICKER_YJ011.webm"
     },
     "STICKER_YJ018": {
         "width": 500,
@@ -706,25 +433,11 @@
         "type": "object",
         "filename": "STICKER_YJ018.webm"
     },
-    "STICKER_YJ019": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 5.839,
-        "type": "background",
-        "filename": "STICKER_YJ019.webm"
-    },
-    "STICKER_YJ020": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 5.005,
-        "type": "background",
-        "filename": "STICKER_YJ020.webm"
-    },
     "STICKER_YJ021": {
         "width": 1920,
         "height": 1080,
         "duration": 1.434,
-        "type": "background",
+        "type": "object",
         "filename": "STICKER_YJ021.webm"
     },
     "STICKER_YJ022": {
@@ -748,27 +461,6 @@
         "type": "object",
         "filename": "STICKER_YJ024.webm"
     },
-    "STICKER_YJ025": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 5.005,
-        "type": "background",
-        "filename": "STICKER_YJ025.webm"
-    },
-    "STICKER_YJ026": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 5.005,
-        "type": "background",
-        "filename": "STICKER_YJ026.webm"
-    },
-    "STICKER_YJ027": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 4.004,
-        "type": "background",
-        "filename": "STICKER_YJ027.webm"
-    },
     "STICKER_YJ028": {
         "width": 900,
         "height": 700,
@@ -789,20 +481,6 @@
         "duration": 6.006,
         "type": "object",
         "filename": "STICKER_YJ030.webm"
-    },
-    "STICKER_YJ031": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 5.005,
-        "type": "background",
-        "filename": "STICKER_YJ031.webm"
-    },
-    "STICKER_YJ032": {
-        "width": 1920,
-        "height": 1080,
-        "duration": 5.005,
-        "type": "background",
-        "filename": "STICKER_YJ032.webm"
     },
     "STIKER_ON001": {
         "width": 439,

@@ -1,5 +1,6 @@
 import 'package:myapp/vm_sdk/types/resource.dart';
 
+enum ERatio { ratio916, ratio11, ratio169 }
 enum EMediaType { image, video }
 enum EMediaLabel {
   none,
@@ -71,6 +72,7 @@ class AutoEditMedia {
   double duration = 0;
   double xfadeDuration = 0;
 
+  String? frameKey;
   String? stickerKey;
   String? transitionKey;
 
@@ -80,7 +82,9 @@ class AutoEditMedia {
 class AutoEditedData {
   List<AutoEditMedia> autoEditMediaList = [];
   List<MusicData> musicList = [];
+  ERatio ratio = ERatio.ratio11;
 
   Map<String, TransitionData> transitionMap = <String, TransitionData>{};
+  Map<String, FrameData> frameMap = <String, FrameData>{};
   Map<String, StickerData> stickerMap = <String, StickerData>{};
 }

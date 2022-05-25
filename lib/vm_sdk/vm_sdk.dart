@@ -102,6 +102,7 @@ class VMSDKWidget extends StatelessWidget {
           autoEditedData.autoEditMediaList;
       final Map<String, TransitionData> transitionMap =
           autoEditedData.transitionMap;
+      final Map<String, FrameData> frameMap = autoEditedData.frameMap;
       final Map<String, StickerData> stickerMap = autoEditedData.stickerMap;
 
       _currentStatus = EGenerateStatus.encoding;
@@ -150,11 +151,13 @@ class VMSDKWidget extends StatelessWidget {
         }
       });
 
+      setRatio(autoEditedData.ratio);
       DateTime now = DateTime.now();
 
       final List<RenderedData> clipDataList = [];
       for (int i = 0; i < autoEditMediaList.length; i++) {
         final AutoEditMedia autoEditMedia = autoEditMediaList[i];
+        final FrameData? frameData = frameMap[autoEditMedia.frameKey];
         final StickerData? stickerData = stickerMap[autoEditMedia.stickerKey];
 
         TransitionData? prevTransition, nextTransition;
@@ -169,6 +172,7 @@ class VMSDKWidget extends StatelessWidget {
         final RenderedData? clipData = await clipRender(
             autoEditMedia,
             i,
+            frameData,
             stickerData,
             prevTransition,
             nextTransition,
@@ -196,8 +200,7 @@ class VMSDKWidget extends StatelessWidget {
         if (i < autoEditMediaList.length - 1 &&
             autoEditMedia.xfadeDuration > 0 &&
             xfadeTransition != null &&
-            xfadeTransition.type == ETransitionType.xfade &&
-            xfadeTransition.filterName != null) {
+            xfadeTransition.type == ETransitionType.xfade) {
           //
           final RenderedData nextRendered = clipDataList[i + 1];
 
@@ -205,7 +208,7 @@ class VMSDKWidget extends StatelessWidget {
               curRendered,
               nextRendered,
               i,
-              xfadeTransition.filterName!,
+              (xfadeTransition as XFadeTransitionData).filterName,
               autoEditMedia.xfadeDuration,
               (statistics) => _currentRenderedFrameInCallback =
                   statistics.videoFrameNumber);

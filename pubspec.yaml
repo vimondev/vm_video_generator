@@ -73,12 +73,17 @@ flutter:
     # - assets/_mlkittest/set01/
     # - assets/_mlkittest/set02/
     # - assets/_mlkittest/subin/
-    - assets/_test/mediajson-joined/
+    # - assets/_test/set1/
+    # - assets/_test/monaco1/
+    # - assets/_test/monaco2/
+    # - assets/_test/asdasd/
+    # - assets/_test/mediajson-joined/
     - assets/data/
     - assets/html/
     - assets/text/
     - assets/template/
     - assets/raw/audio/
+    - assets/raw/frame/
     - assets/raw/sticker/
     - assets/raw/transition/
     - assets/raw/lottie-jsons/

@@ -43,43 +43,49 @@ Map<ETransitionType, List<String>> tempTransitionMap = {
     "TRANSITION_YJ007",
     "TRANSITION_YJ008",
     "TRANSITION_YJ009",
-    "TRANSITION_YJ010"
+    "TRANSITION_YJ010",
+    "TRANSITION_YJ011",
+    "TRANSITION_YJ012",
+    "TRANSITION_YJ013",
+    "TRANSITION_YJ014",
   ],
 };
 
-Map<EMediaLabel, List<String>> tempStickerMap = {
+Map<EMediaLabel, List<String>> tempFrameMap = {
   EMediaLabel.background: [
-    "STICKER_HJ008",
-    "STICKER_HJ009",
-    "STICKER_HJ014",
-    "STICKER_ON014",
-    "STICKER_ON016",
-    "STICKER_ON019",
-    "STICKER_ON021",
-    "STICKER_ON022",
-    "STICKER_ON023",
-    "STICKER_SW009",
-    "STICKER_SW011",
-    "STICKER_SW012",
-    "STICKER_SW014",
-    "STICKER_SW015",
-    "STICKER_SW017",
-    "STICKER_SW019",
-    "STICKER_SW022",
-    "STICKER_SW023",
-    "STICKER_SW024",
-    "STICKER_YJ004",
-    "STICKER_YJ008",
-    "STICKER_YJ010",
-    "STICKER_YJ014",
-    "STICKER_YJ019",
-    "STICKER_YJ020",
-    "STICKER_YJ025",
-    "STICKER_YJ026",
-    "STICKER_YJ027",
-    "STICKER_YJ031",
-    "STICKER_YJ032",
-  ],
+    "FRAME_HJ008",
+    "FRAME_HJ009",
+    "FRAME_HJ014",
+    "FRAME_ON014",
+    "FRAME_ON016",
+    "FRAME_ON019",
+    "FRAME_ON021",
+    "FRAME_ON022",
+    "FRAME_ON023",
+    "FRAME_SW009",
+    "FRAME_SW011",
+    "FRAME_SW012",
+    "FRAME_SW014",
+    "FRAME_SW015",
+    "FRAME_SW017",
+    "FRAME_SW022",
+    "FRAME_SW023",
+    "FRAME_SW024",
+    "FRAME_YJ004",
+    "FRAME_YJ008",
+    "FRAME_YJ010",
+    "FRAME_YJ014",
+    "FRAME_YJ019",
+    "FRAME_YJ020",
+    "FRAME_YJ025",
+    "FRAME_YJ026",
+    "FRAME_YJ027",
+    "FRAME_YJ031",
+    "FRAME_YJ032",
+  ]
+};
+
+Map<EMediaLabel, List<String>> tempStickerMap = {
   EMediaLabel.object: [
     "STICKER_DA001",
     "STICKER_DA003",
@@ -236,6 +242,7 @@ Future<AutoEditedData> generateAutoEditData(
     List<TemplateData> templateList,
     bool isAutoSelect) async {
   final AutoEditedData autoEditedData = AutoEditedData();
+  autoEditedData.ratio = ERatio.ratio11;
 
   list.sort((a, b) => a.createDate.compareTo(b.createDate));
 
@@ -642,7 +649,7 @@ Future<AutoEditedData> generateAutoEditData(
         autoEditMedia.transitionKey = curOverlayTransitionList[randIdx];
         curOverlayTransitionList.removeAt(randIdx);
         if (curOverlayTransitionList.isEmpty) {
-          curOverlayTransitionList.addAll(originXfadeTransitionList);
+          curOverlayTransitionList.addAll(originOverlayTransitionList);
         }
       }
 
@@ -652,13 +659,21 @@ Future<AutoEditedData> generateAutoEditData(
     }
   }
 
-  ////////////////////
-  // INSERT STICKER //
-  ////////////////////
+  ////////////////////////////
+  // INSERT FRAME & STICKER //
+  ////////////////////////////
 
   // TO DO : Load from Template Data
+
+  final Map<EMediaLabel, List<String>> originFrameMap = tempFrameMap,
+      curFrameMap = {};
   final Map<EMediaLabel, List<String>> originStickerMap = tempStickerMap,
       curStickerMap = {};
+
+  for (final key in originFrameMap.keys) {
+    curFrameMap[key] = [];
+    curFrameMap[key]!.addAll(originFrameMap[key]!);
+  }
 
   for (final key in originStickerMap.keys) {
     curStickerMap[key] = [];
@@ -680,31 +695,45 @@ Future<AutoEditedData> generateAutoEditData(
       switch (mediaLabel) {
         case EMediaLabel.background:
         case EMediaLabel.action:
-          mediaLabel = EMediaLabel.background;
+          {
+            mediaLabel = EMediaLabel.background;
+            if (!curFrameMap.containsKey(mediaLabel)) continue;
+
+            List<String> curFrameList = curFrameMap[mediaLabel]!;
+            int randIdx =
+                (Random()).nextInt(curFrameList.length) % curFrameList.length;
+            autoEditMedia.frameKey = curFrameList[randIdx];
+
+            curFrameList.removeAt(randIdx);
+            if (curFrameList.isEmpty) {
+              curFrameList.addAll(originFrameMap[mediaLabel]!);
+            }
+          }
           break;
 
         case EMediaLabel.person:
         case EMediaLabel.object:
         case EMediaLabel.food:
         case EMediaLabel.animal:
-          mediaLabel = EMediaLabel.object;
+          {
+            mediaLabel = EMediaLabel.object;
+            if (!curStickerMap.containsKey(mediaLabel)) continue;
+
+            List<String> curStickerList = curStickerMap[mediaLabel]!;
+            int randIdx = (Random()).nextInt(curStickerList.length) %
+                curStickerList.length;
+            autoEditMedia.stickerKey = curStickerList[randIdx];
+
+            curStickerList.removeAt(randIdx);
+            if (curStickerList.isEmpty) {
+              curStickerList.addAll(originStickerMap[mediaLabel]!);
+            }
+          }
           break;
 
         default:
           mediaLabel = EMediaLabel.none;
-          break;
-      }
-
-      if (!curStickerMap.containsKey(mediaLabel)) continue;
-
-      List<String> curStickerList = curStickerMap[mediaLabel]!;
-      int randIdx =
-          (Random()).nextInt(curStickerList.length) % curStickerList.length;
-      autoEditMedia.stickerKey = curStickerList[randIdx];
-
-      curStickerList.removeAt(randIdx);
-      if (curStickerList.isEmpty) {
-        curStickerList.addAll(originStickerMap[mediaLabel]!);
+          continue;
       }
 
       lastStickerInsertedIndex = i;
@@ -717,7 +746,7 @@ Future<AutoEditedData> generateAutoEditData(
   for (int i = 0; i < autoEditedData.autoEditMediaList.length; i++) {
     final autoEditMedia = autoEditedData.autoEditMediaList[i];
     print(
-        "${basename(autoEditMedia.mediaData.absolutePath)} / totalDuration:${autoEditMedia.mediaData.duration} / start:${autoEditMedia.startTime} / duration:${autoEditMedia.duration} / remain:${autoEditMedia.mediaData.duration != null ? (autoEditMedia.mediaData.duration! - autoEditMedia.startTime - autoEditMedia.duration) : 0} / ${autoEditMedia.mediaLabel} / sticker:${autoEditMedia.stickerKey}");
+        "${basename(autoEditMedia.mediaData.absolutePath)} / totalDuration:${autoEditMedia.mediaData.duration} / start:${autoEditMedia.startTime} / duration:${autoEditMedia.duration} / remain:${autoEditMedia.mediaData.duration != null ? (autoEditMedia.mediaData.duration! - autoEditMedia.startTime - autoEditMedia.duration) : 0} / ${autoEditMedia.mediaLabel} / frame:${autoEditMedia.frameKey} / sticker:${autoEditMedia.stickerKey}");
     if (autoEditMedia.transitionKey != null) {
       print("index : $i");
       print(autoEditMedia.transitionKey);
