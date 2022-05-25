@@ -236,13 +236,54 @@ Future<EMediaLabel> detectMediaLabel(
   return mediaLabel;
 }
 
+ERatio detectRatio(List<AutoEditMedia> list) {
+  Map<ERatio, int> ratioCountMap = {
+    ERatio.ratio11: 0,
+    ERatio.ratio169: 0,
+    ERatio.ratio916: 0
+  };
+
+  const aspectRatio169 = 16.0 / 9.0;
+  const aspectRatio11 = 1;
+  const aspectRatio916 = 9.0 / 16.0;
+
+  for (int i=0; i<list.length; i++) {
+    final int width = list[i].mediaData.width;
+    final int height = list[i].mediaData.height;
+    final double aspectRatio = (width * 1.0) / height;
+    
+    // 1:1 ~ 16:9의 중간값 이상
+    if (aspectRatio >= (aspectRatio11 + aspectRatio169) / 2.0) {
+      ratioCountMap[ERatio.ratio169] = ratioCountMap[ERatio.ratio169]! + 1;
+    }
+    // 1:1 ~ 9:16의 중간값 이하
+    else if (aspectRatio <= (aspectRatio11 + aspectRatio916) / 2.0) {
+      ratioCountMap[ERatio.ratio916] = ratioCountMap[ERatio.ratio916]! + 1;
+    }
+    else {
+      ratioCountMap[ERatio.ratio11] = ratioCountMap[ERatio.ratio11]! + 1;
+    }
+  }
+
+  // 60% 이상이면 해당 해상도 적용
+  if (ratioCountMap[ERatio.ratio169]! / list.length >= 0.6) {
+    return ERatio.ratio169;
+  }
+  //
+  else if (ratioCountMap[ERatio.ratio916]! / list.length >= 0.6) {
+    return ERatio.ratio916;
+  }
+
+  // 나머지는 1:1 적용
+  return ERatio.ratio11;
+}
+
 Future<AutoEditedData> generateAutoEditData(
     List<MediaData> list,
     EMusicStyle musicStyle,
     List<TemplateData> templateList,
     bool isAutoSelect) async {
   final AutoEditedData autoEditedData = AutoEditedData();
-  autoEditedData.ratio = ERatio.ratio11;
 
   list.sort((a, b) => a.createDate.compareTo(b.createDate));
 
@@ -568,6 +609,12 @@ Future<AutoEditedData> generateAutoEditData(
       currentMediaIndex++;
     }
   }
+
+  //////////////////
+  // DETECT RATIO //
+  //////////////////
+
+  autoEditedData.ratio = detectRatio(autoEditedData.autoEditMediaList);
 
   ///////////////////////
   // INSERT TRANSITION //
