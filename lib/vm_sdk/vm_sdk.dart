@@ -50,7 +50,7 @@ class VMSDKWidget extends StatelessWidget {
   // Generate the video by entering the user-specified photo/video list and music style.
   // You can check the progress via progress callback.
   // In the current version, only styleA works.
-  Future<String?> generateVideo(
+  Future<VideoGeneratedResult?> generateVideo(
       List<MediaData> mediaList,
       EMusicStyle? style,
       bool isAutoEdit,
@@ -246,7 +246,14 @@ class VMSDKWidget extends StatelessWidget {
       }
       _currentTimer = null;
 
-      return resultClip.absolutePath;
+      final List<SpotInfo> spotInfoList = [];
+      double currentDuration = 0;
+      for (int i=0; i<autoEditMediaList.length; i++) {
+        spotInfoList.add(SpotInfo(currentDuration, autoEditMediaList[i].mediaData.gpsString));
+        currentDuration += autoEditMediaList[i].duration;
+      }
+
+      return VideoGeneratedResult(resultClip.absolutePath, autoEditedData, spotInfoList);
     } //
     catch (e) {
       if (_currentTimer != null) {
