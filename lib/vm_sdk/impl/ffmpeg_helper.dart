@@ -4,11 +4,13 @@ import 'global_helper.dart';
 import 'ffmpeg_manager.dart';
 import 'package:flutter_ffmpeg/statistics.dart' show Statistics;
 
-int videoWidth = 1280;
-int videoHeight = 720;
-int framerate = 30;
+int _videoWidth = 1280;
+int _videoHeight = 720;
+int _framerate = 30;
+ERatio _ratio = ERatio.ratio11;
 
-double _minDurationFactor = 1 / framerate;
+double _scaleFactor = 2 / 3.0;
+double _minDurationFactor = 1 / _framerate;
 
 class CropData {
   int scaledWidth = 0;
@@ -28,20 +30,44 @@ class RenderedData {
 
 final FFMpegManager _ffmpegManager = FFMpegManager();
 
+void setRatio(ERatio ratio) {
+  _ratio = ratio;
+  switch (ratio) {
+    case ERatio.ratio169:
+      _videoWidth = 1920;
+      _videoHeight = 1080;
+      break;
+
+    case ERatio.ratio916:
+      _videoWidth = 1080;
+      _videoHeight = 1920;
+      break;
+
+    case ERatio.ratio11:
+    default:
+      _videoWidth = 1080;
+      _videoHeight = 1080;
+      break;
+  }
+
+  _videoWidth = (_videoWidth * _scaleFactor).floor();
+  _videoHeight = (_videoHeight * _scaleFactor).floor();
+}
+
 CropData generateCropData(int width, int height) {
-  int scaledWidth = videoWidth;
-  int scaledHeight = videoHeight;
+  int scaledWidth = _videoWidth;
+  int scaledHeight = _videoHeight;
   int cropPosX = 0;
   int cropPosY = 0;
 
   if (width > height) {
-    scaledWidth = (width * (videoHeight / height)).floor();
+    scaledWidth = (width * (_videoHeight / height)).floor();
     if (scaledWidth % 2 == 1) scaledWidth -= 1;
-    cropPosX = ((scaledWidth - videoWidth) / 2.0).floor();
+    cropPosX = ((scaledWidth - _videoWidth) / 2.0).floor();
   } else {
-    scaledHeight = (height * (videoWidth / width)).floor();
+    scaledHeight = (height * (_videoWidth / width)).floor();
     if (scaledHeight % 2 == 1) scaledHeight -= 1;
-    cropPosY = ((scaledHeight - videoHeight) / 2.0).floor();
+    cropPosY = ((scaledHeight - _videoHeight) / 2.0).floor();
   }
 
   return CropData(scaledWidth, scaledHeight, cropPosX, cropPosY);
@@ -50,6 +76,7 @@ CropData generateCropData(int width, int height) {
 Future<RenderedData?> clipRender(
     AutoEditMedia autoEditMedia,
     int clipIdx,
+    FrameData? frame,
     StickerData? sticker,
     TransitionData? prevTransition,
     TransitionData? nextTransition,
@@ -77,7 +104,7 @@ Future<RenderedData?> clipRender(
   /////////////////////////
   if (mediaData.type == EMediaType.image) {
     inputArguments
-        .addAll(["-framerate", "$framerate", "-loop", "1", "-t", "$duration"]);
+        .addAll(["-framerate", "$_framerate", "-loop", "1", "-t", "$duration"]);
     inputArguments.addAll(["-t", "$duration", "-i", mediaData.absolutePath]);
 
     audioOutputMapVariable = "1:a";
@@ -85,7 +112,7 @@ Future<RenderedData?> clipRender(
   else {
     trimFilter = "trim=$startTime:${startTime + duration},setpts=PTS-STARTPTS,";
     inputArguments
-        .addAll(["-r", framerate.toString(), "-i", mediaData.absolutePath]);
+        .addAll(["-r", _framerate.toString(), "-i", mediaData.absolutePath]);
 
     filterStrings.add(
         "[0:a]atrim=$startTime:${startTime + duration},asetpts=PTS-STARTPTS[aud];[aud][1:a]amix=inputs=2[aud_mixed];[aud_mixed]atrim=0:$duration,asetpts=PTS-STARTPTS[aud_trim];");
@@ -105,16 +132,47 @@ Future<RenderedData?> clipRender(
 
   final CropData cropData = generateCropData(mediaData.width, mediaData.height);
   filterStrings.add(
-      "[0:v]${trimFilter}scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$videoWidth:$videoHeight:${cropData.cropPosX}:${cropData.cropPosY},setdar=dar=${videoWidth / videoHeight}[vid];");
+      "[0:v]${trimFilter}scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$_videoWidth:$_videoHeight:${cropData.cropPosX}:${cropData.cropPosY},setdar=dar=${_videoWidth / _videoHeight}[vid];");
   videoOutputMapVariable = "[vid]";
   inputFileCount++;
+
+  ///////////////
+  // ADD FRAME //
+  ///////////////
+
+  if (frame != null) {
+    ResourceFileInfo fileInfo = frame.fileMap[_ratio]!;
+
+    final int loopCount = (duration / fileInfo.duration).floor();
+    const String frameMapVariable = "[frame]";
+    const String frameMergedMapVariable = "[frame_merged]";
+
+    inputArguments.addAll([
+      "-stream_loop",
+      loopCount.toString(),
+      "-c:v",
+      "libvpx-vp9",
+      "-i",
+      "$appDirPath/${fileInfo.filename}"
+    ]);
+
+    final CropData cropData = generateCropData(fileInfo.width, fileInfo.height);
+    filterStrings.add(
+        "[${inputFileCount++}:v]trim=0:$duration,setpts=PTS-STARTPTS,scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$_videoWidth:$_videoHeight:${cropData.cropPosX}:${cropData.cropPosY},setdar=dar=${_videoWidth / _videoHeight}$frameMapVariable;");
+    filterStrings.add(
+        "$videoOutputMapVariable${frameMapVariable}overlay$frameMergedMapVariable;");
+
+    videoOutputMapVariable = frameMergedMapVariable;
+  }
 
   /////////////////
   // ADD STICKER //
   /////////////////
 
   if (sticker != null) {
-    final int loopCount = (duration / sticker.duration).floor();
+    ResourceFileInfo fileInfo = sticker.fileinfo!;
+
+    final int loopCount = (duration / fileInfo.duration).floor();
     const String stickerMapVariable = "[sticker]";
     const String stickerMergedMapVariable = "[sticker_merged]";
 
@@ -124,28 +182,19 @@ Future<RenderedData?> clipRender(
       "-c:v",
       "libvpx-vp9",
       "-i",
-      "$appDirPath/${sticker.filename}"
+      "$appDirPath/${fileInfo.filename}"
     ]);
 
-    if (sticker.type == EStickerType.background) {
-      final CropData cropData = generateCropData(sticker.width, sticker.height);
-      filterStrings.add(
-          "[${inputFileCount++}:v]trim=0:$duration,setpts=PTS-STARTPTS,scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$videoWidth:$videoHeight:${cropData.cropPosX}:${cropData.cropPosY},setdar=dar=${videoWidth / videoHeight}$stickerMapVariable;");
-      filterStrings.add(
-          "$videoOutputMapVariable${stickerMapVariable}overlay$stickerMergedMapVariable;");
-    } //
-    else {
-      final int scaledWidth = (sticker.width * (2 / 3)).floor();
-      final int scaledHeight = (sticker.height * (2 / 3)).floor();
+    final int scaledWidth = (fileInfo.width * _scaleFactor).floor();
+    final int scaledHeight = (fileInfo.height * _scaleFactor).floor();
 
-      final int x = videoWidth - scaledWidth;
-      final int y = videoHeight - scaledHeight;
+    final int x = _videoWidth - scaledWidth;
+    final int y = _videoHeight - scaledHeight;
 
-      filterStrings.add(
-          "[${inputFileCount++}:v]trim=0:$duration,setpts=PTS-STARTPTS,scale=$scaledWidth:$scaledHeight,setdar=dar=${scaledWidth / scaledHeight}$stickerMapVariable;");
-      filterStrings.add(
-          "$videoOutputMapVariable${stickerMapVariable}overlay=$x:$y$stickerMergedMapVariable;");
-    }
+    filterStrings.add(
+        "[${inputFileCount++}:v]trim=0:$duration,setpts=PTS-STARTPTS,scale=$scaledWidth:$scaledHeight,setdar=dar=${scaledWidth / scaledHeight}$stickerMapVariable;");
+    filterStrings.add(
+        "$videoOutputMapVariable${stickerMapVariable}overlay=$x:$y$stickerMergedMapVariable;");
 
     videoOutputMapVariable = stickerMergedMapVariable;
   }
@@ -155,15 +204,20 @@ Future<RenderedData?> clipRender(
   ///////////////
 
   if (exportedText != null) {
-    exportedText.width = (exportedText.width * 1.2).floor();
-    exportedText.height = (exportedText.height * 1.2).floor();
+    final int maxTextWidth = (_videoWidth * 0.9).floor();
+    if (exportedText.width > maxTextWidth) {
+      final double textScaleFactor = maxTextWidth / exportedText.width;
 
-    final double startPosY = (videoHeight / 2) - (exportedText.height / 2);
+      exportedText.width = (exportedText.width * textScaleFactor).floor();
+      exportedText.height = (exportedText.height * textScaleFactor).floor();
+    }
+
+    final double startPosY = (_videoHeight / 2) - (exportedText.height / 2);
 
     String textMapVariable = "[text]";
     String textMergedMapVariable = "[text_merged]";
 
-    double currentPosX = (videoWidth / 2) - (exportedText.width / 2);
+    double currentPosX = (_videoWidth / 2) - (exportedText.width / 2);
 
     inputArguments.addAll([
       "-framerate",
@@ -186,45 +240,47 @@ Future<RenderedData?> clipRender(
 
   if (prevTransition != null &&
       prevTransition.type == ETransitionType.overlay) {
+    final OverlayTransitionData transitionData =
+        prevTransition as OverlayTransitionData;
+    final TransitionFileInfo fileInfo = transitionData.fileMap[_ratio]!;
+
     String transitionMapVariable = "[prev_trans]";
     String transitionMergedMapVariable = "[prev_trans_merged]";
 
-    final CropData cropData =
-        generateCropData(prevTransition.width!, prevTransition.height!);
+    final CropData cropData = generateCropData(fileInfo.width, fileInfo.height);
 
-    inputArguments.addAll([
-      "-c:v",
-      "libvpx-vp9",
-      "-i",
-      "$appDirPath/${prevTransition.filename!}"
-    ]);
+    inputArguments.addAll(
+        ["-c:v", "libvpx-vp9", "-i", "$appDirPath/${fileInfo.filename}"]);
     filterStrings.add(
-        "[${inputFileCount++}:v]trim=${prevTransition.transitionPoint!}:${prevTransition.duration!},setpts=PTS-STARTPTS,scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$videoWidth:$videoHeight:${cropData.cropPosX}:${cropData.cropPosY}$transitionMapVariable;");
+        "[${inputFileCount++}:v]trim=${fileInfo.transitionPoint}:${fileInfo.duration},setpts=PTS-STARTPTS,scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$_videoWidth:$_videoHeight:${cropData.cropPosX}:${cropData.cropPosY}$transitionMapVariable;");
     filterStrings.add(
-        "$videoOutputMapVariable${transitionMapVariable}overlay=enable='between(t\\,0,${prevTransition.duration! - prevTransition.transitionPoint!})'$transitionMergedMapVariable;");
+        "$videoOutputMapVariable${transitionMapVariable}overlay=enable='between(t\\,0,${fileInfo.duration - fileInfo.transitionPoint})'$transitionMergedMapVariable;");
     videoOutputMapVariable = transitionMergedMapVariable;
   }
 
   if (nextTransition != null &&
       nextTransition.type == ETransitionType.overlay) {
+    final OverlayTransitionData transitionData =
+        nextTransition as OverlayTransitionData;
+    final TransitionFileInfo fileInfo = transitionData.fileMap[_ratio]!;
+
     String transitionMapVariable = "[next_trans]";
     String transitionMergedMapVariable = "[next_trans_merged]";
 
-    final CropData cropData =
-        generateCropData(nextTransition.width!, nextTransition.height!);
+    final CropData cropData = generateCropData(fileInfo.width, fileInfo.height);
 
     inputArguments.addAll([
       "-c:v",
       "libvpx-vp9",
       "-itsoffset",
-      (duration - nextTransition.transitionPoint!).toString(),
+      (duration - fileInfo.transitionPoint).toString(),
       "-i",
-      "$appDirPath/${nextTransition.filename!}"
+      "$appDirPath/${fileInfo.filename}"
     ]);
     filterStrings.add(
-        "[${inputFileCount++}:v]scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$videoWidth:$videoHeight:${cropData.cropPosX}:${cropData.cropPosY}$transitionMapVariable;");
+        "[${inputFileCount++}:v]scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$_videoWidth:$_videoHeight:${cropData.cropPosX}:${cropData.cropPosY}$transitionMapVariable;");
     filterStrings.add(
-        "$videoOutputMapVariable${transitionMapVariable}overlay=enable='between(t\\,${duration - nextTransition.transitionPoint!},$duration)'$transitionMergedMapVariable;");
+        "$videoOutputMapVariable${transitionMapVariable}overlay=enable='between(t\\,${duration - fileInfo.transitionPoint},$duration)'$transitionMergedMapVariable;");
     videoOutputMapVariable = transitionMergedMapVariable;
   }
 
@@ -270,7 +326,7 @@ Future<RenderedData?> clipRender(
     "-pix_fmt",
     "yuv420p",
     "-r",
-    framerate.toString(),
+    _framerate.toString(),
     "-shortest",
     outputPath,
     "-y"
@@ -331,7 +387,7 @@ Future<RenderedData?> applyXFadeTransitions(
     "-pix_fmt",
     "yuv420p",
     "-r",
-    framerate.toString(),
+    _framerate.toString(),
     outputPath,
     "-y"
   ], ffmpegCallback);
@@ -646,7 +702,7 @@ Future<RenderedData?> applyMusics(
 }
 
 int getFramerate() {
-  return framerate;
+  return _framerate;
 }
 
 double normalizeTime(double duration) {

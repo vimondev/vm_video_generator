@@ -1,5 +1,7 @@
+import 'global.dart';
+
 enum ETransitionType { xfade, overlay }
-enum EStickerType { object, background }
+enum EStickerType { object }
 
 class MusicData {
   String filename;
@@ -8,57 +10,130 @@ class MusicData {
   MusicData(this.filename, this.duration);
 }
 
-class TransitionData {
-  ETransitionType type = ETransitionType.xfade;
-  int? width;
-  int? height;
-  double? duration;
-  double? transitionPoint;
-  String? filename;
-  String? filterName;
+class ResourceData {
+  String key;
+  ResourceData(this.key);
+}
 
-  TransitionData(this.type, this.width, this.height, this.duration,
-      this.transitionPoint, this.filename, this.filterName);
+class TransitionData extends ResourceData {
+  ETransitionType type;
 
-  TransitionData.fromJson(Map map) {
-    switch (map["type"]) {
-      case "overlay":
-        {
-          width = map["width"];
-          height = map["height"];
-          duration = map["duration"] * 1.0;
-          transitionPoint = map["transitionPoint"] * 1.0;
-          filename = map["filename"];
-          type = ETransitionType.overlay;
+  TransitionData(String key, this.type) : super(key);
+}
+
+class XFadeTransitionData extends TransitionData {
+  String filterName = "";
+  XFadeTransitionData(String key, this.filterName)
+      : super(key, ETransitionType.xfade);
+  XFadeTransitionData.fromJson(String key, Map map)
+      : super(key, ETransitionType.xfade) {
+    filterName = map["filterName"];
+  }
+}
+
+class ResourceFileInfo {
+  int width;
+  int height;
+  double duration;
+  String filename;
+  ResourceFileInfo(this.width, this.height, this.duration, this.filename);
+}
+
+class TransitionFileInfo extends ResourceFileInfo {
+  double transitionPoint;
+  TransitionFileInfo(int width, int height, double duration,
+      this.transitionPoint, String filename)
+      : super(width, height, duration, filename);
+}
+
+class OverlayTransitionData extends TransitionData {
+  Map<ERatio, TransitionFileInfo> fileMap = {};
+
+  OverlayTransitionData(String key) : super(key, ETransitionType.overlay);
+  OverlayTransitionData.fromJson(String key, Map map)
+      : super(key, ETransitionType.overlay) {
+    if (map.containsKey("ratios")) {
+      for (final key in map["ratios"].keys) {
+        ERatio? ratio;
+
+        switch (key) {
+          case "11":
+            ratio = ERatio.ratio11;
+            break;
+
+          case "916":
+            ratio = ERatio.ratio916;
+            break;
+
+          case "169":
+            ratio = ERatio.ratio169;
+            break;
+
+          default:
+            break;
         }
-        break;
 
-      case "xfade":
-      default:
-        {
-          filterName = map["filterName"];
-          type = ETransitionType.xfade;
+        if (ratio != null) {
+          final Map dataMap = map["ratios"][key];
+          final int width = dataMap["width"];
+          final int height = dataMap["height"];
+          final double duration = dataMap["duration"] * 1.0;
+          final double transitionPoint = dataMap["transitionPoint"] * 1.0;
+          final String filename = dataMap["filename"];
+
+          fileMap[ratio] = TransitionFileInfo(
+              width, height, duration, transitionPoint, filename);
         }
-        break;
+      }
     }
   }
 }
 
-class StickerData {
+class FrameData extends ResourceData {
+  Map<ERatio, ResourceFileInfo> fileMap = {};
+  FrameData(String key) : super(key);
+  FrameData.fromJson(String key, Map map) : super(key) {
+    if (map.containsKey("ratios")) {
+      for (final key in map["ratios"].keys) {
+        ERatio? ratio;
+
+        switch (key) {
+          case "11":
+            ratio = ERatio.ratio11;
+            break;
+
+          case "916":
+            ratio = ERatio.ratio916;
+            break;
+
+          case "169":
+            ratio = ERatio.ratio169;
+            break;
+
+          default:
+            break;
+        }
+
+        if (ratio != null) {
+          final Map dataMap = map["ratios"][key];
+          final int width = dataMap["width"];
+          final int height = dataMap["height"];
+          final double duration = dataMap["duration"] * 1.0;
+          final String filename = dataMap["filename"];
+
+          fileMap[ratio] = ResourceFileInfo(width, height, duration, filename);
+        }
+      }
+    }
+  }
+}
+
+class StickerData extends ResourceData {
+  ResourceFileInfo? fileinfo;
   EStickerType type = EStickerType.object;
-  String filename = "";
-  int width = 0;
-  int height = 0;
-  double duration = 0.0;
-
-  StickerData(this.type, this.filename, this.width, this.height, this.duration);
-
-  StickerData.fromJson(Map map) {
+  StickerData(String key) : super(key);
+  StickerData.fromJson(String key, Map map) : super(key) {
     switch (map["type"]) {
-      case "background":
-        type = EStickerType.background;
-        break;
-
       case "object":
         type = EStickerType.object;
         break;
@@ -66,11 +141,12 @@ class StickerData {
       default:
         break;
     }
-    filename = map["filename"];
-    width = map["width"];
-    height = map["height"];
-    duration = map["duration"] * 1.0;
 
-    StickerData(type, filename, width, height, duration);
+    final int width = map["width"];
+    final int height = map["height"];
+    final double duration = map["duration"] * 1.0;
+    final String filename = map["filename"];
+
+    fileinfo = ResourceFileInfo(width, height, duration, filename);
   }
 }

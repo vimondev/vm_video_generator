@@ -55,6 +55,8 @@ class VMTextWidget extends StatelessWidget {
   late Completer<void> _currentPreviewCompleter;
   late Completer<void> _currentSequencesCompleter;
 
+  Function(double progress)? _currentProgressCallback;  
+
   double get width => _width;
   double get height => _height;
   double get frameRate => _frameRate;
@@ -177,7 +179,8 @@ class VMTextWidget extends StatelessWidget {
     return _currentPreviewCompleter.future;
   }
 
-  Future<void> extractAllSequence() async {
+  Future<void> extractAllSequence(
+      Function(double progress)? progressCallback) async {
     await _reload();
     await _removeAll();
 
@@ -191,6 +194,7 @@ class VMTextWidget extends StatelessWidget {
     await _createDirectory(_currentPreviewPath!);
     await _createDirectory(_currentSequencePath!);
 
+    _currentProgressCallback = progressCallback;
     _currentSequencesCompleter = Completer();
 
     String fontFamilyArr = "[";
@@ -295,8 +299,13 @@ class VMTextWidget extends StatelessWidget {
       _width = args[0]["width"].toDouble();
       _height = args[0]["height"].toDouble();
       _frameRate = args[0]["frameRate"].toDouble();
+      _totalFrameCount = args[0]["totalFrameCount"].toInt();
       _allSequencePaths = [];
       _allSequencePathMap = {};
+
+      if (_currentProgressCallback != null) {
+        _currentProgressCallback!(0);
+      }
     } catch (e) {
       _currentSequencesCompleter.completeError(e);
     }
@@ -311,6 +320,10 @@ class VMTextWidget extends StatelessWidget {
       final String sequenceFilePath = "$_currentSequencePath/$frameNumber.png";
       _allSequencePathMap[frameNumber] = sequenceFilePath;
       writeFileFromBase64(sequenceFilePath, data);
+
+      if (_currentProgressCallback != null) {
+        _currentProgressCallback!(_allSequencePathMap.length / (_totalFrameCount * 1.0));
+      }
     } catch (e) {
       _currentSequencesCompleter.completeError(e);
     }
@@ -327,6 +340,10 @@ class VMTextWidget extends StatelessWidget {
 
       _allSequencesPath = _currentSequencePath;
       _printAllData();
+
+      if (_currentProgressCallback != null) {
+        _currentProgressCallback!(1);
+      }
 
       _currentSequencesCompleter.complete();
     } catch (e) {

@@ -6,26 +6,40 @@ class ResourceManager {
   static const rawAssetPath = "raw";
   static const audioAssetPath = "$rawAssetPath/audio";
   static const transitionAssetPath = "$rawAssetPath/transition";
+  static const frameAssetPath = "$rawAssetPath/frame";
   static const stickerAssetPath = "$rawAssetPath/sticker";
 
   Map<String, TransitionData> transitionMap = <String, TransitionData>{};
+  Map<String, FrameData> frameMap = <String, FrameData>{};
   Map<String, StickerData> stickerMap = <String, StickerData>{};
 
   Future<void> loadResourceMap() async {
     final transitionJsonMap =
         jsonDecode(await loadResourceString("data/transition.json"));
 
-    for (final String transitionKey in transitionJsonMap.keys) {
-      transitionMap[transitionKey] =
-          TransitionData.fromJson(transitionJsonMap[transitionKey]!);
+    for (final String key in transitionJsonMap.keys) {
+      if (transitionJsonMap[key]["type"] == "overlay") {
+        transitionMap[key] = OverlayTransitionData.fromJson(key, transitionJsonMap[key]);
+      }
+      else {
+        transitionMap[key] = XFadeTransitionData.fromJson(key, transitionJsonMap[key]);
+      }
+    }
+
+    final frameJsonMap =
+        jsonDecode(await loadResourceString("data/frame.json"));
+
+    for (final String key in frameJsonMap.keys) {
+      frameMap[key] =
+          FrameData.fromJson(key, frameJsonMap[key]);
     }
 
     final stickerJsonMap =
         jsonDecode(await loadResourceString("data/sticker.json"));
 
-    for (final String stickerKey in stickerJsonMap.keys) {
-      stickerMap[stickerKey] =
-          StickerData.fromJson(stickerJsonMap[stickerKey]!);
+    for (final String key in stickerJsonMap.keys) {
+      stickerMap[key] =
+          StickerData.fromJson(key, stickerJsonMap[key]);
     }
   }
 
@@ -33,24 +47,40 @@ class ResourceManager {
     for (int i = 0; i < autoEditedData.musicList.length; i++) {
       await loadAudioFile(autoEditedData.musicList[i].filename);
     }
+    ERatio ratio = autoEditedData.ratio;
 
     for (int i = 0; i < autoEditedData.autoEditMediaList.length; i++) {
       final AutoEditMedia autoEditMedia = autoEditedData.autoEditMediaList[i];
       String? transitionKey = autoEditMedia.transitionKey;
+      String? frameKey = autoEditMedia.frameKey;
       String? stickerKey = autoEditMedia.stickerKey;
 
       final TransitionData? transitionData = transitionMap[transitionKey];
+      final FrameData? frameData = frameMap[frameKey];
       final StickerData? stickerData = stickerMap[stickerKey];
 
       if (transitionData != null) {
         autoEditedData.transitionMap[transitionKey!] = transitionData;
-        if (transitionData.filename != null) {
-          await loadTransitionFile(transitionData.filename!);
+        if (transitionData.type == ETransitionType.overlay) {
+          TransitionFileInfo? fileInfo = (transitionData as OverlayTransitionData).fileMap[ratio];
+          if (fileInfo != null) {
+            await loadTransitionFile(fileInfo.filename);
+          }
+        }
+      }
+      if (frameData != null) {
+        autoEditedData.frameMap[frameKey!] = frameData;
+        ResourceFileInfo? fileInfo = frameData.fileMap[ratio];
+        if (fileInfo != null) {
+          await loadFrameFile(fileInfo.filename);
         }
       }
       if (stickerData != null) {
         autoEditedData.stickerMap[stickerKey!] = stickerData;
-        await loadStickerFile(stickerData.filename);
+        ResourceFileInfo? fileInfo = stickerData.fileinfo;
+        if (fileInfo != null) {
+          await loadStickerFile(fileInfo.filename);
+        }
       }
     }
   }
@@ -61,6 +91,10 @@ class ResourceManager {
 
   Future<void> loadTransitionFile(String filename) async {
     await copyAssetToLocalDirectory("$transitionAssetPath/$filename");
+  }
+
+  Future<void> loadFrameFile(String filename) async {
+    await copyAssetToLocalDirectory("$frameAssetPath/$filename");
   }
 
   Future<void> loadStickerFile(String filename) async {

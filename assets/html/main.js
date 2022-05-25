@@ -630,7 +630,8 @@
                     window.flutter_inappwebview.callHandler('TransferAllSequenceStart', {
                         width: gWidth,
                         height: gHeight,
-                        frameRate: anim.animationData.fr
+                        frameRate: anim.animationData.fr,
+                        totalFrameCount: anim.totalFrames
                     })
                     for (let i = 0; i < list.length; i++) {
                         const svg = list[i]

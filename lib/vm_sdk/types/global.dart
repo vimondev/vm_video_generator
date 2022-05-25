@@ -1,5 +1,6 @@
 import 'package:myapp/vm_sdk/types/resource.dart';
 
+enum ERatio { ratio916, ratio11, ratio169 }
 enum EMediaType { image, video }
 enum EMediaLabel {
   none,
@@ -12,7 +13,7 @@ enum EMediaLabel {
   others
 }
 enum EMusicStyle { styleA, styleB, styleC }
-enum EGenerateStatus { none, encoding, merge }
+enum EGenerateStatus { none, titleExport, encoding, finishing }
 
 List<double> parseGPS(String gpsString) {
   final List<String> splitted1 = gpsString.split("\"")[0].split("' ");
@@ -53,11 +54,12 @@ class MediaData {
   int height; // Height
   double? duration; // Duration (video only)
   DateTime createDate; // Exif Create Date
+  String gpsString;
   GPSData gpsData = GPSData(); // Exif GPS Data (Parsed)
   String? mlkitDetected;
 
   MediaData(this.absolutePath, this.type, this.width, this.height,
-      this.duration, this.createDate, String gpsString, this.mlkitDetected) {
+      this.duration, this.createDate, this.gpsString, this.mlkitDetected) {
     gpsData = GPSData.fromString(gpsString);
   }
 }
@@ -71,6 +73,7 @@ class AutoEditMedia {
   double duration = 0;
   double xfadeDuration = 0;
 
+  String? frameKey;
   String? stickerKey;
   String? transitionKey;
 
@@ -80,7 +83,24 @@ class AutoEditMedia {
 class AutoEditedData {
   List<AutoEditMedia> autoEditMediaList = [];
   List<MusicData> musicList = [];
+  ERatio ratio = ERatio.ratio11;
 
   Map<String, TransitionData> transitionMap = <String, TransitionData>{};
+  Map<String, FrameData> frameMap = <String, FrameData>{};
   Map<String, StickerData> stickerMap = <String, StickerData>{};
+}
+
+class SpotInfo {
+  double startTime;
+  String gpsString;
+
+  SpotInfo(this.startTime, this.gpsString);
+}
+
+class VideoGeneratedResult {
+  String generatedVideoPath;
+  AutoEditedData autoEditedData;
+  List<SpotInfo> spotInfoList;
+
+  VideoGeneratedResult(this.generatedVideoPath, this.autoEditedData, this.spotInfoList);
 }
