@@ -395,7 +395,7 @@ class VMTextWidget extends StatelessWidget {
         // offset: const Offset(0, 0),
         child: CustomWebView(
           callback: _setController,
-          initialFile: "assets/html/index4.html",
+          initialFile: "packages/myapp/assets/html/index4.html",
         ),
       ),
     );

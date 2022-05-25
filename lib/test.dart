@@ -18,7 +18,7 @@ class TestWidget extends StatelessWidget {
     }
 
     final filelist = json.decode(
-        await rootBundle.loadString("assets/_test/mediajson-joined/set1.json"));
+        await rootBundle.loadString("packages/myapp/assets/_test/mediajson-joined/set1.json"));
 
     List<MediaData> mediaList = [];
 
