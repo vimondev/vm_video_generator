@@ -204,6 +204,14 @@ Future<RenderedData?> clipRender(
   ///////////////
 
   if (exportedText != null) {
+    final int maxTextWidth = (_videoWidth * 0.9).floor();
+    if (exportedText.width > maxTextWidth) {
+      final double textScaleFactor = maxTextWidth / exportedText.width;
+
+      exportedText.width = (exportedText.width * textScaleFactor).floor();
+      exportedText.height = (exportedText.height * textScaleFactor).floor();
+    }
+
     final double startPosY = (_videoHeight / 2) - (exportedText.height / 2);
 
     String textMapVariable = "[text]";
