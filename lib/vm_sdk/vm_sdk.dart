@@ -13,6 +13,7 @@ import 'impl/vm_text_widget.dart';
 
 import 'impl/ffmpeg_helper.dart';
 
+const double _titleExportPercentage = 1 / 3.0;
 class VMSDKWidget extends StatelessWidget {
   VMSDKWidget({Key? key}) : super(key: key);
 
@@ -87,9 +88,13 @@ class VMSDKWidget extends StatelessWidget {
       }
       await _textWidget.extractAllSequence((progress) {
         if (progressCallback != null) {
-          progressCallback(_currentStatus, progress);
+          progressCallback(_currentStatus, progress * _titleExportPercentage);
         }
       });
+
+      if (progressCallback != null) {
+        progressCallback(_currentStatus, _titleExportPercentage);
+      }
 
       ExportedTextPNGSequenceData exportedTextData =
           ExportedTextPNGSequenceData(
@@ -147,7 +152,7 @@ class VMSDKWidget extends StatelessWidget {
           }
 
           progressCallback(
-              _currentStatus, min(1.0, _maxRenderedFrame / _allFrame));
+              _currentStatus, min(1.0, _titleExportPercentage + (_maxRenderedFrame / _allFrame) * (1 - _titleExportPercentage)));
         }
       });
 
@@ -251,6 +256,10 @@ class VMSDKWidget extends StatelessWidget {
       for (int i=0; i<autoEditMediaList.length; i++) {
         spotInfoList.add(SpotInfo(currentDuration, autoEditMediaList[i].mediaData.gpsString));
         currentDuration += autoEditMediaList[i].duration;
+      }
+
+      if (progressCallback != null) {
+        progressCallback(_currentStatus, 1);
       }
 
       return VideoGeneratedResult(resultClip.absolutePath, autoEditedData, spotInfoList);
