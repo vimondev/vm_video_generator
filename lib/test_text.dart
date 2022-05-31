@@ -13,7 +13,7 @@ class TestWidget extends StatefulWidget {
 }
 
 class _TestWidgetState extends State<TestWidget> {
-  late VMTextWidget _vmTextWidget = VMTextWidget();
+  VMTextWidget _vmTextWidget = VMTextWidget();
 
   List<String> imageList = [];
 

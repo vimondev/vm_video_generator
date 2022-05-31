@@ -49,13 +49,12 @@ class VMTextWidget extends StatelessWidget {
   Map<int, String> _allSequencePathMap = {};
   List<String> _allSequencePaths = [];
 
-  // late ETextID _id;
-  late TextData _data;
-  late Completer<void> _reloadCompleter;
-  late Completer<void> _currentPreviewCompleter;
-  late Completer<void> _currentSequencesCompleter;
+  TextData? _data;
+  Completer<void>? _reloadCompleter;
+  Completer<void>? _currentPreviewCompleter;
+  Completer<void>? _currentSequencesCompleter;
 
-  Function(double progress)? _currentProgressCallback;  
+  Function(double progress)? _currentProgressCallback;
 
   double get width => _width;
   double get height => _height;
@@ -70,20 +69,23 @@ class VMTextWidget extends StatelessWidget {
   Future<void> loadText(ETextID id) async {
     // _id = id;
     _data = (await loadTextData(id))!;
+    if (_data == null) return;
 
-    _data.texts.add("THIS IS TITLE!");
-    _data.texts.add("This is sub-title");
+    _data!.texts.add("THIS IS TITLE!");
+    _data!.texts.add("This is sub-title");
 
     await extractPreview();
   }
 
   Future<void> setTextValue(String key, String value,
       {bool isExtractPreviewImmediate = true}) async {
+    if (_data == null) return;
+
     final List<VMText> texts = _textDataMap.values.toList();
     for (int i = 0; i < texts.length; i++) {
       VMText text = texts[i];
       if (text.key == key) {
-        _data.texts[i] = value;
+        _data!.texts[i] = value;
         break;
       }
     }
@@ -140,6 +142,8 @@ class VMTextWidget extends StatelessWidget {
   }
 
   Future<void> extractPreview() async {
+    if (_data == null) return;
+
     await _reload();
     await _removeAll();
     _currentDirPath =
@@ -155,32 +159,34 @@ class VMTextWidget extends StatelessWidget {
     _currentPreviewCompleter = Completer();
 
     String fontFamilyArr = "[";
-    for (int i = 0; i < _data.fontFamily.length; i++) {
-      fontFamilyArr += "'${_data.fontFamily[i]}',";
+    for (int i = 0; i < _data!.fontFamily.length; i++) {
+      fontFamilyArr += "'${_data!.fontFamily[i]}',";
     }
     fontFamilyArr += "]";
 
     String fontBase64Arr = "[";
-    for (int i = 0; i < _data.fontBase64.length; i++) {
-      fontBase64Arr += "'${_data.fontBase64[i]}',";
+    for (int i = 0; i < _data!.fontBase64.length; i++) {
+      fontBase64Arr += "'${_data!.fontBase64[i]}',";
     }
     fontBase64Arr += "]";
 
     String textArr = "[";
-    for (int i = 0; i < _data.texts.length; i++) {
-      textArr += "'${_data.texts[i]}',";
+    for (int i = 0; i < _data!.texts.length; i++) {
+      textArr += "'${_data!.texts[i]}',";
     }
     textArr += "]";
 
     await _controller!.evaluateJavascript(
         source:
-            "(async function () { await setData({ fontFamily: $fontFamilyArr, base64: $fontBase64Arr, json: ${_data.json}, texts: $textArr }); extractPreview(); })()");
+            "(async function () { await setData({ fontFamily: $fontFamilyArr, base64: $fontBase64Arr, json: ${_data!.json}, texts: $textArr }); extractPreview(); })()");
 
-    return _currentPreviewCompleter.future;
+    return _currentPreviewCompleter!.future;
   }
 
   Future<void> extractAllSequence(
       Function(double progress)? progressCallback) async {
+    if (_data == null) return;
+
     await _reload();
     await _removeAll();
 
@@ -198,28 +204,28 @@ class VMTextWidget extends StatelessWidget {
     _currentSequencesCompleter = Completer();
 
     String fontFamilyArr = "[";
-    for (int i = 0; i < _data.fontFamily.length; i++) {
-      fontFamilyArr += "'${_data.fontFamily[i]}',";
+    for (int i = 0; i < _data!.fontFamily.length; i++) {
+      fontFamilyArr += "'${_data!.fontFamily[i]}',";
     }
     fontFamilyArr += "]";
 
     String fontBase64Arr = "[";
-    for (int i = 0; i < _data.fontBase64.length; i++) {
-      fontBase64Arr += "'${_data.fontBase64[i]}',";
+    for (int i = 0; i < _data!.fontBase64.length; i++) {
+      fontBase64Arr += "'${_data!.fontBase64[i]}',";
     }
     fontBase64Arr += "]";
 
     String textArr = "[";
-    for (int i = 0; i < _data.texts.length; i++) {
-      textArr += "'${_data.texts[i]}',";
+    for (int i = 0; i < _data!.texts.length; i++) {
+      textArr += "'${_data!.texts[i]}',";
     }
     textArr += "]";
 
     _controller!.evaluateJavascript(
         source:
-            "(async function () { await setData({ fontFamily: $fontFamilyArr, base64: $fontBase64Arr, json: ${_data.json}, texts: $textArr }); extractAllSequence(); })()");
+            "(async function () { await setData({ fontFamily: $fontFamilyArr, base64: $fontBase64Arr, json: ${_data!.json}, texts: $textArr }); extractAllSequence(); })()");
 
-    return _currentSequencesCompleter.future;
+    return _currentSequencesCompleter!.future;
   }
 
   Future<void> _reload() async {
@@ -227,11 +233,13 @@ class VMTextWidget extends StatelessWidget {
       await _controller!.reload();
     }
     _reloadCompleter = Completer();
-    return _reloadCompleter.future;
+    return _reloadCompleter!.future;
   }
 
   void _handleTransferInit(args) async {
-    _reloadCompleter.complete();
+    if (_reloadCompleter != null) {
+      _reloadCompleter!.complete();
+    }
   }
 
   void _handleTransferPreviewPNGData(args) async {
@@ -265,9 +273,13 @@ class VMTextWidget extends StatelessWidget {
       _previewImagePath = previewUrl;
       _printAllData();
 
-      _currentPreviewCompleter.complete();
+      if (_currentPreviewCompleter != null) {
+        _currentPreviewCompleter!.complete();
+      }
     } catch (e) {
-      _currentPreviewCompleter.completeError(e);
+      if (_currentPreviewCompleter != null) {
+        _currentPreviewCompleter!.completeError(e);
+      }
     }
   }
 
@@ -307,7 +319,9 @@ class VMTextWidget extends StatelessWidget {
         _currentProgressCallback!(0);
       }
     } catch (e) {
-      _currentSequencesCompleter.completeError(e);
+      if (_currentSequencesCompleter != null) {
+        _currentSequencesCompleter!.completeError(e);
+      }
     }
   }
 
@@ -322,10 +336,13 @@ class VMTextWidget extends StatelessWidget {
       writeFileFromBase64(sequenceFilePath, data);
 
       if (_currentProgressCallback != null) {
-        _currentProgressCallback!(_allSequencePathMap.length / (_totalFrameCount * 1.0));
+        _currentProgressCallback!(
+            _allSequencePathMap.length / (_totalFrameCount * 1.0));
       }
     } catch (e) {
-      _currentSequencesCompleter.completeError(e);
+      if (_currentSequencesCompleter != null) {
+        _currentSequencesCompleter!.completeError(e);
+      }
     }
   }
 
@@ -345,18 +362,26 @@ class VMTextWidget extends StatelessWidget {
         _currentProgressCallback!(1);
       }
 
-      _currentSequencesCompleter.complete();
+      if (_currentSequencesCompleter != null) {
+        _currentSequencesCompleter!.complete();
+      }
     } catch (e) {
-      _currentSequencesCompleter.completeError(e);
+      if (_currentSequencesCompleter != null) {
+        _currentSequencesCompleter!.completeError(e);
+      }
     }
   }
 
   void _handleTransferPreviewFailed(args) {
-    _currentPreviewCompleter.completeError(Object());
+    if (_currentPreviewCompleter != null) {
+      _currentPreviewCompleter!.completeError(Object());
+    }
   }
 
   void _handleTransferAllSequenceFailed(args) {
-    _currentSequencesCompleter.completeError(Object());
+    if (_currentSequencesCompleter != null) {
+      _currentSequencesCompleter!.completeError(Object());
+    }
   }
 
   void _setController(InAppWebViewController controller) {

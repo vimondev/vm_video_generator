@@ -71,7 +71,7 @@ class VMSDKWidget extends StatelessWidget {
 
       await _resourceManager.loadAutoEditAssets(autoEditedData);
 
-      late List<ETextID> textIds;
+      List<ETextID> textIds;
       if (texts.length >= 2) {
         textIds = twoLineTitles;
       }
