@@ -56,13 +56,8 @@ Map<EMediaLabel, List<String>> tempFrameMap = {
     "FRAME_HJ008",
     "FRAME_HJ009",
     "FRAME_HJ014",
-    "FRAME_ON014",
     "FRAME_ON016",
     "FRAME_ON019",
-    "FRAME_ON021",
-    "FRAME_ON022",
-    "FRAME_ON023",
-    "FRAME_SW009",
     "FRAME_SW011",
     "FRAME_SW012",
     "FRAME_SW014",
@@ -74,57 +69,37 @@ Map<EMediaLabel, List<String>> tempFrameMap = {
     "FRAME_YJ004",
     "FRAME_YJ008",
     "FRAME_YJ010",
-    "FRAME_YJ014",
     "FRAME_YJ019",
     "FRAME_YJ020",
     "FRAME_YJ025",
-    "FRAME_YJ026",
     "FRAME_YJ027",
     "FRAME_YJ031",
-    "FRAME_YJ032",
+    "FRAME_YJ032"
   ]
 };
 
 Map<EMediaLabel, List<String>> tempStickerMap = {
-  EMediaLabel.object: [
-    "STICKER_DA001",
-    "STICKER_DA003",
-    "STICKER_DA005",
-    "STICKER_DA009",
-    "STICKER_DA013",
-    "STICKER_DA018",
-    "STICKER_DA019",
-    "STICKER_DA020",
-    "STICKER_DA021",
-    "STICKER_DA022",
-    "STICKER_DA023",
-    "STICKER_DA024",
-    "STICKER_DA025",
-    "STICKER_HJ001",
-    "STICKER_HJ002",
-    "STICKER_HJ010",
-    "STICKER_HJ015",
-    "STICKER_HJ017",
-    "STICKER_HJ018",
-    "STICKER_HJ019",
-    "STICKER_ON009",
-    "STICKER_ON013",
-    "STICKER_YJ001",
-    "STICKER_YJ002",
-    "STICKER_YJ003",
+  EMediaLabel.person: [
+    "STICKER_YJ005",
+    "STICKER_YJ018",
+    "STICKER_YJ028",
+  ],
+  EMediaLabel.food: [
     "STICKER_YJ005",
     "STICKER_YJ006",
-    "STICKER_YJ007",
-    "STICKER_YJ018",
-    "STICKER_YJ022",
     "STICKER_YJ023",
     "STICKER_YJ024",
-    "STICKER_YJ028",
     "STICKER_YJ029",
     "STICKER_YJ030",
-    "STIKER_ON005",
-    "STIKER_ON008",
-  ]
+    "STICKER_DA024",
+    "STICKER_DA025",
+    "STICKER_HJ015",
+    "STICKER_HJ018",
+  ],
+  EMediaLabel.animal: [
+    "STICKER_DA005",
+    "STICKER_HJ017"
+  ],
 };
 
 Future<void> loadLabelMap() async {
@@ -728,7 +703,7 @@ Future<AutoEditedData> generateAutoEditData(
   }
 
   int lastStickerInsertedIndex = 0;
-  clipCount = 3 + (Random()).nextInt(2);
+  clipCount = 4 + (Random()).nextInt(2);
 
   for (int i = 0; i < autoEditedData.autoEditMediaList.length; i++) {
     final AutoEditMedia autoEditMedia = autoEditedData.autoEditMediaList[i];
@@ -759,11 +734,9 @@ Future<AutoEditedData> generateAutoEditData(
           break;
 
         case EMediaLabel.person:
-        case EMediaLabel.object:
         case EMediaLabel.food:
         case EMediaLabel.animal:
           {
-            mediaLabel = EMediaLabel.object;
             if (!curStickerMap.containsKey(mediaLabel)) continue;
 
             List<String> curStickerList = curStickerMap[mediaLabel]!;
@@ -778,13 +751,14 @@ Future<AutoEditedData> generateAutoEditData(
           }
           break;
 
+        case EMediaLabel.object:
         default:
           mediaLabel = EMediaLabel.none;
           continue;
       }
 
       lastStickerInsertedIndex = i;
-      clipCount = 3 + (Random()).nextInt(2);
+      clipCount = 4 + (Random()).nextInt(2);
     }
   }
 
