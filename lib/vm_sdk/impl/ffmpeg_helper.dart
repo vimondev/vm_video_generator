@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import '../types/types.dart';
 import 'global_helper.dart';
 import 'ffmpeg_manager.dart';
@@ -21,6 +22,11 @@ class CropData {
   CropData(this.scaledWidth, this.scaledHeight, this.cropPosX, this.cropPosY);
 }
 
+class StickerPosition {
+  int x;
+  int y;
+  StickerPosition(this.x, this.y);
+}
 class RenderedData {
   String absolutePath;
   double duration;
@@ -188,13 +194,24 @@ Future<RenderedData?> clipRender(
     final int scaledWidth = (fileInfo.width * _scaleFactor).floor();
     final int scaledHeight = (fileInfo.height * _scaleFactor).floor();
 
-    final int x = _videoWidth - scaledWidth;
-    final int y = _videoHeight - scaledHeight;
+    final int minX = (scaledWidth / 2).floor();
+    final int minY = (scaledHeight / 2).floor();
+    final int maxX = _videoWidth - scaledWidth - minX;
+    final int maxY = _videoHeight - scaledHeight - minY;
+
+    // 좌상, 좌하, 우상, 우하
+    final List<StickerPosition> posList = [
+      StickerPosition(minX, minY),
+      StickerPosition(minX, maxY),
+      StickerPosition(maxX, minY),
+      StickerPosition(maxX, maxY),
+    ];
+    final StickerPosition stickerPos = posList[(Random()).nextInt(posList.length) % posList.length];
 
     filterStrings.add(
         "[${inputFileCount++}:v]trim=0:$duration,setpts=PTS-STARTPTS,scale=$scaledWidth:$scaledHeight,setdar=dar=${scaledWidth / scaledHeight}$stickerMapVariable;");
     filterStrings.add(
-        "$videoOutputMapVariable${stickerMapVariable}overlay=$x:$y$stickerMergedMapVariable;");
+        "$videoOutputMapVariable${stickerMapVariable}overlay=${stickerPos.x}:${stickerPos.y}$stickerMergedMapVariable;");
 
     videoOutputMapVariable = stickerMergedMapVariable;
   }
