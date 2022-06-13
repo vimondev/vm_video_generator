@@ -160,6 +160,8 @@ class VMSDKWidget extends StatelessWidget {
       DateTime now = DateTime.now();
 
       final List<RenderedData> clipDataList = [];
+      final List<String> thumbnailList = [];
+      
       for (int i = 0; i < autoEditMediaList.length; i++) {
         final AutoEditMedia autoEditMedia = autoEditMediaList[i];
         final FrameData? frameData = frameMap[autoEditMedia.frameKey];
@@ -183,7 +185,7 @@ class VMSDKWidget extends StatelessWidget {
             nextTransition,
             i == 0 ? exportedTextData : null,
             (statistics) =>
-                _currentRenderedFrameInCallback = statistics.videoFrameNumber);
+                _currentRenderedFrameInCallback = statistics.getVideoFrameNumber());
 
         _currentRenderedFrameInCallback = 0;
 
@@ -193,6 +195,8 @@ class VMSDKWidget extends StatelessWidget {
 
         if (clipData == null) return null;
         clipDataList.add(clipData);
+
+        thumbnailList.add(await extractThumbnail(autoEditMediaList[i], i) ?? "");
       }
 
       final List<RenderedData> xfadeAppliedList = [];
@@ -216,7 +220,7 @@ class VMSDKWidget extends StatelessWidget {
               (xfadeTransition as XFadeTransitionData).filterName,
               autoEditMedia.xfadeDuration,
               (statistics) => _currentRenderedFrameInCallback =
-                  statistics.videoFrameNumber);
+                  statistics.getVideoFrameNumber());
 
           _currentRenderedFrameInCallback = 0;
           double duration = normalizeTime(curRendered.duration +
@@ -262,7 +266,7 @@ class VMSDKWidget extends StatelessWidget {
         progressCallback(_currentStatus, 1);
       }
 
-      return VideoGeneratedResult(resultClip.absolutePath, autoEditedData, spotInfoList);
+      return VideoGeneratedResult(resultClip.absolutePath, autoEditedData, spotInfoList, thumbnailList);
     } //
     catch (e) {
       if (_currentTimer != null) {

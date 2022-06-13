@@ -1,9 +1,10 @@
 import 'dart:io';
 import 'dart:math';
+import 'package:ffmpeg_kit_flutter_full_gpl/statistics.dart';
+
 import '../types/types.dart';
 import 'global_helper.dart';
 import 'ffmpeg_manager.dart';
-import 'package:flutter_ffmpeg/statistics.dart' show Statistics;
 
 int _videoWidth = 1280;
 int _videoHeight = 720;
@@ -716,6 +717,47 @@ Future<RenderedData?> applyMusics(
   if (!isSuccess) return null;
 
   return RenderedData(outputPath, mergedClip.duration);
+}
+
+Future<String?> extractThumbnail(
+    AutoEditMedia autoEditMedia, int clipIdx) async {
+
+  final List<String> arguments = <String>[];
+  final String appDirPath = await getAppDirectoryPath();
+  final String outputPath = "$appDirPath/thumbnail_$clipIdx.jpg";
+
+  final List<String> inputArguments = <String>[];
+  final List<String> filterStrings = <String>[];
+
+  final MediaData mediaData = autoEditMedia.mediaData;
+  inputArguments.addAll(["-i", mediaData.absolutePath]);
+
+  if (mediaData.type == EMediaType.video) {
+    inputArguments.addAll(["-ss", autoEditMedia.startTime.toString()]);
+  }
+
+  final CropData cropData = generateCropData(mediaData.width, mediaData.height);
+  filterStrings.add(
+      "scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$_videoWidth:$_videoHeight:${cropData.cropPosX}:${cropData.cropPosY},setdar=dar=${_videoWidth / _videoHeight}");
+
+  String filterComplexStr = "";
+  for (final String filterStr in filterStrings) {
+    filterComplexStr += filterStr;
+  }
+
+  arguments.addAll(inputArguments);
+  arguments.addAll(["-filter_complex", filterComplexStr]);
+  arguments.addAll([
+    "-vframes",
+    "1",
+    outputPath,
+    "-y"
+  ]);
+
+  bool isSuccess = await _ffmpegManager.execute(arguments, null);
+  if (!isSuccess) return null;
+
+  return outputPath;
 }
 
 int getFramerate() {
