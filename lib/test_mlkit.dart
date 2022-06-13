@@ -1,17 +1,13 @@
+import 'package:ffmpeg_kit_flutter_full_gpl/ffprobe_kit.dart';
 import 'package:path/path.dart';
-import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
 
-import 'vm_sdk/vm_sdk.dart';
 import 'vm_sdk/types/types.dart';
 import 'vm_sdk/impl/global_helper.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 
-// VideoGenerator videoGenerator = VideoGenerator();
-FlutterFFprobe ffprobe = FlutterFFprobe();
-
 void testMethod() async {
-  const String testAssetPath = "_test/set01";
+  const String testAssetPath = "_test/set1";
   final filelist = [];
 
   final manifestContent = await rootBundle.loadString('AssetManifest.json');
@@ -28,10 +24,10 @@ void testMethod() async {
     final writedFile =
         await copyAssetToLocalDirectory("$testAssetPath/$filename");
 
-    final mediaInfo = await ffprobe.getMediaInformation(writedFile.path);
-    final streams = mediaInfo.getStreams()![0].getAllProperties();
+    final mediaInfo = (await FFprobeKit.getMediaInformation(writedFile.path)).getMediaInformation();
+    final streams = mediaInfo!.getStreams()[0].getAllProperties();
 
-    int width = streams["width"];
+    int width = streams!["width"];
     int height = streams["height"];
     EMediaType type = EMediaType.image;
 

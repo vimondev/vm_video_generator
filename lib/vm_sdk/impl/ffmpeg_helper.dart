@@ -1,9 +1,10 @@
 import 'dart:io';
 import 'dart:math';
+import 'package:ffmpeg_kit_flutter_full_gpl/statistics.dart';
+
 import '../types/types.dart';
 import 'global_helper.dart';
 import 'ffmpeg_manager.dart';
-import 'package:flutter_ffmpeg/statistics.dart' show Statistics;
 
 int _videoWidth = 1280;
 int _videoHeight = 720;

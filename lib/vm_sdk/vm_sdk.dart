@@ -185,7 +185,7 @@ class VMSDKWidget extends StatelessWidget {
             nextTransition,
             i == 0 ? exportedTextData : null,
             (statistics) =>
-                _currentRenderedFrameInCallback = statistics.videoFrameNumber);
+                _currentRenderedFrameInCallback = statistics.getVideoFrameNumber());
 
         _currentRenderedFrameInCallback = 0;
 
@@ -220,7 +220,7 @@ class VMSDKWidget extends StatelessWidget {
               (xfadeTransition as XFadeTransitionData).filterName,
               autoEditMedia.xfadeDuration,
               (statistics) => _currentRenderedFrameInCallback =
-                  statistics.videoFrameNumber);
+                  statistics.getVideoFrameNumber());
 
           _currentRenderedFrameInCallback = 0;
           double duration = normalizeTime(curRendered.duration +

@@ -1,23 +1,34 @@
 import 'dart:async';
-import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
-import 'package:flutter_ffmpeg/statistics.dart' show Statistics;
+import 'package:ffmpeg_kit_flutter_full_gpl/ffmpeg_kit.dart';
+import 'package:ffmpeg_kit_flutter_full_gpl/ffmpeg_kit_config.dart';
+import 'package:ffmpeg_kit_flutter_full_gpl/ffmpeg_session.dart';
+import 'package:ffmpeg_kit_flutter_full_gpl/return_code.dart';
+import 'package:ffmpeg_kit_flutter_full_gpl/statistics.dart';
 
 class FFMpegManager {
-  FlutterFFmpeg ffmpegIns = FlutterFFmpeg();
-  FlutterFFmpegConfig ffmpegConfig = FlutterFFmpegConfig();
+  FFmpegKit ffmpegIns = FFmpegKit();
+  FFmpegKitConfig ffmpegConfig = FFmpegKitConfig();
 
   Future<bool> execute(
       List<String> args, Function(Statistics)? callback) async {
     if (callback != null) {
-      ffmpegConfig.enableStatisticsCallback(callback);
+      FFmpegKitConfig.enableStatisticsCallback(callback);
     } //
     else {
-      ffmpegConfig.disableStatistics();
+      FFmpegKitConfig.disableStatistics();
     }
-    return (await ffmpegIns.executeWithArguments(args)) == 0;
+
+    final FFmpegSession session = await FFmpegKit.executeWithArguments(args);
+    final ReturnCode? returnCode = await session.getReturnCode();
+    
+    if (returnCode != null) {
+      return returnCode.isValueSuccess();
+    }
+
+    return false;
   }
 
   Future<void> cancel() async {
-    await ffmpegIns.cancel();
+    await FFmpegKit.cancel();
   }
 }

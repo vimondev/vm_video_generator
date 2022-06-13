@@ -1,9 +1,16 @@
 PODS:
+  - ffmpeg-kit-ios-full-gpl (4.5.1)
+  - ffmpeg_kit_flutter_full_gpl (4.5.1):
+    - ffmpeg_kit_flutter_full_gpl/full-gpl (= 4.5.1)
+    - Flutter
+  - ffmpeg_kit_flutter_full_gpl/full-gpl (4.5.1):
+    - ffmpeg-kit-ios-full-gpl (= 4.5.1)
+    - Flutter
   - file_saver (0.0.1):
     - Flutter
   - Firebase/CoreOnly (8.15.0):
     - FirebaseCore (= 8.15.0)
-  - firebase_core (1.15.0):
+  - firebase_core (1.17.1):
     - Firebase/CoreOnly (= 8.15.0)
     - Flutter
   - FirebaseCore (8.15.0):
@@ -24,9 +31,6 @@ PODS:
   - flutter_archive (0.0.1):
     - Flutter
     - ZIPFoundation (= 0.9.11)
-  - flutter_ffmpeg/full-gpl (0.4.2):
-    - Flutter
-    - mobile-ffmpeg-full-gpl (= 4.4)
   - flutter_inappwebview (0.0.1):
     - Flutter
     - flutter_inappwebview/Core (= 0.0.1)
@@ -48,9 +52,9 @@ PODS:
     - GoogleMLKit/PoseDetection (~> 2.2.0)
     - GoogleMLKit/PoseDetectionAccurate (~> 2.2.0)
     - GoogleMLKit/TextRecognition (~> 2.2.0)
-  - GoogleDataTransport (9.1.2):
-    - GoogleUtilities/Environment (~> 7.2)
-    - nanopb (~> 2.30908.0)
+  - GoogleDataTransport (9.1.4):
+    - GoogleUtilities/Environment (~> 7.7)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
   - GoogleMLKit/BarcodeScanning (2.2.0):
     - GoogleMLKit/MLKitCore
@@ -106,7 +110,7 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilitiesComponents (1.1.0):
     - GoogleUtilities/Logger
-  - GTMSessionFetcher/Core (1.7.1)
+  - GTMSessionFetcher/Core (1.7.2)
   - MLImage (1.0.0-beta1)
   - MLKitBarcodeScanning (1.3.0):
     - MLKitCommon (~> 3.0)
@@ -189,7 +193,6 @@ PODS:
   - MLKitXenoCommon (1.0.0-beta4):
     - MLKitCommon (~> 3.0)
     - MLKitVision (~> 1.3)
-  - mobile-ffmpeg-full-gpl (4.4)
   - nanopb (2.30908.0):
     - nanopb/decode (= 2.30908.0)
     - nanopb/encode (= 2.30908.0)
@@ -199,16 +202,16 @@ PODS:
   - path_provider_ios (0.0.1):
     - Flutter
   - PromisesObjC (2.1.0)
-  - Protobuf (3.20.0)
+  - Protobuf (3.21.1)
   - SSZipArchive (2.4.3)
   - ZIPFoundation (0.9.11)
 
 DEPENDENCIES:
+  - ffmpeg_kit_flutter_full_gpl (from `.symlinks/plugins/ffmpeg_kit_flutter_full_gpl/ios`)
   - file_saver (from `.symlinks/plugins/file_saver/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
   - flutter_archive (from `.symlinks/plugins/flutter_archive/ios`)
-  - flutter_ffmpeg/full-gpl (from `.symlinks/plugins/flutter_ffmpeg/ios`)
   - flutter_inappwebview (from `.symlinks/plugins/flutter_inappwebview/ios`)
   - gallery_saver (from `.symlinks/plugins/gallery_saver/ios`)
   - google_ml_kit (from `.symlinks/plugins/google_ml_kit/ios`)
@@ -216,6 +219,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - ffmpeg-kit-ios-full-gpl
     - Firebase
     - FirebaseCore
     - FirebaseCoreDiagnostics
@@ -246,7 +250,6 @@ SPEC REPOS:
     - MLKitVision
     - MLKitVisionKit
     - MLKitXenoCommon
-    - mobile-ffmpeg-full-gpl
     - nanopb
     - OrderedSet
     - PromisesObjC
@@ -255,6 +258,8 @@ SPEC REPOS:
     - ZIPFoundation
 
 EXTERNAL SOURCES:
+  ffmpeg_kit_flutter_full_gpl:
+    :path: ".symlinks/plugins/ffmpeg_kit_flutter_full_gpl/ios"
   file_saver:
     :path: ".symlinks/plugins/file_saver/ios"
   firebase_core:
@@ -263,8 +268,6 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_archive:
     :path: ".symlinks/plugins/flutter_archive/ios"
-  flutter_ffmpeg:
-    :path: ".symlinks/plugins/flutter_ffmpeg/ios"
   flutter_inappwebview:
     :path: ".symlinks/plugins/flutter_inappwebview/ios"
   gallery_saver:
@@ -275,24 +278,25 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider_ios/ios"
 
 SPEC CHECKSUMS:
+  ffmpeg-kit-ios-full-gpl: 9eb5c2e17ba5dea1b1b83cff35b54918b683b67f
+  ffmpeg_kit_flutter_full_gpl: a1dce80f36bb0972ddeb0db314aef924f4a57988
   file_saver: 503e386464dbe118f630e17b4c2e1190fa0cf808
   Firebase: 5f8193dff4b5b7c5d5ef72ae54bb76c08e2b841d
-  firebase_core: fa19947d8db1c0a62d8872c45039b3113829cd2e
+  firebase_core: 318de541b0e61d3f24262982a3f0b54afe72439b
   FirebaseCore: 5743c5785c074a794d35f2fff7ecc254a91e08b1
   FirebaseCoreDiagnostics: 92e07a649aeb66352b319d43bdd2ee3942af84cb
   FirebaseInstallations: 40bd9054049b2eae9a2c38ef1c3dd213df3605cd
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   flutter_archive: 141014f758a0b31fde29add54952729eb1d61c95
-  flutter_ffmpeg: 3ec3912c74649851e6c3b1885511eef78142ac4f
   flutter_inappwebview: bfd58618f49dc62f2676de690fc6dcda1d6c3721
   gallery_saver: 9fc173c9f4fcc48af53b2a9ebea1b643255be542
   google_ml_kit: a85eefb9ea6156b27ee2fba2b71e461e7b26a4f6
-  GoogleDataTransport: 629c20a4d363167143f30ea78320d5a7eb8bd940
+  GoogleDataTransport: 5fffe35792f8b96ec8d6775f5eccd83c998d5a3b
   GoogleMLKit: 85ffdc9641d05311c76dbba5bbf93059087be12f
   GoogleToolboxForMac: 8bef7c7c5cf7291c687cf5354f39f9db6399ad34
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   GoogleUtilitiesComponents: 679b2c881db3b615a2777504623df6122dd20afe
-  GTMSessionFetcher: 4577a4cc914a5a07c40a8a0ad0acc22080418c2d
+  GTMSessionFetcher: 5595ec75acf5be50814f81e9189490412bad82ba
   MLImage: 647f3d580c10b3c9a3f6154f5d7baead60c42a0c
   MLKitBarcodeScanning: 6b998bd1cfe471ae407a7f647d649494617787c0
   MLKitCommon: 6d6be0a2e9a6340aad1c1f2b9449c11dee8af70f
@@ -313,15 +317,14 @@ SPEC CHECKSUMS:
   MLKitVision: 26da299aef93291f24f5200e8372919f73abf3b5
   MLKitVisionKit: 226bac429eda1d84285409e31ce9da72606850fb
   MLKitXenoCommon: bf5b3528d77cabe0d04f3c13536ba1302346e31c
-  mobile-ffmpeg-full-gpl: 77de728206f08f30c70f530b18abb4e8f6413eb6
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
   PromisesObjC: 99b6f43f9e1044bd87a95a60beff28c2c44ddb72
-  Protobuf: 66e2f3b26a35e4cc379831f4ced538274ee4b923
+  Protobuf: 9e88c1e667d75aa2491d211f26ccddde4e8ad4cf
   SSZipArchive: fe6a26b2a54d5a0890f2567b5cc6de5caa600aef
   ZIPFoundation: b1f0de4eed33e74a676f76e12559ab6b75990197
 
-PODFILE CHECKSUM: 8874159c5c3951f210e4e7a348e3a0a1e3e15444
+PODFILE CHECKSUM: 7adbc9d59f05e1b01f554ea99b6c79e97f2214a2
 
 COCOAPODS: 1.11.3
