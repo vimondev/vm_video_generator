@@ -718,6 +718,47 @@ Future<RenderedData?> applyMusics(
   return RenderedData(outputPath, mergedClip.duration);
 }
 
+Future<String?> extractThumbnail(
+    AutoEditMedia autoEditMedia, int clipIdx) async {
+
+  final List<String> arguments = <String>[];
+  final String appDirPath = await getAppDirectoryPath();
+  final String outputPath = "$appDirPath/thumbnail_$clipIdx.jpg";
+
+  final List<String> inputArguments = <String>[];
+  final List<String> filterStrings = <String>[];
+
+  final MediaData mediaData = autoEditMedia.mediaData;
+  inputArguments.addAll(["-i", mediaData.absolutePath]);
+
+  if (mediaData.type == EMediaType.video) {
+    inputArguments.addAll(["-ss", autoEditMedia.startTime.toString()]);
+  }
+
+  final CropData cropData = generateCropData(mediaData.width, mediaData.height);
+  filterStrings.add(
+      "scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$_videoWidth:$_videoHeight:${cropData.cropPosX}:${cropData.cropPosY},setdar=dar=${_videoWidth / _videoHeight}");
+
+  String filterComplexStr = "";
+  for (final String filterStr in filterStrings) {
+    filterComplexStr += filterStr;
+  }
+
+  arguments.addAll(inputArguments);
+  arguments.addAll(["-filter_complex", filterComplexStr]);
+  arguments.addAll([
+    "-vframes",
+    "1",
+    outputPath,
+    "-y"
+  ]);
+
+  bool isSuccess = await _ffmpegManager.execute(arguments, null);
+  if (!isSuccess) return null;
+
+  return outputPath;
+}
+
 int getFramerate() {
   return _framerate;
 }
