@@ -1,13 +1,13 @@
 import 'dart:io';
-import 'dart:math';
 import 'package:ffmpeg_kit_flutter_full_gpl/statistics.dart';
 
 import '../types/types.dart';
 import 'global_helper.dart';
 import 'ffmpeg_manager.dart';
 
-int _videoWidth = 1280;
-int _videoHeight = 720;
+Resolution _resolution = Resolution(0, 0);
+int _scaledVideoWidth = 0;
+int _scaledVideoHeight = 0;
 int _framerate = 30;
 ERatio _ratio = ERatio.ratio11;
 
@@ -15,20 +15,6 @@ double _scaleFactor = 2 / 3.0;
 double _minDurationFactor = 1 / _framerate;
 const int _fadeDuration = 3;
 
-class CropData {
-  int scaledWidth = 0;
-  int scaledHeight = 0;
-  int cropPosX = 0;
-  int cropPosY = 0;
-
-  CropData(this.scaledWidth, this.scaledHeight, this.cropPosX, this.cropPosY);
-}
-
-class StickerPosition {
-  int x;
-  int y;
-  StickerPosition(this.x, this.y);
-}
 class RenderedData {
   String absolutePath;
   double duration;
@@ -40,45 +26,13 @@ final FFMpegManager _ffmpegManager = FFMpegManager();
 
 void setRatio(ERatio ratio) {
   _ratio = ratio;
-  switch (ratio) {
-    case ERatio.ratio169:
-      _videoWidth = 1920;
-      _videoHeight = 1080;
-      break;
+  _resolution = Resolution.fromRatio(ratio);
 
-    case ERatio.ratio916:
-      _videoWidth = 1080;
-      _videoHeight = 1920;
-      break;
+  _scaledVideoWidth = (_resolution.width * _scaleFactor).floor();
+  _scaledVideoHeight = (_resolution.height * _scaleFactor).floor();
 
-    case ERatio.ratio11:
-    default:
-      _videoWidth = 1080;
-      _videoHeight = 1080;
-      break;
-  }
-
-  _videoWidth = (_videoWidth * _scaleFactor).floor();
-  _videoHeight = (_videoHeight * _scaleFactor).floor();
-}
-
-CropData generateCropData(int width, int height) {
-  int scaledWidth = _videoWidth;
-  int scaledHeight = _videoHeight;
-  int cropPosX = 0;
-  int cropPosY = 0;
-
-  if (width > height) {
-    scaledWidth = (width * (_videoHeight / height)).floor();
-    if (scaledWidth % 2 == 1) scaledWidth -= 1;
-    cropPosX = ((scaledWidth - _videoWidth) / 2.0).floor();
-  } else {
-    scaledHeight = (height * (_videoWidth / width)).floor();
-    if (scaledHeight % 2 == 1) scaledHeight -= 1;
-    cropPosY = ((scaledHeight - _videoHeight) / 2.0).floor();
-  }
-
-  return CropData(scaledWidth, scaledHeight, cropPosX, cropPosY);
+  _scaledVideoWidth -= (_scaledVideoWidth % 2);
+  _scaledVideoHeight -= (_scaledVideoHeight % 2);
 }
 
 Future<RenderedData?> clipRender(
@@ -88,7 +42,7 @@ Future<RenderedData?> clipRender(
     StickerData? sticker,
     TransitionData? prevTransition,
     TransitionData? nextTransition,
-    ExportedTextPNGSequenceData? exportedText,
+    TextExportData? exportedText,
     Function(Statistics)? ffmpegCallback) async {
   final MediaData mediaData = editedMedia.mediaData;
   double duration =
@@ -138,9 +92,8 @@ Future<RenderedData?> clipRender(
   ]);
   inputFileCount++;
 
-  final CropData cropData = generateCropData(mediaData.width, mediaData.height);
   filterStrings.add(
-      "[0:v]${trimFilter}scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$_videoWidth:$_videoHeight:${cropData.cropPosX}:${cropData.cropPosY},setdar=dar=${_videoWidth / _videoHeight}[vid];");
+      "[0:v]${trimFilter}scale=${(editedMedia.mediaData.width * editedMedia.zoomX).floor()}:${(editedMedia.mediaData.height * editedMedia.zoomY).floor()},crop=${_resolution.width}:${_resolution.height}:${editedMedia.translateX}:${editedMedia.translateY},setdar=dar=${_resolution.width / _resolution.height}[vid];");
   videoOutputMapVariable = "[vid]";
   inputFileCount++;
 
@@ -164,9 +117,8 @@ Future<RenderedData?> clipRender(
       "$appDirPath/${fileInfo.filename}"
     ]);
 
-    final CropData cropData = generateCropData(fileInfo.width, fileInfo.height);
     filterStrings.add(
-        "[${inputFileCount++}:v]trim=0:$duration,setpts=PTS-STARTPTS,scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$_videoWidth:$_videoHeight:${cropData.cropPosX}:${cropData.cropPosY},setdar=dar=${_videoWidth / _videoHeight}$frameMapVariable;");
+        "[${inputFileCount++}:v]trim=0:$duration,setpts=PTS-STARTPTS,scale=${_resolution.width}:${_resolution.height},setdar=dar=${_resolution.width / _resolution.height}$frameMapVariable;");
     filterStrings.add(
         "$videoOutputMapVariable${frameMapVariable}overlay$frameMergedMapVariable;");
 
@@ -193,27 +145,10 @@ Future<RenderedData?> clipRender(
       "$appDirPath/${fileInfo.filename}"
     ]);
 
-    final int scaledWidth = (fileInfo.width * _scaleFactor).floor();
-    final int scaledHeight = (fileInfo.height * _scaleFactor).floor();
-
-    final int minX = (scaledWidth / 2).floor();
-    final int minY = (scaledHeight / 2).floor();
-    final int maxX = _videoWidth - scaledWidth - minX;
-    final int maxY = _videoHeight - scaledHeight - minY;
-
-    // 좌상, 좌하, 우상, 우하
-    final List<StickerPosition> posList = [
-      StickerPosition(minX, minY),
-      StickerPosition(minX, maxY),
-      StickerPosition(maxX, minY),
-      StickerPosition(maxX, maxY),
-    ];
-    final StickerPosition stickerPos = posList[(Random()).nextInt(posList.length) % posList.length];
-
     filterStrings.add(
-        "[${inputFileCount++}:v]trim=0:$duration,setpts=PTS-STARTPTS,scale=$scaledWidth:$scaledHeight,setdar=dar=${scaledWidth / scaledHeight}$stickerMapVariable;");
+        "[${inputFileCount++}:v]trim=0:$duration,setpts=PTS-STARTPTS$stickerMapVariable;");
     filterStrings.add(
-        "$videoOutputMapVariable${stickerMapVariable}overlay=${stickerPos.x}:${stickerPos.y}$stickerMergedMapVariable;");
+        "$videoOutputMapVariable${stickerMapVariable}overlay=${sticker.x}:${sticker.y}$stickerMergedMapVariable;");
 
     videoOutputMapVariable = stickerMergedMapVariable;
   }
@@ -223,32 +158,20 @@ Future<RenderedData?> clipRender(
   ///////////////
 
   if (exportedText != null) {
-    final int maxTextWidth = (_videoWidth * 0.9).floor();
-    if (exportedText.width > maxTextWidth) {
-      final double textScaleFactor = maxTextWidth / exportedText.width;
-
-      exportedText.width = (exportedText.width * textScaleFactor).floor();
-      exportedText.height = (exportedText.height * textScaleFactor).floor();
-    }
-
-    final double startPosY = (_videoHeight / 2) - (exportedText.height / 2);
-
     String textMapVariable = "[text]";
     String textMergedMapVariable = "[text_merged]";
-
-    double currentPosX = (_videoWidth / 2) - (exportedText.width / 2);
 
     inputArguments.addAll([
       "-framerate",
       exportedText.frameRate.toString(),
       "-i",
-      "${exportedText.folderPath}/%d.png"
+      "${exportedText.allSequencesPath}/%d.png"
     ]);
 
     filterStrings.add(
-        "[${inputFileCount++}:v]trim=0:$duration,setpts=PTS-STARTPTS,scale=${exportedText.width}:${exportedText.height}$textMapVariable;");
+        "[${inputFileCount++}:v]trim=0:$duration,setpts=PTS-STARTPTS,scale=${(exportedText.width * exportedText.scale).floor()}:${(exportedText.height * exportedText.scale).floor()}$textMapVariable;");
     filterStrings.add(
-        "$videoOutputMapVariable${textMapVariable}overlay=$currentPosX:$startPosY$textMergedMapVariable;");
+        "$videoOutputMapVariable${textMapVariable}overlay=${exportedText.x}:${exportedText.y}$textMergedMapVariable;");
 
     videoOutputMapVariable = textMergedMapVariable;
   }
@@ -266,12 +189,10 @@ Future<RenderedData?> clipRender(
     String transitionMapVariable = "[prev_trans]";
     String transitionMergedMapVariable = "[prev_trans_merged]";
 
-    final CropData cropData = generateCropData(fileInfo.width, fileInfo.height);
-
     inputArguments.addAll(
         ["-c:v", "libvpx-vp9", "-i", "$appDirPath/${fileInfo.filename}"]);
     filterStrings.add(
-        "[${inputFileCount++}:v]trim=${fileInfo.transitionPoint}:${fileInfo.duration},setpts=PTS-STARTPTS,scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$_videoWidth:$_videoHeight:${cropData.cropPosX}:${cropData.cropPosY}$transitionMapVariable;");
+        "[${inputFileCount++}:v]trim=${fileInfo.transitionPoint}:${fileInfo.duration},setpts=PTS-STARTPTS,scale=${_resolution.width}:${_resolution.height},setdar=dar=${_resolution.width / _resolution.height}$transitionMapVariable;");
     filterStrings.add(
         "$videoOutputMapVariable${transitionMapVariable}overlay=enable='between(t\\,0,${fileInfo.duration - fileInfo.transitionPoint})'$transitionMergedMapVariable;");
     videoOutputMapVariable = transitionMergedMapVariable;
@@ -286,8 +207,6 @@ Future<RenderedData?> clipRender(
     String transitionMapVariable = "[next_trans]";
     String transitionMergedMapVariable = "[next_trans_merged]";
 
-    final CropData cropData = generateCropData(fileInfo.width, fileInfo.height);
-
     inputArguments.addAll([
       "-c:v",
       "libvpx-vp9",
@@ -297,14 +216,18 @@ Future<RenderedData?> clipRender(
       "$appDirPath/${fileInfo.filename}"
     ]);
     filterStrings.add(
-        "[${inputFileCount++}:v]scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$_videoWidth:$_videoHeight:${cropData.cropPosX}:${cropData.cropPosY}$transitionMapVariable;");
+        "[${inputFileCount++}:v]scale=${_resolution.width}:${_resolution.height},setdar=dar=${_resolution.width / _resolution.height}$transitionMapVariable;");
     filterStrings.add(
         "$videoOutputMapVariable${transitionMapVariable}overlay=enable='between(t\\,${duration - fileInfo.transitionPoint},$duration)'$transitionMergedMapVariable;");
     videoOutputMapVariable = transitionMergedMapVariable;
   }
 
   filterStrings.add(
-      "${videoOutputMapVariable}trim=0:$duration,setpts=PTS-STARTPTS[out_vid];");
+      "${videoOutputMapVariable}trim=0:$duration,setpts=PTS-STARTPTS[trim_vid];");
+  videoOutputMapVariable = "[trim_vid]";
+
+  filterStrings.add(
+      "${videoOutputMapVariable}scale=$_scaledVideoWidth:$_scaledVideoHeight,setdar=dar=${_scaledVideoWidth / _scaledVideoHeight}[out_vid];");
   videoOutputMapVariable = "[out_vid]";
 
   // generate -filter_complex
@@ -736,9 +659,8 @@ Future<String?> extractThumbnail(
     inputArguments.addAll(["-ss", editedMedia.startTime.toString()]);
   }
 
-  final CropData cropData = generateCropData(mediaData.width, mediaData.height);
   filterStrings.add(
-      "scale=${cropData.scaledWidth}:${cropData.scaledHeight},crop=$_videoWidth:$_videoHeight:${cropData.cropPosX}:${cropData.cropPosY},setdar=dar=${_videoWidth / _videoHeight}");
+      "scale=${(editedMedia.mediaData.width * editedMedia.zoomX).floor()}:${(editedMedia.mediaData.height * editedMedia.zoomY).floor()},crop=${_resolution.width}:${_resolution.height}:${editedMedia.translateX}:${editedMedia.translateY},scale=$_scaledVideoWidth:$_scaledVideoHeight,setdar=dar=${_scaledVideoWidth / _scaledVideoHeight}");
 
   String filterComplexStr = "";
   for (final String filterStr in filterStrings) {

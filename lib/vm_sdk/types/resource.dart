@@ -132,8 +132,8 @@ class StickerData extends ResourceData {
   ResourceFileInfo? fileinfo;
   EStickerType type = EStickerType.object;
 
-  int x = 0;
-  int y = 0;
+  double x = 0;
+  double y = 0;
   double rotate = 0;
   double scale = 0;
 

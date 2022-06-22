@@ -14,6 +14,7 @@ import 'impl/vm_text_widget.dart';
 import 'impl/ffmpeg_helper.dart';
 
 const double _titleExportPercentage = 1 / 3.0;
+
 class VMSDKWidget extends StatelessWidget {
   VMSDKWidget({Key? key}) : super(key: key);
 
@@ -21,7 +22,6 @@ class VMSDKWidget extends StatelessWidget {
 
   bool _isInitialized = false;
   final FFMpegManager _ffmpegManager = FFMpegManager();
-  final ResourceManager _resourceManager = ResourceManager();
 
   Timer? _currentTimer;
   EGenerateStatus _currentStatus = EGenerateStatus.encoding;
@@ -36,7 +36,7 @@ class VMSDKWidget extends StatelessWidget {
 
   // Intializing before video generate
   Future<void> initialize() async {
-    await _resourceManager.loadResourceMap();
+    await ResourceManager.getInstance().loadResourceMap();
     await loadLabelMap();
     _isInitialized = true;
   }
@@ -69,7 +69,7 @@ class VMSDKWidget extends StatelessWidget {
       final AutoEditedData autoEditedData = await generateAutoEditData(
           mediaList, selectedStyle, templateList, isAutoEdit);
 
-      await _resourceManager.loadAutoEditAssets(autoEditedData);
+      await ResourceManager.getInstance().loadAutoEditAssets(autoEditedData);
 
       List<ETextID> textIds;
       if (texts.length >= 2) {
@@ -79,12 +79,14 @@ class VMSDKWidget extends StatelessWidget {
       else {
         textIds = oneLineTitles;
       }
-      final ETextID pickedTextId = textIds[(Random()).nextInt(textIds.length) % textIds.length];
+      final ETextID pickedTextId =
+          textIds[(Random()).nextInt(textIds.length) % textIds.length];
       await _textWidget.loadText(pickedTextId);
 
-      for (int i=0; i<texts.length; i++) {
+      for (int i = 0; i < texts.length; i++) {
         final String key = "#TEXT${(i + 1)}";
-        await _textWidget.setTextValue(key, texts[i], isExtractPreviewImmediate: false);
+        await _textWidget.setTextValue(key, texts[i],
+            isExtractPreviewImmediate: false);
       }
       await _textWidget.extractAllSequence((progress) {
         if (progressCallback != null) {
@@ -96,19 +98,32 @@ class VMSDKWidget extends StatelessWidget {
         progressCallback(_currentStatus, _titleExportPercentage);
       }
 
-      ExportedTextPNGSequenceData exportedTextData =
-          ExportedTextPNGSequenceData(
-              _textWidget.allSequencesPath!,
-              _textWidget.width.floor(),
-              _textWidget.height.floor(),
-              _textWidget.frameRate);
+      TextExportData exportedText = TextExportData(
+          pickedTextId,
+          _textWidget.width,
+          _textWidget.height,
+          _textWidget.frameRate,
+          _textWidget.previewImagePath!,
+          _textWidget.allSequencesPath!);
 
-      final List<EditedMedia> editedMediaList =
-          autoEditedData.editedMediaList;
-      final Map<String, TransitionData> transitionMap =
-          autoEditedData.transitionMap;
-      final Map<String, FrameData> frameMap = autoEditedData.frameMap;
-      final Map<String, StickerData> stickerMap = autoEditedData.stickerMap;
+      for (int i = 0; i < texts.length; i++) {
+        final String key = "#TEXT${(i + 1)}";
+        exportedText.texts[key] = texts[i];
+      }
+
+      Resolution resolution = autoEditedData.resolution;
+      final int maxTextWidth = (resolution.width * 0.9).floor();
+      if (exportedText.width > maxTextWidth) {
+        exportedText.scale = maxTextWidth / exportedText.width;
+      }
+      else {
+        exportedText.scale = 1;
+      }
+
+      exportedText.x = (resolution.width / 2) - (exportedText.width * exportedText.scale / 2);
+      exportedText.y = (resolution.height / 2) - (exportedText.height * exportedText.scale / 2);
+
+      final List<EditedMedia> editedMediaList = autoEditedData.editedMediaList;
 
       _currentStatus = EGenerateStatus.encoding;
       _currentRenderedFrame = 0;
@@ -124,8 +139,7 @@ class VMSDKWidget extends StatelessWidget {
         _allFrame += (duration * videoFramerate).floor();
 
         if (i < editedMediaList.length - 1) {
-          TransitionData? transition =
-              transitionMap[editedMedia.transitionKey];
+          TransitionData? transition = editedMedia.transition;
           if (transition != null && transition.type == ETransitionType.xfade) {
             final EditedMedia nextMedia = editedMediaList[i + 1];
             double duration = normalizeTime(editedMedia.duration +
@@ -152,7 +166,12 @@ class VMSDKWidget extends StatelessWidget {
           }
 
           progressCallback(
-              _currentStatus, min(1.0, _titleExportPercentage + (_maxRenderedFrame / _allFrame) * (1 - _titleExportPercentage)));
+              _currentStatus,
+              min(
+                  1.0,
+                  _titleExportPercentage +
+                      (_maxRenderedFrame / _allFrame) *
+                          (1 - _titleExportPercentage)));
         }
       });
 
@@ -161,19 +180,18 @@ class VMSDKWidget extends StatelessWidget {
 
       final List<RenderedData> clipDataList = [];
       final List<String> thumbnailList = [];
-      
+
       for (int i = 0; i < editedMediaList.length; i++) {
         final EditedMedia editedMedia = editedMediaList[i];
-        final FrameData? frameData = frameMap[editedMedia.frameKey];
-        final StickerData? stickerData = stickerMap[editedMedia.stickerKey];
+        final FrameData? frameData = editedMedia.frame;
+        final StickerData? stickerData = editedMedia.sticker;
 
         TransitionData? prevTransition, nextTransition;
         if (i > 0) {
-          prevTransition =
-              transitionMap[editedMediaList[i - 1].transitionKey];
+          prevTransition = editedMediaList[i - 1].transition;
         }
         if (i < editedMediaList.length - 1) {
-          nextTransition = transitionMap[editedMediaList[i].transitionKey];
+          nextTransition = editedMediaList[i].transition;
         }
 
         final RenderedData? clipData = await clipRender(
@@ -183,9 +201,9 @@ class VMSDKWidget extends StatelessWidget {
             stickerData,
             prevTransition,
             nextTransition,
-            i == 0 ? exportedTextData : null,
-            (statistics) =>
-                _currentRenderedFrameInCallback = statistics.getVideoFrameNumber());
+            i == 0 ? exportedText : null,
+            (statistics) => _currentRenderedFrameInCallback =
+                statistics.getVideoFrameNumber());
 
         _currentRenderedFrameInCallback = 0;
 
@@ -203,8 +221,7 @@ class VMSDKWidget extends StatelessWidget {
       for (int i = 0; i < clipDataList.length; i++) {
         final RenderedData curRendered = clipDataList[i];
         final EditedMedia editedMedia = editedMediaList[i];
-        TransitionData? xfadeTransition =
-            transitionMap[editedMediaList[i].transitionKey];
+        TransitionData? xfadeTransition = editedMediaList[i].transition;
 
         if (i < editedMediaList.length - 1 &&
             editedMedia.xfadeDuration > 0 &&
@@ -257,8 +274,9 @@ class VMSDKWidget extends StatelessWidget {
 
       final List<SpotInfo> spotInfoList = [];
       double currentDuration = 0;
-      for (int i=0; i<editedMediaList.length; i++) {
-        spotInfoList.add(SpotInfo(currentDuration, editedMediaList[i].mediaData.gpsString));
+      for (int i = 0; i < editedMediaList.length; i++) {
+        spotInfoList.add(
+            SpotInfo(currentDuration, editedMediaList[i].mediaData.gpsString));
         currentDuration += editedMediaList[i].duration;
       }
 
@@ -266,7 +284,8 @@ class VMSDKWidget extends StatelessWidget {
         progressCallback(_currentStatus, 1);
       }
 
-      return VideoGeneratedResult(resultClip.absolutePath, autoEditedData, spotInfoList, thumbnailList);
+      return VideoGeneratedResult(
+          resultClip.absolutePath, autoEditedData, spotInfoList, thumbnailList);
     } //
     catch (e) {
       if (_currentTimer != null) {

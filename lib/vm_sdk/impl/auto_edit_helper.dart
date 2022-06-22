@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'resource_manager.dart';
 import 'package:path/path.dart';
 
 import '../types/types.dart';
@@ -589,7 +590,33 @@ Future<AutoEditedData> generateAutoEditData(
   // DETECT RATIO //
   //////////////////
 
-  autoEditedData.ratio = detectRatio(autoEditedData.editedMediaList);
+  final ERatio ratio = detectRatio(autoEditedData.editedMediaList);
+  autoEditedData.ratio = ratio;
+  autoEditedData.resolution = Resolution.fromRatio(ratio);
+
+  int videoWidth = autoEditedData.resolution.width;
+  int videoHeight = autoEditedData.resolution.height;
+
+  ///////////////////
+  // SET CROP DATA //
+  ///////////////////
+  
+  for (int i=0; i<autoEditedData.editedMediaList.length; i++) {
+    EditedMedia editedMedia = autoEditedData.editedMediaList[i];
+
+    int mediaWidth = editedMedia.mediaData.width;
+    int mediaHeight = editedMedia.mediaData.height;
+
+    double scaleFactor = max(videoWidth / mediaWidth, videoHeight / mediaHeight);
+    editedMedia.zoomX = scaleFactor;
+    editedMedia.zoomY = scaleFactor;
+
+    int scaledWidth = (mediaWidth * scaleFactor).floor();
+    int scaledHeight = (mediaHeight * scaleFactor).floor();
+
+    editedMedia.translateX = ((scaledWidth - videoWidth) / 2).floor();
+    editedMedia.translateY = ((scaledHeight - videoHeight) / 2).floor();
+  }
 
   ///////////////////////
   // INSERT TRANSITION //
@@ -659,7 +686,7 @@ Future<AutoEditedData> generateAutoEditData(
       if (currentTransitionType == ETransitionType.xfade) {
         int randIdx = (Random()).nextInt(curXfadeTransitionList.length) %
             curXfadeTransitionList.length;
-        editedMedia.transitionKey = curXfadeTransitionList[randIdx];
+        editedMedia.transition = ResourceManager.getInstance().getTransitionData(curXfadeTransitionList[randIdx]);
         curXfadeTransitionList.removeAt(randIdx);
         if (curXfadeTransitionList.isEmpty) {
           curXfadeTransitionList.addAll(originXfadeTransitionList);
@@ -668,7 +695,7 @@ Future<AutoEditedData> generateAutoEditData(
       else if (currentTransitionType == ETransitionType.overlay) {
         int randIdx = (Random()).nextInt(curOverlayTransitionList.length) %
             curOverlayTransitionList.length;
-        editedMedia.transitionKey = curOverlayTransitionList[randIdx];
+        editedMedia.transition = ResourceManager.getInstance().getTransitionData(curOverlayTransitionList[randIdx]);
         curOverlayTransitionList.removeAt(randIdx);
         if (curOverlayTransitionList.isEmpty) {
           curOverlayTransitionList.addAll(originOverlayTransitionList);
@@ -724,7 +751,7 @@ Future<AutoEditedData> generateAutoEditData(
             List<String> curFrameList = curFrameMap[mediaLabel]!;
             int randIdx =
                 (Random()).nextInt(curFrameList.length) % curFrameList.length;
-            editedMedia.frameKey = curFrameList[randIdx];
+            editedMedia.frame = ResourceManager.getInstance().getFrameData(curFrameList[randIdx]);
 
             curFrameList.removeAt(randIdx);
             if (curFrameList.isEmpty) {
@@ -742,7 +769,27 @@ Future<AutoEditedData> generateAutoEditData(
             List<String> curStickerList = curStickerMap[mediaLabel]!;
             int randIdx = (Random()).nextInt(curStickerList.length) %
                 curStickerList.length;
-            editedMedia.stickerKey = curStickerList[randIdx];
+            editedMedia.sticker = ResourceManager.getInstance().getStickerData(curStickerList[randIdx]);
+
+            final double stickerWidth = editedMedia.sticker!.fileinfo!.width * 1;
+            final double stickerHeight = editedMedia.sticker!.fileinfo!.height * 1;
+
+            final double minX = stickerWidth / 2;
+            final double minY = stickerHeight / 2;
+            final double maxX = videoWidth - stickerWidth - minX;
+            final double maxY = videoHeight - stickerHeight - minY;
+
+            final List<List<double>> posList = [
+              [minX, minY],
+              [minX, maxY],
+              [maxX, minY],
+              [maxX, maxY]
+            ];
+
+            final List<double> pickedPos = posList[(Random()).nextInt(posList.length) % posList.length];
+
+            editedMedia.sticker!.x = pickedPos[0];
+            editedMedia.sticker!.y = pickedPos[1];
 
             curStickerList.removeAt(randIdx);
             if (curStickerList.isEmpty) {
@@ -767,12 +814,15 @@ Future<AutoEditedData> generateAutoEditData(
   for (int i = 0; i < autoEditedData.editedMediaList.length; i++) {
     final editedMedia = autoEditedData.editedMediaList[i];
     print(
-        "${basename(editedMedia.mediaData.absolutePath)} / totalDuration:${editedMedia.mediaData.duration} / start:${editedMedia.startTime} / duration:${editedMedia.duration} / remain:${editedMedia.mediaData.duration != null ? (editedMedia.mediaData.duration! - editedMedia.startTime - editedMedia.duration) : 0} / ${editedMedia.mediaLabel} / frame:${editedMedia.frameKey} / sticker:${editedMedia.stickerKey}");
-    if (editedMedia.transitionKey != null) {
+        "${basename(editedMedia.mediaData.absolutePath)} / totalDuration:${editedMedia.mediaData.duration} / start:${editedMedia.startTime} / duration:${editedMedia.duration} / remain:${editedMedia.mediaData.duration != null ? (editedMedia.mediaData.duration! - editedMedia.startTime - editedMedia.duration) : 0} / ${editedMedia.mediaLabel}");
+    print("frame:${editedMedia.frame?.key} / sticker:${editedMedia.sticker?.key} / stickerPos:(${editedMedia.sticker?.x},${editedMedia.sticker?.y}), / resolution:(${editedMedia.mediaData.width},${editedMedia.mediaData.height}) / zoom:(${editedMedia.zoomX},${editedMedia.zoomY}) / translate:(${editedMedia.translateX},${editedMedia.translateY})");
+    if (editedMedia.transition != null) {
       print("index : $i");
-      print(editedMedia.transitionKey);
+      print(editedMedia.transition?.key);
+      print("");
       print("");
     }
+    print("");
   }
 
   for (int i = 0; i < templateList.length; i++) {
