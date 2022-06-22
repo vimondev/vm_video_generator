@@ -64,7 +64,7 @@ class MediaData {
   }
 }
 
-class AutoEditMedia {
+class EditedMedia {
   MediaData mediaData;
   EMediaLabel mediaLabel = EMediaLabel.none;
   bool isBoundary = false;
@@ -73,21 +73,49 @@ class AutoEditMedia {
   double duration = 0;
   double xfadeDuration = 0;
 
-  String? frameKey;
-  String? stickerKey;
-  String? transitionKey;
+  int translateX = 0;
+  int translateY = 0;
+  double zoomX = 0;
+  double zoomY = 0;
 
-  AutoEditMedia(this.mediaData);
+  FrameData? frame;
+  StickerData? sticker;
+  TransitionData? transition;
+
+  EditedMedia(this.mediaData);
+}
+
+class Resolution {
+  int width = 0;
+  int height = 0;
+
+  Resolution(this.width, this.height);
+  Resolution.fromRatio(ERatio ratio) {
+    switch (ratio) {
+      case ERatio.ratio169:
+        width = 1920;
+        height = 1080;
+        break;
+
+      case ERatio.ratio916:
+        width = 1080;
+        height = 1920;
+        break;
+
+      case ERatio.ratio11:
+      default:
+        width = 1080;
+        height = 1080;
+        break;
+    }
+  }
 }
 
 class AutoEditedData {
-  List<AutoEditMedia> autoEditMediaList = [];
+  List<EditedMedia> editedMediaList = [];
   List<MusicData> musicList = [];
   ERatio ratio = ERatio.ratio11;
-
-  Map<String, TransitionData> transitionMap = <String, TransitionData>{};
-  Map<String, FrameData> frameMap = <String, FrameData>{};
-  Map<String, StickerData> stickerMap = <String, StickerData>{};
+  Resolution resolution = Resolution.fromRatio(ERatio.ratio11);
 }
 
 class SpotInfo {
@@ -97,11 +125,13 @@ class SpotInfo {
   SpotInfo(this.startTime, this.gpsString);
 }
 
+
 class VideoGeneratedResult {
   String generatedVideoPath;
   AutoEditedData autoEditedData;
   List<SpotInfo> spotInfoList;
   List<String> thumbnailList;
+  String json;
 
-  VideoGeneratedResult(this.generatedVideoPath, this.autoEditedData, this.spotInfoList, this.thumbnailList);
+  VideoGeneratedResult(this.generatedVideoPath, this.autoEditedData, this.spotInfoList, this.thumbnailList, this.json);
 }

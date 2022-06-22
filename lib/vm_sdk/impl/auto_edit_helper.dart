@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'resource_manager.dart';
 import 'package:path/path.dart';
 
 import '../types/types.dart';
@@ -155,7 +156,7 @@ Future<void> loadLabelMap() async {
 }
 
 Future<EMediaLabel> detectMediaLabel(
-    AutoEditMedia media, MLKitDetected detected) async {
+    EditedMedia media, MLKitDetected detected) async {
   EMediaLabel mediaLabel = EMediaLabel.none;
   final Map<EMediaLabel, double> labelConfidenceMap = {
     EMediaLabel.background: 0,
@@ -211,7 +212,7 @@ Future<EMediaLabel> detectMediaLabel(
   return mediaLabel;
 }
 
-ERatio detectRatio(List<AutoEditMedia> list) {
+ERatio detectRatio(List<EditedMedia> list) {
   Map<ERatio, int> ratioCountMap = {
     ERatio.ratio11: 0,
     ERatio.ratio169: 0,
@@ -507,68 +508,68 @@ Future<AutoEditedData> generateAutoEditData(
 
     for (int i = 0; i < curList.length; i++) {
       final MediaData mediaData = curList[i];
-      final AutoEditMedia autoEditMedia = AutoEditMedia(mediaData);
-      if (i == curList.length - 1) autoEditMedia.isBoundary = true;
+      final EditedMedia editedMedia = EditedMedia(mediaData);
+      if (i == curList.length - 1) editedMedia.isBoundary = true;
 
       final double currentDuration =
           durationList[currentMediaIndex % durationList.length];
       if (mediaData.type == EMediaType.image) {
-        autoEditMedia.duration = currentDuration;
+        editedMedia.duration = currentDuration;
       } //
       else if (mediaData.type == EMediaType.video) {
         if (mediaData.duration! < currentDuration) {
-          autoEditMedia.duration = mediaData.duration!;
+          editedMedia.duration = mediaData.duration!;
           totalRemainDuration += currentDuration - mediaData.duration!;
           // print(mediaData.absolutePath);
           // print("index : $currentMediaIndex");
           // print("defined : $currentDuration");
-          // print("duration : ${autoEditMedia.duration}");
+          // print("duration : ${editedMedia.duration}");
           // print("remain : ${currentDuration - mediaData.duration!}");
           // print("totalRemain : $totalRemainDuration");
           // print("");
           // print("");
         } //
         else {
-          autoEditMedia.startTime =
+          editedMedia.startTime =
               min(3, (mediaData.duration! - currentDuration) / 2.0);
-          autoEditMedia.duration = currentDuration;
+          editedMedia.duration = currentDuration;
 
           if (totalRemainDuration > 0) {
             final double mediaRemainDuration = max(
                 0,
                 (mediaData.duration! -
                     currentDuration -
-                    autoEditMedia.startTime));
+                    editedMedia.startTime));
 
             // print(mediaData.absolutePath);
             // print("index : $currentMediaIndex");
             // print("defined : $currentDuration");
-            // print("start/b : ${autoEditMedia.startTime}");
-            // print("duration/b : ${autoEditMedia.duration}");
+            // print("start/b : ${editedMedia.startTime}");
+            // print("duration/b : ${editedMedia.duration}");
             // print("mediaRemain/b : $mediaRemainDuration");
             // print("totalRemain/b : $totalRemainDuration");
             if (mediaRemainDuration >= totalRemainDuration) {
-              autoEditMedia.duration += totalRemainDuration;
+              editedMedia.duration += totalRemainDuration;
               totalRemainDuration = 0;
             } //
             else {
-              autoEditMedia.duration += mediaRemainDuration;
+              editedMedia.duration += mediaRemainDuration;
               totalRemainDuration -= mediaRemainDuration;
 
-              if (autoEditMedia.startTime >= totalRemainDuration) {
-                autoEditMedia.startTime -= totalRemainDuration;
-                autoEditMedia.duration += totalRemainDuration;
+              if (editedMedia.startTime >= totalRemainDuration) {
+                editedMedia.startTime -= totalRemainDuration;
+                editedMedia.duration += totalRemainDuration;
                 totalRemainDuration = 0;
               } //
               else {
-                totalRemainDuration -= autoEditMedia.startTime;
-                autoEditMedia.duration += autoEditMedia.startTime;
-                autoEditMedia.startTime = 0;
+                totalRemainDuration -= editedMedia.startTime;
+                editedMedia.duration += editedMedia.startTime;
+                editedMedia.startTime = 0;
               }
             }
             // print("");
-            // print("start/a : ${autoEditMedia.startTime}");
-            // print("duration/a : ${autoEditMedia.duration}");
+            // print("start/a : ${editedMedia.startTime}");
+            // print("duration/a : ${editedMedia.duration}");
             // print("mediaRemain/a : $mediaRemainDuration");
             // print("totalRemain/a : $totalRemainDuration");
             // print("");
@@ -577,10 +578,10 @@ Future<AutoEditedData> generateAutoEditData(
         }
       }
 
-      autoEditMedia.mediaLabel =
-          await detectMediaLabel(autoEditMedia, mlkitMap[mediaData]!);
+      editedMedia.mediaLabel =
+          await detectMediaLabel(editedMedia, mlkitMap[mediaData]!);
 
-      autoEditedData.autoEditMediaList.add(autoEditMedia);
+      autoEditedData.editedMediaList.add(editedMedia);
       currentMediaIndex++;
     }
   }
@@ -589,7 +590,33 @@ Future<AutoEditedData> generateAutoEditData(
   // DETECT RATIO //
   //////////////////
 
-  autoEditedData.ratio = detectRatio(autoEditedData.autoEditMediaList);
+  final ERatio ratio = detectRatio(autoEditedData.editedMediaList);
+  autoEditedData.ratio = ratio;
+  autoEditedData.resolution = Resolution.fromRatio(ratio);
+
+  int videoWidth = autoEditedData.resolution.width;
+  int videoHeight = autoEditedData.resolution.height;
+
+  ///////////////////
+  // SET CROP DATA //
+  ///////////////////
+  
+  for (int i=0; i<autoEditedData.editedMediaList.length; i++) {
+    EditedMedia editedMedia = autoEditedData.editedMediaList[i];
+
+    int mediaWidth = editedMedia.mediaData.width;
+    int mediaHeight = editedMedia.mediaData.height;
+
+    double scaleFactor = max(videoWidth / mediaWidth, videoHeight / mediaHeight);
+    editedMedia.zoomX = scaleFactor;
+    editedMedia.zoomY = scaleFactor;
+
+    int scaledWidth = (mediaWidth * scaleFactor).floor();
+    int scaledHeight = (mediaHeight * scaleFactor).floor();
+
+    editedMedia.translateX = ((scaledWidth - videoWidth) / 2).floor();
+    editedMedia.translateY = ((scaledHeight - videoHeight) / 2).floor();
+  }
 
   ///////////////////////
   // INSERT TRANSITION //
@@ -610,9 +637,9 @@ Future<AutoEditedData> generateAutoEditData(
 
   bool isPassedBoundary = false;
 
-  for (int i = 0; i < autoEditedData.autoEditMediaList.length - 1; i++) {
-    final AutoEditMedia autoEditMedia = autoEditedData.autoEditMediaList[i];
-    if (autoEditMedia.isBoundary) {
+  for (int i = 0; i < autoEditedData.editedMediaList.length - 1; i++) {
+    final EditedMedia editedMedia = autoEditedData.editedMediaList[i];
+    if (editedMedia.isBoundary) {
       isPassedBoundary = true;
     }
 
@@ -628,8 +655,8 @@ Future<AutoEditedData> generateAutoEditData(
         xfadeDuration = 0.5;
       }
 
-      if (autoEditMedia.duration < 2) continue;
-      if (autoEditedData.autoEditMediaList[i + 1].duration <
+      if (editedMedia.duration < 2) continue;
+      if (autoEditedData.editedMediaList[i + 1].duration <
           (xfadeDuration + 0.1)) continue;
 
       if (isPassedBoundary) {
@@ -642,24 +669,24 @@ Future<AutoEditedData> generateAutoEditData(
       }
 
       if (currentTransitionType == ETransitionType.xfade) {
-        if (autoEditMedia.mediaData.type == EMediaType.video) {
+        if (editedMedia.mediaData.type == EMediaType.video) {
           final double mediaRemainDuration = max(
               0,
-              (autoEditMedia.mediaData.duration! -
-                  autoEditMedia.duration -
-                  autoEditMedia.startTime));
+              (editedMedia.mediaData.duration! -
+                  editedMedia.duration -
+                  editedMedia.startTime));
 
           if (mediaRemainDuration < xfadeDuration) {
             continue;
           }
         }
-        autoEditMedia.xfadeDuration = xfadeDuration;
+        editedMedia.xfadeDuration = xfadeDuration;
       }
 
       if (currentTransitionType == ETransitionType.xfade) {
         int randIdx = (Random()).nextInt(curXfadeTransitionList.length) %
             curXfadeTransitionList.length;
-        autoEditMedia.transitionKey = curXfadeTransitionList[randIdx];
+        editedMedia.transition = ResourceManager.getInstance().getTransitionData(curXfadeTransitionList[randIdx]);
         curXfadeTransitionList.removeAt(randIdx);
         if (curXfadeTransitionList.isEmpty) {
           curXfadeTransitionList.addAll(originXfadeTransitionList);
@@ -668,7 +695,7 @@ Future<AutoEditedData> generateAutoEditData(
       else if (currentTransitionType == ETransitionType.overlay) {
         int randIdx = (Random()).nextInt(curOverlayTransitionList.length) %
             curOverlayTransitionList.length;
-        autoEditMedia.transitionKey = curOverlayTransitionList[randIdx];
+        editedMedia.transition = ResourceManager.getInstance().getTransitionData(curOverlayTransitionList[randIdx]);
         curOverlayTransitionList.removeAt(randIdx);
         if (curOverlayTransitionList.isEmpty) {
           curOverlayTransitionList.addAll(originOverlayTransitionList);
@@ -705,14 +732,14 @@ Future<AutoEditedData> generateAutoEditData(
   int lastStickerInsertedIndex = 0;
   clipCount = 4 + (Random()).nextInt(2);
 
-  for (int i = 0; i < autoEditedData.autoEditMediaList.length; i++) {
-    final AutoEditMedia autoEditMedia = autoEditedData.autoEditMediaList[i];
+  for (int i = 0; i < autoEditedData.editedMediaList.length; i++) {
+    final EditedMedia editedMedia = autoEditedData.editedMediaList[i];
 
     final int diff = i - lastStickerInsertedIndex;
     if (diff >= clipCount) {
-      if (autoEditMedia.duration < 2) continue;
+      if (editedMedia.duration < 2) continue;
 
-      EMediaLabel mediaLabel = autoEditMedia.mediaLabel;
+      EMediaLabel mediaLabel = editedMedia.mediaLabel;
 
       switch (mediaLabel) {
         case EMediaLabel.background:
@@ -724,7 +751,7 @@ Future<AutoEditedData> generateAutoEditData(
             List<String> curFrameList = curFrameMap[mediaLabel]!;
             int randIdx =
                 (Random()).nextInt(curFrameList.length) % curFrameList.length;
-            autoEditMedia.frameKey = curFrameList[randIdx];
+            editedMedia.frame = ResourceManager.getInstance().getFrameData(curFrameList[randIdx]);
 
             curFrameList.removeAt(randIdx);
             if (curFrameList.isEmpty) {
@@ -742,7 +769,27 @@ Future<AutoEditedData> generateAutoEditData(
             List<String> curStickerList = curStickerMap[mediaLabel]!;
             int randIdx = (Random()).nextInt(curStickerList.length) %
                 curStickerList.length;
-            autoEditMedia.stickerKey = curStickerList[randIdx];
+            editedMedia.sticker = ResourceManager.getInstance().getStickerData(curStickerList[randIdx]);
+
+            final double stickerWidth = editedMedia.sticker!.fileinfo!.width * 1;
+            final double stickerHeight = editedMedia.sticker!.fileinfo!.height * 1;
+
+            final double minX = stickerWidth / 2;
+            final double minY = stickerHeight / 2;
+            final double maxX = videoWidth - stickerWidth - minX;
+            final double maxY = videoHeight - stickerHeight - minY;
+
+            final List<List<double>> posList = [
+              [minX, minY],
+              [minX, maxY],
+              [maxX, minY],
+              [maxX, maxY]
+            ];
+
+            final List<double> pickedPos = posList[(Random()).nextInt(posList.length) % posList.length];
+
+            editedMedia.sticker!.x = pickedPos[0];
+            editedMedia.sticker!.y = pickedPos[1];
 
             curStickerList.removeAt(randIdx);
             if (curStickerList.isEmpty) {
@@ -764,15 +811,18 @@ Future<AutoEditedData> generateAutoEditData(
 
   print("--------------------------------------");
   print("--------------------------------------");
-  for (int i = 0; i < autoEditedData.autoEditMediaList.length; i++) {
-    final autoEditMedia = autoEditedData.autoEditMediaList[i];
+  for (int i = 0; i < autoEditedData.editedMediaList.length; i++) {
+    final editedMedia = autoEditedData.editedMediaList[i];
     print(
-        "${basename(autoEditMedia.mediaData.absolutePath)} / totalDuration:${autoEditMedia.mediaData.duration} / start:${autoEditMedia.startTime} / duration:${autoEditMedia.duration} / remain:${autoEditMedia.mediaData.duration != null ? (autoEditMedia.mediaData.duration! - autoEditMedia.startTime - autoEditMedia.duration) : 0} / ${autoEditMedia.mediaLabel} / frame:${autoEditMedia.frameKey} / sticker:${autoEditMedia.stickerKey}");
-    if (autoEditMedia.transitionKey != null) {
+        "${basename(editedMedia.mediaData.absolutePath)} / totalDuration:${editedMedia.mediaData.duration} / start:${editedMedia.startTime} / duration:${editedMedia.duration} / remain:${editedMedia.mediaData.duration != null ? (editedMedia.mediaData.duration! - editedMedia.startTime - editedMedia.duration) : 0} / ${editedMedia.mediaLabel}");
+    print("frame:${editedMedia.frame?.key} / sticker:${editedMedia.sticker?.key} / stickerPos:(${editedMedia.sticker?.x},${editedMedia.sticker?.y}), / resolution:(${editedMedia.mediaData.width},${editedMedia.mediaData.height}) / zoom:(${editedMedia.zoomX},${editedMedia.zoomY}) / translate:(${editedMedia.translateX},${editedMedia.translateY})");
+    if (editedMedia.transition != null) {
       print("index : $i");
-      print(autoEditMedia.transitionKey);
+      print(editedMedia.transition?.key);
+      print("");
       print("");
     }
+    print("");
   }
 
   for (int i = 0; i < templateList.length; i++) {

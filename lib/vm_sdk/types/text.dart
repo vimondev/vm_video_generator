@@ -128,13 +128,20 @@ class TextData {
 
   TextData(this.type, this.json, this.fontFamily, this.fontBase64);
 }
+class TextExportData {
+  ETextID id;
 
-class ExportedTextPNGSequenceData {
-  String folderPath;
-  int width;
-  int height;
+  double x = 0;
+  double y = 0;
+  double width;
+  double height;
   double frameRate;
+  double scale = 0;
+  double rotate = 0;
+  String previewImagePath;
+  String allSequencesPath;
+  
+  Map<String, String> texts = {};
 
-  ExportedTextPNGSequenceData(
-      this.folderPath, this.width, this.height, this.frameRate);
+  TextExportData(this.id, this.width, this.height, this.frameRate, this.previewImagePath, this.allSequencesPath);
 }

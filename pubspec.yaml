@@ -43,6 +43,7 @@ dependencies:
   file_saver: ^0.0.10
   firebase_core: ^1.10.5
   flutter_inappwebview: ^5.2.0
+  uuid: ^3.0.6
 
 dev_dependencies:
   flutter_test:
