@@ -131,6 +131,7 @@ class VideoGeneratedResult {
   AutoEditedData autoEditedData;
   List<SpotInfo> spotInfoList;
   List<String> thumbnailList;
+  String json;
 
-  VideoGeneratedResult(this.generatedVideoPath, this.autoEditedData, this.spotInfoList, this.thumbnailList);
+  VideoGeneratedResult(this.generatedVideoPath, this.autoEditedData, this.spotInfoList, this.thumbnailList, this.json);
 }

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:myapp/vm_sdk/impl/text_helper.dart';
 
+import 'impl/convertHelper.dart';
 import 'types/types.dart';
 import 'impl/template_helper.dart';
 import 'impl/ffmpeg_manager.dart';
@@ -285,7 +286,7 @@ class VMSDKWidget extends StatelessWidget {
       }
 
       return VideoGeneratedResult(
-          resultClip.absolutePath, autoEditedData, spotInfoList, thumbnailList);
+          resultClip.absolutePath, autoEditedData, spotInfoList, thumbnailList, await parseAutoEditedDataToJSON(autoEditedData, exportedText));
     } //
     catch (e) {
       if (_currentTimer != null) {
