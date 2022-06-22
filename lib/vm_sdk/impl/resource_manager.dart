@@ -49,11 +49,11 @@ class ResourceManager {
     }
     ERatio ratio = autoEditedData.ratio;
 
-    for (int i = 0; i < autoEditedData.autoEditMediaList.length; i++) {
-      final AutoEditMedia autoEditMedia = autoEditedData.autoEditMediaList[i];
-      String? transitionKey = autoEditMedia.transitionKey;
-      String? frameKey = autoEditMedia.frameKey;
-      String? stickerKey = autoEditMedia.stickerKey;
+    for (int i = 0; i < autoEditedData.editedMediaList.length; i++) {
+      final EditedMedia editedMedia = autoEditedData.editedMediaList[i];
+      String? transitionKey = editedMedia.transitionKey;
+      String? frameKey = editedMedia.frameKey;
+      String? stickerKey = editedMedia.stickerKey;
 
       final TransitionData? transitionData = transitionMap[transitionKey];
       final FrameData? frameData = frameMap[frameKey];

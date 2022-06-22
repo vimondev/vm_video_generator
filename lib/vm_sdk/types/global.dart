@@ -64,7 +64,7 @@ class MediaData {
   }
 }
 
-class AutoEditMedia {
+class EditedMedia {
   MediaData mediaData;
   EMediaLabel mediaLabel = EMediaLabel.none;
   bool isBoundary = false;
@@ -73,15 +73,20 @@ class AutoEditMedia {
   double duration = 0;
   double xfadeDuration = 0;
 
+  double translateX = 0;
+  double translateY = 0;
+  double zoomX = 0;
+  double zoomY = 0;
+
   String? frameKey;
   String? stickerKey;
   String? transitionKey;
 
-  AutoEditMedia(this.mediaData);
+  EditedMedia(this.mediaData);
 }
 
 class AutoEditedData {
-  List<AutoEditMedia> autoEditMediaList = [];
+  List<EditedMedia> editedMediaList = [];
   List<MusicData> musicList = [];
   ERatio ratio = ERatio.ratio11;
 

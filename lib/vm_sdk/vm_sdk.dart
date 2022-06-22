@@ -103,8 +103,8 @@ class VMSDKWidget extends StatelessWidget {
               _textWidget.height.floor(),
               _textWidget.frameRate);
 
-      final List<AutoEditMedia> autoEditMediaList =
-          autoEditedData.autoEditMediaList;
+      final List<EditedMedia> editedMediaList =
+          autoEditedData.editedMediaList;
       final Map<String, TransitionData> transitionMap =
           autoEditedData.transitionMap;
       final Map<String, FrameData> frameMap = autoEditedData.frameMap;
@@ -117,20 +117,20 @@ class VMSDKWidget extends StatelessWidget {
       _allFrame = 0;
 
       int videoFramerate = getFramerate();
-      for (int i = 0; i < autoEditMediaList.length; i++) {
-        final AutoEditMedia autoEditMedia = autoEditMediaList[i];
+      for (int i = 0; i < editedMediaList.length; i++) {
+        final EditedMedia editedMedia = editedMediaList[i];
         double duration =
-            normalizeTime(autoEditMedia.duration + autoEditMedia.xfadeDuration);
+            normalizeTime(editedMedia.duration + editedMedia.xfadeDuration);
         _allFrame += (duration * videoFramerate).floor();
 
-        if (i < autoEditMediaList.length - 1) {
+        if (i < editedMediaList.length - 1) {
           TransitionData? transition =
-              transitionMap[autoEditMedia.transitionKey];
+              transitionMap[editedMedia.transitionKey];
           if (transition != null && transition.type == ETransitionType.xfade) {
-            final AutoEditMedia nextMedia = autoEditMediaList[i + 1];
-            double duration = normalizeTime(autoEditMedia.duration +
+            final EditedMedia nextMedia = editedMediaList[i + 1];
+            double duration = normalizeTime(editedMedia.duration +
                 nextMedia.duration -
-                autoEditMedia.xfadeDuration -
+                editedMedia.xfadeDuration -
                 0.01);
             _allFrame += (duration * videoFramerate).floor();
           }
@@ -162,22 +162,22 @@ class VMSDKWidget extends StatelessWidget {
       final List<RenderedData> clipDataList = [];
       final List<String> thumbnailList = [];
       
-      for (int i = 0; i < autoEditMediaList.length; i++) {
-        final AutoEditMedia autoEditMedia = autoEditMediaList[i];
-        final FrameData? frameData = frameMap[autoEditMedia.frameKey];
-        final StickerData? stickerData = stickerMap[autoEditMedia.stickerKey];
+      for (int i = 0; i < editedMediaList.length; i++) {
+        final EditedMedia editedMedia = editedMediaList[i];
+        final FrameData? frameData = frameMap[editedMedia.frameKey];
+        final StickerData? stickerData = stickerMap[editedMedia.stickerKey];
 
         TransitionData? prevTransition, nextTransition;
         if (i > 0) {
           prevTransition =
-              transitionMap[autoEditMediaList[i - 1].transitionKey];
+              transitionMap[editedMediaList[i - 1].transitionKey];
         }
-        if (i < autoEditMediaList.length - 1) {
-          nextTransition = transitionMap[autoEditMediaList[i].transitionKey];
+        if (i < editedMediaList.length - 1) {
+          nextTransition = transitionMap[editedMediaList[i].transitionKey];
         }
 
         final RenderedData? clipData = await clipRender(
-            autoEditMedia,
+            editedMedia,
             i,
             frameData,
             stickerData,
@@ -190,24 +190,24 @@ class VMSDKWidget extends StatelessWidget {
         _currentRenderedFrameInCallback = 0;
 
         double duration =
-            normalizeTime(autoEditMedia.duration + autoEditMedia.xfadeDuration);
+            normalizeTime(editedMedia.duration + editedMedia.xfadeDuration);
         _currentRenderedFrame += (duration * videoFramerate).floor();
 
         if (clipData == null) return null;
         clipDataList.add(clipData);
 
-        thumbnailList.add(await extractThumbnail(autoEditMediaList[i], i) ?? "");
+        thumbnailList.add(await extractThumbnail(editedMediaList[i], i) ?? "");
       }
 
       final List<RenderedData> xfadeAppliedList = [];
       for (int i = 0; i < clipDataList.length; i++) {
         final RenderedData curRendered = clipDataList[i];
-        final AutoEditMedia autoEditMedia = autoEditMediaList[i];
+        final EditedMedia editedMedia = editedMediaList[i];
         TransitionData? xfadeTransition =
-            transitionMap[autoEditMediaList[i].transitionKey];
+            transitionMap[editedMediaList[i].transitionKey];
 
-        if (i < autoEditMediaList.length - 1 &&
-            autoEditMedia.xfadeDuration > 0 &&
+        if (i < editedMediaList.length - 1 &&
+            editedMedia.xfadeDuration > 0 &&
             xfadeTransition != null &&
             xfadeTransition.type == ETransitionType.xfade) {
           //
@@ -218,14 +218,14 @@ class VMSDKWidget extends StatelessWidget {
               nextRendered,
               i,
               (xfadeTransition as XFadeTransitionData).filterName,
-              autoEditMedia.xfadeDuration,
+              editedMedia.xfadeDuration,
               (statistics) => _currentRenderedFrameInCallback =
                   statistics.getVideoFrameNumber());
 
           _currentRenderedFrameInCallback = 0;
           double duration = normalizeTime(curRendered.duration +
               nextRendered.duration -
-              autoEditMedia.xfadeDuration -
+              editedMedia.xfadeDuration -
               0.01);
           _currentRenderedFrame += (duration * videoFramerate).floor();
 
@@ -257,9 +257,9 @@ class VMSDKWidget extends StatelessWidget {
 
       final List<SpotInfo> spotInfoList = [];
       double currentDuration = 0;
-      for (int i=0; i<autoEditMediaList.length; i++) {
-        spotInfoList.add(SpotInfo(currentDuration, autoEditMediaList[i].mediaData.gpsString));
-        currentDuration += autoEditMediaList[i].duration;
+      for (int i=0; i<editedMediaList.length; i++) {
+        spotInfoList.add(SpotInfo(currentDuration, editedMediaList[i].mediaData.gpsString));
+        currentDuration += editedMediaList[i].duration;
       }
 
       if (progressCallback != null) {

@@ -82,7 +82,7 @@ CropData generateCropData(int width, int height) {
 }
 
 Future<RenderedData?> clipRender(
-    AutoEditMedia autoEditMedia,
+    EditedMedia editedMedia,
     int clipIdx,
     FrameData? frame,
     StickerData? sticker,
@@ -90,10 +90,10 @@ Future<RenderedData?> clipRender(
     TransitionData? nextTransition,
     ExportedTextPNGSequenceData? exportedText,
     Function(Statistics)? ffmpegCallback) async {
-  final MediaData mediaData = autoEditMedia.mediaData;
+  final MediaData mediaData = editedMedia.mediaData;
   double duration =
-      normalizeTime(autoEditMedia.duration + autoEditMedia.xfadeDuration);
-  double startTime = normalizeTime(autoEditMedia.startTime);
+      normalizeTime(editedMedia.duration + editedMedia.xfadeDuration);
+  double startTime = normalizeTime(editedMedia.startTime);
 
   final List<String> arguments = <String>[];
   final String appDirPath = await getAppDirectoryPath();
@@ -720,7 +720,7 @@ Future<RenderedData?> applyMusics(
 }
 
 Future<String?> extractThumbnail(
-    AutoEditMedia autoEditMedia, int clipIdx) async {
+    EditedMedia editedMedia, int clipIdx) async {
 
   final List<String> arguments = <String>[];
   final String appDirPath = await getAppDirectoryPath();
@@ -729,11 +729,11 @@ Future<String?> extractThumbnail(
   final List<String> inputArguments = <String>[];
   final List<String> filterStrings = <String>[];
 
-  final MediaData mediaData = autoEditMedia.mediaData;
+  final MediaData mediaData = editedMedia.mediaData;
   inputArguments.addAll(["-i", mediaData.absolutePath]);
 
   if (mediaData.type == EMediaType.video) {
-    inputArguments.addAll(["-ss", autoEditMedia.startTime.toString()]);
+    inputArguments.addAll(["-ss", editedMedia.startTime.toString()]);
   }
 
   final CropData cropData = generateCropData(mediaData.width, mediaData.height);
