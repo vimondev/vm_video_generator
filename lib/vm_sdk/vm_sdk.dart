@@ -62,7 +62,26 @@ class VMSDKWidget extends StatelessWidget {
     try {
       _currentStatus = EGenerateStatus.titleExport;
 
-      EMusicStyle selectedStyle = style ?? EMusicStyle.fun;
+      EMusicStyle selectedStyle;
+      if (style != null) {
+        selectedStyle = style;
+      } //
+      else {
+        const List<EMusicStyle> randomStyleList = [
+          EMusicStyle.beautiful,
+          EMusicStyle.upbeat,
+          EMusicStyle.hopeful,
+          EMusicStyle.inspiring,
+          EMusicStyle.fun,
+          EMusicStyle.joyful,
+          EMusicStyle.happy,
+          EMusicStyle.cheerful,
+          EMusicStyle.energetic
+        ];
+
+        selectedStyle = randomStyleList[Random().nextInt(randomStyleList.length) % randomStyleList.length];
+      }
+      
       final List<TemplateData>? templateList =
           await loadTemplateData(selectedStyle);
       if (templateList == null) return null;
