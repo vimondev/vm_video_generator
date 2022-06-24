@@ -62,7 +62,7 @@ class VMSDKWidget extends StatelessWidget {
     try {
       _currentStatus = EGenerateStatus.titleExport;
 
-      EMusicStyle selectedStyle = style ?? EMusicStyle.styleA;
+      EMusicStyle selectedStyle = style ?? EMusicStyle.fun;
       final List<TemplateData>? templateList =
           await loadTemplateData(selectedStyle);
       if (templateList == null) return null;

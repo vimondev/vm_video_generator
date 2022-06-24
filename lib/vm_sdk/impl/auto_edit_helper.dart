@@ -647,13 +647,13 @@ Future<AutoEditedData> generateAutoEditData(
     if (diff >= clipCount) {
       ETransitionType currentTransitionType = ETransitionType.xfade;
 
-      double xfadeDuration = 1;
-      if (musicStyle == EMusicStyle.styleB) {
-        xfadeDuration = 0.8;
-      } //
-      else if (musicStyle == EMusicStyle.styleC) {
-        xfadeDuration = 0.5;
-      }
+      double xfadeDuration = 0.8;
+      // if (musicStyle == EMusicStyle.styleB) {
+      //   xfadeDuration = 0.8;
+      // } //
+      // else if (musicStyle == EMusicStyle.styleC) {
+      //   xfadeDuration = 0.5;
+      // }
 
       if (editedMedia.duration < 2) continue;
       if (autoEditedData.editedMediaList[i + 1].duration <

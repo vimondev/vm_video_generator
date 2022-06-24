@@ -46,7 +46,7 @@ class TestWidget extends StatelessWidget {
 
     final VideoGeneratedResult? result = await _vmsdkWidget.generateVideo(
         mediaList,
-        EMusicStyle.styleB,
+        EMusicStyle.fun,
         false,
         // ["THIS IS", "VIMON V-LOG"],
         ["THIS IS VIMON V-LOG"],

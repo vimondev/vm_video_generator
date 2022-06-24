@@ -12,7 +12,20 @@ enum EMediaLabel {
   animal,
   others
 }
-enum EMusicStyle { styleA, styleB, styleC }
+enum EMusicStyle {
+  calm,
+  dreamy,
+  ambient,
+  beautiful,
+  upbeat,
+  hopeful,
+  inspiring,
+  fun,
+  joyful,
+  happy,
+  cheerful,
+  energetic
+}
 enum EGenerateStatus { none, titleExport, encoding, finishing }
 
 List<double> parseGPS(String gpsString) {

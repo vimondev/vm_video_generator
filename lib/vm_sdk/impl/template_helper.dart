@@ -4,16 +4,19 @@ import 'dart:convert';
 import 'dart:math';
 
 const Map<EMusicStyle, List<String>> templateMap = {
-  EMusicStyle.styleA: ["01", "05"], // SLOW
-  EMusicStyle.styleB: ["03", "06"], // MEDIUM
-  EMusicStyle.styleC: ["02", "04"] // FAST
+  EMusicStyle.calm: ["01", "05"],
+  EMusicStyle.dreamy: ["01", "05"],
+  EMusicStyle.ambient: ["01", "05"],
+  EMusicStyle.beautiful: ["03", "06"],
+  EMusicStyle.upbeat: ["03", "06"],
+  EMusicStyle.hopeful: ["03", "06"],
+  EMusicStyle.inspiring: ["03", "06"],
+  EMusicStyle.fun: ["03", "06"],
+  EMusicStyle.joyful: ["03", "06"],
+  EMusicStyle.happy: ["03", "06"],
+  EMusicStyle.cheerful: ["02", "04"],
+  EMusicStyle.energetic: ["02", "04"],
 };
-
-// const Map<EMusicStyle, List<String>> templateMap = {
-//   EMusicStyle.styleA: ["05", "01"], // SLOW
-//   EMusicStyle.styleB: ["06", "03"], // MEDIUM
-//   EMusicStyle.styleC: ["04", "02"] // FAST
-// };
 
 Future<List<TemplateData>?> loadTemplateData(EMusicStyle musicStyle) async {
   if (!templateMap.containsKey(musicStyle)) return null;
