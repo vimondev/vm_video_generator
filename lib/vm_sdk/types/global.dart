@@ -1,4 +1,5 @@
-import 'package:myapp/vm_sdk/types/resource.dart';
+import 'resource.dart';
+import 'text.dart';
 
 enum ERatio { ratio916, ratio11, ratio169 }
 enum EMediaType { image, video }
@@ -94,6 +95,7 @@ class EditedMedia {
   FrameData? frame;
   StickerData? sticker;
   TransitionData? transition;
+  TextExportData? exportedText;
 
   EditedMedia(this.mediaData);
 }
@@ -124,7 +126,7 @@ class Resolution {
   }
 }
 
-class AutoEditedData {
+class AllEditedData {
   List<EditedMedia> editedMediaList = [];
   List<MusicData> musicList = [];
   ERatio ratio = ERatio.ratio11;
@@ -141,10 +143,9 @@ class SpotInfo {
 
 class VideoGeneratedResult {
   String generatedVideoPath;
-  AutoEditedData autoEditedData;
   List<SpotInfo> spotInfoList;
   List<String> thumbnailList;
-  String json;
+  String json = "";
 
-  VideoGeneratedResult(this.generatedVideoPath, this.autoEditedData, this.spotInfoList, this.thumbnailList, this.json);
+  VideoGeneratedResult(this.generatedVideoPath, this.spotInfoList, this.thumbnailList);
 }

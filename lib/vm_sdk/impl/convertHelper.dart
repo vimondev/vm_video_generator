@@ -6,8 +6,7 @@ import '../types/global.dart';
 import '../types/text.dart';
 import 'global_helper.dart';
 
-Future<String> parseAutoEditedDataToJSON(
-    AutoEditedData autoEditedData, TextExportData exportedText) async {
+Future<String> parseAllEditedDataToJSON(AllEditedData allEditedData) async {
   final uuid = Uuid();
   final String appDirPath = await getAppDirectoryPath();
 
@@ -17,11 +16,12 @@ Future<String> parseAutoEditedDataToJSON(
   List<Map> frames = [];
   List<Map> transitions = [];
 
-  for (int i = 0; i < autoEditedData.editedMediaList.length; i++) {
-    EditedMedia editedMedia = autoEditedData.editedMediaList[i];
+  for (int i = 0; i < allEditedData.editedMediaList.length; i++) {
+    EditedMedia editedMedia = allEditedData.editedMediaList[i];
     FrameData? frameData = editedMedia.frame;
     StickerData? stickerData = editedMedia.sticker;
     TransitionData? transitionData = editedMedia.transition;
+    TextExportData? exportedText = editedMedia.exportedText;
 
     String slideKey = uuid.v4();
 
@@ -44,7 +44,7 @@ Future<String> parseAutoEditedDataToJSON(
       "flip": null
     });
 
-    if (i == 0) {
+    if (exportedText != null) {
       overlays.add({
         "id": uuid.v4(),
         "type": "TEXT",
@@ -131,8 +131,8 @@ Future<String> parseAutoEditedDataToJSON(
   }
 
   double currentTime = 0;
-  for (int i = 0; i < autoEditedData.musicList.length; i++) {
-    MusicData music = autoEditedData.musicList[i];
+  for (int i = 0; i < allEditedData.musicList.length; i++) {
+    MusicData music = allEditedData.musicList[i];
     bgm.add({
       "sourcePath": "$appDirPath/${music.filename}",
       "order": i,
@@ -146,13 +146,10 @@ Future<String> parseAutoEditedDataToJSON(
   }
 
   return json.encode({
-    "width": autoEditedData.resolution.width,
-    "height": autoEditedData.resolution.height,
-    "ratio": autoEditedData.ratio.toString(),
-    "timeline": {
-      "slides": slides,
-      "bgm": bgm
-    },
+    "width": allEditedData.resolution.width,
+    "height": allEditedData.resolution.height,
+    "ratio": allEditedData.ratio.toString(),
+    "timeline": {"slides": slides, "bgm": bgm},
     "overlays": overlays,
     "frames": frames,
     "transitions": transitions

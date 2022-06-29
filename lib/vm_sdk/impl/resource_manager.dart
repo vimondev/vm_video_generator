@@ -62,14 +62,13 @@ class ResourceManager {
     return _stickerMap[key];
   }
 
-  Future<void> loadAutoEditAssets(AutoEditedData autoEditedData) async {
-    for (int i = 0; i < autoEditedData.musicList.length; i++) {
-      await _loadAudioFile(autoEditedData.musicList[i].filename);
+  Future<void> loadResourceFromAssets(List<EditedMedia> editedMediaList, List<MusicData> musicList, ERatio ratio) async {
+    for (int i = 0; i < musicList.length; i++) {
+      await _loadAudioFile(musicList[i].filename);
     }
-    ERatio ratio = autoEditedData.ratio;
 
-    for (int i = 0; i < autoEditedData.editedMediaList.length; i++) {
-      final EditedMedia editedMedia = autoEditedData.editedMediaList[i];
+    for (int i = 0; i < editedMediaList.length; i++) {
+      final EditedMedia editedMedia = editedMediaList[i];
 
       final TransitionData? transitionData = editedMedia.transition;
       final FrameData? frameData = editedMedia.frame;

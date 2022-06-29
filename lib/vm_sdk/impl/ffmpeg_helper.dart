@@ -38,13 +38,14 @@ void setRatio(ERatio ratio) {
 Future<RenderedData?> clipRender(
     EditedMedia editedMedia,
     int clipIdx,
-    FrameData? frame,
-    StickerData? sticker,
     TransitionData? prevTransition,
     TransitionData? nextTransition,
-    TextExportData? exportedText,
     Function(Statistics)? ffmpegCallback) async {
   final MediaData mediaData = editedMedia.mediaData;
+  final FrameData? frame = editedMedia.frame;
+  final StickerData? sticker = editedMedia.sticker;
+  final TextExportData? exportedText = editedMedia.exportedText;
+
   double duration =
       normalizeTime(editedMedia.duration + editedMedia.xfadeDuration);
   double startTime = normalizeTime(editedMedia.startTime);
