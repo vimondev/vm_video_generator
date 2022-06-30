@@ -633,7 +633,7 @@ Future<AllEditedData> generateAllEditedData(
   curOverlayTransitionList.addAll(originOverlayTransitionList);
 
   int lastTransitionInsertedIndex = 0;
-  int clipCount = 4 + (Random()).nextInt(3);
+  int clipCount = 4 + (Random()).nextInt(2);
 
   bool isPassedBoundary = false;
 
@@ -648,12 +648,6 @@ Future<AllEditedData> generateAllEditedData(
       ETransitionType currentTransitionType = ETransitionType.xfade;
 
       double xfadeDuration = 0.8;
-      // if (musicStyle == EMusicStyle.styleB) {
-      //   xfadeDuration = 0.8;
-      // } //
-      // else if (musicStyle == EMusicStyle.styleC) {
-      //   xfadeDuration = 0.5;
-      // }
 
       if (editedMedia.duration < 2) continue;
       if (allEditedData.editedMediaList[i + 1].duration <
@@ -696,6 +690,15 @@ Future<AllEditedData> generateAllEditedData(
         int randIdx = (Random()).nextInt(curOverlayTransitionList.length) %
             curOverlayTransitionList.length;
         editedMedia.transition = ResourceManager.getInstance().getTransitionData(curOverlayTransitionList[randIdx]);
+
+        if (editedMedia.transition != null) {
+          final OverlayTransitionData overlayTransitionData = editedMedia.transition as OverlayTransitionData;
+          if (overlayTransitionData.fileMap[ratio]!.duration >= editedMedia.duration) {
+            editedMedia.transition = null;
+            continue;
+          }
+        }
+
         curOverlayTransitionList.removeAt(randIdx);
         if (curOverlayTransitionList.isEmpty) {
           curOverlayTransitionList.addAll(originOverlayTransitionList);
@@ -703,7 +706,7 @@ Future<AllEditedData> generateAllEditedData(
       }
 
       lastTransitionInsertedIndex = i;
-      clipCount = 4 + (Random()).nextInt(3);
+      clipCount = 4 + (Random()).nextInt(2);
       isPassedBoundary = false;
     }
   }
@@ -729,83 +732,74 @@ Future<AllEditedData> generateAllEditedData(
     curStickerMap[key]!.addAll(originStickerMap[key]!);
   }
 
-  int lastStickerInsertedIndex = 0;
-  clipCount = 4 + (Random()).nextInt(2);
+  int lastFrameInsertedIndex = 0;
+  clipCount = 2 + (Random()).nextInt(1);
 
   for (int i = 0; i < allEditedData.editedMediaList.length; i++) {
     final EditedMedia editedMedia = allEditedData.editedMediaList[i];
+    final int diff = i - lastFrameInsertedIndex;
 
-    final int diff = i - lastStickerInsertedIndex;
-    if (diff >= clipCount) {
-      if (editedMedia.duration < 2) continue;
-
-      EMediaLabel mediaLabel = editedMedia.mediaLabel;
-
-      switch (mediaLabel) {
-        case EMediaLabel.background:
-        case EMediaLabel.action:
-          {
+    EMediaLabel mediaLabel = editedMedia.mediaLabel;
+    switch (mediaLabel) {
+      case EMediaLabel.background:
+      case EMediaLabel.action:
+        {
+          if (diff >= clipCount) {
             mediaLabel = EMediaLabel.background;
             if (!curFrameMap.containsKey(mediaLabel)) continue;
 
             List<String> curFrameList = curFrameMap[mediaLabel]!;
             int randIdx =
                 (Random()).nextInt(curFrameList.length) % curFrameList.length;
-            editedMedia.frame = ResourceManager.getInstance().getFrameData(curFrameList[randIdx]);
+            editedMedia.frame = ResourceManager.getInstance()
+                .getFrameData(curFrameList[randIdx]);
 
             curFrameList.removeAt(randIdx);
             if (curFrameList.isEmpty) {
               curFrameList.addAll(originFrameMap[mediaLabel]!);
             }
+
+            lastFrameInsertedIndex = i;
+            clipCount = 4 + (Random()).nextInt(1);
           }
-          break;
+        }
+        break;
 
-        case EMediaLabel.person:
-        case EMediaLabel.food:
-        case EMediaLabel.animal:
-          {
-            if (!curStickerMap.containsKey(mediaLabel)) continue;
+      case EMediaLabel.person:
+      case EMediaLabel.food:
+      case EMediaLabel.animal:
+        {
+          // 80% 확률로 스티커 삽입
+          if ((Random()).nextDouble() >= 0.8) continue;
+          if (!curStickerMap.containsKey(mediaLabel)) continue;
 
-            List<String> curStickerList = curStickerMap[mediaLabel]!;
-            int randIdx = (Random()).nextInt(curStickerList.length) %
-                curStickerList.length;
-            editedMedia.sticker = ResourceManager.getInstance().getStickerData(curStickerList[randIdx]);
+          List<String> curStickerList = curStickerMap[mediaLabel]!;
+          int randIdx =
+              (Random()).nextInt(curStickerList.length) % curStickerList.length;
+          editedMedia.sticker = ResourceManager.getInstance()
+              .getStickerData(curStickerList[randIdx]);
 
-            final double stickerWidth = editedMedia.sticker!.fileinfo!.width * 1;
-            final double stickerHeight = editedMedia.sticker!.fileinfo!.height * 1;
+          final double stickerWidth = editedMedia.sticker!.fileinfo!.width * 1;
+          final double stickerHeight =
+              editedMedia.sticker!.fileinfo!.height * 1;
 
-            final double minX = stickerWidth / 2;
-            final double minY = stickerHeight / 2;
-            final double maxX = videoWidth - stickerWidth - minX;
-            final double maxY = videoHeight - stickerHeight - minY;
+          final double radian = Random().nextDouble() * pi * 2;
+          final double distance = (videoWidth > videoHeight ? videoHeight / 4 : videoWidth / 4);
 
-            final List<List<double>> posList = [
-              [minX, minY],
-              [minX, maxY],
-              [maxX, minY],
-              [maxX, maxY]
-            ];
+          editedMedia.sticker!.x = (videoWidth / 2) + (cos(radian) * distance) - (stickerWidth / 2);
+          editedMedia.sticker!.y = (videoHeight / 2) + (sin(radian) * distance) - (stickerHeight / 2);
 
-            final List<double> pickedPos = posList[(Random()).nextInt(posList.length) % posList.length];
-
-            editedMedia.sticker!.x = pickedPos[0];
-            editedMedia.sticker!.y = pickedPos[1];
-
-            curStickerList.removeAt(randIdx);
-            if (curStickerList.isEmpty) {
-              curStickerList.addAll(originStickerMap[mediaLabel]!);
-            }
+          curStickerList.removeAt(randIdx);
+          if (curStickerList.isEmpty) {
+            curStickerList.addAll(originStickerMap[mediaLabel]!);
           }
-          break;
+        }
+        break;
 
-        case EMediaLabel.object:
-        default:
-          mediaLabel = EMediaLabel.none;
-          continue;
-      }
-
-      lastStickerInsertedIndex = i;
-      clipCount = 4 + (Random()).nextInt(2);
+      case EMediaLabel.object:
+      default:
+        mediaLabel = EMediaLabel.none;
+        continue;
     }
   }
 
