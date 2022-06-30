@@ -236,6 +236,7 @@ class VMSDKWidget extends StatelessWidget {
 
       final List<RenderedData> clipDataList = [];
       final List<String> thumbnailList = [];
+      double totalDuration = 0;
 
       for (int i = 0; i < editedMediaList.length; i++) {
         final EditedMedia editedMedia = editedMediaList[i];
@@ -266,6 +267,7 @@ class VMSDKWidget extends StatelessWidget {
         clipDataList.add(clipData);
 
         thumbnailList.add(await extractThumbnail(editedMediaList[i], i) ?? "");
+        totalDuration += editedMedia.duration;
       }
 
       final List<RenderedData> xfadeAppliedList = [];
@@ -306,6 +308,27 @@ class VMSDKWidget extends StatelessWidget {
         else {
           xfadeAppliedList.add(curRendered);
         }
+      }
+
+      if (totalDuration >= 10) {
+        double curDuration = 0;
+        List<RenderedData> fadeOutClips = [];
+        for (int i = xfadeAppliedList.length - 1; i >= 0; i--) {
+          RenderedData lastClip = xfadeAppliedList.removeLast();
+          fadeOutClips.add(lastClip);
+          
+          curDuration += lastClip.duration;
+          if (curDuration >= 3) break;
+        }
+
+        final RenderedData? fadeOutApplied =
+            await applyFadeOut(fadeOutClips.reversed.toList());
+        
+        if (fadeOutApplied == null) {
+          throw Exception("ERR_FADE_OUT_RENDER_FAILED");
+        }
+
+        xfadeAppliedList.add(fadeOutApplied);
       }
 
       _currentStatus = EGenerateStatus.finishing;

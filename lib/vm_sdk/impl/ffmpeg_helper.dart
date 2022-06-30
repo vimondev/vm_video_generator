@@ -339,6 +339,63 @@ Future<RenderedData?> applyXFadeTransitions(
   return RenderedData(outputPath, duration);
 }
 
+
+Future<RenderedData?> applyFadeOut(
+    List<RenderedData> clips) async {
+  final String appDirPath = await getAppDirectoryPath();
+  final String outputPath = "$appDirPath/fade_out_applied.mp4";
+
+  final List<String> arguments = [];
+  final List<String> inputArguments = [];
+  String filterComplexStr = "";
+
+  double totalDuration = 0;
+  for (int i=0; i<clips.length; i++) {
+    RenderedData clip = clips[i];
+
+    inputArguments.addAll([
+      "-i",
+      clip.absolutePath
+    ]);
+
+    filterComplexStr += "[$i]";
+    totalDuration += clip.duration;
+  }
+
+  filterComplexStr += "concat=n=${clips.length}:v=1:a=1[outv][outa];[outv]fade=t=out:st=${totalDuration - 2}:d=1.5[faded]";
+
+  arguments.addAll(inputArguments);
+  arguments.addAll(["-filter_complex", filterComplexStr]);
+  arguments.addAll([
+    "-map",
+    "[faded]",
+    "-map",
+    "[outa]",
+    "-c:v",
+    "libx264",
+    "-preset",
+    "superfast",
+    "-c:a",
+    "aac",
+    "-b:a",
+    "256k",
+    "-maxrate",
+    "5M",
+    "-bufsize",
+    "5M",
+    "-pix_fmt",
+    "yuv420p",
+    "-r",
+    _framerate.toString(),
+    outputPath,
+    "-y"
+  ]);
+  bool isSuccess = await _ffmpegManager.execute(arguments, null);
+  if (!isSuccess) return null;
+
+  return RenderedData(outputPath, totalDuration);
+}
+
 Future<RenderedData?> mergeVideoClip(List<RenderedData> clipList) async {
   final String appDirPath = await getAppDirectoryPath();
 
