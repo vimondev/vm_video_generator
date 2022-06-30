@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import '../types/types.dart';
 import 'global_helper.dart';
 import 'dart:convert';
@@ -62,14 +64,16 @@ class ResourceManager {
     return _stickerMap[key];
   }
 
-  Future<void> loadAutoEditAssets(AutoEditedData autoEditedData) async {
-    for (int i = 0; i < autoEditedData.musicList.length; i++) {
-      await _loadAudioFile(autoEditedData.musicList[i].filename);
+  Future<void> loadResourceFromAssets(List<EditedMedia> editedMediaList, List<MusicData> musicList, ERatio ratio) async {
+    for (int i = 0; i < musicList.length; i++) {
+      if (musicList[i].absolutePath == null) {
+        final File musicFile = await _loadAudioFile(musicList[i].filename);
+        musicList[i].absolutePath = musicFile.path;
+      }
     }
-    ERatio ratio = autoEditedData.ratio;
 
-    for (int i = 0; i < autoEditedData.editedMediaList.length; i++) {
-      final EditedMedia editedMedia = autoEditedData.editedMediaList[i];
+    for (int i = 0; i < editedMediaList.length; i++) {
+      final EditedMedia editedMedia = editedMediaList[i];
 
       final TransitionData? transitionData = editedMedia.transition;
       final FrameData? frameData = editedMedia.frame;
@@ -98,19 +102,19 @@ class ResourceManager {
     }
   }
 
-  Future<void> _loadAudioFile(String filename) async {
-    await copyAssetToLocalDirectory("$_audioAssetPath/$filename");
+  Future<File> _loadAudioFile(String filename) async {
+    return await copyAssetToLocalDirectory("$_audioAssetPath/$filename");
   }
 
-  Future<void> _loadTransitionFile(String filename) async {
-    await copyAssetToLocalDirectory("$_transitionAssetPath/$filename");
+  Future<File> _loadTransitionFile(String filename) async {
+    return await copyAssetToLocalDirectory("$_transitionAssetPath/$filename");
   }
 
-  Future<void> _loadFrameFile(String filename) async {
-    await copyAssetToLocalDirectory("$_frameAssetPath/$filename");
+  Future<File> _loadFrameFile(String filename) async {
+    return await copyAssetToLocalDirectory("$_frameAssetPath/$filename");
   }
 
-  Future<void> _loadStickerFile(String filename) async {
-    await copyAssetToLocalDirectory("$_stickerAssetPath/$filename");
+  Future<File> _loadStickerFile(String filename) async {
+    return await copyAssetToLocalDirectory("$_stickerAssetPath/$filename");
   }
 }

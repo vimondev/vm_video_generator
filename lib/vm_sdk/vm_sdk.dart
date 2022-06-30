@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:myapp/vm_sdk/impl/text_helper.dart';
 
-import 'impl/convertHelper.dart';
+import 'impl/convert_helper.dart';
 import 'types/types.dart';
 import 'impl/template_helper.dart';
 import 'impl/ffmpeg_manager.dart';
@@ -45,105 +45,141 @@ class VMSDKWidget extends StatelessWidget {
   Future<String?> extractMLKitDetectData(MediaData data) async {
     try {
       return await extractData(data);
-    } catch (e) {}
-    return null;
+    } //
+    catch (e) {
+      return null;
+    }
   }
 
   // Generate the video by entering the user-specified photo/video list and music style.
   // You can check the progress via progress callback.
   // In the current version, only styleA works.
-  Future<VideoGeneratedResult?> generateVideo(
+  Future<VideoGeneratedResult> generateVideo(
       List<MediaData> mediaList,
       EMusicStyle? style,
       bool isAutoEdit,
       List<String> texts,
       Function(EGenerateStatus status, double progress)?
           progressCallback) async {
-    try {
-      _currentStatus = EGenerateStatus.titleExport;
+    _currentStatus = EGenerateStatus.titleExport;
 
-      EMusicStyle selectedStyle;
-      if (style != null) {
-        selectedStyle = style;
-      } //
-      else {
-        const List<EMusicStyle> randomStyleList = [
-          EMusicStyle.beautiful,
-          EMusicStyle.upbeat,
-          EMusicStyle.hopeful,
-          EMusicStyle.inspiring,
-          EMusicStyle.fun,
-          EMusicStyle.joyful,
-          EMusicStyle.happy,
-          EMusicStyle.cheerful,
-          EMusicStyle.energetic
-        ];
+    EMusicStyle selectedStyle;
+    if (style != null) {
+      selectedStyle = style;
+    } //
+    else {
+      const List<EMusicStyle> randomStyleList = [
+        EMusicStyle.beautiful,
+        EMusicStyle.upbeat,
+        EMusicStyle.hopeful,
+        EMusicStyle.inspiring,
+        EMusicStyle.fun,
+        EMusicStyle.joyful,
+        EMusicStyle.happy,
+        EMusicStyle.cheerful,
+        EMusicStyle.energetic
+      ];
 
-        selectedStyle = randomStyleList[Random().nextInt(randomStyleList.length) % randomStyleList.length];
-      }
-      
-      final List<TemplateData>? templateList =
-          await loadTemplateData(selectedStyle);
-      if (templateList == null) return null;
+      selectedStyle = randomStyleList[
+          Random().nextInt(randomStyleList.length) % randomStyleList.length];
+    }
 
-      final AutoEditedData autoEditedData = await generateAutoEditData(
-          mediaList, selectedStyle, templateList, isAutoEdit);
+    final List<TemplateData>? templateList =
+        await loadTemplateData(selectedStyle);
+    if (templateList == null) throw Exception("ERR_TEMPLATE_NOT_FOUND");
 
-      await ResourceManager.getInstance().loadAutoEditAssets(autoEditedData);
+    final AllEditedData allEditedData = await generateAllEditedData(
+        mediaList, selectedStyle, templateList, isAutoEdit);
 
-      List<ETextID> textIds;
-      if (texts.length >= 2) {
-        textIds = twoLineTitles;
-      }
-      //
-      else {
-        textIds = oneLineTitles;
-      }
-      final ETextID pickedTextId =
-          textIds[(Random()).nextInt(textIds.length) % textIds.length];
-      await _textWidget.loadText(pickedTextId);
+    List<ETextID> textIds;
+    if (texts.length >= 2) {
+      textIds = twoLineTitles;
+    }
+    //
+    else {
+      textIds = oneLineTitles;
+    }
+    final ETextID pickedTextId =
+        textIds[(Random()).nextInt(textIds.length) % textIds.length];
+    await _textWidget.loadText(pickedTextId);
 
-      for (int i = 0; i < texts.length; i++) {
-        final String key = "#TEXT${(i + 1)}";
-        await _textWidget.setTextValue(key, texts[i],
-            isExtractPreviewImmediate: false);
-      }
-      await _textWidget.extractAllSequence((progress) {
-        if (progressCallback != null) {
-          progressCallback(_currentStatus, progress * _titleExportPercentage);
-        }
-      });
-
+    for (int i = 0; i < texts.length; i++) {
+      final String key = "#TEXT${(i + 1)}";
+      await _textWidget.setTextValue(key, texts[i],
+          isExtractPreviewImmediate: false);
+    }
+    await _textWidget.extractAllSequence((progress) {
       if (progressCallback != null) {
-        progressCallback(_currentStatus, _titleExportPercentage);
+        progressCallback(_currentStatus, progress * _titleExportPercentage);
       }
+    });
 
-      TextExportData exportedText = TextExportData(
-          pickedTextId,
-          _textWidget.width,
-          _textWidget.height,
-          _textWidget.frameRate,
-          _textWidget.previewImagePath!,
-          _textWidget.allSequencesPath!);
+    if (progressCallback != null) {
+      progressCallback(_currentStatus, _titleExportPercentage);
+    }
 
-      for (int i = 0; i < texts.length; i++) {
-        final String key = "#TEXT${(i + 1)}";
-        exportedText.texts[key] = texts[i];
-      }
+    TextExportData exportedText = TextExportData(
+        pickedTextId,
+        _textWidget.width,
+        _textWidget.height,
+        _textWidget.frameRate,
+        _textWidget.previewImagePath!,
+        _textWidget.allSequencesPath!);
 
-      Resolution resolution = autoEditedData.resolution;
-      final int maxTextWidth = (resolution.width * 0.9).floor();
-      if (exportedText.width > maxTextWidth) {
-        exportedText.scale = maxTextWidth / exportedText.width;
-      }
-      else {
-        exportedText.scale = 1;
-      }
+    for (int i = 0; i < texts.length; i++) {
+      final String key = "#TEXT${(i + 1)}";
+      exportedText.texts[key] = texts[i];
+    }
 
-      exportedText.x = (resolution.width / 2) - (exportedText.width * exportedText.scale / 2);
-      exportedText.y = (resolution.height / 2) - (exportedText.height * exportedText.scale / 2);
+    Resolution resolution = allEditedData.resolution;
+    final int maxTextWidth = (resolution.width * 0.9).floor();
+    if (exportedText.width > maxTextWidth) {
+      exportedText.scale = maxTextWidth / exportedText.width;
+    } else {
+      exportedText.scale = 1;
+    }
 
-      final List<EditedMedia> editedMediaList = autoEditedData.editedMediaList;
+    exportedText.x =
+        (resolution.width / 2) - (exportedText.width * exportedText.scale / 2);
+    exportedText.y = (resolution.height / 2) -
+        (exportedText.height * exportedText.scale / 2);
+
+    allEditedData.editedMediaList[0].exportedText = exportedText;
+
+    final VideoGeneratedResult result = await _runFFmpeg(
+        allEditedData.editedMediaList,
+        allEditedData.musicList,
+        allEditedData.ratio,
+        progressCallback);
+    result.json = parseAllEditedDataToJSON(allEditedData);
+
+    return result;
+  }
+
+  Future<VideoGeneratedResult> generateVideoFromJSON(
+      String encodedJSON,
+      Function(EGenerateStatus status, double progress)?
+          progressCallback) async {
+    AllEditedData allEditedData = parseJSONToAllEditedData(encodedJSON);
+
+    final VideoGeneratedResult result = await _runFFmpeg(
+        allEditedData.editedMediaList,
+        allEditedData.musicList,
+        allEditedData.ratio,
+        progressCallback);
+
+    return result;
+  }
+
+  Future<VideoGeneratedResult> _runFFmpeg(
+      List<EditedMedia> editedMediaList,
+      List<MusicData> musicList,
+      ERatio ratio,
+      Function(EGenerateStatus status, double progress)?
+          progressCallback) async {
+    try {
+      await ResourceManager.getInstance()
+          .loadResourceFromAssets(editedMediaList, musicList, ratio);
 
       _currentStatus = EGenerateStatus.encoding;
       _currentRenderedFrame = 0;
@@ -195,7 +231,7 @@ class VMSDKWidget extends StatelessWidget {
         }
       });
 
-      setRatio(autoEditedData.ratio);
+      setRatio(ratio);
       DateTime now = DateTime.now();
 
       final List<RenderedData> clipDataList = [];
@@ -203,8 +239,6 @@ class VMSDKWidget extends StatelessWidget {
 
       for (int i = 0; i < editedMediaList.length; i++) {
         final EditedMedia editedMedia = editedMediaList[i];
-        final FrameData? frameData = editedMedia.frame;
-        final StickerData? stickerData = editedMedia.sticker;
 
         TransitionData? prevTransition, nextTransition;
         if (i > 0) {
@@ -217,11 +251,8 @@ class VMSDKWidget extends StatelessWidget {
         final RenderedData? clipData = await clipRender(
             editedMedia,
             i,
-            frameData,
-            stickerData,
             prevTransition,
             nextTransition,
-            i == 0 ? exportedText : null,
             (statistics) => _currentRenderedFrameInCallback =
                 statistics.getVideoFrameNumber());
 
@@ -231,7 +262,7 @@ class VMSDKWidget extends StatelessWidget {
             normalizeTime(editedMedia.duration + editedMedia.xfadeDuration);
         _currentRenderedFrame += (duration * videoFramerate).floor();
 
-        if (clipData == null) return null;
+        if (clipData == null) throw Exception("ERR_CLIP_RENDER_FAILED");
         clipDataList.add(clipData);
 
         thumbnailList.add(await extractThumbnail(editedMediaList[i], i) ?? "");
@@ -266,7 +297,9 @@ class VMSDKWidget extends StatelessWidget {
               0.01);
           _currentRenderedFrame += (duration * videoFramerate).floor();
 
-          if (xfadeApplied == null) return null;
+          if (xfadeApplied == null) {
+            throw Exception("ERR_TRANSITION_RENDER_FAILED");
+          }
           xfadeAppliedList.add(xfadeApplied);
           i++;
         } //
@@ -279,11 +312,10 @@ class VMSDKWidget extends StatelessWidget {
       _currentRenderedFrame = _allFrame;
 
       final RenderedData? mergedClip = await mergeVideoClip(xfadeAppliedList);
-      if (mergedClip == null) return null;
+      if (mergedClip == null) throw Exception("ERR_MERGE_FAILED");
 
-      final RenderedData? resultClip =
-          await applyMusics(mergedClip, autoEditedData.musicList);
-      if (resultClip == null) return null;
+      final RenderedData? resultClip = await applyMusics(mergedClip, musicList);
+      if (resultClip == null) throw Exception("ERR_APPLY_MUSIC_FAILED");
 
       print(DateTime.now().difference(now).inSeconds);
 
@@ -305,7 +337,7 @@ class VMSDKWidget extends StatelessWidget {
       }
 
       return VideoGeneratedResult(
-          resultClip.absolutePath, autoEditedData, spotInfoList, thumbnailList, await parseAutoEditedDataToJSON(autoEditedData, exportedText));
+          resultClip.absolutePath, spotInfoList, thumbnailList);
     } //
     catch (e) {
       if (_currentTimer != null) {

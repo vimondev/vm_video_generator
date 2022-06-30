@@ -254,12 +254,12 @@ ERatio detectRatio(List<EditedMedia> list) {
   return ERatio.ratio11;
 }
 
-Future<AutoEditedData> generateAutoEditData(
+Future<AllEditedData> generateAllEditedData(
     List<MediaData> list,
     EMusicStyle musicStyle,
     List<TemplateData> templateList,
     bool isAutoSelect) async {
-  final AutoEditedData autoEditedData = AutoEditedData();
+  final AllEditedData allEditedData = AllEditedData();
 
   list.sort((a, b) => a.createDate.compareTo(b.createDate));
 
@@ -581,7 +581,7 @@ Future<AutoEditedData> generateAutoEditData(
       editedMedia.mediaLabel =
           await detectMediaLabel(editedMedia, mlkitMap[mediaData]!);
 
-      autoEditedData.editedMediaList.add(editedMedia);
+      allEditedData.editedMediaList.add(editedMedia);
       currentMediaIndex++;
     }
   }
@@ -590,19 +590,19 @@ Future<AutoEditedData> generateAutoEditData(
   // DETECT RATIO //
   //////////////////
 
-  final ERatio ratio = detectRatio(autoEditedData.editedMediaList);
-  autoEditedData.ratio = ratio;
-  autoEditedData.resolution = Resolution.fromRatio(ratio);
+  final ERatio ratio = detectRatio(allEditedData.editedMediaList);
+  allEditedData.ratio = ratio;
+  allEditedData.resolution = Resolution.fromRatio(ratio);
 
-  int videoWidth = autoEditedData.resolution.width;
-  int videoHeight = autoEditedData.resolution.height;
+  int videoWidth = allEditedData.resolution.width;
+  int videoHeight = allEditedData.resolution.height;
 
   ///////////////////
   // SET CROP DATA //
   ///////////////////
   
-  for (int i=0; i<autoEditedData.editedMediaList.length; i++) {
-    EditedMedia editedMedia = autoEditedData.editedMediaList[i];
+  for (int i=0; i<allEditedData.editedMediaList.length; i++) {
+    EditedMedia editedMedia = allEditedData.editedMediaList[i];
 
     int mediaWidth = editedMedia.mediaData.width;
     int mediaHeight = editedMedia.mediaData.height;
@@ -637,8 +637,8 @@ Future<AutoEditedData> generateAutoEditData(
 
   bool isPassedBoundary = false;
 
-  for (int i = 0; i < autoEditedData.editedMediaList.length - 1; i++) {
-    final EditedMedia editedMedia = autoEditedData.editedMediaList[i];
+  for (int i = 0; i < allEditedData.editedMediaList.length - 1; i++) {
+    final EditedMedia editedMedia = allEditedData.editedMediaList[i];
     if (editedMedia.isBoundary) {
       isPassedBoundary = true;
     }
@@ -656,7 +656,7 @@ Future<AutoEditedData> generateAutoEditData(
       // }
 
       if (editedMedia.duration < 2) continue;
-      if (autoEditedData.editedMediaList[i + 1].duration <
+      if (allEditedData.editedMediaList[i + 1].duration <
           (xfadeDuration + 0.1)) continue;
 
       if (isPassedBoundary) {
@@ -732,8 +732,8 @@ Future<AutoEditedData> generateAutoEditData(
   int lastStickerInsertedIndex = 0;
   clipCount = 4 + (Random()).nextInt(2);
 
-  for (int i = 0; i < autoEditedData.editedMediaList.length; i++) {
-    final EditedMedia editedMedia = autoEditedData.editedMediaList[i];
+  for (int i = 0; i < allEditedData.editedMediaList.length; i++) {
+    final EditedMedia editedMedia = allEditedData.editedMediaList[i];
 
     final int diff = i - lastStickerInsertedIndex;
     if (diff >= clipCount) {
@@ -811,8 +811,8 @@ Future<AutoEditedData> generateAutoEditData(
 
   print("--------------------------------------");
   print("--------------------------------------");
-  for (int i = 0; i < autoEditedData.editedMediaList.length; i++) {
-    final editedMedia = autoEditedData.editedMediaList[i];
+  for (int i = 0; i < allEditedData.editedMediaList.length; i++) {
+    final editedMedia = allEditedData.editedMediaList[i];
     print(
         "${basename(editedMedia.mediaData.absolutePath)} / totalDuration:${editedMedia.mediaData.duration} / start:${editedMedia.startTime} / duration:${editedMedia.duration} / remain:${editedMedia.mediaData.duration != null ? (editedMedia.mediaData.duration! - editedMedia.startTime - editedMedia.duration) : 0} / ${editedMedia.mediaLabel}");
     print("frame:${editedMedia.frame?.key} / sticker:${editedMedia.sticker?.key} / stickerPos:(${editedMedia.sticker?.x},${editedMedia.sticker?.y}), / resolution:(${editedMedia.mediaData.width},${editedMedia.mediaData.height}) / zoom:(${editedMedia.zoomX},${editedMedia.zoomY}) / translate:(${editedMedia.translateX},${editedMedia.translateY})");
@@ -826,8 +826,8 @@ Future<AutoEditedData> generateAutoEditData(
   }
 
   for (int i = 0; i < templateList.length; i++) {
-    autoEditedData.musicList.add(templateList[i].music);
+    allEditedData.musicList.add(templateList[i].music);
   }
 
-  return autoEditedData;
+  return allEditedData;
 }

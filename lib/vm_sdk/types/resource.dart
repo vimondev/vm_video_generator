@@ -4,10 +4,10 @@ enum ETransitionType { xfade, overlay }
 enum EStickerType { object }
 
 class MusicData {
-  String filename;
-  double duration;
-
-  MusicData(this.filename, this.duration);
+  String filename = "";
+  String? absolutePath;
+  double duration = 0;
+  double startTime = 0;
 }
 
 class ResourceData {
