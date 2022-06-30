@@ -12,7 +12,7 @@ class SceneData {
 class TemplateData {
   String name = "";
   double version = 0;
-  MusicData music = MusicData("", 0);
+  MusicData music = MusicData();
   List<SceneData> scenes = <SceneData>[];
   Map<String, TransitionData?> transitionDatas = {};
   Map<String, StickerData?> stickerDatas = {};
@@ -24,7 +24,9 @@ class TemplateData {
     version = map["version"];
     final musicMap = map["music"];
 
-    music = MusicData(musicMap["filename"], musicMap["duration"] * 1.0);
+    music = MusicData();
+    music.filename = musicMap["filename"];
+    music.duration = musicMap["duration"] * 1.0;
 
     final List<Map> sceneMaps = map["scenes"].cast<Map>();
     for (final Map map in sceneMaps) {

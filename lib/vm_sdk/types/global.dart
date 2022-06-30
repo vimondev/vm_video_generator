@@ -91,6 +91,10 @@ class EditedMedia {
   int translateY = 0;
   double zoomX = 0;
   double zoomY = 0;
+  double angle = 0;
+
+  double volume = 1;
+  double playbackSpeed = 1;
 
   FrameData? frame;
   StickerData? sticker;

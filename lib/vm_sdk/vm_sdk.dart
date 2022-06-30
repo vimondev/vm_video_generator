@@ -151,7 +151,22 @@ class VMSDKWidget extends StatelessWidget {
         allEditedData.musicList,
         allEditedData.ratio,
         progressCallback);
-    result.json = await parseAllEditedDataToJSON(allEditedData);
+    result.json = parseAllEditedDataToJSON(allEditedData);
+
+    return result;
+  }
+
+  Future<VideoGeneratedResult> generateVideoFromJSON(
+      String encodedJSON,
+      Function(EGenerateStatus status, double progress)?
+          progressCallback) async {
+    AllEditedData allEditedData = parseJSONToAllEditedData(encodedJSON);
+
+    final VideoGeneratedResult result = await _runFFmpeg(
+        allEditedData.editedMediaList,
+        allEditedData.musicList,
+        allEditedData.ratio,
+        progressCallback);
 
     return result;
   }

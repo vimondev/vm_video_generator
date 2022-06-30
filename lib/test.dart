@@ -18,7 +18,7 @@ class TestWidget extends StatelessWidget {
     }
 
     final filelist = json.decode(
-        await rootBundle.loadString("packages/myapp/assets/_test/mediajson-joined/set1.json"));
+        await rootBundle.loadString("assets/_test/mediajson-joined/monaco2.json"));
 
     List<MediaData> mediaList = [];
 
@@ -39,25 +39,28 @@ class TestWidget extends StatelessWidget {
       if (file.containsKey("duration")) duration = file["duration"] * 1.0;
 
       final writedFile =
-          await copyAssetToLocalDirectory("_test/set1/$filename");
+          await copyAssetToLocalDirectory("_test/monaco2/$filename");
       mediaList.add(MediaData(writedFile.path, type, width, height, duration,
           createDate, gpsString, mlkitDetected));
     }
 
-    final VideoGeneratedResult? result = await _vmsdkWidget.generateVideo(
-        mediaList,
-        EMusicStyle.fun,
-        false,
-        // ["THIS IS", "VIMON V-LOG"],
-        ["THIS IS VIMON V-LOG"],
-        (status, progress) {
-          print(status);
-          print(progress);
-        });
+    VideoGeneratedResult result =
+        await _vmsdkWidget.generateVideo(mediaList, EMusicStyle.fun, false,
+            // ["THIS IS", "VIMON V-LOG"],
+            ["THIS IS VIMON V-LOG"], (status, progress) {
+      print(status);
+      print(progress);
+    });
 
-    if (result != null) {
-      await GallerySaver.saveVideo(result.generatedVideoPath);
-    }
+    await GallerySaver.saveVideo(result.generatedVideoPath);
+
+    result = await _vmsdkWidget.generateVideoFromJSON(result.json,
+        (status, progress) {
+      print(status);
+      print(progress);
+    });
+
+    await GallerySaver.saveVideo(result.generatedVideoPath);
   }
 
   @override

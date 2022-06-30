@@ -589,7 +589,7 @@ Future<RenderedData?> applyMusics(
     final MusicData musicData = musics[0];
     final double duration = musicData.duration;
 
-    inputArguments.addAll(["-i", "$appDirPath/${musicData.filename}"]);
+    inputArguments.addAll(["-i", musicData.absolutePath!]);
     filterStrings.add(
         "[$inputFileCount:a]afade=t=out:st=${(duration - _fadeDuration)}:d=$_fadeDuration[faded0];[faded0]atrim=0:$duration[bgm];");
     inputFileCount++;
@@ -600,7 +600,7 @@ Future<RenderedData?> applyMusics(
       final MusicData musicData = musics[i];
       final double duration = musicData.duration;
 
-      inputArguments.addAll(["-i", "$appDirPath/${musicData.filename}"]);
+      inputArguments.addAll(["-i", musicData.absolutePath!]);
       filterStrings.add(
           "[$inputFileCount:a]afade=t=out:st=${(duration - _fadeDuration)}:d=$_fadeDuration[faded$i];[faded$i]atrim=0:$duration[aud$inputFileCount];");
       mergeBgmTargets += "[aud$inputFileCount]";
