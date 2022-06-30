@@ -591,7 +591,7 @@ Future<RenderedData?> applyMusics(
 
     inputArguments.addAll(["-i", musicData.absolutePath!]);
     filterStrings.add(
-        "[$inputFileCount:a]afade=t=out:st=${(duration - _fadeDuration)}:d=$_fadeDuration[faded0];[faded0]atrim=0:$duration[bgm];");
+        "[$inputFileCount:a]afade=t=out:st=${(duration - _fadeDuration)}:d=$_fadeDuration[faded0];[faded0]atrim=0:$duration[bgm];[bgm]volume=0.5[bgm_volume_applied];");
     inputFileCount++;
   } //
   else {
