@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:myapp/vm_sdk/impl/text_helper.dart';
 
-import 'impl/convertHelper.dart';
+import 'impl/convert_helper.dart';
 import 'types/types.dart';
 import 'impl/template_helper.dart';
 import 'impl/ffmpeg_manager.dart';
