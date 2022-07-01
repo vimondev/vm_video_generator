@@ -13,6 +13,11 @@ enum EMediaLabel {
   animal,
   others
 }
+enum EMusicSpeed {
+  slow,
+  medium,
+  fast
+}
 enum EMusicStyle {
   calm,
   dreamy,
