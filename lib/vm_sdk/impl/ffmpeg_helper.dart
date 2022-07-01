@@ -5,6 +5,16 @@ import '../types/types.dart';
 import 'global_helper.dart';
 import 'ffmpeg_manager.dart';
 
+enum EImageScaleType {
+  zoomIn,
+  zoomOut,
+  leftToRight,
+  rightToLeft,
+  topToBottom,
+  bottomToTop
+}
+int _imageScaleTypeidx = 0;
+
 Resolution _resolution = Resolution(0, 0);
 int _scaledVideoWidth = 0;
 int _scaledVideoHeight = 0;
@@ -97,6 +107,110 @@ Future<RenderedData?> clipRender(
       "[0:v]${trimFilter}scale=${(editedMedia.mediaData.width * editedMedia.zoomX).floor()}:${(editedMedia.mediaData.height * editedMedia.zoomY).floor()},crop=${_resolution.width}:${_resolution.height}:${editedMedia.translateX}:${editedMedia.translateY},setdar=dar=${_resolution.width / _resolution.height}[vid];");
   videoOutputMapVariable = "[vid]";
   inputFileCount++;
+
+  ///////////////////////////
+  // IMAGE SCALE ANIMATION //
+  ///////////////////////////
+  if (mediaData.type == EMediaType.image) {
+    const int animationSpeed = 48;
+    final int videoWidth = _resolution.width;
+    final int videoHeight = _resolution.height;
+
+    String startScaleWidth = "",
+        startScaleHeight = "",
+        cropPosX = "",
+        cropPosY = "";
+    int scaleAddVal = 0, cropZoomVal = 0;
+
+    final EImageScaleType type =
+        EImageScaleType.values[_imageScaleTypeidx % EImageScaleType.values.length];
+    _imageScaleTypeidx++;
+
+    switch (type) {
+      case EImageScaleType.zoomIn:
+        {
+          scaleAddVal = (editedMedia.duration * animationSpeed).floor();
+          cropZoomVal = (editedMedia.duration * (animationSpeed / 2)).floor();
+
+          startScaleWidth = "-1";
+          startScaleHeight = "${(videoHeight * 3).floor()}+($scaleAddVal*t)";
+          cropPosX = "($cropZoomVal*t)";
+          cropPosY = "($cropZoomVal*t)";
+        }
+        break;
+
+      case EImageScaleType.zoomOut:
+        {
+          scaleAddVal = (editedMedia.duration * animationSpeed).floor();
+          cropZoomVal = (editedMedia.duration * (animationSpeed / 2)).floor();
+
+          startScaleWidth = "-1";
+          startScaleHeight =
+              "${(videoHeight * 3 + scaleAddVal * editedMedia.duration).floor()}-($scaleAddVal*t)";
+          cropPosX =
+              "(${(cropZoomVal * editedMedia.duration).floor()}-$cropZoomVal*t)";
+          cropPosY =
+              "(${(cropZoomVal * editedMedia.duration).floor()}-$cropZoomVal*t)";
+        }
+        break;
+
+      case EImageScaleType.leftToRight:
+        {
+          cropZoomVal = animationSpeed * 2;
+
+          startScaleWidth = "-1";
+          startScaleHeight =
+              "${(videoHeight * 3 + (cropZoomVal * 2 * editedMedia.duration)).floor()}";
+          cropPosX = "($cropZoomVal*t)";
+          cropPosY = "${((cropZoomVal / 2) * editedMedia.duration).floor()}";
+        }
+        break;
+
+      case EImageScaleType.rightToLeft:
+        {
+          cropZoomVal = animationSpeed * 2;
+
+          startScaleWidth = "-1";
+          startScaleHeight =
+              "${(videoHeight * 3 + (cropZoomVal * 2 * editedMedia.duration)).floor()}";
+          cropPosX =
+              "(${(cropZoomVal * editedMedia.duration).floor()}-$cropZoomVal*t)";
+          cropPosY = "${((cropZoomVal / 2) * editedMedia.duration).floor()}";
+        }
+        break;
+
+      case EImageScaleType.topToBottom:
+        {
+          cropZoomVal = animationSpeed * 2;
+
+          startScaleWidth = "-1";
+          startScaleHeight =
+              "${(videoHeight * 3 + (cropZoomVal * 2 * editedMedia.duration)).floor()}";
+          cropPosX = "${((cropZoomVal / 2) * editedMedia.duration).floor()}";
+          cropPosY = "($cropZoomVal*t)";
+        }
+        break;
+
+      case EImageScaleType.bottomToTop:
+      default:
+        {
+          cropZoomVal = animationSpeed * 2;
+
+          startScaleWidth = "-1";
+          startScaleHeight =
+              "${(videoHeight * 3 + (cropZoomVal * 2 * editedMedia.duration)).floor()}";
+          cropPosX = "${((cropZoomVal / 2) * editedMedia.duration).floor()}";
+          cropPosY =
+              "(${(cropZoomVal * editedMedia.duration).floor()}-$cropZoomVal*t)";
+        }
+        break;
+    }
+
+    filterStrings.add(
+        "${videoOutputMapVariable}scale=$startScaleWidth:$startScaleHeight:eval=frame,crop=${(videoWidth * 3).floor()}:${(videoHeight * 3).floor()}:$cropPosX:$cropPosY,scale=$videoWidth:$videoHeight[applied_animation];");
+
+    videoOutputMapVariable = "[applied_animation]";
+  }
 
   ///////////////
   // ADD FRAME //
@@ -339,9 +453,7 @@ Future<RenderedData?> applyXFadeTransitions(
   return RenderedData(outputPath, duration);
 }
 
-
-Future<RenderedData?> applyFadeOut(
-    List<RenderedData> clips) async {
+Future<RenderedData?> applyFadeOut(List<RenderedData> clips) async {
   final String appDirPath = await getAppDirectoryPath();
   final String outputPath = "$appDirPath/fade_out_applied.mp4";
 
@@ -350,19 +462,17 @@ Future<RenderedData?> applyFadeOut(
   String filterComplexStr = "";
 
   double totalDuration = 0;
-  for (int i=0; i<clips.length; i++) {
+  for (int i = 0; i < clips.length; i++) {
     RenderedData clip = clips[i];
 
-    inputArguments.addAll([
-      "-i",
-      clip.absolutePath
-    ]);
+    inputArguments.addAll(["-i", clip.absolutePath]);
 
     filterComplexStr += "[$i]";
     totalDuration += clip.duration;
   }
 
-  filterComplexStr += "concat=n=${clips.length}:v=1:a=1[outv][outa];[outv]fade=t=out:st=${totalDuration - 2}:d=1.5[faded]";
+  filterComplexStr +=
+      "concat=n=${clips.length}:v=1:a=1[outv][outa];[outv]fade=t=out:st=${totalDuration - 2}:d=1.5[faded]";
 
   arguments.addAll(inputArguments);
   arguments.addAll(["-filter_complex", filterComplexStr]);
@@ -652,11 +762,9 @@ Future<RenderedData?> applyMusics(
       "anullsrc=channel_layout=stereo:sample_rate=44100"
     ]);
 
-    filterStrings.add(
-        "[$inputFileCount:a]volume=0[bgm_volume_applied];");
+    filterStrings.add("[$inputFileCount:a]volume=0[bgm_volume_applied];");
     inputFileCount++;
-  }
-  else if (musics.length == 1) {
+  } else if (musics.length == 1) {
     final MusicData musicData = musics[0];
     final double duration = musicData.duration;
 
@@ -714,9 +822,7 @@ Future<RenderedData?> applyMusics(
   return RenderedData(outputPath, mergedClip.duration);
 }
 
-Future<String?> extractThumbnail(
-    EditedMedia editedMedia, int clipIdx) async {
-
+Future<String?> extractThumbnail(EditedMedia editedMedia, int clipIdx) async {
   final List<String> arguments = <String>[];
   final String appDirPath = await getAppDirectoryPath();
   final String outputPath = "$appDirPath/thumbnail_$clipIdx.jpg";
@@ -741,12 +847,7 @@ Future<String?> extractThumbnail(
 
   arguments.addAll(inputArguments);
   arguments.addAll(["-filter_complex", filterComplexStr]);
-  arguments.addAll([
-    "-vframes",
-    "1",
-    outputPath,
-    "-y"
-  ]);
+  arguments.addAll(["-vframes", "1", outputPath, "-y"]);
 
   bool isSuccess = await _ffmpegManager.execute(arguments, null);
   if (!isSuccess) return null;
