@@ -642,7 +642,21 @@ Future<RenderedData?> applyMusics(
   inputArguments.addAll(["-i", mergedClip.absolutePath]);
   inputFileCount++;
 
-  if (musics.length == 1) {
+  if (musics.isEmpty) {
+    inputArguments.addAll([
+      "-f",
+      "lavfi",
+      "-t",
+      mergedClip.duration.toString(),
+      "-i",
+      "anullsrc=channel_layout=stereo:sample_rate=44100"
+    ]);
+
+    filterStrings.add(
+        "[$inputFileCount:a]volume=0[bgm_volume_applied];");
+    inputFileCount++;
+  }
+  else if (musics.length == 1) {
     final MusicData musicData = musics[0];
     final double duration = musicData.duration;
 
