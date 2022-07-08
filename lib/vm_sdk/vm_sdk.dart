@@ -63,6 +63,21 @@ class VMSDKWidget extends StatelessWidget {
           progressCallback) async {
     _currentStatus = EGenerateStatus.titleExport;
 
+    const Map<EMusicStyle, EMusicSpeed> musicSpeedMap = {
+      EMusicStyle.calm: EMusicSpeed.slow,
+      EMusicStyle.dreamy: EMusicSpeed.slow,
+      EMusicStyle.ambient: EMusicSpeed.slow,
+      EMusicStyle.beautiful: EMusicSpeed.medium,
+      EMusicStyle.upbeat: EMusicSpeed.medium,
+      EMusicStyle.hopeful: EMusicSpeed.medium,
+      EMusicStyle.inspiring: EMusicSpeed.medium,
+      EMusicStyle.fun: EMusicSpeed.medium,
+      EMusicStyle.joyful: EMusicSpeed.medium,
+      EMusicStyle.happy: EMusicSpeed.medium,
+      EMusicStyle.cheerful: EMusicSpeed.fast,
+      EMusicStyle.energetic: EMusicSpeed.fast
+    };
+
     EMusicStyle selectedStyle;
     if (style != null) {
       selectedStyle = style;
@@ -84,6 +99,8 @@ class VMSDKWidget extends StatelessWidget {
           Random().nextInt(randomStyleList.length) % randomStyleList.length];
     }
 
+    EMusicSpeed musidSpeed = musicSpeedMap[selectedStyle] ?? EMusicSpeed.medium;
+
     final List<TemplateData>? templateList =
         await loadTemplateData(selectedStyle);
     if (templateList == null) throw Exception("ERR_TEMPLATE_NOT_FOUND");
@@ -93,11 +110,11 @@ class VMSDKWidget extends StatelessWidget {
 
     List<ETextID> textIds;
     if (texts.length >= 2) {
-      textIds = twoLineTitles;
+      textIds = twoLineTitles[musidSpeed]!;
     }
     //
     else {
-      textIds = oneLineTitles;
+      textIds = oneLineTitles[musidSpeed]!;
     }
     final ETextID pickedTextId =
         textIds[(Random()).nextInt(textIds.length) % textIds.length];
