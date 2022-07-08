@@ -97,10 +97,7 @@ Map<EMediaLabel, List<String>> tempStickerMap = {
     "STICKER_HJ015",
     "STICKER_HJ018",
   ],
-  EMediaLabel.animal: [
-    "STICKER_DA005",
-    "STICKER_HJ017"
-  ],
+  EMediaLabel.animal: ["STICKER_DA005", "STICKER_HJ017"],
 };
 
 Future<void> loadLabelMap() async {
@@ -223,11 +220,11 @@ ERatio detectRatio(List<EditedMedia> list) {
   const aspectRatio11 = 1;
   const aspectRatio916 = 9.0 / 16.0;
 
-  for (int i=0; i<list.length; i++) {
+  for (int i = 0; i < list.length; i++) {
     final int width = list[i].mediaData.width;
     final int height = list[i].mediaData.height;
     final double aspectRatio = (width * 1.0) / height;
-    
+
     // 1:1 ~ 16:9의 중간값 이상
     if (aspectRatio >= (aspectRatio11 + aspectRatio169) / 2.0) {
       ratioCountMap[ERatio.ratio169] = ratioCountMap[ERatio.ratio169]! + 1;
@@ -235,8 +232,7 @@ ERatio detectRatio(List<EditedMedia> list) {
     // 1:1 ~ 9:16의 중간값 이하
     else if (aspectRatio <= (aspectRatio11 + aspectRatio916) / 2.0) {
       ratioCountMap[ERatio.ratio916] = ratioCountMap[ERatio.ratio916]! + 1;
-    }
-    else {
+    } else {
       ratioCountMap[ERatio.ratio11] = ratioCountMap[ERatio.ratio11]! + 1;
     }
   }
@@ -600,14 +596,15 @@ Future<AllEditedData> generateAllEditedData(
   ///////////////////
   // SET CROP DATA //
   ///////////////////
-  
-  for (int i=0; i<allEditedData.editedMediaList.length; i++) {
+
+  for (int i = 0; i < allEditedData.editedMediaList.length; i++) {
     EditedMedia editedMedia = allEditedData.editedMediaList[i];
 
     int mediaWidth = editedMedia.mediaData.width;
     int mediaHeight = editedMedia.mediaData.height;
 
-    double scaleFactor = max(videoWidth / mediaWidth, videoHeight / mediaHeight);
+    double scaleFactor =
+        max(videoWidth / mediaWidth, videoHeight / mediaHeight);
     editedMedia.zoomX = scaleFactor;
     editedMedia.zoomY = scaleFactor;
 
@@ -650,8 +647,8 @@ Future<AllEditedData> generateAllEditedData(
       double xfadeDuration = 0.8;
 
       if (editedMedia.duration < 2) continue;
-      if (allEditedData.editedMediaList[i + 1].duration <
-          (xfadeDuration + 0.1)) continue;
+      if (allEditedData.editedMediaList[i + 1].duration < (xfadeDuration + 0.1))
+        continue;
 
       if (isPassedBoundary) {
         currentTransitionType = (Random()).nextDouble() >= 0.4
@@ -680,7 +677,8 @@ Future<AllEditedData> generateAllEditedData(
       if (currentTransitionType == ETransitionType.xfade) {
         int randIdx = (Random()).nextInt(curXfadeTransitionList.length) %
             curXfadeTransitionList.length;
-        editedMedia.transition = ResourceManager.getInstance().getTransitionData(curXfadeTransitionList[randIdx]);
+        editedMedia.transition = ResourceManager.getInstance()
+            .getTransitionData(curXfadeTransitionList[randIdx]);
         curXfadeTransitionList.removeAt(randIdx);
         if (curXfadeTransitionList.isEmpty) {
           curXfadeTransitionList.addAll(originXfadeTransitionList);
@@ -689,11 +687,14 @@ Future<AllEditedData> generateAllEditedData(
       else if (currentTransitionType == ETransitionType.overlay) {
         int randIdx = (Random()).nextInt(curOverlayTransitionList.length) %
             curOverlayTransitionList.length;
-        editedMedia.transition = ResourceManager.getInstance().getTransitionData(curOverlayTransitionList[randIdx]);
+        editedMedia.transition = ResourceManager.getInstance()
+            .getTransitionData(curOverlayTransitionList[randIdx]);
 
         if (editedMedia.transition != null) {
-          final OverlayTransitionData overlayTransitionData = editedMedia.transition as OverlayTransitionData;
-          if (overlayTransitionData.fileMap[ratio]!.duration >= editedMedia.duration) {
+          final OverlayTransitionData overlayTransitionData =
+              editedMedia.transition as OverlayTransitionData;
+          if (overlayTransitionData.fileMap[ratio]!.duration >=
+              editedMedia.duration) {
             editedMedia.transition = null;
             continue;
           }
@@ -776,22 +777,36 @@ Future<AllEditedData> generateAllEditedData(
           List<String> curStickerList = curStickerMap[mediaLabel]!;
           int randIdx =
               (Random()).nextInt(curStickerList.length) % curStickerList.length;
-          editedMedia.sticker = ResourceManager.getInstance()
+
+          final StickerData? stickerData = ResourceManager.getInstance()
               .getStickerData(curStickerList[randIdx]);
 
-          final double stickerWidth = editedMedia.sticker!.fileinfo!.width * 1;
-          final double stickerHeight =
-              editedMedia.sticker!.fileinfo!.height * 1;
+          if (stickerData != null) {
+            final EditedStickerData editedStickerData =
+                EditedStickerData(stickerData);
 
-          final double radian = Random().nextDouble() * pi * 2;
-          final double distance = (videoWidth > videoHeight ? videoHeight / 4 : videoWidth / 4);
+            final double stickerWidth =
+                editedStickerData.fileinfo!.width * editedStickerData.scale;
+            final double stickerHeight =
+                editedStickerData.fileinfo!.height * editedStickerData.scale;
 
-          editedMedia.sticker!.x = (videoWidth / 2) + (cos(radian) * distance) - (stickerWidth / 2);
-          editedMedia.sticker!.y = (videoHeight / 2) + (sin(radian) * distance) - (stickerHeight / 2);
+            final double radian = Random().nextDouble() * pi * 2;
+            final double distance =
+                (videoWidth > videoHeight ? videoHeight / 4 : videoWidth / 4);
 
-          curStickerList.removeAt(randIdx);
-          if (curStickerList.isEmpty) {
-            curStickerList.addAll(originStickerMap[mediaLabel]!);
+            editedStickerData.x = (videoWidth / 2) +
+                (cos(radian) * distance) -
+                (stickerWidth / 2);
+            editedStickerData.y = (videoHeight / 2) +
+                (sin(radian) * distance) -
+                (stickerHeight / 2);
+
+            editedMedia.stickers.add(editedStickerData);
+
+            curStickerList.removeAt(randIdx);
+            if (curStickerList.isEmpty) {
+              curStickerList.addAll(originStickerMap[mediaLabel]!);
+            }
           }
         }
         break;
@@ -809,7 +824,8 @@ Future<AllEditedData> generateAllEditedData(
     final editedMedia = allEditedData.editedMediaList[i];
     print(
         "${basename(editedMedia.mediaData.absolutePath)} / totalDuration:${editedMedia.mediaData.duration} / start:${editedMedia.startTime} / duration:${editedMedia.duration} / remain:${editedMedia.mediaData.duration != null ? (editedMedia.mediaData.duration! - editedMedia.startTime - editedMedia.duration) : 0} / ${editedMedia.mediaLabel}");
-    print("frame:${editedMedia.frame?.key} / sticker:${editedMedia.sticker?.key} / stickerPos:(${editedMedia.sticker?.x},${editedMedia.sticker?.y}), / resolution:(${editedMedia.mediaData.width},${editedMedia.mediaData.height}) / zoom:(${editedMedia.zoomX},${editedMedia.zoomY}) / translate:(${editedMedia.translateX},${editedMedia.translateY})");
+    print(
+        "frame:${editedMedia.frame?.key} / resolution:(${editedMedia.mediaData.width},${editedMedia.mediaData.height}) / zoom:(${editedMedia.zoomX},${editedMedia.zoomY}) / translate:(${editedMedia.translateX},${editedMedia.translateY})");
     if (editedMedia.transition != null) {
       print("index : $i");
       print(editedMedia.transition?.key);

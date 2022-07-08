@@ -102,7 +102,7 @@ class EditedMedia {
   double playbackSpeed = 1;
 
   FrameData? frame;
-  StickerData? sticker;
+  List<EditedStickerData> stickers = [];
   TransitionData? transition;
   TextExportData? exportedText;
 

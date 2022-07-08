@@ -77,7 +77,7 @@ class ResourceManager {
 
       final TransitionData? transitionData = editedMedia.transition;
       final FrameData? frameData = editedMedia.frame;
-      final StickerData? stickerData = editedMedia.sticker;
+      final List<StickerData> stickerDataList = editedMedia.stickers;
 
       if (transitionData != null) {
         if (transitionData.type == ETransitionType.overlay) {
@@ -93,7 +93,8 @@ class ResourceManager {
           await _loadFrameFile(fileInfo.filename);
         }
       }
-      if (stickerData != null) {
+      for (int j = 0; j < stickerDataList.length; j++) {
+        final StickerData stickerData = stickerDataList[j];
         ResourceFileInfo? fileInfo = stickerData.fileinfo;
         if (fileInfo != null) {
           await _loadStickerFile(fileInfo.filename);
