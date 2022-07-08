@@ -88,8 +88,8 @@ Future<RenderedData?> clipRender(
         .addAll(["-r", _framerate.toString(), "-i", mediaData.absolutePath]);
 
     filterStrings.add(
-        "[0:a]atrim=$startTime:${startTime + duration},asetpts=PTS-STARTPTS[aud];[aud][1:a]amix=inputs=2[aud_mixed];[aud_mixed]atrim=0:$duration,asetpts=PTS-STARTPTS[aud_trim];");
-    audioOutputMapVariable = "[aud_trim]";
+        "[0:a]atrim=$startTime:${startTime + duration},asetpts=PTS-STARTPTS[aud];[aud][1:a]amix=inputs=2[aud_mixed];[aud_mixed]atrim=0:$duration,asetpts=PTS-STARTPTS[aud_trim];[aud_trim]volume=${editedMedia.volume}[aud_volume_applied];");
+    audioOutputMapVariable = "[aud_volume_applied]";
   }
 
   // [1:a]
