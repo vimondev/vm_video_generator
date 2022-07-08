@@ -6,6 +6,8 @@ import 'vm_sdk/impl/global_helper.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 
+import 'vm_sdk/impl/ml_kit_helper.dart';
+
 void testMethod() async {
   const String testAssetPath = "_test/set1";
   final filelist = [];
@@ -49,18 +51,18 @@ void testMethod() async {
         writedFile.path, type, width, height, null, DateTime.now(), "", null));
   }
 
-  // List<double> durationList = [];
-  // List<double> lengthList = [];
-  // List<String?> results = [];
-  // for (final media in testMediaList) {
-  //   DateTime now = DateTime.now();
-  //   final result = await videoGenerator.extractMLKitDetectData(media);
-  //   durationList.add(DateTime.now().difference(now).inMilliseconds / 1000);
-  //   results.add(result);
+  List<double> durationList = [];
+  List<double> lengthList = [];
+  List<String?> results = [];
+  for (final media in testMediaList) {
+    DateTime now = DateTime.now();
+    final result = await extractData(media);
+    durationList.add(DateTime.now().difference(now).inMilliseconds / 1000);
+    results.add(result);
 
-  //   if (result != null) {
-  //     lengthList.add(result.length / 1024);
-  //   }
-  // }
-  // print("");
+    if (result != null) {
+      lengthList.add(result.length / 1024);
+    }
+  }
+  print("");
 }
