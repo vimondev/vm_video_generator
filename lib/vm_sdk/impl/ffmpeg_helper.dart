@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:ffmpeg_kit_flutter_full_gpl/statistics.dart';
 
 import '../types/types.dart';
@@ -53,7 +54,7 @@ Future<RenderedData?> clipRender(
     Function(Statistics)? ffmpegCallback) async {
   final MediaData mediaData = editedMedia.mediaData;
   final FrameData? frame = editedMedia.frame;
-  final StickerData? sticker = editedMedia.sticker;
+  final List<EditedStickerData> stickerList = editedMedia.stickers;
   final TextExportData? exportedText = editedMedia.exportedText;
 
   double duration =
@@ -244,12 +245,19 @@ Future<RenderedData?> clipRender(
   // ADD STICKER //
   /////////////////
 
-  if (sticker != null) {
+  for (int i = 0; i < stickerList.length; i++) {
+    final EditedStickerData sticker = stickerList[i];
     ResourceFileInfo fileInfo = sticker.fileinfo!;
 
+    final int stickerWidth = (fileInfo.width * sticker.scale).floor();
+    final int stickerHeight = (fileInfo.height * sticker.scale).floor();
+    // final double angle = sticker.rotate % 360;
+
     final int loopCount = (duration / fileInfo.duration).floor();
-    const String stickerMapVariable = "[sticker]";
-    const String stickerMergedMapVariable = "[sticker_merged]";
+    final String stickerMapVariable = "[sticker$i]";
+    final String stickerScaledMapVariable = "[sticker_scaled$i]";
+    // final String stickerRotatedMapVariable = "[sticker_rotated$i]";
+    final String stickerMergedMapVariable = "[sticker_merged$i]";
 
     inputArguments.addAll([
       "-stream_loop",
@@ -263,7 +271,9 @@ Future<RenderedData?> clipRender(
     filterStrings.add(
         "[${inputFileCount++}:v]trim=0:$duration,setpts=PTS-STARTPTS$stickerMapVariable;");
     filterStrings.add(
-        "$videoOutputMapVariable${stickerMapVariable}overlay=${sticker.x}:${sticker.y}$stickerMergedMapVariable;");
+        "${stickerMapVariable}scale=$stickerWidth:$stickerHeight$stickerScaledMapVariable;");
+    filterStrings.add(
+        "$videoOutputMapVariable${stickerScaledMapVariable}overlay=${sticker.x}:${sticker.y}$stickerMergedMapVariable;");
 
     videoOutputMapVariable = stickerMergedMapVariable;
   }

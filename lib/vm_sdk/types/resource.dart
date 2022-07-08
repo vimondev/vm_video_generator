@@ -132,11 +132,6 @@ class StickerData extends ResourceData {
   ResourceFileInfo? fileinfo;
   EStickerType type = EStickerType.object;
 
-  double x = 0;
-  double y = 0;
-  double rotate = 0;
-  double scale = 0;
-
   StickerData(String key) : super(key);
   StickerData.fromJson(String key, Map map) : super(key) {
     switch (map["type"]) {
@@ -154,5 +149,17 @@ class StickerData extends ResourceData {
     final String filename = map["filename"];
 
     fileinfo = ResourceFileInfo(width, height, duration, filename);
+  }
+}
+
+class EditedStickerData extends StickerData {
+  double x = 0;
+  double y = 0;
+  double rotate = 0;
+  double scale = 1;
+
+  EditedStickerData(StickerData stickerData) : super(stickerData.key) {
+    fileinfo = stickerData.fileinfo;
+    type = stickerData.type;
   }
 }

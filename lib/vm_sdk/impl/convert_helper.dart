@@ -18,7 +18,7 @@ String parseAllEditedDataToJSON(AllEditedData allEditedData) {
   for (int i = 0; i < allEditedData.editedMediaList.length; i++) {
     EditedMedia editedMedia = allEditedData.editedMediaList[i];
     FrameData? frameData = editedMedia.frame;
-    StickerData? stickerData = editedMedia.sticker;
+    List<EditedStickerData> stickerDataList = editedMedia.stickers;
     TransitionData? transitionData = editedMedia.transition;
     TextExportData? exportedText = editedMedia.exportedText;
 
@@ -70,7 +70,8 @@ String parseAllEditedDataToJSON(AllEditedData allEditedData) {
       });
     }
 
-    if (stickerData != null) {
+    for (int j = 0; j < stickerDataList.length; j++) {
+      final EditedStickerData stickerData = stickerDataList[j];
       overlays.add({
         "id": uuid.v4(),
         "type": "STICKER",
@@ -237,12 +238,14 @@ AllEditedData parseJSONToAllEditedData(String encodedJSON) {
             ResourceManager.getInstance().getStickerData(stickerKey);
 
         if (stickerData != null) {
-          stickerData.x = overlay["rect"]["x"] * 1.0;
-          stickerData.y = overlay["rect"]["y"] * 1.0;
-          stickerData.scale = overlay["scale"] * 1.0;
-          stickerData.rotate = overlay["angle"] * 1.0;
+          final EditedStickerData editedStickerData = EditedStickerData(stickerData);
 
-          editedMedia.sticker = stickerData;
+          editedStickerData.x = overlay["rect"]["x"] * 1.0;
+          editedStickerData.y = overlay["rect"]["y"] * 1.0;
+          editedStickerData.scale = overlay["scale"] * 1.0;
+          editedStickerData.rotate = overlay["angle"] * 1.0;
+
+          editedMedia.stickers.add(editedStickerData);
         }
       } //
       else if (overlay["type"] == "TEXT") {
