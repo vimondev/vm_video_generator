@@ -99,7 +99,7 @@ class VMSDKWidget extends StatelessWidget {
           Random().nextInt(randomStyleList.length) % randomStyleList.length];
     }
 
-    EMusicSpeed musidSpeed = musicSpeedMap[selectedStyle] ?? EMusicSpeed.medium;
+    EMusicSpeed musicSpeed = musicSpeedMap[selectedStyle] ?? EMusicSpeed.medium;
 
     final List<TemplateData>? templateList =
         await loadTemplateData(selectedStyle);
@@ -110,11 +110,11 @@ class VMSDKWidget extends StatelessWidget {
 
     List<ETextID> textIds;
     if (texts.length >= 2) {
-      textIds = twoLineTitles[musidSpeed]!;
+      textIds = twoLineTitles[musicSpeed]!;
     }
     //
     else {
-      textIds = oneLineTitles[musidSpeed]!;
+      textIds = oneLineTitles[musicSpeed]!;
     }
     final ETextID pickedTextId =
         textIds[(Random()).nextInt(textIds.length) % textIds.length];
