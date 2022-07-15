@@ -1,49 +1,37 @@
-import 'resource.dart';
+import 'types.dart';
 
 class SceneData {
   String name;
   double duration;
-  String? stickerKey;
-  String? transitionKey;
 
-  SceneData(this.name, this.duration, this.stickerKey, this.transitionKey);
+  SceneData(this.name, this.duration);
 }
 
 class TemplateData {
   String name = "";
   double version = 0;
-  MusicData music = MusicData();
   List<SceneData> scenes = <SceneData>[];
-  Map<String, TransitionData?> transitionDatas = {};
-  Map<String, StickerData?> stickerDatas = {};
+  List<EMusicStyle> styles = [];
 
-  TemplateData(this.name, this.version, this.music, this.scenes);
+  TemplateData(this.name, this.version, this.scenes);
 
   TemplateData.fromJson(Map map) {
     name = map["name"];
-    version = map["version"];
-    final musicMap = map["music"];
-
-    music = MusicData();
-    music.filename = musicMap["filename"];
-    music.duration = musicMap["duration"] * 1.0;
+    version = map["version"] * 1.0;
 
     final List<Map> sceneMaps = map["scenes"].cast<Map>();
     for (final Map map in sceneMaps) {
-      scenes.add(SceneData(map["name"], map["duration"] * 1.0, map["sticker"],
-          map["transition"]));
+      scenes.add(SceneData(map["name"], map["duration"] * 1.0));
     }
 
-    final List<String> transitionKeys = map["transitions"].cast<String>();
-    final List<String> stickerKeys = map["stickers"].cast<String>();
-
-    for (final String transitionKey in transitionKeys) {
-      transitionDatas[transitionKey] = null;
-    }
-    for (final String stickerKey in stickerKeys) {
-      stickerDatas[stickerKey] = null;
+    final List<String> tags = map["tags"].cast<String>();
+    for (final String tag in tags) {
+      final EMusicStyle? style = musicStyleMap[tag];
+      if (style != null) {
+        styles.add(style);
+      }
     }
 
-    TemplateData(name, version, music, scenes);
+    TemplateData(name, version, scenes);
   }
 }

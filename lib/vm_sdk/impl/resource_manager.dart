@@ -8,7 +8,6 @@ class ResourceManager {
   static ResourceManager? _instance;
 
   static const _rawAssetPath = "raw";
-  static const _audioAssetPath = "$_rawAssetPath/audio";
   static const _transitionAssetPath = "$_rawAssetPath/transition";
   static const _frameAssetPath = "$_rawAssetPath/frame";
   static const _stickerAssetPath = "$_rawAssetPath/sticker";
@@ -16,6 +15,7 @@ class ResourceManager {
   final Map<String, TransitionData> _transitionMap = <String, TransitionData>{};
   final Map<String, FrameData> _frameMap = <String, FrameData>{};
   final Map<String, StickerData> _stickerMap = <String, StickerData>{};
+  final Map<EMusicStyle, List<TemplateData>> _templateMap = {};
 
   static ResourceManager getInstance() {
     _instance ??= ResourceManager();
@@ -50,6 +50,22 @@ class ResourceManager {
       _stickerMap[key] =
           StickerData.fromJson(key, stickerJsonMap[key]);
     }
+
+    final List templateJsonList =
+        jsonDecode(await loadResourceString("data/template.json"));
+
+    for (int i=0; i<templateJsonList.length; i++) {
+      final filename = templateJsonList[i];
+      final templateJson = jsonDecode(await loadResourceString("template/$filename"));
+
+      final TemplateData templateData = TemplateData.fromJson(templateJson);
+      for (int j=0; j<templateData.styles.length; j++) {
+        EMusicStyle style = templateData.styles[j];
+        if (_templateMap[style] == null) _templateMap[style] = [];
+
+        _templateMap[style]!.add(templateData);
+      }
+    }
   }
 
   TransitionData? getTransitionData(String key) {
@@ -64,14 +80,11 @@ class ResourceManager {
     return _stickerMap[key];
   }
 
-  Future<void> loadResourceFromAssets(List<EditedMedia> editedMediaList, List<MusicData> musicList, ERatio ratio) async {
-    for (int i = 0; i < musicList.length; i++) {
-      if (musicList[i].absolutePath == null) {
-        final File musicFile = await _loadAudioFile(musicList[i].filename);
-        musicList[i].absolutePath = musicFile.path;
-      }
-    }
+  List<TemplateData>? getTemplateData(EMusicStyle style) {
+    return _templateMap[style];
+  }
 
+  Future<void> loadResourceFromAssets(List<EditedMedia> editedMediaList,ERatio ratio) async {
     for (int i = 0; i < editedMediaList.length; i++) {
       final EditedMedia editedMedia = editedMediaList[i];
 
@@ -101,10 +114,6 @@ class ResourceManager {
         }
       }
     }
-  }
-
-  Future<File> _loadAudioFile(String filename) async {
-    return await copyAssetToLocalDirectory("$_audioAssetPath/$filename");
   }
 
   Future<File> _loadTransitionFile(String filename) async {

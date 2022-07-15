@@ -5,7 +5,6 @@ import 'package:myapp/vm_sdk/impl/text_helper.dart';
 
 import 'impl/convert_helper.dart';
 import 'types/types.dart';
-import 'impl/template_helper.dart';
 import 'impl/ffmpeg_manager.dart';
 import 'impl/resource_manager.dart';
 import 'impl/auto_edit_helper.dart';
@@ -101,12 +100,21 @@ class VMSDKWidget extends StatelessWidget {
 
     EMusicSpeed musicSpeed = musicSpeedMap[selectedStyle] ?? EMusicSpeed.medium;
 
-    final List<TemplateData>? templateList =
-        await loadTemplateData(selectedStyle);
-    if (templateList == null) throw Exception("ERR_TEMPLATE_NOT_FOUND");
+    List<TemplateData> templateList = [];
+    templateList.addAll(
+        (ResourceManager.getInstance().getTemplateData(selectedStyle) ??
+            ResourceManager.getInstance().getTemplateData(EMusicStyle.fun)!));
+
+    List<TemplateData> randomSortedTemplateList = [];
+    while (templateList.isNotEmpty) {
+      int randIdx =
+          (Random()).nextInt(templateList.length) % templateList.length;
+      randomSortedTemplateList.add(templateList[randIdx]);
+      templateList.removeAt(randIdx);
+    }
 
     final AllEditedData allEditedData = await generateAllEditedData(
-        mediaList, selectedStyle, templateList, isAutoEdit);
+        mediaList, selectedStyle, randomSortedTemplateList, isAutoEdit);
 
     List<ETextID> textIds;
     if (texts.length >= 2) {
@@ -196,7 +204,7 @@ class VMSDKWidget extends StatelessWidget {
           progressCallback) async {
     try {
       await ResourceManager.getInstance()
-          .loadResourceFromAssets(editedMediaList, musicList, ratio);
+          .loadResourceFromAssets(editedMediaList, ratio);
 
       _currentStatus = EGenerateStatus.encoding;
       _currentRenderedFrame = 0;

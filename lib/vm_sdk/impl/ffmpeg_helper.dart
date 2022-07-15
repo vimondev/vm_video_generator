@@ -711,7 +711,7 @@ Future<RenderedData?> mergeVideoClip(List<RenderedData> clipList) async {
     ], null);
 
     audioFilterComplexStr +=
-        "${audioMergeTargets}amix=inputs=${mergedClipList.length}:dropout_transition=99999,volume=${mergedClipList.length}[merged];[merged]afade=t=out:st=${(totalDuration - _fadeDuration)}:d=$_fadeDuration[out]";
+        "${audioMergeTargets}amix=inputs=${mergedClipList.length}:dropout_transition=99999,volume=${mergedClipList.length / 2}[merged];[merged]afade=t=out:st=${(totalDuration - _fadeDuration)}:d=$_fadeDuration[out]";
     audioArguments.addAll([
       "-filter_complex",
       audioFilterComplexStr,

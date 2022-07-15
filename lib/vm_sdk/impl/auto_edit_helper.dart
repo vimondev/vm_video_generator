@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 
 import 'resource_manager.dart';
@@ -6,6 +7,7 @@ import 'package:path/path.dart';
 
 import '../types/types.dart';
 import 'global_helper.dart';
+import 'song_helper.dart';
 
 Map<int, EMediaLabel> classifiedLabelMap = {};
 Map<int, bool> definitiveLabelMap = {};
@@ -497,6 +499,7 @@ Future<AllEditedData> generateAllEditedData(
   }
   int currentMediaIndex = 0;
   double totalRemainDuration = 0;
+  double totalDuration = 0;
 
   for (final entry in groupMap.entries) {
     final List<MediaData> curList = entry.value;
@@ -579,6 +582,8 @@ Future<AllEditedData> generateAllEditedData(
 
       allEditedData.editedMediaList.add(editedMedia);
       currentMediaIndex++;
+
+      totalDuration += editedMedia.duration;
     }
   }
 
@@ -630,7 +635,7 @@ Future<AllEditedData> generateAllEditedData(
   curOverlayTransitionList.addAll(originOverlayTransitionList);
 
   int lastTransitionInsertedIndex = 0;
-  int clipCount = 4 + (Random()).nextInt(2);
+  int clipCount = 3 + (Random()).nextInt(2);
 
   bool isPassedBoundary = false;
 
@@ -656,7 +661,7 @@ Future<AllEditedData> generateAllEditedData(
             : ETransitionType.overlay;
       } //
       else {
-        currentTransitionType = ETransitionType.xfade;
+        continue;
       }
 
       if (currentTransitionType == ETransitionType.xfade) {
@@ -707,7 +712,7 @@ Future<AllEditedData> generateAllEditedData(
       }
 
       lastTransitionInsertedIndex = i;
-      clipCount = 4 + (Random()).nextInt(2);
+      clipCount = 3 + (Random()).nextInt(2);
       isPassedBoundary = false;
     }
   }
@@ -835,8 +840,51 @@ Future<AllEditedData> generateAllEditedData(
     print("");
   }
 
-  for (int i = 0; i < templateList.length; i++) {
-    allEditedData.musicList.add(templateList[i].music);
+  final Map<String, int> hashTagMap = await getHashtags();
+
+  int hashtagId = hashTagMap[hashTagMap.keys.first]!;
+  for (final String key in hashTagMap.keys) {
+    EMusicStyle? curStyle = musicStyleMap[key];
+
+    if (curStyle == musicStyle) {
+      hashtagId = hashTagMap[key]!;
+      break;
+    }
+  }
+
+  List songs = await getSongs(hashtagId);
+  List randomSortedSongs = [];
+  while (songs.isNotEmpty) {
+    int randIdx = (Random()).nextInt(songs.length) % songs.length;
+    randomSortedSongs.add(songs[randIdx]);
+    songs.removeAt(randIdx);
+  }
+
+  double remainTotalDuration = totalDuration;
+  int currentSongIndex = 0;
+
+  while (remainTotalDuration > 0) {
+    Map song = randomSortedSongs[currentSongIndex % randomSortedSongs.length];
+
+    double duration = song["duration"] * 1.0;
+    Map? source = song["source"];
+
+    if (source != null) {
+      String name = source["name"];
+      String url = source["url"];
+
+      MusicData musicData = MusicData();
+      musicData.duration = duration;
+      musicData.filename = name;
+
+      final File file = await downloadSong(name, url);
+      musicData.absolutePath = file.path;
+
+      allEditedData.musicList.add(musicData);
+      remainTotalDuration -= duration;
+    }
+
+    currentSongIndex++;
   }
 
   return allEditedData;

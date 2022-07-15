@@ -44,6 +44,7 @@ dependencies:
   firebase_core: ^1.17.1
   flutter_inappwebview: ^5.2.0
   uuid: ^3.0.6
+  http: ^0.13.4
 
 dev_dependencies:
   flutter_test:
@@ -83,7 +84,6 @@ flutter:
     - assets/html/
     - assets/text/
     - assets/template/
-    - assets/raw/audio/
     - assets/raw/frame/
     - assets/raw/sticker/
     - assets/raw/transition/

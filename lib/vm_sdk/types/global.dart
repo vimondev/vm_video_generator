@@ -32,6 +32,22 @@ enum EMusicStyle {
   cheerful,
   energetic
 }
+
+const Map<String, EMusicStyle> musicStyleMap = {
+  "Energetic": EMusicStyle.energetic,
+  "Cheerful": EMusicStyle.cheerful,
+  "Happy": EMusicStyle.happy,
+  "Joyful": EMusicStyle.joyful,
+  "Fun": EMusicStyle.fun,
+  "Inspiring": EMusicStyle.inspiring,
+  "Hopeful": EMusicStyle.hopeful,
+  "Upbeat": EMusicStyle.upbeat,
+  "Beautiful": EMusicStyle.beautiful,
+  "Ambient": EMusicStyle.ambient,
+  "Dreamy": EMusicStyle.dreamy,
+  "Calm": EMusicStyle.calm,
+};
+
 enum EGenerateStatus { none, titleExport, encoding, finishing }
 
 List<double> parseGPS(String gpsString) {

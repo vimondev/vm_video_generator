@@ -44,23 +44,27 @@ class TestWidget extends StatelessWidget {
           createDate, gpsString, mlkitDetected));
     }
 
-    VideoGeneratedResult result =
-        await _vmsdkWidget.generateVideo(mediaList, EMusicStyle.fun, false,
-            // ["THIS IS", "VIMON V-LOG"],
-            ["THIS IS VIMON V-LOG"], (status, progress) {
-      print(status);
-      print(progress);
-    });
+    for (int i=0; i<EMusicStyle.values.length; i++) {
+      EMusicStyle style = EMusicStyle.values[i];
 
-    await GallerySaver.saveVideo(result.generatedVideoPath);
+      VideoGeneratedResult result =
+          await _vmsdkWidget.generateVideo(mediaList, style, false,
+              // ["THIS IS", "VIMON V-LOG"],
+              ["$style"], (status, progress) {
+        print(status);
+        print(progress);
+      });
 
-    result = await _vmsdkWidget.generateVideoFromJSON(result.json,
-        (status, progress) {
-      print(status);
-      print(progress);
-    });
+      await GallerySaver.saveVideo(result.generatedVideoPath);
+    }
 
-    await GallerySaver.saveVideo(result.generatedVideoPath);
+    // result = await _vmsdkWidget.generateVideoFromJSON(result.json,
+    //     (status, progress) {
+    //   print(status);
+    //   print(progress);
+    // });
+
+    // await GallerySaver.saveVideo(result.generatedVideoPath);
   }
 
   @override
