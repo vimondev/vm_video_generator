@@ -113,7 +113,7 @@ Future<RenderedData?> clipRender(
   // IMAGE SCALE ANIMATION //
   ///////////////////////////
   if (mediaData.type == EMediaType.image) {
-    const int animationSpeed = 48;
+    const int animationSpeed = 96;
     final int videoWidth = _resolution.width;
     final int videoHeight = _resolution.height;
 
