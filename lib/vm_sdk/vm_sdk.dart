@@ -145,8 +145,8 @@ class VMSDKWidget extends StatelessWidget {
 
     TextExportData exportedText = TextExportData(
         pickedTextId,
-        _textWidget.width,
-        _textWidget.height,
+        _textWidget.width * 1.3,
+        _textWidget.height * 1.3,
         _textWidget.frameRate,
         _textWidget.previewImagePath!,
         _textWidget.allSequencesPath!);
@@ -158,10 +158,14 @@ class VMSDKWidget extends StatelessWidget {
 
     Resolution resolution = allEditedData.resolution;
     final int maxTextWidth = (resolution.width * 0.9).floor();
+    final int maxTextHeight = (resolution.height * 0.9).floor();
+    
+    exportedText.scale = 1;
     if (exportedText.width > maxTextWidth) {
       exportedText.scale = maxTextWidth / exportedText.width;
-    } else {
-      exportedText.scale = 1;
+    }
+    if (exportedText.height > maxTextHeight) {
+      exportedText.scale = min(maxTextHeight / exportedText.height, exportedText.scale);
     }
 
     exportedText.x =
