@@ -1,1128 +1,1897 @@
 {
     "FRAME_DA007": {
         "type": "background",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_DA007 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 1.501,
-                "filename": "FRAME_DA007 11.webm"
+                "duration": 1.501
             },
             "169": {
+                "filename": "FRAME_DA007 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 1.501,
-                "filename": "FRAME_DA007 169.webm"
+                "duration": 1.501
             },
             "916": {
+                "filename": "FRAME_DA007 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 1.501,
-                "filename": "FRAME_DA007 916.webm"
+                "duration": 1.501
             }
         }
     },
     "FRAME_DA010": {
-        "type": "background",
+        "type": "animal",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_DA010 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 3.003,
-                "filename": "FRAME_DA010 11.webm"
+                "duration": 3.003
             },
             "169": {
+                "filename": "FRAME_DA010 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 3.003,
-                "filename": "FRAME_DA010 169.webm"
+                "duration": 3.003
             },
             "916": {
+                "filename": "FRAME_DA010 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 3.003,
-                "filename": "FRAME_DA010 916.webm"
+                "duration": 3.003
             }
         }
     },
     "FRAME_DA015": {
-        "type": "background",
+        "type": "food",
+        "speed": "F",
         "ratios": {
             "11": {
+                "filename": "FRAME_DA015 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 3.003,
-                "filename": "FRAME_DA015 11.webm"
+                "duration": 3.003
             },
             "169": {
+                "filename": "FRAME_DA015 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 3.003,
-                "filename": "FRAME_DA015 169.webm"
+                "duration": 3.003
             },
             "916": {
+                "filename": "FRAME_DA015 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 3.003,
-                "filename": "FRAME_DA015 916.webm"
+                "duration": 3.003
             }
         }
     },
     "FRAME_HJ008": {
-        "type": "background",
+        "type": "person",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_HJ008 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 3,
-                "filename": "FRAME_HJ008 11.webm"
+                "duration": 3
             },
             "169": {
+                "filename": "FRAME_HJ008 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 3,
-                "filename": "FRAME_HJ008 169.webm"
+                "duration": 3
             },
             "916": {
+                "filename": "FRAME_HJ008 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 3,
-                "filename": "FRAME_HJ008 916.webm"
+                "duration": 3
             }
         }
     },
     "FRAME_HJ009": {
         "type": "background",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_HJ009 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 4,
-                "filename": "FRAME_HJ009 11.webm"
+                "duration": 4
             },
             "169": {
+                "filename": "FRAME_HJ009 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 4,
-                "filename": "FRAME_HJ009 169.webm"
+                "duration": 4
             },
             "916": {
+                "filename": "FRAME_HJ009 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 4,
-                "filename": "FRAME_HJ009 916.webm"
+                "duration": 4
             }
         }
     },
     "FRAME_HJ014": {
         "type": "background",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_HJ014 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 3,
-                "filename": "FRAME_HJ014 11.webm"
+                "duration": 3
             },
             "169": {
+                "filename": "FRAME_HJ014 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 3,
-                "filename": "FRAME_HJ014 169.webm"
+                "duration": 3
             },
             "916": {
+                "filename": "FRAME_HJ014 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 3,
-                "filename": "FRAME_HJ014 916.webm"
+                "duration": 3
             }
         }
     },
     "FRAME_HJ016": {
         "type": "background",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_HJ016 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 3,
-                "filename": "FRAME_HJ016 11.webm"
+                "duration": 3
             },
             "169": {
+                "filename": "FRAME_HJ016 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 3,
-                "filename": "FRAME_HJ016 169.webm"
+                "duration": 3
             },
             "916": {
+                "filename": "FRAME_HJ016 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 3,
-                "filename": "FRAME_HJ016 916.webm"
+                "duration": 3
             }
         }
     },
     "FRAME_ON010": {
         "type": "background",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_ON010 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 3.003,
-                "filename": "FRAME_ON010 11.webm"
+                "duration": 3.003
             },
             "169": {
+                "filename": "FRAME_ON010 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 3.003,
-                "filename": "FRAME_ON010 169.webm"
+                "duration": 3.003
             },
             "916": {
+                "filename": "FRAME_ON010 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 3.003,
-                "filename": "FRAME_ON010 916.webm"
+                "duration": 3.003
             }
         }
     },
     "FRAME_ON011": {
         "type": "background",
+        "speed": "L",
         "ratios": {
             "11": {
+                "filename": "FRAME_ON011 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 3.003,
-                "filename": "FRAME_ON011 11.webm"
+                "duration": 3.003
             },
             "169": {
+                "filename": "FRAME_ON011 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 3.003,
-                "filename": "FRAME_ON011 169.webm"
+                "duration": 3.003
             },
             "916": {
+                "filename": "FRAME_ON011 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 3.003,
-                "filename": "FRAME_ON011 916.webm"
+                "duration": 3.003
             }
         }
     },
     "FRAME_ON012": {
         "type": "background",
+        "speed": "L",
         "ratios": {
             "11": {
+                "filename": "FRAME_ON012 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 3.003,
-                "filename": "FRAME_ON012 11.webm"
+                "duration": 3.003
             },
             "169": {
+                "filename": "FRAME_ON012 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 3.003,
-                "filename": "FRAME_ON012 169.webm"
+                "duration": 3.003
             },
             "916": {
+                "filename": "FRAME_ON012 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 3.003,
-                "filename": "FRAME_ON012 916.webm"
+                "duration": 3.003
             }
         }
     },
     "FRAME_ON014": {
         "type": "background",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_ON014 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 3.003,
-                "filename": "FRAME_ON014 11.webm"
+                "duration": 3.003
             },
             "169": {
+                "filename": "FRAME_ON014 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 3.003,
-                "filename": "FRAME_ON014 169.webm"
+                "duration": 3.003
             },
             "916": {
+                "filename": "FRAME_ON014 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 3.003,
-                "filename": "FRAME_ON014 916.webm"
+                "duration": 3.003
             }
         }
     },
     "FRAME_ON016": {
         "type": "background",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_ON016 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 5.005,
-                "filename": "FRAME_ON016 11.webm"
+                "duration": 5.005
             },
             "169": {
+                "filename": "FRAME_ON016 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 5.005,
-                "filename": "FRAME_ON016 169.webm"
+                "duration": 5.005
             },
             "916": {
+                "filename": "FRAME_ON016 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 5.005,
-                "filename": "FRAME_ON016 916.webm"
+                "duration": 5.005
             }
         }
     },
     "FRAME_ON018": {
-        "type": "background",
+        "type": "food",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_ON018 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 3.003,
-                "filename": "FRAME_ON018 11.webm"
+                "duration": 3.003
             },
             "169": {
+                "filename": "FRAME_ON018 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 3.003,
-                "filename": "FRAME_ON018 169.webm"
+                "duration": 3.003
             },
             "916": {
+                "filename": "FRAME_ON018 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 3.003,
-                "filename": "FRAME_ON018 916.webm"
+                "duration": 3.003
             }
         }
     },
     "FRAME_ON019": {
         "type": "background",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_ON019 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 3.003,
-                "filename": "FRAME_ON019 11.webm"
+                "duration": 3.003
             },
             "169": {
+                "filename": "FRAME_ON019 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 3.003,
-                "filename": "FRAME_ON019 169.webm"
+                "duration": 3.003
             },
             "916": {
+                "filename": "FRAME_ON019 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 3.003,
-                "filename": "FRAME_ON019 916.webm"
+                "duration": 3.003
             }
         }
     },
     "FRAME_ON020": {
         "type": "background",
+        "speed": "L",
         "ratios": {
             "11": {
+                "filename": "FRAME_ON020 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 3.003,
-                "filename": "FRAME_ON020 11.webm"
+                "duration": 3.003
             },
             "169": {
+                "filename": "FRAME_ON020 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 3.003,
-                "filename": "FRAME_ON020 169.webm"
+                "duration": 3.003
             },
             "916": {
+                "filename": "FRAME_ON020 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 3.003,
-                "filename": "FRAME_ON020 916.webm"
+                "duration": 3.003
             }
         }
     },
     "FRAME_ON021": {
-        "type": "background",
+        "type": "food",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_ON021 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 5.005,
-                "filename": "FRAME_ON021 11.webm"
+                "duration": 5.005
             },
             "169": {
+                "filename": "FRAME_ON021 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 5.005,
-                "filename": "FRAME_ON021 169.webm"
+                "duration": 5.005
             },
             "916": {
+                "filename": "FRAME_ON021 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 5.005,
-                "filename": "FRAME_ON021 916.webm"
+                "duration": 5.005
             }
         }
     },
     "FRAME_ON022": {
-        "type": "background",
+        "type": "food",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_ON022 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 3.003,
-                "filename": "FRAME_ON022 11.webm"
+                "duration": 3.003
             },
             "169": {
+                "filename": "FRAME_ON022 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 3.003,
-                "filename": "FRAME_ON022 169.webm"
+                "duration": 3.003
             },
             "916": {
+                "filename": "FRAME_ON022 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 3.003,
-                "filename": "FRAME_ON022 916.webm"
+                "duration": 3.003
             }
         }
     },
     "FRAME_ON023": {
-        "type": "background",
+        "type": "food",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_ON023 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 3.003,
-                "filename": "FRAME_ON023 11.webm"
+                "duration": 3.003
             },
             "169": {
+                "filename": "FRAME_ON023 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 3.003,
-                "filename": "FRAME_ON023 169.webm"
+                "duration": 3.003
             },
             "916": {
+                "filename": "FRAME_ON023 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 3.003,
-                "filename": "FRAME_ON023 916.webm"
+                "duration": 3.003
             }
         }
     },
     "FRAME_SW002": {
         "type": "background",
+        "speed": "L",
         "ratios": {
             "11": {
+                "filename": "FRAME_SW002 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 5,
-                "filename": "FRAME_SW002 11.webm"
+                "duration": 5
             },
             "169": {
+                "filename": "FRAME_SW002 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 5,
-                "filename": "FRAME_SW002 169.webm"
+                "duration": 5
             },
             "916": {
+                "filename": "FRAME_SW002 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 5,
-                "filename": "FRAME_SW002 916.webm"
+                "duration": 5
             }
         }
     },
     "FRAME_SW004": {
         "type": "background",
+        "speed": "F",
         "ratios": {
             "11": {
+                "filename": "FRAME_SW004 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 5,
-                "filename": "FRAME_SW004 11.webm"
+                "duration": 5
             },
             "169": {
+                "filename": "FRAME_SW004 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 5,
-                "filename": "FRAME_SW004 169.webm"
+                "duration": 5
             },
             "916": {
+                "filename": "FRAME_SW004 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 5,
-                "filename": "FRAME_SW004 916.webm"
+                "duration": 5
             }
         }
     },
     "FRAME_SW009": {
         "type": "background",
+        "speed": "L",
         "ratios": {
             "11": {
+                "filename": "FRAME_SW009 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 5,
-                "filename": "FRAME_SW009 11.webm"
+                "duration": 5
             },
             "169": {
+                "filename": "FRAME_SW009 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 5,
-                "filename": "FRAME_SW009 169.webm"
+                "duration": 5
             },
             "916": {
+                "filename": "FRAME_SW009 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 5,
-                "filename": "FRAME_SW009 916.webm"
+                "duration": 5
             }
         }
     },
     "FRAME_SW011": {
         "type": "background",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_SW011 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 5,
-                "filename": "FRAME_SW011 11.webm"
+                "duration": 5
             },
             "169": {
+                "filename": "FRAME_SW011 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 5,
-                "filename": "FRAME_SW011 169.webm"
+                "duration": 5
             },
             "916": {
+                "filename": "FRAME_SW011 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 5,
-                "filename": "FRAME_SW011 916.webm"
+                "duration": 5
             }
         }
     },
     "FRAME_SW012": {
         "type": "background",
+        "speed": "L",
         "ratios": {
             "11": {
+                "filename": "FRAME_SW012 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 5,
-                "filename": "FRAME_SW012 11.webm"
+                "duration": 5
             },
             "169": {
+                "filename": "FRAME_SW012 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 5,
-                "filename": "FRAME_SW012 169.webm"
+                "duration": 5
             },
             "916": {
+                "filename": "FRAME_SW012 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 5,
-                "filename": "FRAME_SW012 916.webm"
+                "duration": 5
             }
         }
     },
     "FRAME_SW014": {
         "type": "background",
+        "speed": "L",
         "ratios": {
             "11": {
+                "filename": "FRAME_SW014 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 5,
-                "filename": "FRAME_SW014 11.webm"
+                "duration": 5
             },
             "169": {
+                "filename": "FRAME_SW014 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 5,
-                "filename": "FRAME_SW014 169.webm"
+                "duration": 5
             },
             "916": {
+                "filename": "FRAME_SW014 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 5,
-                "filename": "FRAME_SW014 916.webm"
+                "duration": 5
             }
         }
     },
     "FRAME_SW015": {
         "type": "background",
+        "speed": "L",
         "ratios": {
             "11": {
+                "filename": "FRAME_SW015 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 4.8,
-                "filename": "FRAME_SW015 11.webm"
+                "duration": 4.8
             },
             "169": {
+                "filename": "FRAME_SW015 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 4.8,
-                "filename": "FRAME_SW015 169.webm"
+                "duration": 4.8
             },
             "916": {
+                "filename": "FRAME_SW015 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 4.8,
-                "filename": "FRAME_SW015 916.webm"
+                "duration": 4.8
             }
         }
     },
     "FRAME_SW016": {
         "type": "background",
+        "speed": "L",
         "ratios": {
             "11": {
+                "filename": "FRAME_SW016 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 5,
-                "filename": "FRAME_SW016 11.webm"
+                "duration": 5
             },
             "169": {
+                "filename": "FRAME_SW016 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 5,
-                "filename": "FRAME_SW016 169.webm"
+                "duration": 5
             },
             "916": {
+                "filename": "FRAME_SW016 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 5,
-                "filename": "FRAME_SW016 916.webm"
+                "duration": 5
             }
         }
     },
     "FRAME_SW017": {
         "type": "background",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_SW017 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 3.76,
-                "filename": "FRAME_SW017 11.webm"
+                "duration": 3.76
             },
             "169": {
+                "filename": "FRAME_SW017 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 3.76,
-                "filename": "FRAME_SW017 169.webm"
+                "duration": 3.76
             },
             "916": {
+                "filename": "FRAME_SW017 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 3.76,
-                "filename": "FRAME_SW017 916.webm"
+                "duration": 3.76
             }
         }
     },
     "FRAME_SW022": {
         "type": "background",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_SW022 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 5,
-                "filename": "FRAME_SW022 11.webm"
+                "duration": 5
             },
             "169": {
+                "filename": "FRAME_SW022 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 5,
-                "filename": "FRAME_SW022 169.webm"
+                "duration": 5
             },
             "916": {
+                "filename": "FRAME_SW022 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 5,
-                "filename": "FRAME_SW022 916.webm"
+                "duration": 5
             }
         }
     },
     "FRAME_SW023": {
         "type": "background",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_SW023 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 5,
-                "filename": "FRAME_SW023 11.webm"
+                "duration": 5
             },
             "169": {
+                "filename": "FRAME_SW023 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 5,
-                "filename": "FRAME_SW023 169.webm"
+                "duration": 5
             },
             "916": {
+                "filename": "FRAME_SW023 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 5,
-                "filename": "FRAME_SW023 916.webm"
+                "duration": 5
             }
         }
     },
     "FRAME_SW024": {
         "type": "background",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_SW024 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 5,
-                "filename": "FRAME_SW024 11.webm"
+                "duration": 5
             },
             "169": {
+                "filename": "FRAME_SW024 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 5,
-                "filename": "FRAME_SW024 169.webm"
+                "duration": 5
             },
             "916": {
+                "filename": "FRAME_SW024 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 5,
-                "filename": "FRAME_SW024 916.webm"
+                "duration": 5
             }
         }
     },
     "FRAME_SW025": {
-        "type": "background",
+        "type": "food",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_SW025 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 10,
-                "filename": "FRAME_SW025 11.webm"
+                "duration": 10
             },
             "169": {
+                "filename": "FRAME_SW025 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 10,
-                "filename": "FRAME_SW025 169.webm"
+                "duration": 10
             },
             "916": {
+                "filename": "FRAME_SW025 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 10,
-                "filename": "FRAME_SW025 916.webm"
+                "duration": 10
             }
         }
     },
     "FRAME_SW027": {
-        "type": "background",
+        "type": "animal",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_SW027 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 10,
-                "filename": "FRAME_SW027 11.webm"
+                "duration": 10
             },
             "169": {
+                "filename": "FRAME_SW027 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 10,
-                "filename": "FRAME_SW027 169.webm"
+                "duration": 10
             },
             "916": {
+                "filename": "FRAME_SW027 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 10,
-                "filename": "FRAME_SW027 916.webm"
+                "duration": 10
             }
         }
     },
     "FRAME_YJ004": {
-        "type": "background",
+        "type": "person",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_YJ004 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 4.671,
-                "filename": "FRAME_YJ004 11.webm"
+                "duration": 4.671
             },
             "169": {
+                "filename": "FRAME_YJ004 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 4.671,
-                "filename": "FRAME_YJ004 169.webm"
+                "duration": 4.671
             },
             "916": {
+                "filename": "FRAME_YJ004 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 4.671,
-                "filename": "FRAME_YJ004 916.webm"
+                "duration": 4.671
             }
         }
     },
     "FRAME_YJ008": {
         "type": "background",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_YJ008 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 4.037,
-                "filename": "FRAME_YJ008 11.webm"
+                "duration": 4.037
             },
             "169": {
+                "filename": "FRAME_YJ008 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 4.037,
-                "filename": "FRAME_YJ008 169.webm"
+                "duration": 4.037
             },
             "916": {
+                "filename": "FRAME_YJ008 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 4.037,
-                "filename": "FRAME_YJ008 916.webm"
+                "duration": 4.037
             }
         }
     },
     "FRAME_YJ009": {
         "type": "background",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_YJ009 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 5.005,
-                "filename": "FRAME_YJ009 11.webm"
+                "duration": 5.005
             },
             "169": {
+                "filename": "FRAME_YJ009 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 5.005,
-                "filename": "FRAME_YJ009 169.webm"
+                "duration": 5.005
             },
             "916": {
+                "filename": "FRAME_YJ009 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 5.005,
-                "filename": "FRAME_YJ009 916.webm"
+                "duration": 5.005
             }
         }
     },
     "FRAME_YJ010": {
         "type": "background",
+        "speed": "L",
         "ratios": {
             "11": {
+                "filename": "FRAME_YJ010 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 4.037,
-                "filename": "FRAME_YJ010 11.webm"
+                "duration": 4.037
             },
             "169": {
+                "filename": "FRAME_YJ010 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 4.037,
-                "filename": "FRAME_YJ010 169.webm"
+                "duration": 4.037
             },
             "916": {
+                "filename": "FRAME_YJ010 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 4.037,
-                "filename": "FRAME_YJ010 916.webm"
+                "duration": 4.037
             }
         }
     },
     "FRAME_YJ012": {
         "type": "background",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_YJ012 11.webm",
                 "width": 980,
                 "height": 980,
-                "duration": 5.005,
-                "filename": "FRAME_YJ012 11.webm"
+                "duration": 5.005
             },
             "169": {
+                "filename": "FRAME_YJ012 169.webm",
                 "width": 1670,
                 "height": 980,
-                "duration": 5.005,
-                "filename": "FRAME_YJ012 169.webm"
+                "duration": 5.005
             },
             "916": {
+                "filename": "FRAME_YJ012 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 5.005,
-                "filename": "FRAME_YJ012 916.webm"
+                "duration": 5.005
             }
         }
     },
     "FRAME_YJ013": {
-        "type": "background",
+        "type": "food",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_YJ013 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 5.005,
-                "filename": "FRAME_YJ013 11.webm"
+                "duration": 5.005
             },
             "169": {
+                "filename": "FRAME_YJ013 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 5.005,
-                "filename": "FRAME_YJ013 169.webm"
+                "duration": 5.005
             },
             "916": {
+                "filename": "FRAME_YJ013 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 5.005,
-                "filename": "FRAME_YJ013 916.webm"
+                "duration": 5.005
             }
         }
     },
     "FRAME_YJ014": {
         "type": "background",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_YJ014 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 3.803,
-                "filename": "FRAME_YJ014 11.webm"
+                "duration": 3.803
             },
             "169": {
+                "filename": "FRAME_YJ014 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 3.803,
-                "filename": "FRAME_YJ014 169.webm"
+                "duration": 3.803
             },
             "916": {
+                "filename": "FRAME_YJ014 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 3.803,
-                "filename": "FRAME_YJ014 916.webm"
+                "duration": 3.803
             }
         }
     },
     "FRAME_YJ015": {
         "type": "background",
+        "speed": "L",
         "ratios": {
             "11": {
+                "filename": "FRAME_YJ015 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 4.004,
-                "filename": "FRAME_YJ015 11.webm"
+                "duration": 4.004
             },
             "169": {
+                "filename": "FRAME_YJ015 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 4.004,
-                "filename": "FRAME_YJ015 169.webm"
+                "duration": 4.004
             },
             "916": {
+                "filename": "FRAME_YJ015 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 4.004,
-                "filename": "FRAME_YJ015 916.webm"
+                "duration": 4.004
             }
         }
     },
     "FRAME_YJ016": {
         "type": "background",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_YJ016 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 4.004,
-                "filename": "FRAME_YJ016 11.webm"
+                "duration": 4.004
             },
             "169": {
+                "filename": "FRAME_YJ016 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 4.004,
-                "filename": "FRAME_YJ016 169.webm"
+                "duration": 4.004
             },
             "916": {
+                "filename": "FRAME_YJ016 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 4.004,
-                "filename": "FRAME_YJ016 916.webm"
+                "duration": 4.004
             }
         }
     },
     "FRAME_YJ017": {
         "type": "background",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_YJ017 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 4.004,
-                "filename": "FRAME_YJ017 11.webm"
+                "duration": 4.004
             },
             "169": {
+                "filename": "FRAME_YJ017 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 4.004,
-                "filename": "FRAME_YJ017 169.webm"
+                "duration": 4.004
             },
             "916": {
+                "filename": "FRAME_YJ017 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 4.004,
-                "filename": "FRAME_YJ017 916.webm"
+                "duration": 4.004
             }
         }
     },
     "FRAME_YJ019": {
         "type": "background",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_YJ019 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 5.839,
-                "filename": "FRAME_YJ019 11.webm"
+                "duration": 5.839
             },
             "169": {
+                "filename": "FRAME_YJ019 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 5.839,
-                "filename": "FRAME_YJ019 169.webm"
+                "duration": 5.839
             },
             "916": {
+                "filename": "FRAME_YJ019 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 5.839,
-                "filename": "FRAME_YJ019 916.webm"
+                "duration": 5.839
             }
         }
     },
     "FRAME_YJ020": {
         "type": "background",
+        "speed": "L",
         "ratios": {
             "11": {
+                "filename": "FRAME_YJ020 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 5.005,
-                "filename": "FRAME_YJ020 11.webm"
+                "duration": 5.005
             },
             "169": {
+                "filename": "FRAME_YJ020 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 5.005,
-                "filename": "FRAME_YJ020 169.webm"
+                "duration": 5.005
             },
             "916": {
+                "filename": "FRAME_YJ020 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 5.005,
-                "filename": "FRAME_YJ020 916.webm"
+                "duration": 5.005
             }
         }
     },
     "FRAME_YJ025": {
         "type": "background",
+        "speed": "L",
         "ratios": {
             "11": {
+                "filename": "FRAME_YJ025 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 5.005,
-                "filename": "FRAME_YJ025 11.webm"
+                "duration": 5.005
             },
             "169": {
+                "filename": "FRAME_YJ025 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 5.005,
-                "filename": "FRAME_YJ025 169.webm"
+                "duration": 5.005
             },
             "916": {
+                "filename": "FRAME_YJ025 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 5.005,
-                "filename": "FRAME_YJ025 916.webm"
+                "duration": 5.005
             }
         }
     },
     "FRAME_YJ026": {
-        "type": "background",
+        "type": "food",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_YJ026 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 5.005,
-                "filename": "FRAME_YJ026 11.webm"
+                "duration": 5.005
             },
             "169": {
+                "filename": "FRAME_YJ026 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 5.005,
-                "filename": "FRAME_YJ026 169.webm"
+                "duration": 5.005
             },
             "916": {
+                "filename": "FRAME_YJ026 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 5.005,
-                "filename": "FRAME_YJ026 916.webm"
+                "duration": 5.005
             }
         }
     },
     "FRAME_YJ027": {
         "type": "background",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_YJ027 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 4.004,
-                "filename": "FRAME_YJ027 11.webm"
+                "duration": 4.004
             },
             "169": {
+                "filename": "FRAME_YJ027 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 4.004,
-                "filename": "FRAME_YJ027 169.webm"
+                "duration": 4.004
             },
             "916": {
+                "filename": "FRAME_YJ027 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 4.004,
-                "filename": "FRAME_YJ027 916.webm"
+                "duration": 4.004
             }
         }
     },
     "FRAME_YJ031": {
-        "type": "background",
+        "type": "food",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_YJ031 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 5.005,
-                "filename": "FRAME_YJ031 11.webm"
+                "duration": 5.005
             },
             "169": {
+                "filename": "FRAME_YJ031 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 5.005,
-                "filename": "FRAME_YJ031 169.webm"
+                "duration": 5.005
             },
             "916": {
+                "filename": "FRAME_YJ031 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 5.005,
-                "filename": "FRAME_YJ031 916.webm"
+                "duration": 5.005
             }
         }
     },
     "FRAME_YJ032": {
-        "type": "background",
+        "type": "person",
+        "speed": "M",
         "ratios": {
             "11": {
+                "filename": "FRAME_YJ032 11.webm",
                 "width": 1080,
                 "height": 1080,
-                "duration": 5.005,
-                "filename": "FRAME_YJ032 11.webm"
+                "duration": 5.005
             },
             "169": {
+                "filename": "FRAME_YJ032 169.webm",
                 "width": 1920,
                 "height": 1080,
-                "duration": 5.005,
-                "filename": "FRAME_YJ032 169.webm"
+                "duration": 5.005
             },
             "916": {
+                "filename": "FRAME_YJ032 916.webm",
                 "width": 1080,
                 "height": 1920,
-                "duration": 5.005,
-                "filename": "FRAME_YJ032 916.webm"
+                "duration": 5.005
+            }
+        }
+    },
+    "NEW_FRAME_DA001": {
+        "type": "background",
+        "speed": "M",
+        "ratios": {
+            "11": {
+                "filename": "NEW_FRAME_DA001 11.webm",
+                "width": 1080,
+                "height": 1080,
+                "duration": 5.005
+            },
+            "169": {
+                "filename": "NEW_FRAME_DA001 169.webm",
+                "width": 1920,
+                "height": 1080,
+                "duration": 5.005
+            },
+            "916": {
+                "filename": "NEW_FRAME_DA001 916.webm",
+                "width": 1080,
+                "height": 1920,
+                "duration": 5.005
+            }
+        }
+    },
+    "NEW_FRAME_DA002": {
+        "type": "background",
+        "speed": "L",
+        "ratios": {
+            "11": {
+                "filename": "NEW_FRAME_DA002 11.webm",
+                "width": 1080,
+                "height": 1080,
+                "duration": 5.005
+            },
+            "169": {
+                "filename": "NEW_FRAME_DA002 169.webm",
+                "width": 1920,
+                "height": 1080,
+                "duration": 5.005
+            },
+            "916": {
+                "filename": "NEW_FRAME_DA002 916.webm",
+                "width": 1080,
+                "height": 1920,
+                "duration": 5.005
+            }
+        }
+    },
+    "NEW_FRAME_DA003": {
+        "type": "background",
+        "speed": "M",
+        "ratios": {
+            "11": {
+                "filename": "NEW_FRAME_DA003 11.webm",
+                "width": 1080,
+                "height": 1080,
+                "duration": 5.005
+            },
+            "169": {
+                "filename": "NEW_FRAME_DA003 169.webm",
+                "width": 1920,
+                "height": 1080,
+                "duration": 5.005
+            },
+            "916": {
+                "filename": "NEW_FRAME_DA003 916.webm",
+                "width": 1080,
+                "height": 1920,
+                "duration": 5.005
+            }
+        }
+    },
+    "NEW_FRAME_DA004": {
+        "type": "background",
+        "speed": "M",
+        "ratios": {
+            "11": {
+                "filename": "NEW_FRAME_DA004 11.webm",
+                "width": 1080,
+                "height": 1080,
+                "duration": 5.005
+            },
+            "169": {
+                "filename": "NEW_FRAME_DA004 169.webm",
+                "width": 1920,
+                "height": 1080,
+                "duration": 5.005
+            },
+            "916": {
+                "filename": "NEW_FRAME_DA004 916.webm",
+                "width": 1080,
+                "height": 1920,
+                "duration": 5.005
+            }
+        }
+    },
+    "NEW_FRAME_DA005": {
+        "type": "food",
+        "speed": "M",
+        "ratios": {
+            "11": {
+                "filename": "NEW_FRAME_DA005 11.webm",
+                "width": 1080,
+                "height": 1080,
+                "duration": 5.005
+            },
+            "169": {
+                "filename": "NEW_FRAME_DA005 169.webm",
+                "width": 1920,
+                "height": 1080,
+                "duration": 5.005
+            },
+            "916": {
+                "filename": "NEW_FRAME_DA005 916.webm",
+                "width": 1080,
+                "height": 1920,
+                "duration": 5.005
+            }
+        }
+    },
+    "NEW_FRAME_DA006": {
+        "type": "background",
+        "speed": "M",
+        "ratios": {
+            "11": {
+                "filename": "NEW_FRAME_DA006 11.webm",
+                "width": 1080,
+                "height": 1080,
+                "duration": 5.005
+            },
+            "169": {
+                "filename": "NEW_FRAME_DA006 169.webm",
+                "width": 1920,
+                "height": 1080,
+                "duration": 5.005
+            },
+            "916": {
+                "filename": "NEW_FRAME_DA006 916.webm",
+                "width": 1080,
+                "height": 1920,
+                "duration": 5.005
+            }
+        }
+    },
+    "NEW_FRAME_DA007": {
+        "type": "background",
+        "speed": "M",
+        "ratios": {
+            "11": {
+                "filename": "NEW_FRAME_DA007 11.webm",
+                "width": 1080,
+                "height": 1080,
+                "duration": 5.005
+            },
+            "169": {
+                "filename": "NEW_FRAME_DA007 169.webm",
+                "width": 1920,
+                "height": 1080,
+                "duration": 5.005
+            },
+            "916": {
+                "filename": "NEW_FRAME_DA007 916.webm",
+                "width": 1080,
+                "height": 1920,
+                "duration": 5.005
+            }
+        }
+    },
+    "NEW_FRAME_HJ001": {
+        "type": "background",
+        "speed": "L",
+        "ratios": {
+            "11": {
+                "filename": "NEW_FRAME_HJ001 11.webm",
+                "width": 1080,
+                "height": 1080,
+                "duration": 10
+            },
+            "169": {
+                "filename": "NEW_FRAME_HJ001 169.webm",
+                "width": 1920,
+                "height": 1080,
+                "duration": 10
+            },
+            "916": {
+                "filename": "NEW_FRAME_HJ001 916.webm",
+                "width": 1080,
+                "height": 1920,
+                "duration": 10
+            }
+        }
+    },
+    "NEW_FRAME_HJ002": {
+        "type": "background",
+        "speed": "M",
+        "ratios": {
+            "11": {
+                "filename": "NEW_FRAME_HJ002 11.webm",
+                "width": 1080,
+                "height": 1080,
+                "duration": 5
+            },
+            "169": {
+                "filename": "NEW_FRAME_HJ002 169.webm",
+                "width": 1920,
+                "height": 1080,
+                "duration": 5
+            },
+            "916": {
+                "filename": "NEW_FRAME_HJ002 916.webm",
+                "width": 1080,
+                "height": 1920,
+                "duration": 5
+            }
+        }
+    },
+    "NEW_FRAME_HJ003": {
+        "type": "background",
+        "speed": "M",
+        "ratios": {
+            "11": {
+                "filename": "NEW_FRAME_HJ003 11.webm",
+                "width": 1080,
+                "height": 1080,
+                "duration": 5
+            },
+            "169": {
+                "filename": "NEW_FRAME_HJ003 169.webm",
+                "width": 1920,
+                "height": 1080,
+                "duration": 5
+            },
+            "916": {
+                "filename": "NEW_FRAME_HJ003 916.webm",
+                "width": 1080,
+                "height": 1920,
+                "duration": 5
+            }
+        }
+    },
+    "NEW_FRAME_HJ004": {
+        "type": "background",
+        "speed": "M",
+        "ratios": {
+            "11": {
+                "filename": "NEW_FRAME_HJ004 11.webm",
+                "width": 1080,
+                "height": 1080,
+                "duration": 5
+            },
+            "169": {
+                "filename": "NEW_FRAME_HJ004 169.webm",
+                "width": 1920,
+                "height": 1080,
+                "duration": 5
+            },
+            "916": {
+                "filename": "NEW_FRAME_HJ004 916.webm",
+                "width": 1080,
+                "height": 1920,
+                "duration": 5
+            }
+        }
+    },
+    "NEW_FRAME_HJ006": {
+        "type": "background",
+        "speed": "M",
+        "ratios": {
+            "11": {
+                "filename": "NEW_FRAME_HJ006 11.webm",
+                "width": 1080,
+                "height": 1080,
+                "duration": 4
+            },
+            "169": {
+                "filename": "NEW_FRAME_HJ006 169.webm",
+                "width": 1920,
+                "height": 1080,
+                "duration": 4
+            },
+            "916": {
+                "filename": "NEW_FRAME_HJ006 916.webm",
+                "width": 1080,
+                "height": 1920,
+                "duration": 4
+            }
+        }
+    },
+    "NEW_FRAME_JH001": {
+        "type": "background",
+        "speed": "L",
+        "ratios": {
+            "11": {
+                "filename": "NEW_FRAME_JH001 11.webm",
+                "width": 1080,
+                "height": 1080,
+                "duration": 9.876
+            },
+            "169": {
+                "filename": "NEW_FRAME_JH001 169.webm",
+                "width": 1920,
+                "height": 1080,
+                "duration": 9.909
+            },
+            "916": {
+                "filename": "NEW_FRAME_JH001 916.webm",
+                "width": 1080,
+                "height": 1920,
+                "duration": 9.909
+            }
+        }
+    },
+    "NEW_FRAME_JH002": {
+        "type": "background",
+        "speed": "M",
+        "ratios": {
+            "11": {
+                "filename": "NEW_FRAME_JH002 11.webm",
+                "width": 1080,
+                "height": 1080,
+                "duration": 10.01
+            },
+            "169": {
+                "filename": "NEW_FRAME_JH002 169.webm",
+                "width": 1920,
+                "height": 1080,
+                "duration": 10.01
+            },
+            "916": {
+                "filename": "NEW_FRAME_JH002 916.webm",
+                "width": 1080,
+                "height": 1920,
+                "duration": 10.01
+            }
+        }
+    },
+    "NEW_FRAME_JH003": {
+        "type": "background",
+        "speed": "M",
+        "ratios": {
+            "11": {
+                "filename": "NEW_FRAME_JH003 11.webm",
+                "width": 1080,
+                "height": 1080,
+                "duration": 10.01
+            },
+            "169": {
+                "filename": "NEW_FRAME_JH003 169.webm",
+                "width": 1920,
+                "height": 1080,
+                "duration": 10.01
+            },
+            "916": {
+                "filename": "NEW_FRAME_JH003 916.webm",
+                "width": 1080,
+                "height": 1920,
+                "duration": 10.01
+            }
+        }
+    },
+    "NEW_FRAME_JH004": {
+        "type": "background",
+        "speed": "M",
+        "ratios": {
+            "11": {
+                "filename": "NEW_FRAME_JH004 11.webm",
+                "width": 1080,
+                "height": 1080,
+                "duration": 10.01
+            },
+            "169": {
+                "filename": "NEW_FRAME_JH004 169.webm",
+                "width": 1920,
+                "height": 1080,
+                "duration": 10.01
+            },
+            "916": {
+                "filename": "NEW_FRAME_JH004 916.webm",
+                "width": 1080,
+                "height": 1920,
+                "duration": 10.01
+            }
+        }
+    },
+    "NEW_FRAME_JH005": {
+        "type": "background",
+        "speed": "F",
+        "ratios": {
+            "11": {
+                "filename": "NEW_FRAME_JH005 11.webm",
+                "width": 1080,
+                "height": 1080,
+                "duration": 10.01
+            },
+            "169": {
+                "filename": "NEW_FRAME_JH005 169.webm",
+                "width": 1920,
+                "height": 1080,
+                "duration": 10.01
+            },
+            "916": {
+                "filename": "NEW_FRAME_JH005 916.webm",
+                "width": 1080,
+                "height": 1920,
+                "duration": 10.01
+            }
+        }
+    },
+    "NEW_FRAME_JH006": {
+        "type": "background",
+        "speed": "F",
+        "ratios": {
+            "11": {
+                "filename": "NEW_FRAME_JH006 11.webm",
+                "width": 1080,
+                "height": 1080,
+                "duration": 10.01
+            },
+            "169": {
+                "filename": "NEW_FRAME_JH006 169.webm",
+                "width": 1920,
+                "height": 1080,
+                "duration": 10.01
+            },
+            "916": {
+                "filename": "NEW_FRAME_JH006 916.webm",
+                "width": 1080,
+                "height": 1920,
+                "duration": 10.01
+            }
+        }
+    },
+    "NEW_FRAME_SW001": {
+        "type": "background",
+        "speed": "M",
+        "ratios": {
+            "11": {
+                "filename": "NEW_FRAME_SW001 11.webm",
+                "width": 1080,
+                "height": 1080,
+                "duration": 10
+            },
+            "169": {
+                "filename": "NEW_FRAME_SW001 169.webm",
+                "width": 1920,
+                "height": 1080,
+                "duration": 10
+            },
+            "916": {
+                "filename": "NEW_FRAME_SW001 916.webm",
+                "width": 1080,
+                "height": 1920,
+                "duration": 10
+            }
+        }
+    },
+    "NEW_FRAME_SW002": {
+        "type": "background",
+        "speed": "L",
+        "ratios": {
+            "11": {
+                "filename": "NEW_FRAME_SW002 11.webm",
+                "width": 1080,
+                "height": 1080,
+                "duration": 10
+            },
+            "169": {
+                "filename": "NEW_FRAME_SW002 169.webm",
+                "width": 1920,
+                "height": 1080,
+                "duration": 10
+            },
+            "916": {
+                "filename": "NEW_FRAME_SW002 916.webm",
+                "width": 1080,
+                "height": 1920,
+                "duration": 10
+            }
+        }
+    },
+    "NEW_FRAME_SW003": {
+        "type": "background",
+        "speed": "F",
+        "ratios": {
+            "11": {
+                "filename": "NEW_FRAME_SW003 11.webm",
+                "width": 1080,
+                "height": 1080,
+                "duration": 5
+            },
+            "169": {
+                "filename": "NEW_FRAME_SW003 169.webm",
+                "width": 1920,
+                "height": 1080,
+                "duration": 5
+            },
+            "916": {
+                "filename": "NEW_FRAME_SW003 916.webm",
+                "width": 1080,
+                "height": 1920,
+                "duration": 5
+            }
+        }
+    },
+    "NEW_FRAME_SW004": {
+        "type": "background",
+        "speed": "F",
+        "ratios": {
+            "11": {
+                "filename": "NEW_FRAME_SW004 11.webm",
+                "width": 1080,
+                "height": 1080,
+                "duration": 10
+            },
+            "169": {
+                "filename": "NEW_FRAME_SW004 169.webm",
+                "width": 1920,
+                "height": 1080,
+                "duration": 10
+            },
+            "916": {
+                "filename": "NEW_FRAME_SW004 916.webm",
+                "width": 1080,
+                "height": 1920,
+                "duration": 10
+            }
+        }
+    },
+    "NEW_FRAME_SW005": {
+        "type": "food",
+        "speed": "M",
+        "ratios": {
+            "11": {
+                "filename": "NEW_FRAME_SW005 11.webm",
+                "width": 1080,
+                "height": 1080,
+                "duration": 4.96
+            },
+            "169": {
+                "filename": "NEW_FRAME_SW005 169.webm",
+                "width": 1920,
+                "height": 1080,
+                "duration": 4.96
+            },
+            "916": {
+                "filename": "NEW_FRAME_SW005 916.webm",
+                "width": 1080,
+                "height": 1920,
+                "duration": 4.96
+            }
+        }
+    },
+    "NEW_FRAME_SW006": {
+        "type": "background",
+        "speed": "L",
+        "ratios": {
+            "11": {
+                "filename": "NEW_FRAME_SW006 11.webm",
+                "width": 1080,
+                "height": 1080,
+                "duration": 5
+            },
+            "169": {
+                "filename": "NEW_FRAME_SW006 169.webm",
+                "width": 1920,
+                "height": 1080,
+                "duration": 5
+            },
+            "916": {
+                "filename": "NEW_FRAME_SW006 916.webm",
+                "width": 1080,
+                "height": 1920,
+                "duration": 5
+            }
+        }
+    },
+    "NEW_FRAME_SW007": {
+        "type": "background",
+        "speed": "L",
+        "ratios": {
+            "11": {
+                "filename": "NEW_FRAME_SW007 11.webm",
+                "width": 1080,
+                "height": 1080,
+                "duration": 10
+            },
+            "169": {
+                "filename": "NEW_FRAME_SW007 169.webm",
+                "width": 1920,
+                "height": 1080,
+                "duration": 10
+            },
+            "916": {
+                "filename": "NEW_FRAME_SW007 916.webm",
+                "width": 1080,
+                "height": 1920,
+                "duration": 10
+            }
+        }
+    },
+    "NEW_FRAME_SW008": {
+        "type": "background",
+        "speed": "M",
+        "ratios": {
+            "11": {
+                "filename": "NEW_FRAME_SW008 11.webm",
+                "width": 1080,
+                "height": 1080,
+                "duration": 5
+            },
+            "169": {
+                "filename": "NEW_FRAME_SW008 169.webm",
+                "width": 1920,
+                "height": 1080,
+                "duration": 5
+            },
+            "916": {
+                "filename": "NEW_FRAME_SW008 916.webm",
+                "width": 1080,
+                "height": 1920,
+                "duration": 5
+            }
+        }
+    },
+    "NEW_FRAME_SW009": {
+        "type": "background",
+        "speed": "L",
+        "ratios": {
+            "11": {
+                "filename": "NEW_FRAME_SW009 11.webm",
+                "width": 1080,
+                "height": 1080,
+                "duration": 10
+            },
+            "169": {
+                "filename": "NEW_FRAME_SW009 169.webm",
+                "width": 1920,
+                "height": 1080,
+                "duration": 10
+            },
+            "916": {
+                "filename": "NEW_FRAME_SW009 916.webm",
+                "width": 1080,
+                "height": 1920,
+                "duration": 10
+            }
+        }
+    },
+    "NEW_FRAME_YJ001": {
+        "type": "background",
+        "speed": "M",
+        "ratios": {
+            "11": {
+                "filename": "NEW_FRAME_YJ001 11.webm",
+                "width": 1080,
+                "height": 1080,
+                "duration": 10.01
+            },
+            "169": {
+                "filename": "NEW_FRAME_YJ001 169.webm",
+                "width": 1920,
+                "height": 1080,
+                "duration": 10.01
+            },
+            "916": {
+                "filename": "NEW_FRAME_YJ001 916.webm",
+                "width": 1080,
+                "height": 1920,
+                "duration": 10.01
+            }
+        }
+    },
+    "NEW_FRAME_YJ002": {
+        "type": "background",
+        "speed": "M",
+        "ratios": {
+            "11": {
+                "filename": "NEW_FRAME_YJ002 11.webm",
+                "width": 1080,
+                "height": 1080,
+                "duration": 10.01
+            },
+            "169": {
+                "filename": "NEW_FRAME_YJ002 169.webm",
+                "width": 1920,
+                "height": 1080,
+                "duration": 10.01
+            },
+            "916": {
+                "filename": "NEW_FRAME_YJ002 916.webm",
+                "width": 1080,
+                "height": 1920,
+                "duration": 10.01
+            }
+        }
+    },
+    "NEW_FRAME_YJ003": {
+        "type": "background",
+        "speed": "M",
+        "ratios": {
+            "11": {
+                "filename": "NEW_FRAME_YJ003 11.webm",
+                "width": 1080,
+                "height": 1080,
+                "duration": 5.005
+            },
+            "169": {
+                "filename": "NEW_FRAME_YJ003 169.webm",
+                "width": 1920,
+                "height": 1080,
+                "duration": 5.005
+            },
+            "916": {
+                "filename": "NEW_FRAME_YJ003 916.webm",
+                "width": 1080,
+                "height": 1920,
+                "duration": 5.005
             }
         }
     }
