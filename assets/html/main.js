@@ -531,7 +531,12 @@
                         textData
                     })
                 }
-                console.log(`elapsed - : ${Date.now() - now}ms`)
+                const elapsed = Date.now() - now
+                console.log(`elapsed - : ${elapsed}ms`)
+
+                if (elapsed >= 500) {
+                    throw new Error("ERR_HEAVY")
+                }
             }
             catch (e) {
                 console.log(String(e))

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -37,7 +38,38 @@ class _TestWidgetState extends State<TestWidget> {
         imageList = [];
       });
 
-      // final List<ETextID> allTexts = ETextID.values;
+            final List<ETextID> allTexts = ETextID.values;
+            //[
+      //   ETextID.Title_DA025,
+      //   ETextID.Title_DA026,
+      //   ETextID.Title_DA027,
+      //   ETextID.Title_DA028,
+      //   ETextID.Title_DA029,
+      //   ETextID.Title_DA030,
+      //   ETextID.Title_DA031,
+      //   ETextID.Title_HJ021,
+      //   ETextID.Title_HJ022,
+      //   ETextID.Title_HJ023,
+      //   ETextID.Title_JH001,
+      //   ETextID.Title_JH002,
+      //   ETextID.Title_JH003,
+      //   ETextID.Title_JH004,
+      //   ETextID.Title_JH005,
+      //   ETextID.Title_JH006,
+      //   ETextID.Title_JH007,
+      //   ETextID.Title_SW024,
+      //   ETextID.Title_SW025,
+      //   ETextID.Title_SW026,
+      //   ETextID.Title_SW027,
+      //   ETextID.Title_SW028,
+      //   ETextID.Title_SW029,
+      //   ETextID.Title_SW030,
+      //   // ETextID.Title_SW031,
+      //   ETextID.Title_SW032,
+      //   ETextID.Title_YJ023,
+      //   ETextID.Title_YJ025,
+      // ];
+
       // final ETextID currentText =
       //     allTexts[(_currentIndex) % allTexts.length];
 
@@ -52,24 +84,36 @@ class _TestWidgetState extends State<TestWidget> {
       // });
 
       // _currentIndex++;
+      List<Map> list = [];
 
-
-      final List<ETextID> allTexts = ETextID.values;
       for (int i = 0; i < allTexts.length; i++) {
+        DateTime now = DateTime.now();
+
         final ETextID currentText = allTexts[i];
 
         print('text is $currentText');
-        print('_currentIndex is $i');
+        print('_currentIndex is $i / ${allTexts.length}');
 
         await _vmTextWidget.loadText(currentText);
+        await _vmTextWidget.extractAllSequence((progress) => {});      
 
         String? preview = _vmTextWidget.previewImagePath;
         setState(() {
           if (preview != null) imageList = [preview];
         });
 
+        list.add({
+          "allPaths" : _vmTextWidget.allSequencesPath,
+          "frameRate" : _vmTextWidget.frameRate,
+          "totalFrameCount" : _vmTextWidget.totalFrameCount,
+          "elapsedTime": DateTime.now().difference(now).inMilliseconds
+        });
+
         await Future.delayed(const Duration(seconds: 1));
       }
+
+      final data = jsonEncode(list);
+      print("");
     } catch (e) {
       print(e);
     } finally {

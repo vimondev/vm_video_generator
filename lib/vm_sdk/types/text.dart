@@ -23,6 +23,13 @@ enum ETextID {
   Title_DA022,
   Title_DA023,
   // Title_DA024,
+  Title_DA025,
+  Title_DA026,
+  Title_DA027,
+  Title_DA028,
+  Title_DA029,
+  Title_DA030,
+  Title_DA031,
   Title_HJ001,
   Title_HJ002,
   Title_HJ003,
@@ -41,6 +48,16 @@ enum ETextID {
   Title_HJ018,
   Title_HJ019,
   // Title_HJ020,
+  Title_HJ021,
+  Title_HJ022,
+  Title_HJ023,
+  // Title_JH001,
+  Title_JH002,
+  Title_JH003,
+  Title_JH004,
+  // Title_JH005,
+  // Title_JH006,
+  // Title_JH007,
   Title_ON001,
   Title_ON002,
   Title_ON003,
@@ -76,6 +93,15 @@ enum ETextID {
   Title_SW021,
   Title_SW022,
   // Title_SW023,
+  // Title_SW024,
+  Title_SW025,
+  // Title_SW026,
+  // Title_SW027,
+  Title_SW028,
+  Title_SW029,
+  // Title_SW030,
+  // Title_SW031,
+  // Title_SW032,
   // Title_YJ001,
   // Title_YJ002,
   Title_YJ003,
@@ -97,23 +123,25 @@ enum ETextID {
   Title_YJ020,
   Title_YJ021,
   Title_YJ022,
-  Caption_DA001,
-  Caption_DA002,
-  Caption_DA003,
-  Caption_DA004,
-  Caption_DA005,
-  Caption_SW001,
-  Caption_SW002,
-  Caption_SW003,
-  Caption_SW004,
+  Title_YJ023,
+  Title_YJ025,
+  // Caption_DA001,
+  // Caption_DA002,
+  // Caption_DA003,
+  // Caption_DA004,
+  // Caption_DA005,
+  // Caption_SW001,
+  // Caption_SW002,
+  // Caption_SW003,
+  // Caption_SW004,
   // Caption_YJ001,
-  Caption_YJ002,
-  Caption_YJ003,
-  Caption_YJ004,
+  // Caption_YJ002,
+  // Caption_YJ003,
+  // Caption_YJ004,
   // Caption_YJ005,
   // Caption_YJ006,
   // Caption_YJ007,
-  Caption_YJ008
+  // Caption_YJ008,
 }
 
 enum ETextType { Title, Caption }
@@ -128,6 +156,7 @@ class TextData {
 
   TextData(this.type, this.json, this.fontFamily, this.fontBase64);
 }
+
 class TextExportData {
   ETextID id;
 
@@ -140,8 +169,9 @@ class TextExportData {
   double rotate = 0;
   String previewImagePath;
   String allSequencesPath;
-  
+
   Map<String, String> texts = {};
 
-  TextExportData(this.id, this.width, this.height, this.frameRate, this.previewImagePath, this.allSequencesPath);
+  TextExportData(this.id, this.width, this.height, this.frameRate,
+      this.previewImagePath, this.allSequencesPath);
 }
