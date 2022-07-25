@@ -1,14 +1,15 @@
 import 'dart:io';
 import 'dart:convert';
 import 'package:path/path.dart';
-import 'package:google_ml_kit/google_ml_kit.dart';
+import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
+import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 
 import '../types/global.dart';
 import 'ffmpeg_manager.dart';
 import 'global_helper.dart';
 
-final FaceDetector faceDetector = GoogleMlKit.vision.faceDetector();
-final ImageLabeler imageLabeler = GoogleMlKit.vision.imageLabeler();
+final FaceDetector faceDetector = FaceDetector(options: FaceDetectorOptions());
+final ImageLabeler imageLabeler = ImageLabeler(options: ImageLabelerOptions());
 final FFMpegManager ffMpegManager = FFMpegManager();
 const int convertFrame = 4;
 
