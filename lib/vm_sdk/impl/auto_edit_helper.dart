@@ -605,8 +605,8 @@ Future<AllEditedData> generateAllEditedData(
   for (int i = 0; i < allEditedData.editedMediaList.length; i++) {
     EditedMedia editedMedia = allEditedData.editedMediaList[i];
 
-    int mediaWidth = editedMedia.mediaData.width;
-    int mediaHeight = editedMedia.mediaData.height;
+    int mediaWidth = max(1, editedMedia.mediaData.width);
+    int mediaHeight = max(1, editedMedia.mediaData.height);
 
     double scaleFactor =
         max(videoWidth / mediaWidth, videoHeight / mediaHeight);
