@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import '../types/types.dart';
+import 'resource_fetch_helper.dart';
 import 'global_helper.dart';
 import 'dart:convert';
 
@@ -8,7 +11,7 @@ const Map<ETextID, String> _textMap = {
   ETextID.Title_DA003: "Title_DA003.json",
   ETextID.Title_DA004: "Title_DA004.json",
   ETextID.Title_DA005: "Title_DA005.json",
-  ETextID.Title_DA006: "Title_DA006.json",
+  // ETextID.Title_DA006: "Title_DA006.json",
   ETextID.Title_DA007: "Title_DA007.json",
   ETextID.Title_DA008: "Title_DA008.json",
   ETextID.Title_DA009: "Title_DA009.json",
@@ -44,7 +47,7 @@ const Map<ETextID, String> _textMap = {
   ETextID.Title_HJ008: "Title_HJ008.json",
   ETextID.Title_HJ009: "Title_HJ009.json",
   ETextID.Title_HJ010: "Title_HJ010.json",
-  ETextID.Title_HJ011: "Title_HJ011.json",
+  // ETextID.Title_HJ011: "Title_HJ011.json",
   ETextID.Title_HJ012: "Title_HJ012.json",
   ETextID.Title_HJ013: "Title_HJ013.json",
   ETextID.Title_HJ014: "Title_HJ014.json",
@@ -67,7 +70,7 @@ const Map<ETextID, String> _textMap = {
   ETextID.Title_ON003: "Title_ON003.json",
   ETextID.Title_ON005: "Title_ON005.json",
   ETextID.Title_ON006: "Title_ON006.json",
-  ETextID.Title_ON007: "Title_ON007.json",
+  // ETextID.Title_ON007: "Title_ON007.json",
   ETextID.Title_ON008: "Title_ON008.json",
   ETextID.Title_ON009: "Title_ON009.json",
   ETextID.Title_ON010: "Title_ON010.json",
@@ -174,7 +177,10 @@ const Map<EMusicSpeed, List<ETextID>> oneLineTitles = {
     ETextID.Title_SW006,
     ETextID.Title_SW008
   ],
-  EMusicSpeed.fast: [ETextID.Title_HJ002, ETextID.Title_ON007]
+  EMusicSpeed.fast: [
+    ETextID.Title_HJ002,
+    // ETextID.Title_ON007
+  ]
 };
 
 const Map<EMusicSpeed, List<ETextID>> twoLineTitles = {
@@ -194,7 +200,7 @@ const Map<EMusicSpeed, List<ETextID>> twoLineTitles = {
     ETextID.Title_DA001,
     ETextID.Title_DA004,
     ETextID.Title_DA005,
-    ETextID.Title_DA006,
+    // ETextID.Title_DA006,
     ETextID.Title_DA007,
     ETextID.Title_DA008,
     ETextID.Title_DA012,
@@ -205,7 +211,7 @@ const Map<EMusicSpeed, List<ETextID>> twoLineTitles = {
     ETextID.Title_DA018,
     ETextID.Title_DA022,
     ETextID.Title_HJ006,
-    ETextID.Title_HJ011,
+    // ETextID.Title_HJ011,
     ETextID.Title_HJ012,
     ETextID.Title_HJ019,
     ETextID.Title_ON010,
@@ -249,6 +255,11 @@ const Map<EMusicSpeed, List<ETextID>> twoLineTitles = {
   ]
 };
 
+Future<String> _loadFontBase64(String fontFamily, String fontFileName) async {
+  File file = await downloadFont(fontFamily, fontFileName);
+  return base64.encode(await file.readAsBytes());
+}
+
 Future<TextData?> loadTextData(ETextID id) async {
   if (!_textMap.containsKey(id)) return null;
 
@@ -264,10 +275,12 @@ Future<TextData?> loadTextData(ETextID id) async {
 
   final String json = await loadResourceString("raw/lottie-jsons/$filename");
 
-  List<String> fontBase64 = [];
-  for (int i = 0; i < fontFileName.length; i++) {
-    fontBase64.add(await loadResourceBase64("raw/fonts/${fontFileName[i]}"));
+  List<Future<String>> loadFontBase64Futures = [];
+  for (int i = 0; i < fontFamily.length; i++) {
+    loadFontBase64Futures.add(_loadFontBase64(fontFamily[i], fontFileName[i]));
   }
+
+  List<String> fontBase64 = await Future.wait(loadFontBase64Futures);
 
   return TextData(type, json, fontFamily, fontBase64);
 }

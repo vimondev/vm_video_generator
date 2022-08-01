@@ -73,3 +73,21 @@ Future<File> downloadResource(String filename, String url) async {
 
   return file;
 }
+
+Future<File> downloadFont(String fontFamily, String fontFileName) async {
+  final Response response = await httpGet("/fonts?fontFamily=$fontFamily&pageSize=99999", null);
+  final result = jsonDecode(response.body);
+
+  final List list = result["results"];
+  if (list.isEmpty) throw Exception("ERR_FONT_NOT_FOUND");
+
+  for (int i=0; i<list.length; i++) {
+    final source = FontFetchModel.fromJson(list[i]).source!;
+    if (source.name == fontFileName) {
+      return await downloadResource(source.name, source.url);    
+    }
+  }
+
+  final source = FontFetchModel.fromJson(list[0]).source!;
+  return await downloadResource(source.name, source.url);
+}

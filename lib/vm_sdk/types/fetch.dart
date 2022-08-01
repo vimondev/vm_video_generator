@@ -88,3 +88,17 @@ class TransitionFetchModel {
     sourceMap[ERatio.ratio916] = SourceModel.fromJson(map["source_916"]);
   }
 }
+
+class FontFetchModel {
+  String fontFamily = "";
+  SourceModel? source;
+
+  FontFetchModel.fromJson(Map map) {
+    fontFamily = map["fontFamily"];
+
+    Map? sourceMap = map["file"];
+    if (sourceMap != null) {
+      source = SourceModel.fromJson(sourceMap);
+    }
+  }
+}

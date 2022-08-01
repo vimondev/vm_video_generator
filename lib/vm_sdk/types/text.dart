@@ -4,7 +4,7 @@ enum ETextID {
   Title_DA003,
   Title_DA004,
   Title_DA005,
-  Title_DA006,
+  // Title_DA006, // LOSS FONTDATA
   Title_DA007,
   Title_DA008,
   Title_DA009,
@@ -40,7 +40,7 @@ enum ETextID {
   Title_HJ008,
   Title_HJ009,
   Title_HJ010,
-  Title_HJ011,
+  // Title_HJ011, // LOSS FONTDATA
   Title_HJ012,
   Title_HJ013,
   Title_HJ014,
@@ -63,7 +63,7 @@ enum ETextID {
   Title_ON003,
   Title_ON005,
   Title_ON006,
-  Title_ON007,
+  // Title_ON007, // LOSS FONTDATA
   Title_ON008,
   Title_ON009,
   Title_ON010,
