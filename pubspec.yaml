@@ -83,9 +83,9 @@ flutter:
     - assets/html/
     - assets/text/
     - assets/template/
-    - assets/raw/frame/
-    - assets/raw/sticker/
-    - assets/raw/transition/
+    # - assets/raw/frame/
+    # - assets/raw/sticker/
+    # - assets/raw/transition/
     - assets/raw/lottie-jsons/
     - assets/raw/fonts/
     - assets/
