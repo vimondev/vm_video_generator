@@ -40,7 +40,6 @@ dependencies:
   path: ^1.8.0
   google_mlkit_face_detection: ^0.3.0
   google_mlkit_image_labeling: ^0.3.0
-  file_saver: ^0.0.10
   firebase_core:
   flutter_inappwebview: ^5.2.0
   uuid: ^3.0.6
