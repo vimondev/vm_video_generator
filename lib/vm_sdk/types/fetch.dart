@@ -6,8 +6,8 @@ class SourceModel {
   String url = "";
 
   SourceModel.fromJson(Map map) {
-    name = map["name"];
-    url = map["url"];
+    name = map["name"] ?? "";
+    url = map["url"] ?? "";
   }
 }
 
@@ -18,9 +18,9 @@ class SongFetchModel {
   SourceModel? source;
 
   SongFetchModel.fromJson(Map map) {
-    title = map["title"];
-    artist = map["artist"];
-    duration = map["duration"] * 1.0;
+    title = map["title"] ?? "";
+    artist = map["artist"] ?? "";
+    duration = map["duration"] != null ? map["duration"] * 1.0 : 0;
 
     Map? sourceMap = map["source"];
     if (sourceMap != null) {
@@ -37,8 +37,8 @@ class FrameFetchModel {
   Map<ERatio, SourceModel> sourceMap = {};
 
   FrameFetchModel.fromJson(Map map) {
-    name = map["name"];
-    duration = map["duration"] * 1.0;
+    name = map["name"] ?? "";
+    duration = map["duration"] != null ? map["duration"] * 1.0 : 0;
     type = getMediaLabel(map["type"]);
     speed = getMusicSpeed(map["speed"]);
 
@@ -58,10 +58,10 @@ class StickerFetchModel {
   SourceModel? source;
 
   StickerFetchModel.fromJson(Map map) {
-    name = map["name"];
-    duration = map["duration"] * 1.0;
-    width = map["width"];
-    height = map["height"];
+    name = map["name"] ?? "";
+    duration = map["duration"] != null ? map["duration"] * 1.0 : 0;
+    width = map["width"] ?? 0;
+    height = map["height"] ?? 0;
     type = getMediaLabel(map["type"]);
     speed = getMusicSpeed(map["speed"]);
 
@@ -79,9 +79,9 @@ class TransitionFetchModel {
   Map<ERatio, SourceModel> sourceMap = {};
 
   TransitionFetchModel.fromJson(Map map) {
-    name = map["name"];
-    duration = map["duration"] * 1.0;
-    transitionPoint = map["transitionPoint"] * 1.0;
+    name = map["name"] ?? "";
+    duration = map["duration"] != null ? map["duration"] * 1.0 : 0;
+    transitionPoint = map["transitionPoint"] != null ? map["transitionPoint"] * 1.0 : 0;
 
     sourceMap[ERatio.ratio11] = SourceModel.fromJson(map["source_11"]);
     sourceMap[ERatio.ratio169] = SourceModel.fromJson(map["source_169"]);
@@ -94,7 +94,7 @@ class FontFetchModel {
   SourceModel? source;
 
   FontFetchModel.fromJson(Map map) {
-    fontFamily = map["fontFamily"];
+    fontFamily = map["fontFamily"] ?? "";
 
     Map? sourceMap = map["file"];
     if (sourceMap != null) {

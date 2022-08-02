@@ -13,13 +13,27 @@ class MusicData {
 
 class ResourceData {
   String key;
+  bool isEnableAutoEdit = false;
+
   ResourceData(this.key);
+}
+
+class TextData extends ResourceData {
+  int lineCount = 0;
+
+  TextData(String key, this.lineCount)
+      : super(key);
+    TextData.fromJson(String key, Map map)
+      : super(key) {
+    lineCount = map["lineCount"];
+  }
 }
 
 class TransitionData extends ResourceData {
   ETransitionType type;
 
-  TransitionData(String key, this.type) : super(key);
+  TransitionData(String key, this.type)
+      : super(key);
 }
 
 class XFadeTransitionData extends TransitionData {
@@ -50,7 +64,8 @@ class TransitionFileInfo extends ResourceFileInfo {
 class OverlayTransitionData extends TransitionData {
   Map<ERatio, TransitionFileInfo> fileMap = {};
 
-  OverlayTransitionData(String key) : super(key, ETransitionType.overlay);
+  OverlayTransitionData(String key)
+      : super(key, ETransitionType.overlay);
   OverlayTransitionData.fromFetchModel(
       String key, TransitionFetchModel fetchModel)
       : super(key, ETransitionType.overlay) {
@@ -64,43 +79,6 @@ class OverlayTransitionData extends TransitionData {
           fetchModel.sourceMap[ratio]!);
     }
   }
-  // OverlayTransitionData.fromJson(String key, Map map)
-  //     : super(key, ETransitionType.overlay) {
-  //   if (map.containsKey("ratios")) {
-  //     for (final key in map["ratios"].keys) {
-  //       ERatio? ratio;
-
-  //       switch (key) {
-  //         case "11":
-  //           ratio = ERatio.ratio11;
-  //           break;
-
-  //         case "916":
-  //           ratio = ERatio.ratio916;
-  //           break;
-
-  //         case "169":
-  //           ratio = ERatio.ratio169;
-  //           break;
-
-  //         default:
-  //           break;
-  //       }
-
-  //       if (ratio != null) {
-  //         final Map dataMap = map["ratios"][key];
-  //         final int width = dataMap["width"];
-  //         final int height = dataMap["height"];
-  //         final double duration = dataMap["duration"] * 1.0;
-  //         final double transitionPoint = dataMap["transitionPoint"] * 1.0;
-  //         final String filename = dataMap["filename"];
-
-  //         fileMap[ratio] = TransitionFileInfo(
-  //             width, height, duration, transitionPoint, filename);
-  //       }
-  //     }
-  //   }
-  // }
 }
 
 class FrameData extends ResourceData {
@@ -108,7 +86,8 @@ class FrameData extends ResourceData {
   EMediaLabel type = EMediaLabel.none;
 
   FrameData(String key) : super(key);
-  FrameData.fromFetchModel(String key, FrameFetchModel fetchModel)
+  FrameData.fromFetchModel(
+      String key, FrameFetchModel fetchModel)
       : super(key) {
     for (final ratio in fetchModel.sourceMap.keys) {
       Resolution resolution = Resolution.fromRatio(ratio);
@@ -117,40 +96,6 @@ class FrameData extends ResourceData {
       type = fetchModel.type;
     }
   }
-  // FrameData.fromJson(String key, Map map) : super(key) {
-  //   if (map.containsKey("ratios")) {
-  //     for (final key in map["ratios"].keys) {
-  //       ERatio? ratio;
-
-  //       switch (key) {
-  //         case "11":
-  //           ratio = ERatio.ratio11;
-  //           break;
-
-  //         case "916":
-  //           ratio = ERatio.ratio916;
-  //           break;
-
-  //         case "169":
-  //           ratio = ERatio.ratio169;
-  //           break;
-
-  //         default:
-  //           break;
-  //       }
-
-  //       if (ratio != null) {
-  //         final Map dataMap = map["ratios"][key];
-  //         final int width = dataMap["width"];
-  //         final int height = dataMap["height"];
-  //         final double duration = dataMap["duration"] * 1.0;
-  //         final String filename = dataMap["filename"];
-
-  //         fileMap[ratio] = ResourceFileInfo(width, height, duration, filename);
-  //       }
-  //     }
-  //   }
-  // }
 }
 
 class StickerData extends ResourceData {
@@ -158,29 +103,13 @@ class StickerData extends ResourceData {
   EMediaLabel type = EMediaLabel.none;
 
   StickerData(String key) : super(key);
-  StickerData.fromFetchModel(String key, StickerFetchModel fetchModel)
+  StickerData.fromFetchModel(
+      String key, StickerFetchModel fetchModel)
       : super(key) {
     fileinfo = ResourceFileInfo(fetchModel.width, fetchModel.height,
         fetchModel.duration, fetchModel.source!);
     type = fetchModel.type;
   }
-  // StickerData.fromJson(String key, Map map) : super(key) {
-  //   switch (map["type"]) {
-  //     case "object":
-  //       type = EStickerType.object;
-  //       break;
-
-  //     default:
-  //       break;
-  //   }
-
-  //   final int width = map["width"];
-  //   final int height = map["height"];
-  //   final double duration = map["duration"] * 1.0;
-  //   final String filename = map["filename"];
-
-  //   fileinfo = ResourceFileInfo(width, height, duration, filename);
-  // }
 }
 
 class EditedStickerData extends StickerData {
@@ -189,7 +118,8 @@ class EditedStickerData extends StickerData {
   double rotate = 0;
   double scale = 1;
 
-  EditedStickerData(StickerData stickerData) : super(stickerData.key) {
+  EditedStickerData(StickerData stickerData)
+      : super(stickerData.key) {
     fileinfo = stickerData.fileinfo;
     type = stickerData.type;
   }

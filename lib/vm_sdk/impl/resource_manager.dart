@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import '../types/types.dart';
 import 'global_helper.dart';
 import 'resource_fetch_helper.dart';
@@ -8,14 +6,10 @@ import 'dart:convert';
 class ResourceManager {
   static ResourceManager? _instance;
 
-  // static const _rawAssetPath = "raw";
-  // static const _transitionAssetPath = "$_rawAssetPath/transition";
-  // static const _frameAssetPath = "$_rawAssetPath/frame";
-  // static const _stickerAssetPath = "$_rawAssetPath/sticker";
-
   final Map<String, TransitionData> _transitionMap = <String, TransitionData>{};
   final Map<String, FrameData> _frameMap = <String, FrameData>{};
   final Map<String, StickerData> _stickerMap = <String, StickerData>{};
+  final Map<String, TextData> _textMap = <String, TextData>{};
   final Map<EMusicStyle, List<TemplateData>> _templateMap = {};
 
   static ResourceManager getInstance() {
@@ -36,19 +30,19 @@ class ResourceManager {
         jsonDecode(await loadResourceString("data/transition.json"));
 
     for (final String key in transitionJsonMap.keys) {
-      if (transitionJsonMap[key]["enable"] == false) continue;
-
       if (transitionJsonMap[key]["type"] == "overlay") {
         TransitionFetchModel? fetchModel = map[key];
         if (fetchModel != null) {
           _transitionMap[key] =
               OverlayTransitionData.fromFetchModel(key, fetchModel);
+          _transitionMap[key]!.isEnableAutoEdit =
+              transitionJsonMap[key]["enable"];
         }
-        // _transitionMap[key] =
-        // OverlayTransitionData.fromJson(key, transitionJsonMap[key]);
       } else {
         _transitionMap[key] =
             XFadeTransitionData.fromJson(key, transitionJsonMap[key]);
+        _transitionMap[key]!.isEnableAutoEdit =
+            transitionJsonMap[key]["enable"];
       }
     }
   }
@@ -66,14 +60,11 @@ class ResourceManager {
         jsonDecode(await loadResourceString("data/frame.json"));
 
     for (final String key in frameJsonMap.keys) {
-      if (frameJsonMap[key]["enable"] == false) continue;
-
       FrameFetchModel? fetchModel = map[key];
       if (fetchModel != null) {
         _frameMap[key] = FrameData.fromFetchModel(key, fetchModel);
+        _frameMap[key]!.isEnableAutoEdit = frameJsonMap[key]["enable"];
       }
-      // _frameMap[key] =
-      // FrameData.fromJson(key, frameJsonMap[key]);
     }
   }
 
@@ -90,14 +81,11 @@ class ResourceManager {
         jsonDecode(await loadResourceString("data/sticker.json"));
 
     for (final String key in stickerJsonMap.keys) {
-      if (stickerJsonMap[key]["enable"] == false) continue;
-
       StickerFetchModel? fetchModel = map[key];
       if (fetchModel != null) {
         _stickerMap[key] = StickerData.fromFetchModel(key, fetchModel);
+        _stickerMap[key]!.isEnableAutoEdit = stickerJsonMap[key]["enable"];
       }
-      // _stickerMap[key] =
-      // StickerData.fromJson(key, stickerJsonMap[key]);
     }
   }
 
@@ -120,53 +108,93 @@ class ResourceManager {
     }
   }
 
+  Future<void> _loadTextMap() async {
+    final textJsonMap = jsonDecode(await loadResourceString("data/text.json"));
+
+    for (final String key in textJsonMap.keys) {
+      final Map map = textJsonMap[key];
+      _textMap[key] = TextData.fromJson(key, map);
+      _textMap[key]!.isEnableAutoEdit = textJsonMap[key]["enable"];
+    }
+  }
+
   Future<void> loadResourceMap() async {
     await Future.wait([
       _loadTransitionMap(),
       _loadFrameMap(),
       _loadStickerMap(),
-      _loadTemplateMap()
+      _loadTemplateMap(),
+      _loadTextMap()
     ]);
   }
 
-  List<OverlayTransitionData> getAllOverlayTransitions() {
+  List<OverlayTransitionData> getAllOverlayTransitions(
+      {bool isAutoEdit = true}) {
     return _transitionMap.keys
-        .where((key) => _transitionMap[key]!.type == ETransitionType.overlay)
+        .where((key) =>
+            _transitionMap[key]!.type == ETransitionType.overlay &&
+            (!isAutoEdit || _transitionMap[key]!.isEnableAutoEdit))
         .map<OverlayTransitionData>(
             (key) => _transitionMap[key] as OverlayTransitionData)
         .toList();
   }
 
-  List<XFadeTransitionData> getAllXFadeTransitions() {
+  List<XFadeTransitionData> getAllXFadeTransitions({bool isAutoEdit = true}) {
     return _transitionMap.keys
-        .where((key) => _transitionMap[key]!.type == ETransitionType.xfade)
+        .where((key) =>
+            _transitionMap[key]!.type == ETransitionType.xfade &&
+            (!isAutoEdit || _transitionMap[key]!.isEnableAutoEdit))
         .map<XFadeTransitionData>(
             (key) => _transitionMap[key] as XFadeTransitionData)
         .toList();
   }
 
-  Map<EMediaLabel, List<FrameData>> getFrameDataMap() {
+  Map<EMediaLabel, List<FrameData>> getFrameDataMap({bool isAutoEdit = true}) {
     Map<EMediaLabel, List<FrameData>> map = {EMediaLabel.background: []};
 
     for (final key in _frameMap.keys) {
       final FrameData frame = _frameMap[key]!;
-      map[EMediaLabel.background]!.add(frame);
+
+      if (!isAutoEdit || frame.isEnableAutoEdit) {
+        map[EMediaLabel.background]!.add(frame);
+      }
     }
 
     return map;
   }
 
-  Map<EMediaLabel, List<StickerData>> getStickerDataMap() {
+  Map<EMediaLabel, List<StickerData>> getStickerDataMap(
+      {bool isAutoEdit = true}) {
     Map<EMediaLabel, List<StickerData>> map = {};
 
     for (final key in _stickerMap.keys) {
       final StickerData sticker = _stickerMap[key]!;
-      if (!map.containsKey(sticker.type)) map[sticker.type] = [];
 
-      map[sticker.type]!.add(sticker);
+      if (!isAutoEdit || sticker.isEnableAutoEdit) {
+        if (!map.containsKey(sticker.type)) map[sticker.type] = [];
+        map[sticker.type]!.add(sticker);
+      }
     }
 
     return map;
+  }
+
+  List<String> getOneLineTextList({bool isAutoEdit = true}) {
+    return _textMap.keys
+        .where((key) =>
+            _textMap[key]!.lineCount == 1 &&
+            (!isAutoEdit || _textMap[key]!.isEnableAutoEdit))
+        .map<String>((key) => key)
+        .toList();
+  }
+
+  List<String> getTwoLineTextList({bool isAutoEdit = true}) {
+    return _textMap.keys
+        .where((key) =>
+            _textMap[key]!.lineCount == 2 &&
+            (!isAutoEdit || _textMap[key]!.isEnableAutoEdit))
+        .map<String>((key) => key)
+        .toList();
   }
 
   TransitionData? getTransitionData(String key) {
@@ -179,6 +207,10 @@ class ResourceManager {
 
   StickerData? getStickerData(String key) {
     return _stickerMap[key];
+  }
+
+  TextData? getTextData(String key) {
+    return _textMap[key];
   }
 
   List<TemplateData>? getTemplateData(EMusicStyle style) {
@@ -235,16 +267,4 @@ class ResourceManager {
   Future<void> _loadResourceFile(ResourceFileInfo resource) async {
     await downloadResource(resource.source.name, resource.source.url);
   }
-
-  // Future<File> _loadTransitionFile(String filename) async {
-  //   return await copyAssetToLocalDirectory("$_transitionAssetPath/$filename");
-  // }
-
-  // Future<File> _loadFrameFile(String filename) async {
-  //   return await copyAssetToLocalDirectory("$_frameAssetPath/$filename");
-  // }
-
-  // Future<File> _loadStickerFile(String filename) async {
-  //   return await copyAssetToLocalDirectory("$_stickerAssetPath/$filename");
-  // }
 }
