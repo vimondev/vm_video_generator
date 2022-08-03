@@ -129,33 +129,33 @@ class ResourceManager {
   }
 
   List<OverlayTransitionData> getAllOverlayTransitions(
-      {bool isAutoEdit = true}) {
+      {bool autoEditOnly = true}) {
     return _transitionMap.keys
         .where((key) =>
             _transitionMap[key]!.type == ETransitionType.overlay &&
-            (!isAutoEdit || _transitionMap[key]!.isEnableAutoEdit))
+            (!autoEditOnly || _transitionMap[key]!.isEnableAutoEdit))
         .map<OverlayTransitionData>(
             (key) => _transitionMap[key] as OverlayTransitionData)
         .toList();
   }
 
-  List<XFadeTransitionData> getAllXFadeTransitions({bool isAutoEdit = true}) {
+  List<XFadeTransitionData> getAllXFadeTransitions({bool autoEditOnly = true}) {
     return _transitionMap.keys
         .where((key) =>
             _transitionMap[key]!.type == ETransitionType.xfade &&
-            (!isAutoEdit || _transitionMap[key]!.isEnableAutoEdit))
+            (!autoEditOnly || _transitionMap[key]!.isEnableAutoEdit))
         .map<XFadeTransitionData>(
             (key) => _transitionMap[key] as XFadeTransitionData)
         .toList();
   }
 
-  Map<EMediaLabel, List<FrameData>> getFrameDataMap({bool isAutoEdit = true}) {
+  Map<EMediaLabel, List<FrameData>> getFrameDataMap({bool autoEditOnly = true}) {
     Map<EMediaLabel, List<FrameData>> map = {EMediaLabel.background: []};
 
     for (final key in _frameMap.keys) {
       final FrameData frame = _frameMap[key]!;
 
-      if (!isAutoEdit || frame.isEnableAutoEdit) {
+      if (!autoEditOnly || frame.isEnableAutoEdit) {
         map[EMediaLabel.background]!.add(frame);
       }
     }
@@ -164,13 +164,13 @@ class ResourceManager {
   }
 
   Map<EMediaLabel, List<StickerData>> getStickerDataMap(
-      {bool isAutoEdit = true}) {
+      {bool autoEditOnly = true}) {
     Map<EMediaLabel, List<StickerData>> map = {};
 
     for (final key in _stickerMap.keys) {
       final StickerData sticker = _stickerMap[key]!;
 
-      if (!isAutoEdit || sticker.isEnableAutoEdit) {
+      if (!autoEditOnly || sticker.isEnableAutoEdit) {
         if (!map.containsKey(sticker.type)) map[sticker.type] = [];
         map[sticker.type]!.add(sticker);
       }
@@ -179,20 +179,24 @@ class ResourceManager {
     return map;
   }
 
-  List<String> getOneLineTextList({bool isAutoEdit = true}) {
+  List<String> getOneLineTextList({bool autoEditOnly = true, language = "ko"}) {
     return _textMap.keys
         .where((key) =>
             _textMap[key]!.lineCount == 1 &&
-            (!isAutoEdit || _textMap[key]!.isEnableAutoEdit))
+            _textMap[key]!.supportLang[language] != null &&
+            _textMap[key]!.supportLang[language]! == true &&
+            (!autoEditOnly || _textMap[key]!.isEnableAutoEdit))
         .map<String>((key) => key)
         .toList();
   }
 
-  List<String> getTwoLineTextList({bool isAutoEdit = true}) {
+  List<String> getTwoLineTextList({bool autoEditOnly = true, language = "ko"}) {
     return _textMap.keys
         .where((key) =>
             _textMap[key]!.lineCount == 2 &&
-            (!isAutoEdit || _textMap[key]!.isEnableAutoEdit))
+            _textMap[key]!.supportLang[language] != null &&
+            _textMap[key]!.supportLang[language]! == true &&
+            (!autoEditOnly || _textMap[key]!.isEnableAutoEdit))
         .map<String>((key) => key)
         .toList();
   }

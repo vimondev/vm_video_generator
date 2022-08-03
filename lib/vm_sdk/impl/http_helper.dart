@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 
-String _endpoint = "http://3.38.130.68:8000";
+String _endpoint = "https://api-prod.viiv.ai";
 
 Future<http.Response> httpGet(String url, Map<String, String>? headers) async {
   if (!url.startsWith("http")) {

@@ -50,7 +50,7 @@ class TestWidget extends StatelessWidget {
       VideoGeneratedResult result =
           await _vmsdkWidget.generateVideo(mediaList, style, false,
               // ["THIS IS", "VIMON V-LOG"],
-              ["$style"], (status, progress) {
+              ["$style"], "ko", (status, progress) {
         print(status);
         print(progress);
       });
