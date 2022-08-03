@@ -230,7 +230,7 @@ Future<RenderedData?> clipRender(
       "-c:v",
       "libvpx-vp9",
       "-i",
-      "$appDirPath/${fileInfo.filename}"
+      "$appDirPath/${fileInfo.source.name}"
     ]);
 
     filterStrings.add(
@@ -265,7 +265,7 @@ Future<RenderedData?> clipRender(
       "-c:v",
       "libvpx-vp9",
       "-i",
-      "$appDirPath/${fileInfo.filename}"
+      "$appDirPath/${fileInfo.source.name}"
     ]);
 
     filterStrings.add(
@@ -315,7 +315,7 @@ Future<RenderedData?> clipRender(
     String transitionMergedMapVariable = "[prev_trans_merged]";
 
     inputArguments.addAll(
-        ["-c:v", "libvpx-vp9", "-i", "$appDirPath/${fileInfo.filename}"]);
+        ["-c:v", "libvpx-vp9", "-i", "$appDirPath/${fileInfo.source.name}"]);
     filterStrings.add(
         "[${inputFileCount++}:v]trim=${fileInfo.transitionPoint}:${fileInfo.duration},setpts=PTS-STARTPTS,scale=${_resolution.width}:${_resolution.height},setdar=dar=${_resolution.width / _resolution.height}$transitionMapVariable;");
     filterStrings.add(
@@ -338,7 +338,7 @@ Future<RenderedData?> clipRender(
       "-itsoffset",
       (duration - fileInfo.transitionPoint).toString(),
       "-i",
-      "$appDirPath/${fileInfo.filename}"
+      "$appDirPath/${fileInfo.source.name}"
     ]);
     filterStrings.add(
         "[${inputFileCount++}:v]scale=${_resolution.width}:${_resolution.height},setdar=dar=${_resolution.width / _resolution.height}$transitionMapVariable;");

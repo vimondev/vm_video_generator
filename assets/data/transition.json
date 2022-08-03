@@ -1,804 +1,207 @@
 {
     "TRANSITION_DA001": {
         "type": "overlay",
-        "ratios": {
-            "11": {
-                "width": 1080,
-                "height": 1080,
-                "duration": 1.001,
-                "transitionPoint": 0.367,
-                "filename": "TRANSITION_DA001 11.webm"
-            },
-            "169": {
-                "width": 1920,
-                "height": 1080,
-                "duration": 1.001,
-                "transitionPoint": 0.433,
-                "filename": "TRANSITION_DA001 169.webm"
-            },
-            "916": {
-                "width": 1080,
-                "height": 1920,
-                "duration": 1.001,
-                "transitionPoint": 0.367,
-                "filename": "TRANSITION_DA001 916.webm"
-            }
-        }
+        "speed": "M",
+        "enable": true
     },
     "TRANSITION_DA002": {
         "type": "overlay",
-        "ratios": {
-            "11": {
-                "width": 1080,
-                "height": 1080,
-                "duration": 1.52,
-                "transitionPoint": 0.56,
-                "filename": "TRANSITION_DA002 11.webm"
-            },
-            "169": {
-                "width": 1920,
-                "height": 1080,
-                "duration": 1.52,
-                "transitionPoint": 0.56,
-                "filename": "TRANSITION_DA002 169.webm"
-            },
-            "916": {
-                "width": 1080,
-                "height": 1920,
-                "duration": 1.468,
-                "transitionPoint": 0.56,
-                "filename": "TRANSITION_DA002 916.webm"
-            }
-        }
+        "speed": "M",
+        "enable": false
     },
     "TRANSITION_DA003": {
         "type": "overlay",
-        "ratios": {
-            "11": {
-                "width": 1080,
-                "height": 1080,
-                "duration": 0.92,
-                "transitionPoint": 0.24,
-                "filename": "TRANSITION_DA003 11.webm"
-            },
-            "169": {
-                "width": 1920,
-                "height": 1080,
-                "duration": 0.92,
-                "transitionPoint": 0.28,
-                "filename": "TRANSITION_DA003 169.webm"
-            },
-            "916": {
-                "width": 1080,
-                "height": 1920,
-                "duration": 0.92,
-                "transitionPoint": 0.28,
-                "filename": "TRANSITION_DA003 916.webm"
-            }
-        }
+        "speed": "M",
+        "enable": true
     },
     "TRANSITION_HJ001": {
         "type": "overlay",
-        "ratios": {
-            "11": {
-                "width": 1080,
-                "height": 1080,
-                "duration": 1.233,
-                "transitionPoint": 0.633,
-                "filename": "TRANSITION_HJ001 11.webm"
-            },
-            "169": {
-                "width": 1920,
-                "height": 1080,
-                "duration": 1.233,
-                "transitionPoint": 0.633,
-                "filename": "TRANSITION_HJ001 169.webm"
-            },
-            "916": {
-                "width": 1080,
-                "height": 1920,
-                "duration": 1.233,
-                "transitionPoint": 0.633,
-                "filename": "TRANSITION_HJ001 916.webm"
-            }
-        }
+        "speed": "M",
+        "enable": true
     },
     "TRANSITION_HJ002": {
         "type": "overlay",
-        "ratios": {
-            "11": {
-                "width": 1080,
-                "height": 1080,
-                "duration": 2,
-                "transitionPoint": 0.966,
-                "filename": "TRANSITION_HJ002 11.webm"
-            },
-            "169": {
-                "width": 1920,
-                "height": 1080,
-                "duration": 2,
-                "transitionPoint": 0.966,
-                "filename": "TRANSITION_HJ002 169.webm"
-            },
-            "916": {
-                "width": 1080,
-                "height": 1920,
-                "duration": 2,
-                "transitionPoint": 0.966,
-                "filename": "TRANSITION_HJ002 916.webm"
-            }
-        }
+        "speed": "M",
+        "enable": false
     },
     "TRANSITION_HJ003": {
         "type": "overlay",
-        "ratios": {
-            "11": {
-                "width": 1080,
-                "height": 1080,
-                "duration": 1.001,
-                "transitionPoint": 0.3,
-                "filename": "TRANSITION_HJ003 11.webm"
-            },
-            "169": {
-                "width": 1920,
-                "height": 1080,
-                "duration": 1.001,
-                "transitionPoint": 0.233,
-                "filename": "TRANSITION_HJ003 169.webm"
-            },
-            "916": {
-                "width": 1080,
-                "height": 1920,
-                "duration": 1.001,
-                "transitionPoint": 0.3,
-                "filename": "TRANSITION_HJ003 916.webm"
-            }
-        }
+        "speed": "M",
+        "enable": true
     },
     "TRANSITION_ON001": {
         "type": "overlay",
-        "ratios": {
-            "11": {
-                "width": 1080,
-                "height": 1080,
-                "duration": 1.134,
-                "transitionPoint": 0.433,
-                "filename": "TRANSITION_ON001 11.webm"
-            },
-            "169": {
-                "width": 1920,
-                "height": 1080,
-                "duration": 1.134,
-                "transitionPoint": 0.5,
-                "filename": "TRANSITION_ON001 169.webm"
-            },
-            "916": {
-                "width": 1080,
-                "height": 1920,
-                "duration": 1.134,
-                "transitionPoint": 0.5,
-                "filename": "TRANSITION_ON001 916.webm"
-            }
-        }
+        "speed": "M",
+        "enable": true
     },
     "TRANSITION_ON002": {
         "type": "overlay",
-        "ratios": {
-            "11": {
-                "width": 1080,
-                "height": 1080,
-                "duration": 1.868,
-                "transitionPoint": 0.266,
-                "filename": "TRANSITION_ON002 11.webm"
-            },
-            "169": {
-                "width": 1080,
-                "height": 1920,
-                "duration": 1.868,
-                "transitionPoint": 0.266,
-                "filename": "TRANSITION_ON002 169.webm"
-            },
-            "916": {
-                "width": 1080,
-                "height": 1920,
-                "duration": 1.868,
-                "transitionPoint": 0.266,
-                "filename": "TRANSITION_ON002 916.webm"
-            }
-        }
+        "speed": "M",
+        "enable": true
     },
     "TRANSITION_ON003": {
         "type": "overlay",
-        "ratios": {
-            "11": {
-                "width": 1080,
-                "height": 1080,
-                "duration": 1.034,
-                "transitionPoint": 0.467,
-                "filename": "TRANSITION_ON003 11.webm"
-            },
-            "169": {
-                "width": 1920,
-                "height": 1080,
-                "duration": 1.034,
-                "transitionPoint": 0.467,
-                "filename": "TRANSITION_ON003 169.webm"
-            },
-            "916": {
-                "width": 1080,
-                "height": 1920,
-                "duration": 1.034,
-                "transitionPoint": 0.467,
-                "filename": "TRANSITION_ON003 916.webm"
-            }
-        }
+        "speed": "M",
+        "enable": false
     },
     "TRANSITION_SW001": {
         "type": "overlay",
-        "ratios": {
-            "11": {
-                "width": 1080,
-                "height": 1080,
-                "duration": 2,
-                "transitionPoint": 0.72,
-                "filename": "TRANSITION_SW001 11.webm"
-            },
-            "169": {
-                "width": 1920,
-                "height": 1080,
-                "duration": 2,
-                "transitionPoint": 0.72,
-                "filename": "TRANSITION_SW001 169.webm"
-            },
-            "916": {
-                "width": 1080,
-                "height": 1920,
-                "duration": 2,
-                "transitionPoint": 0.72,
-                "filename": "TRANSITION_SW001 916.webm"
-            }
-        }
+        "speed": "M",
+        "enable": false
     },
     "TRANSITION_SW002": {
         "type": "overlay",
-        "ratios": {
-            "11": {
-                "width": 1080,
-                "height": 1080,
-                "duration": 1.24,
-                "transitionPoint": 0.64,
-                "filename": "TRANSITION_SW002 11.webm"
-            },
-            "169": {
-                "width": 1920,
-                "height": 1080,
-                "duration": 1.24,
-                "transitionPoint": 0.64,
-                "filename": "TRANSITION_SW002 169.webm"
-            },
-            "916": {
-                "width": 1080,
-                "height": 1920,
-                "duration": 1.24,
-                "transitionPoint": 0.64,
-                "filename": "TRANSITION_SW002 916.webm"
-            }
-        }
+        "speed": "M",
+        "enable": true
     },
     "TRANSITION_SW003": {
         "type": "overlay",
-        "ratios": {
-            "11": {
-                "width": 1080,
-                "height": 1080,
-                "duration": 1.48,
-                "transitionPoint": 0.56,
-                "filename": "TRANSITION_SW003 11.webm"
-            },
-            "169": {
-                "width": 1920,
-                "height": 1080,
-                "duration": 1.48,
-                "transitionPoint": 0.56,
-                "filename": "TRANSITION_SW003 169.webm"
-            },
-            "916": {
-                "width": 1080,
-                "height": 1920,
-                "duration": 1.48,
-                "transitionPoint": 0.56,
-                "filename": "TRANSITION_SW003 916.webm"
-            }
-        }
+        "speed": "L",
+        "enable": true
     },
     "TRANSITION_SW004": {
         "type": "overlay",
-        "ratios": {
-            "11": {
-                "width": 1080,
-                "height": 1080,
-                "duration": 6.439,
-                "transitionPoint": 2.869,
-                "filename": "TRANSITION_SW004 11.webm"
-            },
-            "169": {
-                "width": 1920,
-                "height": 1080,
-                "duration": 6.439,
-                "transitionPoint": 2.869,
-                "filename": "TRANSITION_SW004 169.webm"
-            },
-            "916": {
-                "width": 1080,
-                "height": 1920,
-                "duration": 6.439,
-                "transitionPoint": 2.869,
-                "filename": "TRANSITION_SW004 916.webm"
-            }
-        }
+        "speed": "L",
+        "enable": true
     },
     "TRANSITION_SW005": {
         "type": "overlay",
-        "ratios": {
-            "11": {
-                "width": 1080,
-                "height": 1080,
-                "duration": 4.037,
-                "transitionPoint": 1.701,
-                "filename": "TRANSITION_SW005 11.webm"
-            },
-            "169": {
-                "width": 1920,
-                "height": 1080,
-                "duration": 4.037,
-                "transitionPoint": 1.701,
-                "filename": "TRANSITION_SW005 169.webm"
-            },
-            "916": {
-                "width": 1080,
-                "height": 1920,
-                "duration": 4.037,
-                "transitionPoint": 1.701,
-                "filename": "TRANSITION_SW005 916.webm"
-            }
-        }
+        "speed": "L",
+        "enable": true
     },
     "TRANSITION_SW006": {
         "type": "overlay",
-        "ratios": {
-            "11": {
-                "width": 1080,
-                "height": 1080,
-                "duration": 3.003,
-                "transitionPoint": 1.334,
-                "filename": "TRANSITION_SW006 11.webm"
-            },
-            "169": {
-                "width": 1920,
-                "height": 1080,
-                "duration": 3.003,
-                "transitionPoint": 1.334,
-                "filename": "TRANSITION_SW006 169.webm"
-            },
-            "916": {
-                "width": 1080,
-                "height": 1920,
-                "duration": 3.003,
-                "transitionPoint": 1.334,
-                "filename": "TRANSITION_SW006 916.webm"
-            }
-        }
+        "speed": "L",
+        "enable": true
     },
     "TRANSITION_YJ001": {
         "type": "overlay",
-        "ratios": {
-            "11": {
-                "width": 1080,
-                "height": 1080,
-                "duration": 5.005,
-                "transitionPoint": 0.333,
-                "filename": "TRANSITION_YJ001 11.webm"
-            },
-            "169": {
-                "width": 1920,
-                "height": 1080,
-                "duration": 5.005,
-                "transitionPoint": 0.333,
-                "filename": "TRANSITION_YJ001 169.webm"
-            },
-            "916": {
-                "width": 1080,
-                "height": 1920,
-                "duration": 5.005,
-                "transitionPoint": 0.4,
-                "filename": "TRANSITION_YJ001 916.webm"
-            }
-        }
+        "speed": "M",
+        "enable": true
     },
     "TRANSITION_YJ002": {
         "type": "overlay",
-        "ratios": {
-            "11": {
-                "width": 1080,
-                "height": 1080,
-                "duration": 1.067,
-                "transitionPoint": 0.333,
-                "filename": "TRANSITION_YJ002 11.webm"
-            },
-            "169": {
-                "width": 1920,
-                "height": 1080,
-                "duration": 1.067,
-                "transitionPoint": 0.333,
-                "filename": "TRANSITION_YJ002 169.webm"
-            },
-            "916": {
-                "width": 1080,
-                "height": 1920,
-                "duration": 1.067,
-                "transitionPoint": 0.333,
-                "filename": "TRANSITION_YJ002 916.webm"
-            }
-        }
+        "speed": "M",
+        "enable": true
     },
     "TRANSITION_YJ003": {
         "type": "overlay",
-        "ratios": {
-            "11": {
-                "width": 1080,
-                "height": 1080,
-                "duration": 1.768,
-                "transitionPoint": 0.867,
-                "filename": "TRANSITION_YJ003 11.webm"
-            },
-            "169": {
-                "width": 1920,
-                "height": 1080,
-                "duration": 1.768,
-                "transitionPoint": 0.867,
-                "filename": "TRANSITION_YJ003 169.webm"
-            },
-            "916": {
-                "width": 1080,
-                "height": 1920,
-                "duration": 1.768,
-                "transitionPoint": 0.867,
-                "filename": "TRANSITION_YJ003 916.webm"
-            }
-        }
+        "speed": "M",
+        "enable": true
     },
     "TRANSITION_YJ004": {
         "type": "overlay",
-        "ratios": {
-            "11": {
-                "width": 1080,
-                "height": 1080,
-                "duration": 2.669,
-                "transitionPoint": 1.101,
-                "filename": "TRANSITION_YJ004 11.webm"
-            },
-            "169": {
-                "width": 1920,
-                "height": 1080,
-                "duration": 2.669,
-                "transitionPoint": 1.101,
-                "filename": "TRANSITION_YJ004 169.webm"
-            },
-            "916": {
-                "width": 1080,
-                "height": 1920,
-                "duration": 2.669,
-                "transitionPoint": 1.101,
-                "filename": "TRANSITION_YJ004 916.webm"
-            }
-        }
+        "speed": "M",
+        "enable": false
     },
     "TRANSITION_YJ005": {
         "type": "overlay",
-        "ratios": {
-            "11": {
-                "width": 1080,
-                "height": 1080,
-                "duration": 1.034,
-                "transitionPoint": 0.367,
-                "filename": "TRANSITION_YJ005 11.webm"
-            },
-            "169": {
-                "width": 1920,
-                "height": 1080,
-                "duration": 1.034,
-                "transitionPoint": 0.367,
-                "filename": "TRANSITION_YJ005 169.webm"
-            },
-            "916": {
-                "width": 1080,
-                "height": 1920,
-                "duration": 1.034,
-                "transitionPoint": 0.367,
-                "filename": "TRANSITION_YJ005 916.webm"
-            }
-        }
+        "speed": "M",
+        "enable": true
     },
     "TRANSITION_YJ006": {
         "type": "overlay",
-        "ratios": {
-            "11": {
-                "width": 1080,
-                "height": 1080,
-                "duration": 3.803,
-                "transitionPoint": 1.968,
-                "filename": "TRANSITION_YJ006 11.webm"
-            },
-            "169": {
-                "width": 1920,
-                "height": 1080,
-                "duration": 3.803,
-                "transitionPoint": 1.968,
-                "filename": "TRANSITION_YJ006 169.webm"
-            },
-            "916": {
-                "width": 1080,
-                "height": 1920,
-                "duration": 3.803,
-                "transitionPoint": 1.968,
-                "filename": "TRANSITION_YJ006 916.webm"
-            }
-        }
+        "speed": "L",
+        "enable": true
     },
     "TRANSITION_YJ007": {
         "type": "overlay",
-        "ratios": {
-            "11": {
-                "width": 1080,
-                "height": 1080,
-                "duration": 2.969,
-                "transitionPoint": 0.967,
-                "filename": "TRANSITION_YJ007 11.webm"
-            },
-            "169": {
-                "width": 1920,
-                "height": 1080,
-                "duration": 2.969,
-                "transitionPoint": 0.967,
-                "filename": "TRANSITION_YJ007 169.webm"
-            },
-            "916": {
-                "width": 1080,
-                "height": 1920,
-                "duration": 2.969,
-                "transitionPoint": 0.967,
-                "filename": "TRANSITION_YJ007 916.webm"
-            }
-        }
+        "speed": "L",
+        "enable": true
     },
     "TRANSITION_YJ008": {
         "type": "overlay",
-        "ratios": {
-            "11": {
-                "width": 1080,
-                "height": 1080,
-                "duration": 4.237,
-                "transitionPoint": 1.434,
-                "filename": "TRANSITION_YJ008 11.webm"
-            },
-            "169": {
-                "width": 1920,
-                "height": 1080,
-                "duration": 4.237,
-                "transitionPoint": 1.434,
-                "filename": "TRANSITION_YJ008 169.webm"
-            },
-            "916": {
-                "width": 1080,
-                "height": 1920,
-                "duration": 4.237,
-                "transitionPoint": 1.434,
-                "filename": "TRANSITION_YJ008 916.webm"
-            }
-        }
+        "speed": "L",
+        "enable": true
     },
     "TRANSITION_YJ009": {
         "type": "overlay",
-        "ratios": {
-            "11": {
-                "width": 1080,
-                "height": 1080,
-                "duration": 1.167,
-                "transitionPoint": 0.5,
-                "filename": "TRANSITION_YJ009 11.webm"
-            },
-            "169": {
-                "width": 1920,
-                "height": 1080,
-                "duration": 1.167,
-                "transitionPoint": 0.5,
-                "filename": "TRANSITION_YJ009 169.webm"
-            },
-            "916": {
-                "width": 1080,
-                "height": 1920,
-                "duration": 1.167,
-                "transitionPoint": 0.5,
-                "filename": "TRANSITION_YJ009 916.webm"
-            }
-        }
+        "speed": "M",
+        "enable": true
     },
     "TRANSITION_YJ010": {
         "type": "overlay",
-        "ratios": {
-            "11": {
-                "width": 1080,
-                "height": 1080,
-                "duration": 4.637,
-                "transitionPoint": 1.501,
-                "filename": "TRANSITION_YJ010 11.webm"
-            },
-            "169": {
-                "width": 1920,
-                "height": 1080,
-                "duration": 4.637,
-                "transitionPoint": 1.501,
-                "filename": "TRANSITION_YJ010 169.webm"
-            },
-            "916": {
-                "width": 1080,
-                "height": 1920,
-                "duration": 4.637,
-                "transitionPoint": 1.501,
-                "filename": "TRANSITION_YJ010 916.webm"
-            }
-        }
+        "speed": "L",
+        "enable": true
     },
     "TRANSITION_YJ011": {
         "type": "overlay",
-        "ratios": {
-            "11": {
-                "width": 1080,
-                "height": 1080,
-                "duration": 1.167,
-                "transitionPoint": 0.5,
-                "filename": "TRANSITION_YJ011 11.webm"
-            },
-            "169": {
-                "width": 1920,
-                "height": 1080,
-                "duration": 1.167,
-                "transitionPoint": 0.5,
-                "filename": "TRANSITION_YJ011 169.webm"
-            },
-            "916": {
-                "width": 1080,
-                "height": 1920,
-                "duration": 1.167,
-                "transitionPoint": 0.5,
-                "filename": "TRANSITION_YJ011 916.webm"
-            }
-        }
+        "speed": "M",
+        "enable": true
     },
     "TRANSITION_YJ012": {
         "type": "overlay",
-        "ratios": {
-            "11": {
-                "width": 1080,
-                "height": 1080,
-                "duration": 3.803,
-                "transitionPoint": 1.968,
-                "filename": "TRANSITION_YJ012 11.webm"
-            },
-            "169": {
-                "width": 1920,
-                "height": 1080,
-                "duration": 3.803,
-                "transitionPoint": 1.968,
-                "filename": "TRANSITION_YJ012 169.webm"
-            },
-            "916": {
-                "width": 1080,
-                "height": 1920,
-                "duration": 3.803,
-                "transitionPoint": 1.968,
-                "filename": "TRANSITION_YJ012 916.webm"
-            }
-        }
+        "speed": "M",
+        "enable": true
     },
     "TRANSITION_YJ013": {
         "type": "overlay",
-        "ratios": {
-            "11": {
-                "width": 1080,
-                "height": 1080,
-                "duration": 3.036,
-                "transitionPoint": 1.468,
-                "filename": "TRANSITION_YJ013 11.webm"
-            },
-            "169": {
-                "width": 1920,
-                "height": 1080,
-                "duration": 3.036,
-                "transitionPoint": 1.468,
-                "filename": "TRANSITION_YJ013 169.webm"
-            },
-            "916": {
-                "width": 1080,
-                "height": 1920,
-                "duration": 3.036,
-                "transitionPoint": 1.468,
-                "filename": "TRANSITION_YJ013 916.webm"
-            }
-        }
+        "speed": "L",
+        "enable": true
     },
     "TRANSITION_YJ014": {
         "type": "overlay",
-        "ratios": {
-            "11": {
-                "width": 1080,
-                "height": 1080,
-                "duration": 3.036,
-                "transitionPoint": 1.468,
-                "filename": "TRANSITION_YJ014 11.webm"
-            },
-            "169": {
-                "width": 1920,
-                "height": 1080,
-                "duration": 3.036,
-                "transitionPoint": 1.468,
-                "filename": "TRANSITION_YJ014 169.webm"
-            },
-            "916": {
-                "width": 1080,
-                "height": 1920,
-                "duration": 3.036,
-                "transitionPoint": 1.468,
-                "filename": "TRANSITION_YJ014 916.webm"
-            }
-        }
+        "speed": "L",
+        "enable": true
     },
     "xfade_fade": {
         "type": "xfade",
-        "filterName": "fade"
+        "filterName": "fade",
+        "enable": true
     },
     "xfade_fadeblack": {
         "type": "xfade",
-        "filterName": "fadeblack"
+        "filterName": "fadeblack",
+        "enable": false
     },
     "xfade_wiperight": {
         "type": "xfade",
-        "filterName": "wiperight"
+        "filterName": "wiperight",
+        "enable": true
     },
     "xfade_slideright": {
         "type": "xfade",
-        "filterName": "slideright"
+        "filterName": "slideright",
+        "enable": true
     },
     "xfade_rectcrop": {
         "type": "xfade",
-        "filterName": "rectcrop"
+        "filterName": "rectcrop",
+        "enable": true
     },
     "xfade_circlecrop": {
         "type": "xfade",
-        "filterName": "circlecrop"
+        "filterName": "circlecrop",
+        "enable": true
     },
     "xfade_radial": {
         "type": "xfade",
-        "filterName": "radial"
+        "filterName": "radial",
+        "enable": true
     },
     "xfade_diagtr": {
         "type": "xfade",
-        "filterName": "diagtr"
+        "filterName": "diagtr",
+        "enable": false
     },
     "xfade_fadewhite": {
         "type": "xfade",
-        "filterName": "fadewhite"
+        "filterName": "fadewhite",
+        "enable": false
     },
     "xfade_circleopen": {
         "type": "xfade",
-        "filterName": "circleopen"
+        "filterName": "circleopen",
+        "enable": false
     },
     "xfade_smoothright": {
         "type": "xfade",
-        "filterName": "smoothright"
+        "filterName": "smoothright",
+        "enable": false
     },
     "xfade_vertopen": {
         "type": "xfade",
-        "filterName": "vertopen"
+        "filterName": "vertopen",
+        "enable": false
     }
 }

@@ -171,6 +171,8 @@ class VideoGeneratedResult {
   List<SpotInfo> spotInfoList;
   List<String> thumbnailList;
   String json = "";
+  String titleKey = "";
+  double renderTimeSec = 0;
 
   VideoGeneratedResult(this.generatedVideoPath, this.spotInfoList, this.thumbnailList);
 }

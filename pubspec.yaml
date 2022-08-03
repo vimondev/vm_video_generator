@@ -38,12 +38,12 @@ dependencies:
   ffmpeg_kit_flutter_full_gpl: ^4.5.1
   gallery_saver: ^2.3.2
   path: ^1.8.0
-  google_mlkit_face_detection: ^0.3.0
-  google_mlkit_image_labeling: ^0.3.0
+  google_mlkit_face_detection:
+  google_mlkit_image_labeling:
   firebase_core:
   flutter_inappwebview: ^5.2.0
   uuid: ^3.0.6
-  http: ^0.13.4
+  http:
 
 dev_dependencies:
   flutter_test:
@@ -83,11 +83,7 @@ flutter:
     - assets/html/
     - assets/text/
     - assets/template/
-    - assets/raw/frame/
-    - assets/raw/sticker/
-    - assets/raw/transition/
     - assets/raw/lottie-jsons/
-    - assets/raw/fonts/
     - assets/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

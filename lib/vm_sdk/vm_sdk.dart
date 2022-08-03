@@ -58,8 +58,10 @@ class VMSDKWidget extends StatelessWidget {
       EMusicStyle? style,
       bool isAutoEdit,
       List<String> texts,
+      String language,
       Function(EGenerateStatus status, double progress)?
           progressCallback) async {
+    DateTime now = DateTime.now();
     _currentStatus = EGenerateStatus.titleExport;
 
     const Map<EMusicStyle, EMusicSpeed> musicSpeedMap = {
@@ -98,8 +100,6 @@ class VMSDKWidget extends StatelessWidget {
           Random().nextInt(randomStyleList.length) % randomStyleList.length];
     }
 
-    EMusicSpeed musicSpeed = musicSpeedMap[selectedStyle] ?? EMusicSpeed.medium;
-
     List<TemplateData> templateList = [];
     templateList.addAll(
         (ResourceManager.getInstance().getTemplateData(selectedStyle) ??
@@ -116,15 +116,15 @@ class VMSDKWidget extends StatelessWidget {
     final AllEditedData allEditedData = await generateAllEditedData(
         mediaList, selectedStyle, randomSortedTemplateList, isAutoEdit);
 
-    List<ETextID> textIds;
+    List<String> textIds;
     if (texts.length >= 2) {
-      textIds = twoLineTitles[musicSpeed]!;
+      textIds = ResourceManager.getInstance().getTwoLineTextList();
     }
     //
     else {
-      textIds = oneLineTitles[musicSpeed]!;
+      textIds = ResourceManager.getInstance().getOneLineTextList();
     }
-    final ETextID pickedTextId =
+    final String pickedTextId =
         textIds[(Random()).nextInt(textIds.length) % textIds.length];
     await _textWidget.loadText(pickedTextId);
 
@@ -180,6 +180,9 @@ class VMSDKWidget extends StatelessWidget {
         allEditedData.musicList,
         allEditedData.ratio,
         progressCallback);
+
+    result.renderTimeSec = DateTime.now().difference(now).inMilliseconds / 1000;
+    result.titleKey = pickedTextId;
     result.json = parseAllEditedDataToJSON(allEditedData);
 
     return result;

@@ -49,7 +49,7 @@ class VMTextWidget extends StatelessWidget {
   Map<int, String> _allSequencePathMap = {};
   List<String> _allSequencePaths = [];
 
-  TextData? _data;
+  TextWidgetData? _data;
   Completer<void>? _reloadCompleter;
   Completer<void>? _currentPreviewCompleter;
   Completer<void>? _currentSequencesCompleter;
@@ -66,9 +66,8 @@ class VMTextWidget extends StatelessWidget {
   String? get allSequencesPath => _allSequencesPath;
   List<String> get allSequencePaths => _allSequencePaths;
 
-  Future<void> loadText(ETextID id) async {
-    // _id = id;
-    _data = (await loadTextData(id))!;
+  Future<void> loadText(String id) async {
+    _data = (await loadTextWidgetData(id))!;
     if (_data == null) return;
 
     _data!.texts.add("THIS IS TITLE!");

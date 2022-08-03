@@ -7,100 +7,11 @@ import 'package:path/path.dart';
 
 import '../types/types.dart';
 import 'global_helper.dart';
-import 'song_helper.dart';
+import 'type_helper.dart';
+import 'resource_fetch_helper.dart';
 
 Map<int, EMediaLabel> classifiedLabelMap = {};
 Map<int, bool> definitiveLabelMap = {};
-
-Map<ETransitionType, List<String>> tempTransitionMap = {
-  ETransitionType.xfade: [
-    "xfade_fade",
-    "xfade_wiperight",
-    "xfade_slideright",
-    "xfade_rectcrop",
-    "xfade_circlecrop",
-    "xfade_radial"
-  ],
-  ETransitionType.overlay: [
-    "TRANSITION_DA001",
-    "TRANSITION_DA002",
-    "TRANSITION_DA003",
-    "TRANSITION_HJ001",
-    "TRANSITION_HJ002",
-    "TRANSITION_HJ003",
-    "TRANSITION_ON001",
-    "TRANSITION_ON002",
-    "TRANSITION_ON003",
-    "TRANSITION_SW001",
-    "TRANSITION_SW002",
-    "TRANSITION_SW003",
-    "TRANSITION_SW004",
-    "TRANSITION_SW005",
-    "TRANSITION_SW006",
-    "TRANSITION_YJ001",
-    "TRANSITION_YJ002",
-    "TRANSITION_YJ003",
-    "TRANSITION_YJ004",
-    "TRANSITION_YJ005",
-    "TRANSITION_YJ006",
-    "TRANSITION_YJ007",
-    "TRANSITION_YJ008",
-    "TRANSITION_YJ009",
-    "TRANSITION_YJ010",
-    "TRANSITION_YJ011",
-    "TRANSITION_YJ012",
-    "TRANSITION_YJ013",
-    "TRANSITION_YJ014",
-  ],
-};
-
-Map<EMediaLabel, List<String>> tempFrameMap = {
-  EMediaLabel.background: [
-    "FRAME_HJ008",
-    "FRAME_HJ009",
-    "FRAME_HJ014",
-    "FRAME_ON016",
-    "FRAME_ON019",
-    "FRAME_SW011",
-    "FRAME_SW012",
-    "FRAME_SW014",
-    "FRAME_SW015",
-    "FRAME_SW017",
-    "FRAME_SW022",
-    "FRAME_SW023",
-    "FRAME_SW024",
-    "FRAME_YJ004",
-    "FRAME_YJ008",
-    "FRAME_YJ010",
-    "FRAME_YJ019",
-    "FRAME_YJ020",
-    "FRAME_YJ025",
-    "FRAME_YJ027",
-    "FRAME_YJ031",
-    "FRAME_YJ032"
-  ]
-};
-
-Map<EMediaLabel, List<String>> tempStickerMap = {
-  EMediaLabel.person: [
-    "STICKER_YJ005",
-    "STICKER_YJ018",
-    "STICKER_YJ028",
-  ],
-  EMediaLabel.food: [
-    "STICKER_YJ005",
-    "STICKER_YJ006",
-    "STICKER_YJ023",
-    "STICKER_YJ024",
-    "STICKER_YJ029",
-    "STICKER_YJ030",
-    "STICKER_DA024",
-    "STICKER_DA025",
-    "STICKER_HJ015",
-    "STICKER_HJ018",
-  ],
-  EMediaLabel.animal: ["STICKER_DA005", "STICKER_HJ017"],
-};
 
 Future<void> loadLabelMap() async {
   List classifiedList =
@@ -111,40 +22,7 @@ Future<void> loadLabelMap() async {
   for (final Map map in classifiedList) {
     int id = map["id"];
     String type = map["type"];
-    EMediaLabel mediaLabel = EMediaLabel.none;
-
-    switch (type) {
-      case "background":
-        mediaLabel = EMediaLabel.background;
-        break;
-
-      case "person":
-        mediaLabel = EMediaLabel.person;
-        break;
-
-      case "action":
-        mediaLabel = EMediaLabel.action;
-        break;
-
-      case "object":
-        mediaLabel = EMediaLabel.object;
-        break;
-
-      case "food":
-        mediaLabel = EMediaLabel.food;
-        break;
-
-      case "animal":
-        mediaLabel = EMediaLabel.animal;
-        break;
-
-      case "others":
-        mediaLabel = EMediaLabel.others;
-        break;
-
-      default:
-        break;
-    }
+    EMediaLabel mediaLabel = getMediaLabel(type);
 
     classifiedLabelMap[id] = mediaLabel;
   }
@@ -625,12 +503,13 @@ Future<AllEditedData> generateAllEditedData(
   ///////////////////////
 
   // TO DO : Load from Template Data
-  final Map<ETransitionType, List<String>> transitionMap = tempTransitionMap;
-  final List<String> originXfadeTransitionList =
-          transitionMap[ETransitionType.xfade]!,
-      originOverlayTransitionList = transitionMap[ETransitionType.overlay]!;
+  final List<XFadeTransitionData> originXfadeTransitionList =
+          ResourceManager.getInstance().getAllXFadeTransitions();
+  final List<OverlayTransitionData>
+      originOverlayTransitionList = ResourceManager.getInstance().getAllOverlayTransitions();
 
-  final List<String> curXfadeTransitionList = [], curOverlayTransitionList = [];
+  final List<XFadeTransitionData> curXfadeTransitionList = [];
+  final List<OverlayTransitionData> curOverlayTransitionList = [];
   curXfadeTransitionList.addAll(originXfadeTransitionList);
   curOverlayTransitionList.addAll(originOverlayTransitionList);
 
@@ -651,9 +530,12 @@ Future<AllEditedData> generateAllEditedData(
 
       double xfadeDuration = 0.8;
 
-      if (editedMedia.duration < 2) continue;
-      if (allEditedData.editedMediaList[i + 1].duration < (xfadeDuration + 0.1))
+      if (editedMedia.duration < 2) {
         continue;
+      }
+      if (allEditedData.editedMediaList[i + 1].duration < (xfadeDuration + 0.1)) {
+        continue;
+      }
 
       if (isPassedBoundary) {
         currentTransitionType = (Random()).nextDouble() >= 0.4
@@ -682,8 +564,7 @@ Future<AllEditedData> generateAllEditedData(
       if (currentTransitionType == ETransitionType.xfade) {
         int randIdx = (Random()).nextInt(curXfadeTransitionList.length) %
             curXfadeTransitionList.length;
-        editedMedia.transition = ResourceManager.getInstance()
-            .getTransitionData(curXfadeTransitionList[randIdx]);
+        editedMedia.transition = curXfadeTransitionList[randIdx];
         curXfadeTransitionList.removeAt(randIdx);
         if (curXfadeTransitionList.isEmpty) {
           curXfadeTransitionList.addAll(originXfadeTransitionList);
@@ -692,8 +573,7 @@ Future<AllEditedData> generateAllEditedData(
       else if (currentTransitionType == ETransitionType.overlay) {
         int randIdx = (Random()).nextInt(curOverlayTransitionList.length) %
             curOverlayTransitionList.length;
-        editedMedia.transition = ResourceManager.getInstance()
-            .getTransitionData(curOverlayTransitionList[randIdx]);
+        editedMedia.transition = curOverlayTransitionList[randIdx];
 
         if (editedMedia.transition != null) {
           final OverlayTransitionData overlayTransitionData =
@@ -723,9 +603,9 @@ Future<AllEditedData> generateAllEditedData(
 
   // TO DO : Load from Template Data
 
-  final Map<EMediaLabel, List<String>> originFrameMap = tempFrameMap,
+  final Map<EMediaLabel, List<FrameData>> originFrameMap = ResourceManager.getInstance().getFrameDataMap(),
       curFrameMap = {};
-  final Map<EMediaLabel, List<String>> originStickerMap = tempStickerMap,
+  final Map<EMediaLabel, List<StickerData>> originStickerMap = ResourceManager.getInstance().getStickerDataMap(),
       curStickerMap = {};
 
   for (final key in originFrameMap.keys) {
@@ -754,11 +634,10 @@ Future<AllEditedData> generateAllEditedData(
             mediaLabel = EMediaLabel.background;
             if (!curFrameMap.containsKey(mediaLabel)) continue;
 
-            List<String> curFrameList = curFrameMap[mediaLabel]!;
+            List<FrameData> curFrameList = curFrameMap[mediaLabel]!;
             int randIdx =
                 (Random()).nextInt(curFrameList.length) % curFrameList.length;
-            editedMedia.frame = ResourceManager.getInstance()
-                .getFrameData(curFrameList[randIdx]);
+            editedMedia.frame = curFrameList[randIdx];
 
             curFrameList.removeAt(randIdx);
             if (curFrameList.isEmpty) {
@@ -779,12 +658,11 @@ Future<AllEditedData> generateAllEditedData(
           if ((Random()).nextDouble() >= 0.8) continue;
           if (!curStickerMap.containsKey(mediaLabel)) continue;
 
-          List<String> curStickerList = curStickerMap[mediaLabel]!;
+          List<StickerData> curStickerList = curStickerMap[mediaLabel]!;
           int randIdx =
               (Random()).nextInt(curStickerList.length) % curStickerList.length;
 
-          final StickerData? stickerData = ResourceManager.getInstance()
-              .getStickerData(curStickerList[randIdx]);
+          final StickerData? stickerData = curStickerList[randIdx];
 
           if (stickerData != null) {
             final EditedStickerData editedStickerData =
@@ -852,8 +730,8 @@ Future<AllEditedData> generateAllEditedData(
     }
   }
 
-  List songs = await getSongs(hashtagId);
-  List randomSortedSongs = [];
+  List<SongFetchModel> songs = await fetchSongs(hashtagId);
+  List<SongFetchModel> randomSortedSongs = [];
   while (songs.isNotEmpty) {
     int randIdx = (Random()).nextInt(songs.length) % songs.length;
     randomSortedSongs.add(songs[randIdx]);
@@ -864,20 +742,20 @@ Future<AllEditedData> generateAllEditedData(
   int currentSongIndex = 0;
 
   while (remainTotalDuration > 0) {
-    Map song = randomSortedSongs[currentSongIndex % randomSortedSongs.length];
+    SongFetchModel song = randomSortedSongs[currentSongIndex % randomSortedSongs.length];
 
-    double duration = song["duration"] * 1.0;
-    Map? source = song["source"];
+    double duration = song.duration;
+    SourceModel? source = song.source;
 
     if (source != null) {
-      String name = source["name"];
-      String url = source["url"];
+      String name = source.name;
+      String url = source.url;
 
       MusicData musicData = MusicData();
       musicData.duration = duration;
       musicData.filename = name;
 
-      final File file = await downloadSong(name, url);
+      final File file = await downloadResource(name, url);
       musicData.absolutePath = file.path;
 
       allEditedData.musicList.add(musicData);

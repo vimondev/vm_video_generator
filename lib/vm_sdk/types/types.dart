@@ -1,3 +1,4 @@
+export 'fetch.dart';
 export 'global.dart';
 export 'mlkit.dart';
 export 'resource.dart';
