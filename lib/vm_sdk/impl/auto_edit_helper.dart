@@ -623,6 +623,11 @@ Future<AllEditedData> generateAllEditedData(
 
   for (int i = 0; i < allEditedData.editedMediaList.length; i++) {
     final EditedMedia editedMedia = allEditedData.editedMediaList[i];
+
+    if (editedMedia.duration < 2.5) {
+      continue;
+    }
+
     final int diff = i - lastFrameInsertedIndex;
 
     EMediaLabel mediaLabel = editedMedia.mediaLabel;

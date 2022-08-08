@@ -19,6 +19,7 @@ enum EMusicSpeed {
   fast
 }
 enum EMusicStyle {
+  none,
   calm,
   dreamy,
   ambient,
@@ -170,6 +171,11 @@ class VideoGeneratedResult {
   String generatedVideoPath;
   List<SpotInfo> spotInfoList;
   List<String> thumbnailList;
+  EMusicStyle musicStyle = EMusicStyle.none;
+
+  List<EditedMedia> editedMediaList = [];
+  List<MusicData> musicList = [];
+
   String json = "";
   String titleKey = "";
   double renderTimeSec = 0;

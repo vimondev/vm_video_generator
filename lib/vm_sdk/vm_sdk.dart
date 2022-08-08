@@ -64,21 +64,6 @@ class VMSDKWidget extends StatelessWidget {
     DateTime now = DateTime.now();
     _currentStatus = EGenerateStatus.titleExport;
 
-    const Map<EMusicStyle, EMusicSpeed> musicSpeedMap = {
-      EMusicStyle.calm: EMusicSpeed.slow,
-      EMusicStyle.dreamy: EMusicSpeed.slow,
-      EMusicStyle.ambient: EMusicSpeed.slow,
-      EMusicStyle.beautiful: EMusicSpeed.medium,
-      EMusicStyle.upbeat: EMusicSpeed.medium,
-      EMusicStyle.hopeful: EMusicSpeed.medium,
-      EMusicStyle.inspiring: EMusicSpeed.medium,
-      EMusicStyle.fun: EMusicSpeed.medium,
-      EMusicStyle.joyful: EMusicSpeed.medium,
-      EMusicStyle.happy: EMusicSpeed.medium,
-      EMusicStyle.cheerful: EMusicSpeed.fast,
-      EMusicStyle.energetic: EMusicSpeed.fast
-    };
-
     EMusicStyle selectedStyle;
     if (style != null) {
       selectedStyle = style;
@@ -180,6 +165,10 @@ class VMSDKWidget extends StatelessWidget {
         allEditedData.musicList,
         allEditedData.ratio,
         progressCallback);
+
+    result.musicStyle = selectedStyle;
+    result.editedMediaList.addAll(allEditedData.editedMediaList);
+    result.musicList.addAll(allEditedData.musicList);
 
     result.renderTimeSec = DateTime.now().difference(now).inMilliseconds / 1000;
     result.titleKey = pickedTextId;
@@ -391,8 +380,13 @@ class VMSDKWidget extends StatelessWidget {
         progressCallback(_currentStatus, 1);
       }
 
-      return VideoGeneratedResult(
+      final VideoGeneratedResult result =  VideoGeneratedResult(
           resultClip.absolutePath, spotInfoList, thumbnailList);
+
+      result.editedMediaList.addAll(editedMediaList);
+      result.musicList.addAll(musicList);
+
+      return result;
     } //
     catch (e) {
       if (_currentTimer != null) {
