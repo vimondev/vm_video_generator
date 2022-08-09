@@ -190,7 +190,7 @@ Future<AllEditedData> generateAllEditedData(
       final int minutesDiff = ((totalSecondsDiff / 60) % 60).floor();
       final int hoursDiff = ((totalSecondsDiff / 3600) % 60).floor();
 
-      if (minutesDiff >= 10 || hoursDiff >= 1) {
+      if (minutesDiff >= 30 || hoursDiff >= 1) {
         isGrouped = true;
       } //
       else {
