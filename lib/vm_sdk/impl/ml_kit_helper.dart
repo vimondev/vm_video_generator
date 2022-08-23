@@ -111,18 +111,17 @@ Future<String?> extractData(MediaData data) async {
     if (scaledWidth % 2 == 1) scaledWidth += 1;
   }
 
-  final List<String> frames = [];
-  if (await ffMpegManager.execute([
+  await ffMpegManager.execute([
     "-i",
     data.absolutePath,
     "-filter_complex",
     "${data.type == EMediaType.video ? "fps=$convertFrame," : ""}scale=$scaledWidth:$scaledHeight,setdar=dar=${scaledWidth / scaledHeight}",
     "$mlkitResultDir/${data.type == EMediaType.video ? "%d" : "1"}.jpg",
     "-y"
-  ], (p0) => null)) {
-    await for (final entity in dir.list()) {
-      frames.add(entity.path);
-    }
+  ], (p0) => null);
+  final List<String> frames = [];
+  await for (final entity in dir.list()) {
+    frames.add(entity.path);
   }
 
   result = json.encode({"fps": convertFrame, "r": await runDetect(frames)});

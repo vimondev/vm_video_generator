@@ -270,7 +270,7 @@ class VMSDKWidget extends StatelessWidget {
           nextTransition = editedMediaList[i].transition;
         }
 
-        final RenderedData? clipData = await clipRender(
+        final RenderedData clipData = await clipRender(
             editedMedia,
             i,
             prevTransition,
@@ -284,7 +284,6 @@ class VMSDKWidget extends StatelessWidget {
             normalizeTime(editedMedia.duration + editedMedia.xfadeDuration);
         _currentRenderedFrame += (duration * videoFramerate).floor();
 
-        if (clipData == null) throw Exception("ERR_CLIP_RENDER_FAILED");
         clipDataList.add(clipData);
 
         thumbnailList.add(await extractThumbnail(editedMediaList[i], i) ?? "");
@@ -304,7 +303,7 @@ class VMSDKWidget extends StatelessWidget {
           //
           final RenderedData nextRendered = clipDataList[i + 1];
 
-          final RenderedData? xfadeApplied = await applyXFadeTransitions(
+          final RenderedData xfadeApplied = await applyXFadeTransitions(
               curRendered,
               nextRendered,
               i,
@@ -320,9 +319,6 @@ class VMSDKWidget extends StatelessWidget {
               0.01);
           _currentRenderedFrame += (duration * videoFramerate).floor();
 
-          if (xfadeApplied == null) {
-            throw Exception("ERR_TRANSITION_RENDER_FAILED");
-          }
           xfadeAppliedList.add(xfadeApplied);
           i++;
         } //
@@ -342,12 +338,8 @@ class VMSDKWidget extends StatelessWidget {
           if (curDuration >= 3) break;
         }
 
-        final RenderedData? fadeOutApplied =
+        final RenderedData fadeOutApplied =
             await applyFadeOut(fadeOutClips.reversed.toList());
-        
-        if (fadeOutApplied == null) {
-          throw Exception("ERR_FADE_OUT_RENDER_FAILED");
-        }
 
         xfadeAppliedList.add(fadeOutApplied);
       }
@@ -355,11 +347,8 @@ class VMSDKWidget extends StatelessWidget {
       _currentStatus = EGenerateStatus.finishing;
       _currentRenderedFrame = _allFrame;
 
-      final RenderedData? mergedClip = await mergeVideoClip(xfadeAppliedList);
-      if (mergedClip == null) throw Exception("ERR_MERGE_FAILED");
-
-      final RenderedData? resultClip = await applyMusics(mergedClip, musicList);
-      if (resultClip == null) throw Exception("ERR_APPLY_MUSIC_FAILED");
+      final RenderedData mergedClip = await mergeVideoClip(xfadeAppliedList);
+      final RenderedData resultClip = await applyMusics(mergedClip, musicList);
 
       print(DateTime.now().difference(now).inSeconds);
 

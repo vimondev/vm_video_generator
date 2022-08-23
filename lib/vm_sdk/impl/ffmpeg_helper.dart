@@ -46,7 +46,7 @@ void setRatio(ERatio ratio) {
   _scaledVideoHeight -= (_scaledVideoHeight % 2);
 }
 
-Future<RenderedData?> clipRender(
+Future<RenderedData> clipRender(
     EditedMedia editedMedia,
     int clipIdx,
     TransitionData? prevTransition,
@@ -399,13 +399,11 @@ Future<RenderedData?> clipRender(
     "-y"
   ]);
 
-  bool isSuccess = await _ffmpegManager.execute(arguments, ffmpegCallback);
-  if (!isSuccess) return null;
-
+  await _ffmpegManager.execute(arguments, ffmpegCallback);
   return RenderedData(outputPath, duration);
 }
 
-Future<RenderedData?> applyXFadeTransitions(
+Future<RenderedData> applyXFadeTransitions(
     RenderedData curClip,
     RenderedData nextClip,
     int clipIdx,
@@ -428,7 +426,7 @@ Future<RenderedData?> applyXFadeTransitions(
   filterComplexStr +=
       "[0:a][delayed]amix=inputs=2:dropout_transition=99999,volume=2[aud]";
 
-  bool isSuccess = await _ffmpegManager.execute([
+  await _ffmpegManager.execute([
     "-i",
     curClip.absolutePath,
     "-i",
@@ -458,12 +456,10 @@ Future<RenderedData?> applyXFadeTransitions(
     outputPath,
     "-y"
   ], ffmpegCallback);
-  if (!isSuccess) return null;
-
   return RenderedData(outputPath, duration);
 }
 
-Future<RenderedData?> applyFadeOut(List<RenderedData> clips) async {
+Future<RenderedData> applyFadeOut(List<RenderedData> clips) async {
   final String appDirPath = await getAppDirectoryPath();
   final String outputPath = "$appDirPath/fade_out_applied.mp4";
 
@@ -510,13 +506,11 @@ Future<RenderedData?> applyFadeOut(List<RenderedData> clips) async {
     outputPath,
     "-y"
   ]);
-  bool isSuccess = await _ffmpegManager.execute(arguments, null);
-  if (!isSuccess) return null;
-
+  await _ffmpegManager.execute(arguments, null);
   return RenderedData(outputPath, totalDuration);
 }
 
-Future<RenderedData?> mergeVideoClip(List<RenderedData> clipList) async {
+Future<RenderedData> mergeVideoClip(List<RenderedData> clipList) async {
   final String appDirPath = await getAppDirectoryPath();
 
   List<RenderedData> fileredClipList = [];
@@ -547,7 +541,7 @@ Future<RenderedData?> mergeVideoClip(List<RenderedData> clipList) async {
 
       if (currentList.length == 1) {
         mergedDuration += currentList[0].duration;
-        bool isSuccess = await _ffmpegManager.execute([
+        await _ffmpegManager.execute([
           "-i",
           currentList[0].absolutePath,
           "-map",
@@ -558,18 +552,16 @@ Future<RenderedData?> mergeVideoClip(List<RenderedData> clipList) async {
           "-y"
         ], null);
 
-        isSuccess = isSuccess &&
-            await _ffmpegManager.execute([
-              "-i",
-              currentList[0].absolutePath,
-              "-map",
-              "0:a",
-              "-c:a",
-              "copy",
-              audioOutputPath,
-              "-y"
-            ], null);
-        if (!isSuccess) return null;
+        await _ffmpegManager.execute([
+          "-i",
+          currentList[0].absolutePath,
+          "-map",
+          "0:a",
+          "-c:a",
+          "copy",
+          audioOutputPath,
+          "-y"
+        ], null);
       } //
       else {
         List<String> audioArguments = [];
@@ -593,7 +585,7 @@ Future<RenderedData?> mergeVideoClip(List<RenderedData> clipList) async {
         }
         await mergeTextFile.writeAsString(videoMergeTargets);
 
-        bool isSuccess = await _ffmpegManager.execute([
+        await _ffmpegManager.execute([
           "-f",
           "concat",
           "-safe",
@@ -621,12 +613,10 @@ Future<RenderedData?> mergeVideoClip(List<RenderedData> clipList) async {
           "-y"
         ]);
 
-        isSuccess =
-            isSuccess && await _ffmpegManager.execute(audioArguments, null);
-        if (!isSuccess) return null;
+        await _ffmpegManager.execute(audioArguments, null);
       }
 
-      bool isSuccess = await _ffmpegManager.execute([
+      await _ffmpegManager.execute([
         "-i",
         videoOutputPath,
         "-i",
@@ -640,7 +630,6 @@ Future<RenderedData?> mergeVideoClip(List<RenderedData> clipList) async {
         mergeOutputPath,
         "-y"
       ], null);
-      if (!isSuccess) return null;
 
       mergedClipList.add(RenderedData(mergeOutputPath, mergedDuration));
       currentList = [];
@@ -652,7 +641,7 @@ Future<RenderedData?> mergeVideoClip(List<RenderedData> clipList) async {
   final String mergeOutputPath = "$appDirPath/allclip_merged_all.mp4";
 
   if (mergedClipList.length == 1) {
-    bool isSuccess = await _ffmpegManager.execute([
+    await _ffmpegManager.execute([
       "-i",
       mergedClipList[0].absolutePath,
       "-map",
@@ -663,18 +652,16 @@ Future<RenderedData?> mergeVideoClip(List<RenderedData> clipList) async {
       "-y"
     ], null);
 
-    isSuccess = isSuccess &&
-        await _ffmpegManager.execute([
-          "-i",
-          mergedClipList[0].absolutePath,
-          "-map",
-          "0:a",
-          "-c:a",
-          "copy",
-          audioOutputPath,
-          "-y"
-        ], null);
-    if (!isSuccess) return null;
+    await _ffmpegManager.execute([
+      "-i",
+      mergedClipList[0].absolutePath,
+      "-map",
+      "0:a",
+      "-c:a",
+      "copy",
+      audioOutputPath,
+      "-y"
+    ], null);
   } //
   else {
     List<String> audioArguments = [];
@@ -697,7 +684,7 @@ Future<RenderedData?> mergeVideoClip(List<RenderedData> clipList) async {
     }
     await mergeTextFile.writeAsString(videoMergeTargets);
 
-    bool isSuccess = await _ffmpegManager.execute([
+    await _ffmpegManager.execute([
       "-f",
       "concat",
       "-safe",
@@ -725,11 +712,10 @@ Future<RenderedData?> mergeVideoClip(List<RenderedData> clipList) async {
       "-y"
     ]);
 
-    isSuccess = isSuccess && await _ffmpegManager.execute(audioArguments, null);
-    if (!isSuccess) return null;
+    await _ffmpegManager.execute(audioArguments, null);
   }
 
-  bool isSuccess = await _ffmpegManager.execute([
+  await _ffmpegManager.execute([
     "-i",
     videoOutputPath,
     "-i",
@@ -743,12 +729,11 @@ Future<RenderedData?> mergeVideoClip(List<RenderedData> clipList) async {
     mergeOutputPath,
     "-y"
   ], null);
-  if (!isSuccess) return null;
 
   return RenderedData(mergeOutputPath, totalDuration);
 }
 
-Future<RenderedData?> applyMusics(
+Future<RenderedData> applyMusics(
     RenderedData mergedClip, List<MusicData> musics) async {
   final List<String> arguments = <String>[];
   final String appDirPath = await getAppDirectoryPath();
@@ -826,9 +811,7 @@ Future<RenderedData?> applyMusics(
     "-y"
   ]);
 
-  bool isSuccess = await _ffmpegManager.execute(arguments, null);
-  if (!isSuccess) return null;
-
+  await _ffmpegManager.execute(arguments, null);
   return RenderedData(outputPath, mergedClip.duration);
 }
 
@@ -859,9 +842,7 @@ Future<String?> extractThumbnail(EditedMedia editedMedia, int clipIdx) async {
   arguments.addAll(["-filter_complex", filterComplexStr]);
   arguments.addAll(["-vframes", "1", outputPath, "-y"]);
 
-  bool isSuccess = await _ffmpegManager.execute(arguments, null);
-  if (!isSuccess) return null;
-
+  await _ffmpegManager.execute(arguments, null);
   return outputPath;
 }
 
