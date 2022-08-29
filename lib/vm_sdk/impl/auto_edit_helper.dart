@@ -193,7 +193,10 @@ Future<AllEditedData> generateAllEditedData(
       if (minutesDiff >= 30 || hoursDiff >= 1) {
         isGrouped = true;
       } //
-      else {
+      else if (curData.gpsData.latitude.length >= 3 &&
+          curData.gpsData.longitude.length >= 3 &&
+          nextData.gpsData.latitude.length >= 3 &&
+          nextData.gpsData.longitude.length >= 3) {
         for (int j = 0; j < 3; j++) {
           final diffThreshold = j <= 1 ? 0 : 15;
           final double latitudeDiff =
