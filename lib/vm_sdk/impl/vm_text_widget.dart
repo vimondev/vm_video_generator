@@ -92,6 +92,8 @@ class VMTextWidget extends StatelessWidget {
     if (isExtractPreviewImmediate) {
       await extractPreview();
     }
+
+    _printAllData();
   }
 
   void _printAllData() {
@@ -102,6 +104,7 @@ class VMTextWidget extends StatelessWidget {
     print("_frameRate : $_frameRate ");
     print("_totalFrameCount : $_totalFrameCount ");
     print("_textDataMap : $_textDataMap");
+    _textDataMap.forEach((k, v) => print("${v.value}"));
     print("_allSequences : $_allSequencePaths");
   }
 
@@ -419,7 +422,7 @@ class VMTextWidget extends StatelessWidget {
         // offset: const Offset(0, 0),
         child: CustomWebView(
           callback: _setController,
-          initialFile: "packages/myapp/assets/html/index4.html",
+          initialFile: "assets/html/index4.html",
         ),
       ),
     );

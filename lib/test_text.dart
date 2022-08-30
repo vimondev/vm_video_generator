@@ -67,31 +67,46 @@ class _TestWidgetState extends State<TestWidget> {
       // _currentIndex++;
       List<Map> list = [];
 
-      for (int i = 0; i < allTexts.length; i++) {
-        DateTime now = DateTime.now();
+      /// Start
+      DateTime now = DateTime.now();
+      final String currentText = allTexts[_currentIndex];
+      //
+      // print('text is $currentText');
+      // print('_currentIndex is $i / ${allTexts.length}');
+      await _vmTextWidget.loadText(currentText);
+      // await _vmTextWidget.extractAllSequence((progress) => {});
+      String? preview = _vmTextWidget.previewImagePath;
+      setState(() {
+        if (preview != null) imageList = [preview];
+      });
+      _currentIndex++;
+      /// End
 
-        final String currentText = allTexts[i];
-
-        print('text is $currentText');
-        print('_currentIndex is $i / ${allTexts.length}');
-
-        await _vmTextWidget.loadText(currentText);
-        // await _vmTextWidget.extractAllSequence((progress) => {});      
-
-        String? preview = _vmTextWidget.previewImagePath;
-        setState(() {
-          if (preview != null) imageList = [preview];
-        });
-
-        // list.add({
-        //   "allPaths" : _vmTextWidget.allSequencesPath,
-        //   "frameRate" : _vmTextWidget.frameRate,
-        //   "totalFrameCount" : _vmTextWidget.totalFrameCount,
-        //   "elapsedTime": DateTime.now().difference(now).inMilliseconds
-        // });
-
-        await Future.delayed(const Duration(seconds: 1));
-      }
+      // for (int i = 0; i < allTexts.length; i++) {
+      //   DateTime now = DateTime.now();
+      //
+      //   final String currentText = allTexts[i];
+      //
+      //   print('text is $currentText');
+      //   print('_currentIndex is $i / ${allTexts.length}');
+      //
+      //   await _vmTextWidget.loadText(currentText);
+      //   // await _vmTextWidget.extractAllSequence((progress) => {});
+      //
+      //   String? preview = _vmTextWidget.previewImagePath;
+      //   setState(() {
+      //     if (preview != null) imageList = [preview];
+      //   });
+      //
+      //   // list.add({
+      //   //   "allPaths" : _vmTextWidget.allSequencesPath,
+      //   //   "frameRate" : _vmTextWidget.frameRate,
+      //   //   "totalFrameCount" : _vmTextWidget.totalFrameCount,
+      //   //   "elapsedTime": DateTime.now().difference(now).inMilliseconds
+      //   // });
+      //
+      //   await Future.delayed(const Duration(seconds: 10000000));
+      // }
 
       // final data = jsonEncode(list);
       print("");
