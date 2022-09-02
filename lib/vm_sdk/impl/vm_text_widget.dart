@@ -38,6 +38,7 @@ class VMTextWidget extends StatelessWidget {
   String? _currentPreviewPath;
   String? _currentSequencePath;
 
+  String _id = "";
   double _width = 0;
   double _height = 0;
   double _frameRate = 0;
@@ -67,6 +68,7 @@ class VMTextWidget extends StatelessWidget {
   List<String> get allSequencePaths => _allSequencePaths;
 
   Future<void> loadText(String id) async {
+    _id = id;
     _data = (await loadTextWidgetData(id))!;
     if (_data == null) return;
 
@@ -146,9 +148,7 @@ class VMTextWidget extends StatelessWidget {
     await _reload();
     await _removeAll();
     _currentDirPath =
-        "${await getAppDirectoryPath()}/${DateTime.now().millisecondsSinceEpoch}";
-    // _currentDirPath =
-    //     "${await getAppDirectoryPath()}/${_id.toString().replaceAll("ETextID.", "")}";
+        "${await getAppDirectoryPath()}/${_id}_${DateTime.now().millisecondsSinceEpoch}";
     _currentPreviewPath = "$_currentDirPath/preview";
     _currentSequencePath = "$_currentDirPath/sequences";
     await _createDirectory(_currentDirPath!);
@@ -190,9 +190,7 @@ class VMTextWidget extends StatelessWidget {
     await _removeAll();
 
     _currentDirPath =
-        "${await getAppDirectoryPath()}/${DateTime.now().millisecondsSinceEpoch}";
-    // _currentDirPath =
-    //     "${await getAppDirectoryPath()}/${_id.toString().replaceAll("ETextID.", "")}";
+        "${await getAppDirectoryPath()}/${_id}_${DateTime.now().millisecondsSinceEpoch}";
     _currentPreviewPath = "$_currentDirPath/preview";
     _currentSequencePath = "$_currentDirPath/sequences";
     await _createDirectory(_currentDirPath!);
@@ -282,29 +280,6 @@ class VMTextWidget extends StatelessWidget {
     }
   }
 
-  // void _handleTransferAllSequencePNGData(args) async {
-  //   try {
-  //     _width = args[0]["width"].toDouble();
-  //     _height = args[0]["height"].toDouble();
-  //     _frameRate = args[0]["frameRate"].toDouble();
-  //     List frames = args[0]["frames"];
-  //     _totalFrameCount = frames.length;
-  //     _allSequencePaths.clear();
-
-  //     for (int i = 0; i < frames.length; i++) {
-  //       final String sequenceFilePath = "$_currentSequencePath/$i.png";
-  //       _allSequencePaths.add(sequenceFilePath);
-  //       writeFileFromBase64(sequenceFilePath,
-  //           frames[i].toString().replaceAll("data:image/png;base64,", ""));
-  //     }
-
-  //     _printAllData();
-  //     _currentSequencesCompleter.complete();
-  //   } catch (e) {
-  //     _currentSequencesCompleter.completeError(e);
-  //   }
-  // }
-
   void _handleTransferAllSequenceStart(args) async {
     try {
       _width = args[0]["width"].toDouble();
@@ -389,9 +364,6 @@ class VMTextWidget extends StatelessWidget {
     controller.addJavaScriptHandler(
         handlerName: "TransferPreviewPNGData",
         callback: _handleTransferPreviewPNGData);
-    // controller.addJavaScriptHandler(
-    //     handlerName: "TransferAllSequencePNGData",
-    //     callback: _handleTransferAllSequencePNGData);
     controller.addJavaScriptHandler(
         handlerName: "TransferAllSequenceStart",
         callback: _handleTransferAllSequenceStart);
