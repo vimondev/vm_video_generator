@@ -661,45 +661,45 @@ Future<AllEditedData> generateAllEditedData(
       case EMediaLabel.person:
       case EMediaLabel.food:
       case EMediaLabel.animal:
-        {
-          // 80% 확률로 스티커 삽입
-          if ((Random()).nextDouble() >= 0.8) continue;
-          if (!curStickerMap.containsKey(mediaLabel)) continue;
+      //   {
+      //     // 80% 확률로 스티커 삽입
+      //     if ((Random()).nextDouble() >= 0.8) continue;
+      //     if (!curStickerMap.containsKey(mediaLabel)) continue;
 
-          List<StickerData> curStickerList = curStickerMap[mediaLabel]!;
-          int randIdx =
-              (Random()).nextInt(curStickerList.length) % curStickerList.length;
+      //     List<StickerData> curStickerList = curStickerMap[mediaLabel]!;
+      //     int randIdx =
+      //         (Random()).nextInt(curStickerList.length) % curStickerList.length;
 
-          final StickerData? stickerData = curStickerList[randIdx];
+      //     final StickerData? stickerData = curStickerList[randIdx];
 
-          if (stickerData != null) {
-            final EditedStickerData editedStickerData =
-                EditedStickerData(stickerData);
+      //     if (stickerData != null) {
+      //       final EditedStickerData editedStickerData =
+      //           EditedStickerData(stickerData);
 
-            final double stickerWidth =
-                editedStickerData.fileinfo!.width * editedStickerData.scale;
-            final double stickerHeight =
-                editedStickerData.fileinfo!.height * editedStickerData.scale;
+      //       final double stickerWidth =
+      //           editedStickerData.fileinfo!.width * editedStickerData.scale;
+      //       final double stickerHeight =
+      //           editedStickerData.fileinfo!.height * editedStickerData.scale;
 
-            final double radian = Random().nextDouble() * pi * 2;
-            final double distance =
-                (videoWidth > videoHeight ? videoHeight / 4 : videoWidth / 4);
+      //       final double radian = Random().nextDouble() * pi * 2;
+      //       final double distance =
+      //           (videoWidth > videoHeight ? videoHeight / 4 : videoWidth / 4);
 
-            editedStickerData.x = (videoWidth / 2) +
-                (cos(radian) * distance) -
-                (stickerWidth / 2);
-            editedStickerData.y = (videoHeight / 2) +
-                (sin(radian) * distance) -
-                (stickerHeight / 2);
+      //       editedStickerData.x = (videoWidth / 2) +
+      //           (cos(radian) * distance) -
+      //           (stickerWidth / 2);
+      //       editedStickerData.y = (videoHeight / 2) +
+      //           (sin(radian) * distance) -
+      //           (stickerHeight / 2);
 
-            editedMedia.stickers.add(editedStickerData);
+      //       editedMedia.stickers.add(editedStickerData);
 
-            curStickerList.removeAt(randIdx);
-            if (curStickerList.isEmpty) {
-              curStickerList.addAll(originStickerMap[mediaLabel]!);
-            }
-          }
-        }
+      //       curStickerList.removeAt(randIdx);
+      //       if (curStickerList.isEmpty) {
+      //         curStickerList.addAll(originStickerMap[mediaLabel]!);
+      //       }
+      //     }
+      //   }
         break;
 
       case EMediaLabel.object:
