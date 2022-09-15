@@ -624,7 +624,8 @@ Future<AllEditedData> generateAllEditedData(
   int lastFrameInsertedIndex = 0;
   clipCount = 2 + (Random()).nextInt(1);
 
-  for (int i = 0; i < allEditedData.editedMediaList.length; i++) {
+  // EXCEPT FIRST MEDIA
+  for (int i = 1; i < allEditedData.editedMediaList.length; i++) {
     final EditedMedia editedMedia = allEditedData.editedMediaList[i];
 
     if (editedMedia.duration < 2.5) {
