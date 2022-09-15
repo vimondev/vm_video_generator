@@ -708,7 +708,7 @@ Future<RenderedData> mergeAllClips(List<RenderedData> clipList) async {
     ], null);
 
     audioFilterComplexStr +=
-        "${audioMergeTargets}amix=inputs=${mergedClipList.length}:dropout_transition=99999,volume=${mergedClipList.length / 2}[merged];[merged]afade=t=out:st=${(totalDuration - _fadeDuration)}:d=$_fadeDuration[out]";
+        "${audioMergeTargets}amix=inputs=${mergedClipList.length}:dropout_transition=99999,volume=${mergedClipList.length / 2}[merged];[merged]afade=t=out:st=${max(totalDuration - _fadeDuration, 0)}:d=$_fadeDuration[out]";
     audioArguments.addAll([
       "-filter_complex",
       audioFilterComplexStr,
@@ -775,7 +775,7 @@ Future<RenderedData> applyMusics(
 
     inputArguments.addAll(["-i", musicData.absolutePath!]);
     filterStrings.add(
-        "[$inputFileCount:a]afade=t=out:st=${(duration - _fadeDuration)}:d=$_fadeDuration[faded0];[faded0]atrim=0:$duration[bgm];[bgm]volume=0.5[bgm_volume_applied];");
+        "[$inputFileCount:a]afade=t=out:st=${max(duration - _fadeDuration, 0)}:d=$_fadeDuration[faded0];[faded0]atrim=0:$duration[bgm];[bgm]volume=0.5[bgm_volume_applied];");
     inputFileCount++;
   } //
   else {
@@ -786,7 +786,7 @@ Future<RenderedData> applyMusics(
 
       inputArguments.addAll(["-i", musicData.absolutePath!]);
       filterStrings.add(
-          "[$inputFileCount:a]afade=t=out:st=${(duration - _fadeDuration)}:d=$_fadeDuration[faded$i];[faded$i]atrim=0:$duration[aud$inputFileCount];");
+          "[$inputFileCount:a]afade=t=out:st=${max(duration - _fadeDuration, 0)}:d=$_fadeDuration[faded$i];[faded$i]atrim=0:$duration[aud$inputFileCount];");
       mergeBgmTargets += "[aud$inputFileCount]";
       inputFileCount++;
     }
@@ -795,7 +795,7 @@ Future<RenderedData> applyMusics(
   }
 
   filterStrings.addAll([
-    "[0:a][bgm_volume_applied]amix=inputs=2:dropout_transition=99999,volume=2[merged];[merged]atrim=0:${mergedClip.duration}[trimed];[trimed]afade=t=out:st=${(mergedClip.duration - _fadeDuration)}:d=$_fadeDuration[out]"
+    "[0:a][bgm_volume_applied]amix=inputs=2:dropout_transition=99999,volume=2[merged];[merged]atrim=0:${mergedClip.duration}[trimed];[trimed]afade=t=out:st=${max(mergedClip.duration - _fadeDuration, 0)}:d=$_fadeDuration[out]"
   ]);
 
   String filterComplexStr = "";
