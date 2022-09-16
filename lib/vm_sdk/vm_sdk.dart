@@ -100,7 +100,7 @@ class VMSDKWidget extends StatelessWidget {
     }
 
     final AllEditedData allEditedData = await generateAllEditedData(
-        mediaList, selectedStyle, randomSortedTemplateList, isAutoEdit);
+        mediaList, style, randomSortedTemplateList, isAutoEdit);
 
     List<String> textIds;
     if (texts.length >= 2) {

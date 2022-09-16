@@ -132,7 +132,7 @@ ERatio detectRatio(List<EditedMedia> list) {
 
 Future<AllEditedData> generateAllEditedData(
     List<MediaData> list,
-    EMusicStyle musicStyle,
+    EMusicStyle? musicStyle,
     List<TemplateData> templateList,
     bool isAutoSelect) async {
   final AllEditedData allEditedData = AllEditedData();
@@ -710,48 +710,115 @@ Future<AllEditedData> generateAllEditedData(
     }
   }
 
-  print("--------------------------------------");
-  print("--------------------------------------");
-  for (int i = 0; i < allEditedData.editedMediaList.length; i++) {
-    final editedMedia = allEditedData.editedMediaList[i];
-    print(
-        "${basename(editedMedia.mediaData.absolutePath)} / totalDuration:${editedMedia.mediaData.duration} / start:${editedMedia.startTime} / duration:${editedMedia.duration} / remain:${editedMedia.mediaData.duration != null ? (editedMedia.mediaData.duration! - editedMedia.startTime - editedMedia.duration) : 0} / ${editedMedia.mediaLabel}");
-    print(
-        "frame:${editedMedia.frame?.key} / resolution:(${editedMedia.mediaData.width},${editedMedia.mediaData.height}) / zoom:(${editedMedia.zoomX},${editedMedia.zoomY}) / translate:(${editedMedia.translateX},${editedMedia.translateY})");
-    if (editedMedia.transition != null) {
-      print("index : $i");
-      print(editedMedia.transition?.key);
-      print("");
-      print("");
-    }
-    print("");
-  }
+  // print("--------------------------------------");
+  // print("--------------------------------------");
+  // for (int i = 0; i < allEditedData.editedMediaList.length; i++) {
+  //   final editedMedia = allEditedData.editedMediaList[i];
+  //   print(
+  //       "${basename(editedMedia.mediaData.absolutePath)} / totalDuration:${editedMedia.mediaData.duration} / start:${editedMedia.startTime} / duration:${editedMedia.duration} / remain:${editedMedia.mediaData.duration != null ? (editedMedia.mediaData.duration! - editedMedia.startTime - editedMedia.duration) : 0} / ${editedMedia.mediaLabel}");
+  //   print(
+  //       "frame:${editedMedia.frame?.key} / resolution:(${editedMedia.mediaData.width},${editedMedia.mediaData.height}) / zoom:(${editedMedia.zoomX},${editedMedia.zoomY}) / translate:(${editedMedia.translateX},${editedMedia.translateY})");
+  //   if (editedMedia.transition != null) {
+  //     print("index : $i");
+  //     print(editedMedia.transition?.key);
+  //     print("");
+  //     print("");
+  //   }
+  //   print("");
+  // }
 
-  final Map<String, int> hashTagMap = await getHashtags();
+  final Map<EMusicStyle, List<SongFetchModel>> songMapByMusicStyle = {};
+  final Map<String, List<SongFetchModel>> songMapBySpeed = {};
 
-  int hashtagId = hashTagMap[hashTagMap.keys.first]!;
-  for (final String key in hashTagMap.keys) {
-    EMusicStyle? curStyle = musicStyleMap[key];
+  DateTime now = DateTime.now();
+  List<SongFetchModel> songs = await fetchAllSongs();
+  print("fetch : ${DateTime.now().difference(now).inMilliseconds}ms");
 
-    if (curStyle == musicStyle) {
-      hashtagId = hashTagMap[key]!;
-      break;
-    }
-  }
-
-  List<SongFetchModel> songs = await fetchSongs(hashtagId);
-  List<SongFetchModel> randomSortedSongs = [];
   while (songs.isNotEmpty) {
+    // RANDOM PICK & ADD (SIMILAR RANDOM SORT)
     int randIdx = (Random()).nextInt(songs.length) % songs.length;
-    randomSortedSongs.add(songs[randIdx]);
+    SongFetchModel song = songs[randIdx];
     songs.removeAt(randIdx);
+
+    if (song.hashtags.isNotEmpty) {
+      for (final hashTagModel in song.hashtags) {
+        if (musicStyleMap.containsKey(hashTagModel.name)) {
+          EMusicStyle style = musicStyleMap[hashTagModel.name]!;
+          if (!songMapByMusicStyle.containsKey(style)) songMapByMusicStyle[style] = [];
+          songMapByMusicStyle[style]!.add(song);
+        }
+      }
+    }
+    if (song.speed.isNotEmpty) {
+      if (!songMapBySpeed.containsKey(song.speed)) songMapBySpeed[song.speed] = [];
+      songMapBySpeed[song.speed]!.add(song);
+    }
   }
+
+  EMusicStyle? curStyle = musicStyle;
+  if (curStyle == null || curStyle == EMusicStyle.none) {
+    Map<double, String> speedProbabilityMap = {
+      0.3: "S",
+      0.6: "M",
+      0.8: "MM",
+      1.0: "F"
+    };
+    double randValue = Random().nextDouble();
+    String randSpeed = songMapBySpeed.keys.first;
+    
+    for (final elem in speedProbabilityMap.entries) {
+      if (randValue < elem.key) {
+        randSpeed = elem.value;
+        break;
+      }
+    }
+
+    List<SongFetchModel> randSongs = songMapBySpeed[randSpeed]!;
+    int randIdx = (Random()).nextInt(randSongs.length) % randSongs.length;
+    SongFetchModel randSong = randSongs[randIdx];
+
+    if (randSong.hashtags.isNotEmpty) {
+      int randHashtagIdx = (Random()).nextInt(randSong.hashtags.length) % randSong.hashtags.length;
+      HashTagModel randHashtag = randSong.hashtags[randHashtagIdx];
+
+      if (musicStyleMap.containsKey(randHashtag.name)) {
+        curStyle = musicStyleMap[randHashtag.name]!;
+      }
+      else {
+        curStyle = EMusicStyle.fun;
+      }
+    }
+    else {
+      curStyle = EMusicStyle.fun;
+    }
+  }
+  
+  List<SongFetchModel> originSongList = songMapByMusicStyle[curStyle]!;
+  List<SongFetchModel> recommendedSongList = [], otherSongList = [];
 
   double remainTotalDuration = totalDuration;
-  int currentSongIndex = 0;
+  print(curStyle);
 
   while (remainTotalDuration > 0) {
-    SongFetchModel song = randomSortedSongs[currentSongIndex % randomSortedSongs.length];
+    if (recommendedSongList.isEmpty && otherSongList.isEmpty) {
+      recommendedSongList.addAll(originSongList.where((song) => song.isRecommended));
+      otherSongList.addAll(originSongList.where((song) => !song.isRecommended));
+
+      print("recommendedSongList : ${recommendedSongList.length}");
+      print("otherSongList : ${otherSongList.length}");
+    }
+
+    SongFetchModel song;
+    if (recommendedSongList.isNotEmpty && Random().nextDouble() <= 0.7) {
+      int randIdx = (Random()).nextInt(recommendedSongList.length) % recommendedSongList.length;
+      song = recommendedSongList[randIdx];
+      recommendedSongList.removeAt(randIdx);
+    }
+    else {
+      int randIdx = (Random()).nextInt(otherSongList.length) % otherSongList.length;
+      song = otherSongList[randIdx];
+      otherSongList.removeAt(randIdx);
+    }
 
     double duration = song.duration;
     SourceModel? source = song.source;
@@ -769,9 +836,11 @@ Future<AllEditedData> generateAllEditedData(
 
       allEditedData.musicList.add(musicData);
       remainTotalDuration -= duration;
-    }
 
-    currentSongIndex++;
+      print(source.name);
+      print("speed: ${song.speed} isRecommended: ${song.isRecommended}");
+      print("");
+    }
   }
 
   return allEditedData;

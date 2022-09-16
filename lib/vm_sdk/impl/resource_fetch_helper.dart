@@ -35,6 +35,14 @@ Future<List<SongFetchModel>> fetchSongs(int hashtagId) async {
   return list.map<SongFetchModel>((map) => SongFetchModel.fromJson(map)).toList();
 }
 
+Future<List<SongFetchModel>> fetchAllSongs() async {
+  final Response response = await httpGet("/songs?pageSize=99999&responseMode=light", null);
+  final result = jsonDecode(response.body);
+
+  final List list = result["results"];
+  return list.map<SongFetchModel>((map) => SongFetchModel.fromJson(map)).toList();
+}
+
 Future<List<TransitionFetchModel>> fetchTransitions() async {
   final Response response = await httpGet("/transitions?pageSize=99999", null);
   final result = jsonDecode(response.body);
