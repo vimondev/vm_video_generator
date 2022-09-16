@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:myapp/vm_sdk/impl/text_helper.dart';
@@ -99,7 +100,7 @@ class VMSDKWidget extends StatelessWidget {
     }
 
     final AllEditedData allEditedData = await generateAllEditedData(
-        mediaList, selectedStyle, randomSortedTemplateList, isAutoEdit);
+        mediaList, style, randomSortedTemplateList, isAutoEdit);
 
     List<String> textIds;
     if (texts.length >= 2) {
@@ -192,6 +193,23 @@ class VMSDKWidget extends StatelessWidget {
     return result;
   }
 
+  Future<List<EditedMedia>> _filterNotExistsMedia(List<EditedMedia> editedMediaList) async {
+    List<EditedMedia> result = [];
+
+    for (final editedMedia in editedMediaList) {
+      final media = editedMedia.mediaData;
+
+      final File file = File(media.absolutePath);
+      final bool isExists = await file.exists();
+
+      if (isExists) {
+        result.add(editedMedia);
+      }
+    }
+
+    return result;
+  }
+
   Future<VideoGeneratedResult> _runFFmpeg(
       List<EditedMedia> editedMediaList,
       List<MusicData> musicList,
@@ -199,6 +217,8 @@ class VMSDKWidget extends StatelessWidget {
       Function(EGenerateStatus status, double progress)?
           progressCallback) async {
     try {
+      editedMediaList = await _filterNotExistsMedia(editedMediaList);
+
       await ResourceManager.getInstance()
           .loadResourceFromAssets(editedMediaList, ratio);
 
@@ -335,19 +355,20 @@ class VMSDKWidget extends StatelessWidget {
           fadeOutClips.add(lastClip);
           
           curDuration += lastClip.duration;
-          if (curDuration >= 3) break;
+          if (curDuration >= 3) {
+            final RenderedData fadeOutApplied =
+                await applyFadeOut(fadeOutClips.reversed.toList());
+
+            xfadeAppliedList.add(fadeOutApplied);
+            break;
+          }
         }
-
-        final RenderedData fadeOutApplied =
-            await applyFadeOut(fadeOutClips.reversed.toList());
-
-        xfadeAppliedList.add(fadeOutApplied);
       }
 
       _currentStatus = EGenerateStatus.finishing;
       _currentRenderedFrame = _allFrame;
 
-      final RenderedData mergedClip = await mergeVideoClip(xfadeAppliedList);
+      final RenderedData mergedClip = await mergeAllClips(xfadeAppliedList);
       final RenderedData resultClip = await applyMusics(mergedClip, musicList);
 
       print(DateTime.now().difference(now).inSeconds);

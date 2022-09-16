@@ -11,20 +11,38 @@ class SourceModel {
   }
 }
 
+class HashTagModel {
+  int id = 0;
+  String name = "";
+  HashTagModel.fromJson(Map map) {
+    id = map["id"] ?? 0;
+    name = map["name"] ?? "";
+  }
+}
+
 class SongFetchModel {
   String title = "";
-  String artist = "";
   double duration = 0;
+  bool isRecommended = false;
+  String speed = "M";
+  List<HashTagModel> hashtags = [];
   SourceModel? source;
 
   SongFetchModel.fromJson(Map map) {
     title = map["title"] ?? "";
-    artist = map["artist"] ?? "";
     duration = map["duration"] != null ? map["duration"] * 1.0 : 0;
+    isRecommended = map["isRecommended"] ?? false;
+    speed = map["speed"] ?? "M";
 
     Map? sourceMap = map["source"];
     if (sourceMap != null) {
       source = SourceModel.fromJson(sourceMap);
+    }
+    List? hashtagsList = map["hashtags"];
+    if (hashtagsList != null && hashtagsList.isNotEmpty) {
+      for (final hashtag in hashtagsList) {
+        hashtags.add(HashTagModel.fromJson(hashtag));
+      }
     }
   }
 }

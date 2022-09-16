@@ -14,7 +14,6 @@ enum EImageScaleType {
   topToBottom,
   bottomToTop
 }
-int _imageScaleTypeidx = 0;
 
 Resolution _resolution = Resolution(0, 0);
 int _scaledVideoWidth = 0;
@@ -26,6 +25,7 @@ double _scaleFactor = 2 / 3.0;
 double _minDurationFactor = 1 / _framerate;
 const int _fadeDuration = 3;
 
+List<EImageScaleType> _imageScaleType = [];
 class RenderedData {
   String absolutePath;
   double duration;
@@ -34,6 +34,18 @@ class RenderedData {
 }
 
 final FFMpegManager _ffmpegManager = FFMpegManager();
+
+EImageScaleType _getRandomImageScaleType() {
+  if (_imageScaleType.isEmpty) {
+    _imageScaleType.addAll(EImageScaleType.values);
+  }
+
+  int randIdx = (Random()).nextInt(_imageScaleType.length) % _imageScaleType.length;
+  EImageScaleType picked = _imageScaleType[randIdx];
+
+  _imageScaleType.removeAt(randIdx);
+  return picked;
+}
 
 void setRatio(ERatio ratio) {
   _ratio = ratio;
@@ -123,9 +135,7 @@ Future<RenderedData> clipRender(
         cropPosY = "";
     int scaleAddVal = 0, cropZoomVal = 0;
 
-    final EImageScaleType type =
-        EImageScaleType.values[_imageScaleTypeidx % EImageScaleType.values.length];
-    _imageScaleTypeidx++;
+    final EImageScaleType type = _getRandomImageScaleType();
 
     switch (type) {
       case EImageScaleType.zoomIn:
@@ -510,7 +520,7 @@ Future<RenderedData> applyFadeOut(List<RenderedData> clips) async {
   return RenderedData(outputPath, totalDuration);
 }
 
-Future<RenderedData> mergeVideoClip(List<RenderedData> clipList) async {
+Future<RenderedData> mergeAllClips(List<RenderedData> clipList) async {
   final String appDirPath = await getAppDirectoryPath();
 
   List<RenderedData> fileredClipList = [];
@@ -698,7 +708,7 @@ Future<RenderedData> mergeVideoClip(List<RenderedData> clipList) async {
     ], null);
 
     audioFilterComplexStr +=
-        "${audioMergeTargets}amix=inputs=${mergedClipList.length}:dropout_transition=99999,volume=${mergedClipList.length / 2}[merged];[merged]afade=t=out:st=${(totalDuration - _fadeDuration)}:d=$_fadeDuration[out]";
+        "${audioMergeTargets}amix=inputs=${mergedClipList.length}:dropout_transition=99999,volume=${mergedClipList.length / 2}[merged];[merged]afade=t=out:st=${max(totalDuration - _fadeDuration, 0)}:d=$_fadeDuration[out]";
     audioArguments.addAll([
       "-filter_complex",
       audioFilterComplexStr,
@@ -765,7 +775,7 @@ Future<RenderedData> applyMusics(
 
     inputArguments.addAll(["-i", musicData.absolutePath!]);
     filterStrings.add(
-        "[$inputFileCount:a]afade=t=out:st=${(duration - _fadeDuration)}:d=$_fadeDuration[faded0];[faded0]atrim=0:$duration[bgm];[bgm]volume=0.5[bgm_volume_applied];");
+        "[$inputFileCount:a]afade=t=out:st=${max(duration - _fadeDuration, 0)}:d=$_fadeDuration[faded0];[faded0]atrim=0:$duration[bgm];[bgm]volume=0.5[bgm_volume_applied];");
     inputFileCount++;
   } //
   else {
@@ -776,7 +786,7 @@ Future<RenderedData> applyMusics(
 
       inputArguments.addAll(["-i", musicData.absolutePath!]);
       filterStrings.add(
-          "[$inputFileCount:a]afade=t=out:st=${(duration - _fadeDuration)}:d=$_fadeDuration[faded$i];[faded$i]atrim=0:$duration[aud$inputFileCount];");
+          "[$inputFileCount:a]afade=t=out:st=${max(duration - _fadeDuration, 0)}:d=$_fadeDuration[faded$i];[faded$i]atrim=0:$duration[aud$inputFileCount];");
       mergeBgmTargets += "[aud$inputFileCount]";
       inputFileCount++;
     }
@@ -785,7 +795,7 @@ Future<RenderedData> applyMusics(
   }
 
   filterStrings.addAll([
-    "[0:a][bgm_volume_applied]amix=inputs=2:dropout_transition=99999,volume=2[merged];[merged]atrim=0:${mergedClip.duration}[trimed];[trimed]afade=t=out:st=${(mergedClip.duration - _fadeDuration)}:d=$_fadeDuration[out]"
+    "[0:a][bgm_volume_applied]amix=inputs=2:dropout_transition=99999,volume=2[merged];[merged]atrim=0:${mergedClip.duration}[trimed];[trimed]afade=t=out:st=${max(mergedClip.duration - _fadeDuration, 0)}:d=$_fadeDuration[out]"
   ]);
 
   String filterComplexStr = "";
@@ -831,7 +841,7 @@ Future<String?> extractThumbnail(EditedMedia editedMedia, int clipIdx) async {
   }
 
   filterStrings.add(
-      "scale=${(editedMedia.mediaData.width * editedMedia.zoomX).floor()}:${(editedMedia.mediaData.height * editedMedia.zoomY).floor()},crop=${_resolution.width}:${_resolution.height}:${editedMedia.translateX}:${editedMedia.translateY},scale=$_scaledVideoWidth:$_scaledVideoHeight,setdar=dar=${_scaledVideoWidth / _scaledVideoHeight}");
+      "scale=${(editedMedia.mediaData.width * editedMedia.zoomX).floor()}:${(editedMedia.mediaData.height * editedMedia.zoomY).floor()},crop=${_resolution.width}:${_resolution.height}:${editedMedia.translateX}:${editedMedia.translateY},scale=${(_scaledVideoWidth / 2).floor()}:${(_scaledVideoHeight / 2).floor()},setdar=dar=${_scaledVideoWidth / _scaledVideoHeight}");
 
   String filterComplexStr = "";
   for (final String filterStr in filterStrings) {
