@@ -116,8 +116,18 @@ Future<RenderedData> clipRender(
   ]);
   inputFileCount++;
 
+  String transposeFilter = "";
+  if (mediaData.orientation != 0) {
+    switch (mediaData.orientation) {
+      case 90: transposeFilter = "transpose=1,";break;
+      case 180: transposeFilter = "transpose=2,transpose=2,";break;
+      case 270: transposeFilter = "transpose=2,";break;
+      default: break;
+    }
+  }
+
   filterStrings.add(
-      "[0:v]${trimFilter}scale=${(editedMedia.mediaData.width * editedMedia.zoomX).floor()}:${(editedMedia.mediaData.height * editedMedia.zoomY).floor()},crop=${_resolution.width}:${_resolution.height}:${editedMedia.translateX}:${editedMedia.translateY},setdar=dar=${_resolution.width / _resolution.height}[vid];");
+      "[0:v]$trimFilter${transposeFilter}scale=${(editedMedia.mediaData.width * editedMedia.zoomX).floor()}:${(editedMedia.mediaData.height * editedMedia.zoomY).floor()},crop=${_resolution.width}:${_resolution.height}:${editedMedia.translateX}:${editedMedia.translateY},setdar=dar=${_resolution.width / _resolution.height}[vid];");
   videoOutputMapVariable = "[vid]";
   inputFileCount++;
 

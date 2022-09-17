@@ -48,7 +48,7 @@ void testMethod() async {
         break;
     }
     testMediaList.add(MediaData(
-        writedFile.path, type, width, height, null, DateTime.now(), "", null));
+        writedFile.path, type, width, height, 0, null, DateTime.now(), "", null));
   }
 
   List<double> durationList = [];

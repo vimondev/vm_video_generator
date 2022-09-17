@@ -78,6 +78,7 @@ flutter:
     # - assets/_test/monaco1/
     # - assets/_test/monaco2/
     # - assets/_test/asdasd/
+    # - assets/_test/oriented/
     # - assets/_test/mediajson-joined/
     - assets/data/
     - assets/html/

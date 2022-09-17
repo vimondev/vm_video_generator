@@ -18,7 +18,7 @@ class TestWidget extends StatelessWidget {
     }
 
     final filelist = json.decode(
-        await rootBundle.loadString("assets/_test/mediajson-joined/monaco2.json"));
+        await rootBundle.loadString("assets/_test/mediajson-joined/oriented.json"));
 
     List<MediaData> mediaList = [];
 
@@ -28,19 +28,20 @@ class TestWidget extends StatelessWidget {
           file["type"] == "image" ? EMediaType.image : EMediaType.video;
       final int width = file["width"];
       final int height = file["height"];
+      final int orientation = file["orientation"];
 
-      if (type != EMediaType.video) continue;
+      // if (type != EMediaType.video) continue;
 
       double? duration;
       DateTime createDate = DateTime.parse(file["createDate"]);
       String gpsString = file["gpsString"];
-      String mlkitDetected = file["mlkitDetected"];
+      String mlkitDetected = file["mlkitDetected"];  
 
       if (file.containsKey("duration")) duration = file["duration"] * 1.0;
 
       final writedFile =
-          await copyAssetToLocalDirectory("_test/monaco2/$filename");
-      mediaList.add(MediaData(writedFile.path, type, width, height, duration,
+          await copyAssetToLocalDirectory("_test/oriented/$filename");
+      mediaList.add(MediaData(writedFile.path, type, width, height, orientation, duration,
           createDate, gpsString, mlkitDetected));
     }
 
@@ -56,6 +57,7 @@ class TestWidget extends StatelessWidget {
       });
 
       await GallerySaver.saveVideo(result.generatedVideoPath);
+      break;
     }
 
     // result = await _vmsdkWidget.generateVideoFromJSON(result.json,

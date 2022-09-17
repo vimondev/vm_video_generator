@@ -88,13 +88,14 @@ class MediaData {
   EMediaType type; // Media Tyle (image/video)
   int width; // Width
   int height; // Height
+  int orientation;
   double? duration; // Duration (video only)
   DateTime createDate; // Exif Create Date
   String gpsString;
   GPSData gpsData = GPSData(); // Exif GPS Data (Parsed)
   String? mlkitDetected;
 
-  MediaData(this.absolutePath, this.type, this.width, this.height,
+  MediaData(this.absolutePath, this.type, this.width, this.height, this.orientation,
       this.duration, this.createDate, this.gpsString, this.mlkitDetected) {
     gpsData = GPSData.fromString(gpsString);
   }

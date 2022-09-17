@@ -203,6 +203,7 @@ AllEditedData parseJSONToAllEditedData(String encodedJSON) {
         type,
         slide["mediaWidth"],
         slide["mediaHeight"],
+        0,
         duration,
         DateTime.now(),
         "",
