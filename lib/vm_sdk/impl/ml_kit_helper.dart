@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:convert';
+import 'dart:math';
 import 'package:path/path.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
@@ -11,7 +12,7 @@ import 'global_helper.dart';
 final FaceDetector faceDetector = FaceDetector(options: FaceDetectorOptions());
 final ImageLabeler imageLabeler = ImageLabeler(options: ImageLabelerOptions());
 final FFMpegManager ffMpegManager = FFMpegManager();
-const int convertFrame = 4;
+const int convertFrame = 2;
 
 Map convertFaceToMap(Face face) {
   final Map map = {};
@@ -111,11 +112,16 @@ Future<String?> extractData(MediaData data) async {
     if (scaledWidth % 2 == 1) scaledWidth += 1;
   }
 
+  double trimDuration = 10;
+  if (data.type == EMediaType.video && data.duration != null) {
+    trimDuration = min(data.duration!, 10);
+  }
+
   await ffMpegManager.execute([
     "-i",
     data.absolutePath,
     "-filter_complex",
-    "${data.type == EMediaType.video ? "fps=$convertFrame," : ""}scale=$scaledWidth:$scaledHeight,setdar=dar=${scaledWidth / scaledHeight}",
+    "${data.type == EMediaType.video ? "trim=0:$trimDuration,setpts=PTS-STARTPTS,fps=$convertFrame," : ""}scale=$scaledWidth:$scaledHeight,setdar=dar=${scaledWidth / scaledHeight}",
     "$mlkitResultDir/${data.type == EMediaType.video ? "%d" : "1"}.jpg",
     "-y"
   ], (p0) => null);
