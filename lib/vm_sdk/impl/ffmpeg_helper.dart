@@ -47,6 +47,15 @@ EImageScaleType _getRandomImageScaleType() {
   return picked;
 }
 
+String _getTransposeFilter(int orientation) {
+  switch (orientation) {
+    case 90: return "transpose=1,";
+    case 180: return "transpose=2,transpose=2,";
+    case 270: return "transpose=2,";
+    default: return "";
+  }
+}
+
 void setRatio(ERatio ratio) {
   _ratio = ratio;
   _resolution = Resolution.fromRatio(ratio);
@@ -116,18 +125,8 @@ Future<RenderedData> clipRender(
   ]);
   inputFileCount++;
 
-  String transposeFilter = "";
-  if (mediaData.orientation != 0) {
-    switch (mediaData.orientation) {
-      case 90: transposeFilter = "transpose=1,";break;
-      case 180: transposeFilter = "transpose=2,transpose=2,";break;
-      case 270: transposeFilter = "transpose=2,";break;
-      default: break;
-    }
-  }
-
   filterStrings.add(
-      "[0:v]$trimFilter${transposeFilter}scale=${(editedMedia.mediaData.width * editedMedia.zoomX).floor()}:${(editedMedia.mediaData.height * editedMedia.zoomY).floor()},crop=${_resolution.width}:${_resolution.height}:${editedMedia.translateX}:${editedMedia.translateY},setdar=dar=${_resolution.width / _resolution.height}[vid];");
+      "[0:v]$trimFilter${_getTransposeFilter(mediaData.orientation)}scale=${(editedMedia.mediaData.width * editedMedia.zoomX).floor()}:${(editedMedia.mediaData.height * editedMedia.zoomY).floor()},crop=${_resolution.width}:${_resolution.height}:${editedMedia.translateX}:${editedMedia.translateY},setdar=dar=${_resolution.width / _resolution.height}[vid];");
   videoOutputMapVariable = "[vid]";
   inputFileCount++;
 
@@ -851,7 +850,7 @@ Future<String?> extractThumbnail(EditedMedia editedMedia, int clipIdx) async {
   }
 
   filterStrings.add(
-      "scale=${(editedMedia.mediaData.width * editedMedia.zoomX).floor()}:${(editedMedia.mediaData.height * editedMedia.zoomY).floor()},crop=${_resolution.width}:${_resolution.height}:${editedMedia.translateX}:${editedMedia.translateY},scale=${(_scaledVideoWidth / 2).floor()}:${(_scaledVideoHeight / 2).floor()},setdar=dar=${_scaledVideoWidth / _scaledVideoHeight}");
+      "${_getTransposeFilter(mediaData.orientation)}scale=${(editedMedia.mediaData.width * editedMedia.zoomX).floor()}:${(editedMedia.mediaData.height * editedMedia.zoomY).floor()},crop=${_resolution.width}:${_resolution.height}:${editedMedia.translateX}:${editedMedia.translateY},scale=${(_scaledVideoWidth / 2).floor()}:${(_scaledVideoHeight / 2).floor()},setdar=dar=${_scaledVideoWidth / _scaledVideoHeight}");
 
   String filterComplexStr = "";
   for (final String filterStr in filterStrings) {
