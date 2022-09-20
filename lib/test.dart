@@ -28,7 +28,7 @@ class TestWidget extends StatelessWidget {
           file["type"] == "image" ? EMediaType.image : EMediaType.video;
       final int width = file["width"];
       final int height = file["height"];
-      final int orientation = file["orientation"];
+      final int orientation = file["orientation"] ?? 0;
 
       // if (type != EMediaType.video) continue;
 
