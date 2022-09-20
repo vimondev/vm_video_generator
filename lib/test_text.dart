@@ -4,7 +4,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:myapp/vm_sdk/impl/vm_text_widget.dart';
+import 'vm_sdk/impl/global_helper.dart';
 import 'vm_sdk/impl/resource_manager.dart';
+import 'vm_sdk/impl/ffmpeg_manager.dart';
 import 'vm_sdk/types/types.dart';
 
 class TestWidget extends StatefulWidget {
@@ -23,6 +25,8 @@ class _TestWidgetState extends State<TestWidget> {
   bool _isRunning = false;
 
   bool _isInitialized = false;
+
+  final FFMpegManager _ffmpegManager = FFMpegManager();
 
   void updateTextCallback(String key, String text) async {
     await _vmTextWidget.setTextValue(key, text);
@@ -76,12 +80,31 @@ class _TestWidgetState extends State<TestWidget> {
         print('_currentIndex is $i / ${allTexts.length}');
 
         await _vmTextWidget.loadText(currentText);
-        // await _vmTextWidget.extractAllSequence((progress) => {});      
+        await _vmTextWidget.extractAllSequence((progress) => {});      
 
         String? preview = _vmTextWidget.previewImagePath;
         setState(() {
           if (preview != null) imageList = [preview];
         });
+
+        final String appDirPath = await getAppDirectoryPath();
+
+        await _ffmpegManager.execute([
+          "-framerate",
+          _vmTextWidget.frameRate.toString(),
+          "-i",
+          "${_vmTextWidget.allSequencesPath!}/%d.png",
+          "-c:v",
+          "libvpx-vp9",
+          "-pix_fmt",
+          "yuva420p",
+          "$appDirPath/$currentText.webm",
+          "-y"
+        ], (p0) => null);
+        File thumbnailFile = File(_vmTextWidget.previewImagePath!);
+        await thumbnailFile.copy("$appDirPath/$currentText.png");
+
+        print(thumbnailFile.path);
 
         // list.add({
         //   "allPaths" : _vmTextWidget.allSequencesPath,
