@@ -102,17 +102,10 @@ class VMSDKWidget extends StatelessWidget {
     final AllEditedData allEditedData = await generateAllEditedData(
         mediaList, style, randomSortedTemplateList, isAutoEdit);
 
-    List<String> textIds;
-    if (texts.length >= 2) {
-      textIds = ResourceManager.getInstance().getTwoLineTextList();
-    }
-    //
-    else {
-      textIds = ResourceManager.getInstance().getOneLineTextList();
-    }
+    List<String> textIds = ResourceManager.getInstance().getTextList();;
     final String pickedTextId =
         textIds[(Random()).nextInt(textIds.length) % textIds.length];
-    await _textWidget.loadText(pickedTextId);
+    await _textWidget.loadText(pickedTextId, texts.length);
 
     for (int i = 0; i < texts.length; i++) {
       final String key = "#TEXT${(i + 1)}";

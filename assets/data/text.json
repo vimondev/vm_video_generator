@@ -1,1207 +1,1496 @@
 {
     "Title_DA001": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_DA002": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_DA003": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_DA004": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_DA005": {
         "enable": true,
-        "lineCount": 2,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        }
-    },
-    "Title_DA006": {
-        "enable": false,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "DROP"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
-    "Title_DA007": {
+    "Title_DA006": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
+    },
+    "Title_DA007": {
+        "enable": true,
+        "supportLang": {
+            "en": true,
+            "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_DA008": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_DA009": {
         "enable": true,
-        "lineCount": 1,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_DA010": {
         "enable": false,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "MEMORY_ISSUE"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        },
+        "desc": "HEAVY"
     },
     "Title_DA011": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_DA012": {
         "enable": true,
-        "lineCount": 2,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        }
-    },
-    "Title_DA013": {
-        "enable": false,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "DROP"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
-    "Title_DA014": {
+    "Title_DA013": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
+    },
+    "Title_DA014": {
+        "enable": true,
+        "supportLang": {
+            "en": true,
+            "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_DA015": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_DA016": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_DA017": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_DA018": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_DA019": {
         "enable": false,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "MEMORY_ISSUE"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        },
+        "desc": "HEAVY"
     },
     "Title_DA020": {
-        "enable": false,
-        "lineCount": 2,
+        "enable": true,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "DROP"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_DA021": {
-        "enable": false,
-        "lineCount": 2,
+        "enable": true,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "DROP"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_DA022": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_DA023": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_DA024": {
-        "enable": false,
-        "lineCount": 2,
+        "enable": true,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "MEMORY_ISSUE"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_DA025": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
-            "en": true
+            "en": true,
+            "ko": false
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_DA026": {
-        "enable": false,
-        "lineCount": 2,
+        "enable": true,
         "supportLang": {
             "en": true,
-            "ko": true
+            "ko": false
         },
-        "desc": "CHANGE_FONT"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_DA027": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
-            "en": true
+            "en": true,
+            "ko": false
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_DA028": {
-        "enable": false,
-        "lineCount": 2,
+        "enable": true,
         "supportLang": {
             "en": true,
-            "ko": true
+            "ko": false
         },
-        "desc": "CHANGE_FONT"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_DA029": {
-        "enable": false,
-        "lineCount": 2,
+        "enable": true,
         "supportLang": {
             "en": true,
-            "ko": true
+            "ko": false
         },
-        "desc": "CHANGE_FONT"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_DA030": {
-        "enable": false,
-        "lineCount": 2,
+        "enable": true,
         "supportLang": {
             "en": true,
-            "ko": true
+            "ko": false
         },
-        "desc": "CHANGE_FONT"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_DA031": {
-        "enable": false,
-        "lineCount": 2,
+        "enable": true,
         "supportLang": {
             "en": true,
-            "ko": true
+            "ko": false
         },
-        "desc": "CHANGE_FONT"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
+    },
+    "Title_DA032": {
+        "enable": true,
+        "supportLang": {
+            "en": true,
+            "ko": false
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_HJ001": {
-        "enable": false,
-        "lineCount": 1,
+        "enable": true,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "DROP"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_HJ002": {
-        "enable": false,
-        "lineCount": 1,
+        "enable": true,
         "supportLang": {
             "en": true,
-            "ko": true
+            "ko": false
         },
-        "desc": "DROP"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_HJ003": {
         "enable": true,
-        "lineCount": 1,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_HJ004": {
         "enable": true,
-        "lineCount": 1,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_HJ005": {
-        "enable": false,
-        "lineCount": 1,
+        "enable": true,
         "supportLang": {
             "en": true,
-            "ko": true
+            "ko": false
         },
-        "desc": "DROP"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_HJ006": {
-        "enable": false,
-        "lineCount": 2,
+        "enable": true,
         "supportLang": {
             "en": true,
-            "ko": true
+            "ko": false
         },
-        "desc": "DROP"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_HJ007": {
         "enable": true,
-        "lineCount": 1,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_HJ008": {
         "enable": true,
-        "lineCount": 1,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_HJ009": {
-        "enable": false,
-        "lineCount": 1,
+        "enable": true,
         "supportLang": {
             "en": true,
-            "ko": true
+            "ko": false
         },
-        "desc": "DROP"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_HJ010": {
-        "enable": false,
-        "lineCount": 1,
+        "enable": true,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "DROP"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_HJ011": {
-        "enable": false,
-        "lineCount": 2,
+        "enable": true,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "LOSS FONTDATA"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_HJ012": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_HJ013": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_HJ014": {
-        "enable": false,
-        "lineCount": 2,
+        "enable": true,
         "supportLang": {
             "en": true,
-            "ko": true
+            "ko": false
         },
-        "desc": "DROP"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_HJ015": {
         "enable": true,
-        "lineCount": 2,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        }
-    },
-    "Title_HJ018": {
-        "enable": true,
-        "lineCount": 2,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        }
-    },
-    "Title_HJ019": {
-        "enable": true,
-        "lineCount": 2,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        }
-    },
-    "Title_HJ020": {
-        "enable": false,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "MEMORY_ISSUE"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
+    },
+    "Title_HJ016": {
+        "enable": true,
+        "supportLang": {
+            "en": true,
+            "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
+    },
+    "Title_HJ017": {
+        "enable": false,
+        "supportLang": {
+            "en": true,
+            "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        },
+        "desc": "HEAVY"
+    },
+    "Title_HJ018": {
+        "enable": false,
+        "supportLang": {
+            "en": true,
+            "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        },
+        "desc": "HEAVY"
+    },
+    "Title_HJ019": {
+        "enable": true,
+        "supportLang": {
+            "en": true,
+            "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
+    },
+    "Title_HJ020": {
+        "enable": true,
+        "supportLang": {
+            "en": true,
+            "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_HJ021": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
-            "en": true
+            "en": true,
+            "ko": false
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_HJ022": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
-            "en": true
+            "en": true,
+            "ko": false
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_HJ023": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
-            "en": true
+            "en": true,
+            "ko": false
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
+    },
+    "Title_HJ024": {
+        "enable": true,
+        "supportLang": {
+            "en": true,
+            "ko": false
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
+    },
+    "Title_HJ025": {
+        "enable": true,
+        "supportLang": {
+            "en": true,
+            "ko": false
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
+    },
+    "Title_HJ026": {
+        "enable": true,
+        "supportLang": {
+            "en": true,
+            "ko": false
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_JH001": {
         "enable": false,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "MEMORY_ISSUE"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        },
+        "desc": "HEAVY"
     },
     "Title_JH002": {
-        "enable": true,
-        "lineCount": 2,
+        "enable": false,
         "supportLang": {
-            "en": true
-        }
+            "en": true,
+            "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        },
+        "desc": "INVALID FONT"
     },
     "Title_JH003": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
-            "en": true
+            "en": true,
+            "ko": false
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_JH004": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
-            "en": true
+            "en": true,
+            "ko": false
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_JH005": {
         "enable": false,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "MEMORY_ISSUE"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        },
+        "desc": "HEAVY"
     },
     "Title_JH006": {
         "enable": false,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "MEMORY_ISSUE"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        },
+        "desc": "HEAVY"
     },
     "Title_JH007": {
         "enable": false,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "MEMORY_ISSUE"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        },
+        "desc": "HEAVY"
     },
     "Title_ON001": {
-        "enable": false,
-        "lineCount": 1,
+        "enable": true,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "DROP"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_ON002": {
         "enable": true,
-        "lineCount": 1,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_ON003": {
         "enable": true,
-        "lineCount": 1,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_ON005": {
-        "enable": false,
-        "lineCount": 1,
+        "enable": true,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "DROP"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_ON006": {
-        "enable": false,
-        "lineCount": 1,
+        "enable": true,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "DROP"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_ON007": {
-        "enable": false,
-        "lineCount": 1,
+        "enable": true,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "LOSS FONTDATA"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_ON008": {
         "enable": true,
-        "lineCount": 1,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_ON009": {
         "enable": true,
-        "lineCount": 1,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_ON010": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_ON011": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_ON012": {
         "enable": true,
-        "lineCount": 2,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        }
-    },
-    "Title_ON013": {
-        "enable": false,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "MEMORY_ISSUE"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
-    "Title_SW001": {
+    "Title_ON013": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
+    },
+    "Title_SW001": {
+        "enable": true,
+        "supportLang": {
+            "en": true,
+            "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_SW002": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_SW003": {
-        "enable": false,
-        "lineCount": 2,
+        "enable": true,
         "supportLang": {
             "en": true,
-            "ko": true
+            "ko": false
         },
-        "desc": "DROP"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_SW004": {
         "enable": true,
-        "lineCount": 1,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        }
-    },
-    "Title_SW005": {
-        "enable": false,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "DROP"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
-    "Title_SW006": {
+    "Title_SW005": {
         "enable": true,
-        "lineCount": 1,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
+    },
+    "Title_SW006": {
+        "enable": true,
+        "supportLang": {
+            "en": true,
+            "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_SW007": {
         "enable": true,
-        "lineCount": 2,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        }
-    },
-    "Title_SW008": {
-        "enable": false,
-        "lineCount": 1,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "DROP"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
+    },
+    "Title_SW008": {
+        "enable": true,
+        "supportLang": {
+            "en": true,
+            "ko": false
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_SW009": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_SW010": {
         "enable": false,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "MEMORY_ISSUE"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        },
+        "desc": "HEAVY"
     },
     "Title_SW011": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_SW012": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_SW013": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_SW014": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_SW015": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_SW016": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_SW017": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_SW018": {
-        "enable": false,
-        "lineCount": 2,
+        "enable": true,
         "supportLang": {
             "en": true,
-            "ko": true
+            "ko": false
         },
-        "desc": "DROP"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_SW019": {
         "enable": false,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "MEMORY_ISSUE"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        },
+        "desc": "HEAVY"
     },
     "Title_SW020": {
-        "enable": true,
-        "lineCount": 2,
+        "enable": false,
         "supportLang": {
             "en": true,
             "ko": true
-        }
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        },
+        "desc": "INVALID FONT"
     },
     "Title_SW021": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_SW022": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_SW023": {
         "enable": false,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "MEMORY_ISSUE"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        },
+        "desc": "HEAVY"
     },
     "Title_SW024": {
-        "enable": false,
-        "lineCount": 2,
+        "enable": true,
         "supportLang": {
             "en": true,
-            "ko": true
+            "ko": false
         },
-        "desc": "MEMORY_ISSUE"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_SW025": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
-            "en": true
+            "en": true,
+            "ko": false
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_SW026": {
         "enable": false,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "MEMORY_ISSUE"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        },
+        "desc": "HEAVY"
     },
     "Title_SW027": {
         "enable": false,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "MEMORY_ISSUE"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        },
+        "desc": "HEAVY"
     },
     "Title_SW028": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
-            "en": true
+            "en": true,
+            "ko": false
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_SW029": {
-        "enable": false,
-        "lineCount": 2,
+        "enable": true,
         "supportLang": {
             "en": true,
-            "ko": true
+            "ko": false
         },
-        "desc": "CHANGE_FONT"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_SW030": {
         "enable": false,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "MEMORY_ISSUE"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        },
+        "desc": "HEAVY"
     },
     "Title_SW031": {
-        "enable": false,
-        "lineCount": 2,
+        "enable": true,
         "supportLang": {
             "en": true,
-            "ko": true
+            "ko": false
         },
-        "desc": "MEMORY_ISSUE"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_SW032": {
         "enable": false,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "MEMORY_ISSUE"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        },
+        "desc": "HEAVY"
     },
     "Title_YJ001": {
         "enable": false,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "MEMORY_ISSUE"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        },
+        "desc": "HEAVY"
     },
     "Title_YJ002": {
-        "enable": false,
-        "lineCount": 2,
+        "enable": true,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "MEMORY_ISSUE"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_YJ003": {
         "enable": true,
-        "lineCount": 2,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        }
-    },
-    "Title_YJ004": {
-        "enable": false,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "DROP"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
+    },
+    "Title_YJ004": {
+        "enable": true,
+        "supportLang": {
+            "en": true,
+            "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_YJ005": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
-            "ko": true
+            "ko": false
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_YJ006": {
-        "enable": false,
-        "lineCount": 2,
+        "enable": true,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_YJ007": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_YJ008": {
-        "enable": false,
-        "lineCount": 2,
+        "enable": true,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "DROP"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_YJ009": {
         "enable": false,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "MEMORY_ISSUE"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        },
+        "desc": "HEAVY"
     },
     "Title_YJ010": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_YJ011": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_YJ012": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_YJ013": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_YJ014": {
-        "enable": false,
-        "lineCount": 2,
+        "enable": true,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "MEMORY_ISSUE"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
+    },
+    "Title_YJ015": {
+        "enable": true,
+        "supportLang": {
+            "en": true,
+            "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_YJ016": {
-        "enable": false,
-        "lineCount": 1,
+        "enable": true,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "DROP"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_YJ017": {
-        "enable": false,
-        "lineCount": 2,
+        "enable": true,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "DROP"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_YJ018": {
-        "enable": false,
-        "lineCount": 2,
+        "enable": true,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "DROP"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_YJ019": {
-        "enable": false,
-        "lineCount": 1,
+        "enable": true,
         "supportLang": {
             "en": true,
             "ko": true
         },
-        "desc": "DROP"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     },
     "Title_YJ020": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_YJ021": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_YJ022": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
             "en": true,
             "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
     "Title_YJ023": {
         "enable": true,
-        "lineCount": 2,
         "supportLang": {
-            "en": true
+            "en": true,
+            "ko": false
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
         }
     },
+    "Title_YJ024": {
+        "enable": false,
+        "supportLang": {
+            "en": true,
+            "ko": true
+        },
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        },
+        "desc": "HEAVY"
+    },
     "Title_YJ025": {
-        "enable": false,
-        "lineCount": 2,
+        "enable": true,
         "supportLang": {
             "en": true,
-            "ko": true
+            "ko": false
         },
-        "desc": "CHANGE_FONT"
-    },
-    "Caption_DA001": {
-        "enable": false,
-        "lineCount": 1,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "desc": "DISABLE_CAPTION"
-    },
-    "Caption_DA002": {
-        "enable": false,
-        "lineCount": 1,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "desc": "DISABLE_CAPTION"
-    },
-    "Caption_DA003": {
-        "enable": false,
-        "lineCount": 1,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "desc": "DISABLE_CAPTION"
-    },
-    "Caption_DA004": {
-        "enable": false,
-        "lineCount": 1,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "desc": "DISABLE_CAPTION"
-    },
-    "Caption_DA005": {
-        "enable": false,
-        "lineCount": 1,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "desc": "DISABLE_CAPTION"
-    },
-    "Caption_SW001": {
-        "enable": false,
-        "lineCount": 1,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "desc": "DISABLE_CAPTION"
-    },
-    "Caption_SW002": {
-        "enable": false,
-        "lineCount": 1,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "desc": "DISABLE_CAPTION"
-    },
-    "Caption_SW003": {
-        "enable": false,
-        "lineCount": 1,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "desc": "DISABLE_CAPTION"
-    },
-    "Caption_SW004": {
-        "enable": false,
-        "lineCount": 1,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "desc": "DISABLE_CAPTION"
-    },
-    "Caption_YJ001": {
-        "enable": false,
-        "lineCount": 1,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "desc": "DISABLE_CAPTION"
-    },
-    "Caption_YJ002": {
-        "enable": false,
-        "lineCount": 1,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "desc": "DISABLE_CAPTION"
-    },
-    "Caption_YJ003": {
-        "enable": false,
-        "lineCount": 1,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "desc": "DISABLE_CAPTION"
-    },
-    "Caption_YJ004": {
-        "enable": false,
-        "lineCount": 1,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "desc": "DISABLE_CAPTION"
-    },
-    "Caption_YJ005": {
-        "enable": false,
-        "lineCount": 1,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "desc": "DISABLE_CAPTION"
-    },
-    "Caption_YJ006": {
-        "enable": false,
-        "lineCount": 1,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "desc": "DISABLE_CAPTION"
-    },
-    "Caption_YJ007": {
-        "enable": false,
-        "lineCount": 1,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "desc": "DISABLE_CAPTION"
-    },
-    "Caption_YJ008": {
-        "enable": false,
-        "lineCount": 1,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "desc": "DISABLE_CAPTION"
+        "supportLine": {
+            "ONE": true,
+            "TWO": true
+        }
     }
 }

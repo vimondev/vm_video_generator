@@ -67,9 +67,9 @@ class VMTextWidget extends StatelessWidget {
   String? get allSequencesPath => _allSequencesPath;
   List<String> get allSequencePaths => _allSequencePaths;
 
-  Future<void> loadText(String id) async {
+  Future<void> loadText(String id, int lineCount) async {
     _id = id;
-    _data = (await loadTextWidgetData(id))!;
+    _data = (await loadTextWidgetData(id, lineCount))!;
     if (_data == null) return;
 
     _data!.texts.add("THIS IS TITLE!");
