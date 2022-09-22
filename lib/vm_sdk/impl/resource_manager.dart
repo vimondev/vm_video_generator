@@ -179,21 +179,9 @@ class ResourceManager {
     return map;
   }
 
-  List<String> getOneLineTextList({bool autoEditOnly = true, language = "ko"}) {
+  List<String> getTextList({bool autoEditOnly = true, language = "ko"}) {
     return _textMap.keys
         .where((key) =>
-            _textMap[key]!.lineCount == 1 &&
-            _textMap[key]!.supportLang[language] != null &&
-            _textMap[key]!.supportLang[language]! == true &&
-            (!autoEditOnly || _textMap[key]!.isEnableAutoEdit))
-        .map<String>((key) => key)
-        .toList();
-  }
-
-  List<String> getTwoLineTextList({bool autoEditOnly = true, language = "ko"}) {
-    return _textMap.keys
-        .where((key) =>
-            _textMap[key]!.lineCount == 2 &&
             _textMap[key]!.supportLang[language] != null &&
             _textMap[key]!.supportLang[language]! == true &&
             (!autoEditOnly || _textMap[key]!.isEnableAutoEdit))

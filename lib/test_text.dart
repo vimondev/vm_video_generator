@@ -50,10 +50,7 @@ class _TestWidgetState extends State<TestWidget> {
         imageList = [];
       });
 
-      final List<String> allTexts = [
-        ...ResourceManager.getInstance().getOneLineTextList(),
-        ...ResourceManager.getInstance().getTwoLineTextList(),
-      ];
+      final List<String> allTexts = ResourceManager.getInstance().getTextList();
 
       // final ETextID currentText =
       //     allTexts[(_currentIndex) % allTexts.length];
@@ -69,12 +66,17 @@ class _TestWidgetState extends State<TestWidget> {
       // });
 
       // _currentIndex++;
+
       List<Map> list = [];
+
+      Map excepts = {
+      };
 
       for (int i = 0; i < allTexts.length; i++) {
         DateTime now = DateTime.now();
 
         final String currentText = allTexts[i];
+        if (excepts.containsKey(currentText)) continue;
 
         print('text is $currentText');
         print('_currentIndex is $i / ${allTexts.length}');
@@ -88,6 +90,9 @@ class _TestWidgetState extends State<TestWidget> {
         });
 
         final String appDirPath = await getAppDirectoryPath();
+        final String webmPath = "$appDirPath/webm";
+        Directory dir = Directory(webmPath);
+        await dir.create(recursive: true);
 
         await _ffmpegManager.execute([
           "-framerate",
@@ -98,25 +103,16 @@ class _TestWidgetState extends State<TestWidget> {
           "libvpx-vp9",
           "-pix_fmt",
           "yuva420p",
-          "$appDirPath/$currentText.webm",
+          "$webmPath/$currentText.webm",
           "-y"
         ], (p0) => null);
         File thumbnailFile = File(_vmTextWidget.previewImagePath!);
-        await thumbnailFile.copy("$appDirPath/$currentText.png");
+        await thumbnailFile.copy("$webmPath/$currentText.png");
 
         print(thumbnailFile.path);
-
-        // list.add({
-        //   "allPaths" : _vmTextWidget.allSequencesPath,
-        //   "frameRate" : _vmTextWidget.frameRate,
-        //   "totalFrameCount" : _vmTextWidget.totalFrameCount,
-        //   "elapsedTime": DateTime.now().difference(now).inMilliseconds
-        // });
-
         await Future.delayed(const Duration(seconds: 1));
       }
 
-      // final data = jsonEncode(list);
       print("");
     } catch (e) {
       print(e);

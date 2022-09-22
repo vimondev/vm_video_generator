@@ -7,6 +7,7 @@ import 'global_helper.dart';
 import 'dart:convert';
 
 Future<String> _loadFontBase64(String fontFamily, String fontFileName) async {
+  // return await loadResourceBase64("raw/fonts/$fontFileName");
   File file = await downloadFont(fontFamily, fontFileName);
   return base64.encode(await file.readAsBytes());
 }
@@ -15,7 +16,7 @@ Future<TextWidgetData?> loadTextWidgetData(String id) async {
   if (ResourceManager.getInstance().getTextData(id) == null) return null;
 
   final Map<String, dynamic> loadedMap =
-      jsonDecode(await loadResourceString("text/$id.json"));
+      jsonDecode(await loadResourceString("text/$id TWO.json"));
 
   final ETextType type =
       id.toString().startsWith("Caption") ? ETextType.Caption : ETextType.Title;

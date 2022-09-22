@@ -19,15 +19,10 @@ class ResourceData {
 }
 
 class TextData extends ResourceData {
-  int lineCount = 0;
   Map<String, bool> supportLang = {};
 
-  TextData(String key, this.lineCount)
-      : super(key);
-    TextData.fromJson(String key, Map map)
-      : super(key) {
-    lineCount = map["lineCount"];
-
+  TextData(String key) : super(key);
+  TextData.fromJson(String key, Map map) : super(key) {
     Map? supportLangMap = map["supportLang"];
     if (supportLangMap != null) {
       for (final key in supportLangMap.keys) {
