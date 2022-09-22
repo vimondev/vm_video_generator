@@ -105,7 +105,7 @@ class VMSDKWidget extends StatelessWidget {
     List<String> textIds = ResourceManager.getInstance().getTextList();;
     final String pickedTextId =
         textIds[(Random()).nextInt(textIds.length) % textIds.length];
-    await _textWidget.loadText(pickedTextId);
+    await _textWidget.loadText(pickedTextId, texts.length);
 
     for (int i = 0; i < texts.length; i++) {
       final String key = "#TEXT${(i + 1)}";

@@ -12,11 +12,11 @@ Future<String> _loadFontBase64(String fontFamily, String fontFileName) async {
   return base64.encode(await file.readAsBytes());
 }
 
-Future<TextWidgetData?> loadTextWidgetData(String id) async {
+Future<TextWidgetData?> loadTextWidgetData(String id, int lineCount) async {
   if (ResourceManager.getInstance().getTextData(id) == null) return null;
 
   final Map<String, dynamic> loadedMap =
-      jsonDecode(await loadResourceString("text/$id TWO.json"));
+      jsonDecode(await loadResourceString("text/$id ${lineCount >= 2 ? "TWO" : "ONE"}.json"));
 
   final ETextType type =
       id.toString().startsWith("Caption") ? ETextType.Caption : ETextType.Title;

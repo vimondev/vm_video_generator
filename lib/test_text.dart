@@ -79,7 +79,7 @@ class _TestWidgetState extends State<TestWidget> {
         print('text is $currentText');
         print('_currentIndex is $i / ${allTexts.length}');
 
-        await _vmTextWidget.loadText(currentText);
+        await _vmTextWidget.loadText(currentText, 2);
         await _vmTextWidget.extractAllSequence((progress) => {});      
 
         final String appDirPath = await getAppDirectoryPath();
