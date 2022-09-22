@@ -38,8 +38,6 @@ class _TestWidgetState extends State<TestWidget> {
   }
 
   void _run() async {
-    // if (_isRunning) return;
-    // _isRunning = true;
     try {
       if (!_isInitialized) {
         await ResourceManager.getInstance().loadResourceMap();
@@ -50,9 +48,9 @@ class _TestWidgetState extends State<TestWidget> {
         imageList = [];
       });
 
-      final List<String> allTexts = ResourceManager.getInstance().getTextList();
+      final List<String> allTexts = ResourceManager.getInstance().getTextList(language: "en");
 
-      // final ETextID currentText =
+      // final String currentText =
       //     allTexts[(_currentIndex) % allTexts.length];
 
       // print('text is $currentText');
@@ -84,28 +82,44 @@ class _TestWidgetState extends State<TestWidget> {
         await _vmTextWidget.loadText(currentText);
         await _vmTextWidget.extractAllSequence((progress) => {});      
 
+        final String appDirPath = await getAppDirectoryPath();
+        final String webmPath = "$appDirPath/webm";
+        Directory dir = Directory(webmPath);
+        await dir.create(recursive: true);
+
         String? preview = _vmTextWidget.previewImagePath;
         setState(() {
           if (preview != null) imageList = [preview];
         });
 
-        final String appDirPath = await getAppDirectoryPath();
-        final String webmPath = "$appDirPath/webm";
-        Directory dir = Directory(webmPath);
-        await dir.create(recursive: true);
+        int width = _vmTextWidget.width.floor();
+        int height = _vmTextWidget.height.floor();
+
+        width -= width % 2;
+        height -= height % 2;
 
         await _ffmpegManager.execute([
           "-framerate",
           _vmTextWidget.frameRate.toString(),
           "-i",
           "${_vmTextWidget.allSequencesPath!}/%d.png",
+          "-vf",
+          "scale=$width:$height",
           "-c:v",
           "libvpx-vp9",
           "-pix_fmt",
           "yuva420p",
           "$webmPath/$currentText.webm",
+          // "-c:v",
+          // "libx264",
+          // "-preset",
+          // "ultrafast",
+          // "-pix_fmt",
+          // "yuv420p",
+          // "$webmPath/$currentText.mp4",
           "-y"
         ], (p0) => null);
+
         File thumbnailFile = File(_vmTextWidget.previewImagePath!);
         await thumbnailFile.copy("$webmPath/$currentText.png");
 
