@@ -811,9 +811,9 @@ Future<_GetMusicResponse> _getMusics(EMusicStyle? musicStyle) async {
   EMusicStyle? curStyle = musicStyle;
   if (curStyle == null || curStyle == EMusicStyle.none) {
     Map<double, String> speedProbabilityMap = {
-      0.3: "S",
-      0.6: "M",
-      0.8: "MM",
+      0.2: "S",
+      0.4: "M",
+      0.7: "MM",
       1.0: "F"
     };
     double randValue = Random().nextDouble();
