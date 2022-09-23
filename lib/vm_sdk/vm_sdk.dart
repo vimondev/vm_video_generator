@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:myapp/vm_sdk/impl/text_helper.dart';
 
 import 'impl/convert_helper.dart';
 import 'types/types.dart';
@@ -65,31 +64,8 @@ class VMSDKWidget extends StatelessWidget {
     DateTime now = DateTime.now();
     _currentStatus = EGenerateStatus.titleExport;
 
-    EMusicStyle selectedStyle;
-    if (style != null) {
-      selectedStyle = style;
-    } //
-    else {
-      const List<EMusicStyle> randomStyleList = [
-        EMusicStyle.beautiful,
-        EMusicStyle.upbeat,
-        EMusicStyle.hopeful,
-        EMusicStyle.inspiring,
-        EMusicStyle.fun,
-        EMusicStyle.joyful,
-        EMusicStyle.happy,
-        EMusicStyle.cheerful,
-        EMusicStyle.energetic
-      ];
-
-      selectedStyle = randomStyleList[
-          Random().nextInt(randomStyleList.length) % randomStyleList.length];
-    }
-
     List<TemplateData> templateList = [];
-    templateList.addAll(
-        (ResourceManager.getInstance().getTemplateData(selectedStyle) ??
-            ResourceManager.getInstance().getTemplateData(EMusicStyle.fun)!));
+    templateList.addAll(ResourceManager.getInstance().getRandomTemplateData());
 
     List<TemplateData> randomSortedTemplateList = [];
     while (templateList.isNotEmpty) {
@@ -102,7 +78,7 @@ class VMSDKWidget extends StatelessWidget {
     final AllEditedData allEditedData = await generateAllEditedData(
         mediaList, style, randomSortedTemplateList, isAutoEdit);
 
-    List<String> textIds = ResourceManager.getInstance().getTextList();;
+    List<String> textIds = ResourceManager.getInstance().getTextList();
     final String pickedTextId =
         textIds[(Random()).nextInt(textIds.length) % textIds.length];
     await _textWidget.loadText(pickedTextId, texts.length);
@@ -160,7 +136,7 @@ class VMSDKWidget extends StatelessWidget {
         allEditedData.ratio,
         progressCallback);
 
-    result.musicStyle = selectedStyle;
+    result.musicStyle = allEditedData.style;
     result.editedMediaList.addAll(allEditedData.editedMediaList);
     result.musicList.addAll(allEditedData.musicList);
 

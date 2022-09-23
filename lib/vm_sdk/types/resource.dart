@@ -6,6 +6,8 @@ enum EStickerType { object }
 
 class MusicData {
   String filename = "";
+  String speed = "";
+  String url = "";
   String? absolutePath;
   double duration = 0;
   double startTime = 0;

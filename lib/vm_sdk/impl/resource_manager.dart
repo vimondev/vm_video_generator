@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import '../types/types.dart';
 import 'global_helper.dart';
 import 'resource_fetch_helper.dart';
@@ -207,6 +209,15 @@ class ResourceManager {
 
   List<TemplateData>? getTemplateData(EMusicStyle style) {
     return _templateMap[style];
+  }
+
+  List<TemplateData> getRandomTemplateData() {
+    List<EMusicStyle> keys = _templateMap.keys.toList();
+
+    int pickedIndex = Random().nextInt(keys.length) % keys.length;
+    EMusicStyle picked = keys[pickedIndex];
+
+    return _templateMap[picked]!;
   }
 
   Future<void> loadResourceFromAssets(

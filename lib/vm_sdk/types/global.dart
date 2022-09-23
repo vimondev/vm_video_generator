@@ -157,6 +157,7 @@ class AllEditedData {
   List<EditedMedia> editedMediaList = [];
   List<MusicData> musicList = [];
   ERatio ratio = ERatio.ratio11;
+  EMusicStyle style = EMusicStyle.none;
   Resolution resolution = Resolution.fromRatio(ERatio.ratio11);
 }
 

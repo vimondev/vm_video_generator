@@ -2,16 +2,24 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
-import 'resource_manager.dart';
 import 'package:path/path.dart';
+
+import 'resource_manager.dart';
 
 import '../types/types.dart';
 import 'global_helper.dart';
 import 'type_helper.dart';
 import 'resource_fetch_helper.dart';
 
-Map<int, EMediaLabel> classifiedLabelMap = {};
-Map<int, bool> definitiveLabelMap = {};
+class _GetMusicResponse {
+  EMusicStyle musicStyle;
+  List<MusicData> musicList;
+
+  _GetMusicResponse(this.musicStyle, this.musicList);
+}
+
+Map<int, EMediaLabel> _classifiedLabelMap = {};
+Map<int, bool> _definitiveLabelMap = {};
 
 Future<void> loadLabelMap() async {
   List classifiedList =
@@ -24,15 +32,15 @@ Future<void> loadLabelMap() async {
     String type = map["type"];
     EMediaLabel mediaLabel = getMediaLabel(type);
 
-    classifiedLabelMap[id] = mediaLabel;
+    _classifiedLabelMap[id] = mediaLabel;
   }
 
   for (final int id in definitiveList) {
-    definitiveLabelMap[id] = true;
+    _definitiveLabelMap[id] = true;
   }
 }
 
-Future<EMediaLabel> detectMediaLabel(
+Future<EMediaLabel> _detectMediaLabel(
     EditedMedia media, MLKitDetected detected) async {
   EMediaLabel mediaLabel = EMediaLabel.none;
   final Map<EMediaLabel, double> labelConfidenceMap = {
@@ -61,7 +69,7 @@ Future<EMediaLabel> detectMediaLabel(
 
   for (final DetectedFrameData frameData in detectedList) {
     for (final ImageLabel imageLabel in frameData.labelList) {
-      EMediaLabel mediaLabel = classifiedLabelMap[imageLabel.index]!;
+      EMediaLabel mediaLabel = _classifiedLabelMap[imageLabel.index]!;
       double threshold = 1.0;
 
       if (mediaLabel == EMediaLabel.person) {
@@ -138,6 +146,25 @@ Future<AllEditedData> generateAllEditedData(
   final AllEditedData allEditedData = AllEditedData();
 
   list.sort((a, b) => a.createDate.compareTo(b.createDate));
+
+  final musicsData = await _getMusics(musicStyle);
+  allEditedData.style = musicsData.musicStyle;
+
+  final List<MusicData> musicList = musicsData.musicList;
+  final String speed = musicList.isNotEmpty ? musicList[0].speed : "M";
+
+  print("curSpeed : $speed");
+
+  bool isUseTemplateDuration = false;
+  switch (speed) {
+    case "MM":
+    case "F":
+    case "FF":
+      isUseTemplateDuration = true;
+      break;
+
+    default: break;
+  }
 
   ////////////////////////////////////
   // GENERATE MLKIT DETECTED OBJECT //
@@ -272,7 +299,7 @@ Future<AllEditedData> generateAllEditedData(
 
         // If contain definitve label, pass
         for (final label in labelMap.entries) {
-          if (definitiveLabelMap.containsKey(label.key)) {
+          if (_definitiveLabelMap.containsKey(label.key)) {
             isContainDefinitiveLabel = true;
             break;
           }
@@ -391,75 +418,77 @@ Future<AllEditedData> generateAllEditedData(
       final EditedMedia editedMedia = EditedMedia(mediaData);
       if (i == curList.length - 1) editedMedia.isBoundary = true;
 
-      final double currentDuration =
-          durationList[currentMediaIndex % durationList.length];
-      if (mediaData.type == EMediaType.image) {
-        editedMedia.duration = currentDuration;
-      } //
-      else if (mediaData.type == EMediaType.video) {
-        if (mediaData.duration! < currentDuration) {
-          editedMedia.duration = mediaData.duration!;
-          totalRemainDuration += currentDuration - mediaData.duration!;
-          // print(mediaData.absolutePath);
-          // print("index : $currentMediaIndex");
-          // print("defined : $currentDuration");
-          // print("duration : ${editedMedia.duration}");
-          // print("remain : ${currentDuration - mediaData.duration!}");
-          // print("totalRemain : $totalRemainDuration");
-          // print("");
-          // print("");
-        } //
-        else {
-          editedMedia.startTime =
-              min(3, (mediaData.duration! - currentDuration) / 2.0);
+      if (isUseTemplateDuration) {
+        final double currentDuration =
+            durationList[currentMediaIndex % durationList.length];
+        if (mediaData.type == EMediaType.image) {
           editedMedia.duration = currentDuration;
+        } //
+        else if (mediaData.type == EMediaType.video) {
+          if (mediaData.duration! < currentDuration) {
+            editedMedia.duration = mediaData.duration!;
+            totalRemainDuration += currentDuration - mediaData.duration!;
+          } //
+          else {
+            editedMedia.startTime =
+                min(3, (mediaData.duration! - currentDuration) / 2.0);
+            editedMedia.duration = currentDuration;
 
-          if (totalRemainDuration > 0) {
-            final double mediaRemainDuration = max(
-                0,
-                (mediaData.duration! -
-                    currentDuration -
-                    editedMedia.startTime));
+            if (totalRemainDuration > 0) {
+              final double mediaRemainDuration = max(
+                  0,
+                  (mediaData.duration! -
+                      currentDuration -
+                      editedMedia.startTime));
 
-            // print(mediaData.absolutePath);
-            // print("index : $currentMediaIndex");
-            // print("defined : $currentDuration");
-            // print("start/b : ${editedMedia.startTime}");
-            // print("duration/b : ${editedMedia.duration}");
-            // print("mediaRemain/b : $mediaRemainDuration");
-            // print("totalRemain/b : $totalRemainDuration");
-            if (mediaRemainDuration >= totalRemainDuration) {
-              editedMedia.duration += totalRemainDuration;
-              totalRemainDuration = 0;
-            } //
-            else {
-              editedMedia.duration += mediaRemainDuration;
-              totalRemainDuration -= mediaRemainDuration;
-
-              if (editedMedia.startTime >= totalRemainDuration) {
-                editedMedia.startTime -= totalRemainDuration;
+              if (mediaRemainDuration >= totalRemainDuration) {
                 editedMedia.duration += totalRemainDuration;
                 totalRemainDuration = 0;
               } //
               else {
-                totalRemainDuration -= editedMedia.startTime;
-                editedMedia.duration += editedMedia.startTime;
-                editedMedia.startTime = 0;
+                editedMedia.duration += mediaRemainDuration;
+                totalRemainDuration -= mediaRemainDuration;
+
+                if (editedMedia.startTime >= totalRemainDuration) {
+                  editedMedia.startTime -= totalRemainDuration;
+                  editedMedia.duration += totalRemainDuration;
+                  totalRemainDuration = 0;
+                } //
+                else {
+                  totalRemainDuration -= editedMedia.startTime;
+                  editedMedia.duration += editedMedia.startTime;
+                  editedMedia.startTime = 0;
+                }
               }
             }
-            // print("");
-            // print("start/a : ${editedMedia.startTime}");
-            // print("duration/a : ${editedMedia.duration}");
-            // print("mediaRemain/a : $mediaRemainDuration");
-            // print("totalRemain/a : $totalRemainDuration");
-            // print("");
-            // print("");
+          }
+        }
+      }
+      else {
+        if (mediaData.type == EMediaType.image) {
+          editedMedia.duration = 3 + Random().nextDouble();
+        } //
+        else if (mediaData.type == EMediaType.video) {
+          // ~5s
+          if (mediaData.duration! < 5) {
+            editedMedia.duration = mediaData.duration!;
+          }
+          // 5~10s
+          else if (mediaData.duration! < 10) {
+            double gap = (mediaData.duration! - 5) * 0.2; // 0 ~ 1
+            editedMedia.startTime = gap;
+            editedMedia.duration = mediaData.duration! - (gap * 2); // 5 ~ 8
+          }
+          // 10s~
+          else {
+            editedMedia.startTime = 1 + (Random().nextDouble() * 0.3);
+            editedMedia.duration = 8 + (Random().nextDouble() * 0.3);
           }
         }
       }
 
       editedMedia.mediaLabel =
-          await detectMediaLabel(editedMedia, mlkitMap[mediaData]!);
+          await _detectMediaLabel(editedMedia, mlkitMap[mediaData]!);
 
       allEditedData.editedMediaList.add(editedMedia);
       currentMediaIndex++;
@@ -710,22 +739,46 @@ Future<AllEditedData> generateAllEditedData(
     }
   }
 
-  // print("--------------------------------------");
-  // print("--------------------------------------");
-  // for (int i = 0; i < allEditedData.editedMediaList.length; i++) {
-  //   final editedMedia = allEditedData.editedMediaList[i];
-  //   print(
-  //       "${basename(editedMedia.mediaData.absolutePath)} / totalDuration:${editedMedia.mediaData.duration} / start:${editedMedia.startTime} / duration:${editedMedia.duration} / remain:${editedMedia.mediaData.duration != null ? (editedMedia.mediaData.duration! - editedMedia.startTime - editedMedia.duration) : 0} / ${editedMedia.mediaLabel}");
-  //   print(
-  //       "frame:${editedMedia.frame?.key} / resolution:(${editedMedia.mediaData.width},${editedMedia.mediaData.height}) / zoom:(${editedMedia.zoomX},${editedMedia.zoomY}) / translate:(${editedMedia.translateX},${editedMedia.translateY})");
-  //   if (editedMedia.transition != null) {
-  //     print("index : $i");
-  //     print(editedMedia.transition?.key);
-  //     print("");
-  //     print("");
-  //   }
-  //   print("");
-  // }
+  print("--------------------------------------");
+  print("--------------------------------------");
+  for (int i = 0; i < allEditedData.editedMediaList.length; i++) {
+    final editedMedia = allEditedData.editedMediaList[i];
+    print(
+        "${basename(editedMedia.mediaData.absolutePath)} / totalDuration:${editedMedia.mediaData.duration} / start:${editedMedia.startTime} / duration:${editedMedia.duration} / remain:${editedMedia.mediaData.duration != null ? (editedMedia.mediaData.duration! - editedMedia.startTime - editedMedia.duration) : 0} / ${editedMedia.mediaLabel}");
+    // print(
+    //     "frame:${editedMedia.frame?.key} / resolution:(${editedMedia.mediaData.width},${editedMedia.mediaData.height}) / zoom:(${editedMedia.zoomX},${editedMedia.zoomY}) / translate:(${editedMedia.translateX},${editedMedia.translateY})");
+    // if (editedMedia.transition != null) {
+    //   print("index : $i");
+    //   print(editedMedia.transition?.key);
+    //   print("");
+    //   print("");
+    // }
+    // print("");
+  }
+
+  totalRemainDuration = totalDuration;
+  int musicIndex = 0;
+
+  while (totalRemainDuration > 0) {
+    MusicData musicData = musicList[musicIndex % musicList.length];
+    allEditedData.musicList.add(musicData);
+
+    final File file = await downloadResource(musicData.filename, musicData.url);
+    musicData.absolutePath = file.path;
+
+    print(musicData.filename);
+    print("speed: ${musicData.speed}");
+    print("");
+
+    totalRemainDuration -= musicData.duration;
+    musicIndex++;
+  }
+
+  return allEditedData;
+}
+
+Future<_GetMusicResponse> _getMusics(EMusicStyle? musicStyle) async {
+  final List<MusicData> randomSortMusicList = [];
 
   final Map<EMusicStyle, List<SongFetchModel>> songMapByMusicStyle = {};
   final Map<String, List<SongFetchModel>> songMapBySpeed = {};
@@ -794,22 +847,20 @@ Future<AllEditedData> generateAllEditedData(
   }
   
   List<SongFetchModel> originSongList = songMapByMusicStyle[curStyle]!;
-  List<SongFetchModel> recommendedSongList = [], otherSongList = [];
+  List<SongFetchModel> recommendedSongList = [];
+  List<SongFetchModel> otherSongList = [];
 
-  double remainTotalDuration = totalDuration;
-  print(curStyle);
+  recommendedSongList.addAll(originSongList.where((song) => song.isRecommended));
+  otherSongList.addAll(originSongList.where((song) => !song.isRecommended));
 
-  while (remainTotalDuration > 0) {
-    if (recommendedSongList.isEmpty && otherSongList.isEmpty) {
-      recommendedSongList.addAll(originSongList.where((song) => song.isRecommended));
-      otherSongList.addAll(originSongList.where((song) => !song.isRecommended));
+  print("style : $musicStyle");
+  print("style : $curStyle");
+  print("recommendedSongList : ${recommendedSongList.length}");
+  print("otherSongList : ${otherSongList.length}");
 
-      print("recommendedSongList : ${recommendedSongList.length}");
-      print("otherSongList : ${otherSongList.length}");
-    }
-
+  while (recommendedSongList.isNotEmpty || otherSongList.isNotEmpty) {
     SongFetchModel song;
-    if (recommendedSongList.isNotEmpty && Random().nextDouble() <= 0.7) {
+    if (otherSongList.isEmpty || recommendedSongList.isNotEmpty && Random().nextDouble() <= 0.7) {
       int randIdx = (Random()).nextInt(recommendedSongList.length) % recommendedSongList.length;
       song = recommendedSongList[randIdx];
       recommendedSongList.removeAt(randIdx);
@@ -830,18 +881,12 @@ Future<AllEditedData> generateAllEditedData(
       MusicData musicData = MusicData();
       musicData.duration = duration;
       musicData.filename = name;
+      musicData.speed = song.speed;
+      musicData.url = url;
 
-      final File file = await downloadResource(name, url);
-      musicData.absolutePath = file.path;
-
-      allEditedData.musicList.add(musicData);
-      remainTotalDuration -= duration;
-
-      print(source.name);
-      print("speed: ${song.speed} isRecommended: ${song.isRecommended}");
-      print("");
+      randomSortMusicList.add(musicData);
     }
   }
 
-  return allEditedData;
+  return _GetMusicResponse(curStyle, randomSortMusicList);
 }
