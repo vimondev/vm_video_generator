@@ -52,7 +52,7 @@
     "TRANSITION_SW002": {
         "type": "overlay",
         "speed": "M",
-        "enable": true
+        "enable": false
     },
     "TRANSITION_SW003": {
         "type": "overlay",
@@ -82,7 +82,7 @@
     "TRANSITION_YJ002": {
         "type": "overlay",
         "speed": "M",
-        "enable": true
+        "enable": false
     },
     "TRANSITION_YJ003": {
         "type": "overlay",
@@ -97,7 +97,7 @@
     "TRANSITION_YJ005": {
         "type": "overlay",
         "speed": "M",
-        "enable": true
+        "enable": false
     },
     "TRANSITION_YJ006": {
         "type": "overlay",

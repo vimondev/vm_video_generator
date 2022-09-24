@@ -11,7 +11,7 @@
         }
     },
     "Title_DA002": {
-        "enable": true,
+        "enable": false,
         "supportLang": {
             "en": true,
             "ko": true
@@ -133,7 +133,7 @@
         }
     },
     "Title_DA013": {
-        "enable": true,
+        "enable": false,
         "supportLang": {
             "en": true,
             "ko": true
@@ -155,7 +155,7 @@
         }
     },
     "Title_DA015": {
-        "enable": true,
+        "enable": false,
         "supportLang": {
             "en": true,
             "ko": true
@@ -211,7 +211,7 @@
         "desc": "HEAVY"
     },
     "Title_DA020": {
-        "enable": true,
+        "enable": false,
         "supportLang": {
             "en": true,
             "ko": true
@@ -233,7 +233,7 @@
         }
     },
     "Title_DA022": {
-        "enable": true,
+        "enable": false,
         "supportLang": {
             "en": true,
             "ko": true
@@ -255,7 +255,7 @@
         }
     },
     "Title_DA024": {
-        "enable": true,
+        "enable": false,
         "supportLang": {
             "en": true,
             "ko": true
@@ -310,7 +310,7 @@
         }
     },
     "Title_DA029": {
-        "enable": true,
+        "enable": false,
         "supportLang": {
             "en": true,
             "ko": false
@@ -409,7 +409,7 @@
         }
     },
     "Title_HJ006": {
-        "enable": true,
+        "enable": false,
         "supportLang": {
             "en": true,
             "ko": false
@@ -420,7 +420,7 @@
         }
     },
     "Title_HJ007": {
-        "enable": true,
+        "enable": false,
         "supportLang": {
             "en": true,
             "ko": true
@@ -453,7 +453,7 @@
         }
     },
     "Title_HJ010": {
-        "enable": true,
+        "enable": false,
         "supportLang": {
             "en": true,
             "ko": true
@@ -508,7 +508,7 @@
         }
     },
     "Title_HJ015": {
-        "enable": true,
+        "enable": false,
         "supportLang": {
             "en": true,
             "ko": true
@@ -554,7 +554,7 @@
         "desc": "HEAVY"
     },
     "Title_HJ019": {
-        "enable": true,
+        "enable": false,
         "supportLang": {
             "en": true,
             "ko": true
@@ -576,7 +576,7 @@
         }
     },
     "Title_HJ021": {
-        "enable": true,
+        "enable": false,
         "supportLang": {
             "en": true,
             "ko": false
@@ -609,7 +609,7 @@
         }
     },
     "Title_HJ024": {
-        "enable": true,
+        "enable": false,
         "supportLang": {
             "en": true,
             "ko": false
@@ -724,7 +724,7 @@
         "desc": "HEAVY"
     },
     "Title_ON001": {
-        "enable": true,
+        "enable": false,
         "supportLang": {
             "en": true,
             "ko": true
@@ -735,7 +735,7 @@
         }
     },
     "Title_ON002": {
-        "enable": true,
+        "enable": false,
         "supportLang": {
             "en": true,
             "ko": true
@@ -834,7 +834,7 @@
         }
     },
     "Title_ON012": {
-        "enable": true,
+        "enable": false,
         "supportLang": {
             "en": true,
             "ko": true
@@ -845,7 +845,7 @@
         }
     },
     "Title_ON013": {
-        "enable": true,
+        "enable": false,
         "supportLang": {
             "en": true,
             "ko": true
@@ -922,7 +922,7 @@
         }
     },
     "Title_SW007": {
-        "enable": true,
+        "enable": false,
         "supportLang": {
             "en": true,
             "ko": true
@@ -1000,7 +1000,7 @@
         }
     },
     "Title_SW014": {
-        "enable": true,
+        "enable": false,
         "supportLang": {
             "en": true,
             "ko": true
@@ -1011,7 +1011,7 @@
         }
     },
     "Title_SW015": {
-        "enable": true,
+        "enable": false,
         "supportLang": {
             "en": true,
             "ko": true
@@ -1022,7 +1022,7 @@
         }
     },
     "Title_SW016": {
-        "enable": true,
+        "enable": false,
         "supportLang": {
             "en": true,
             "ko": true
@@ -1170,7 +1170,7 @@
         }
     },
     "Title_SW029": {
-        "enable": true,
+        "enable": false,
         "supportLang": {
             "en": true,
             "ko": false
@@ -1261,7 +1261,7 @@
         }
     },
     "Title_YJ005": {
-        "enable": true,
+        "enable": false,
         "supportLang": {
             "en": true,
             "ko": false
@@ -1361,7 +1361,7 @@
         }
     },
     "Title_YJ014": {
-        "enable": true,
+        "enable": false,
         "supportLang": {
             "en": true,
             "ko": true
@@ -1483,7 +1483,7 @@
         "desc": "HEAVY"
     },
     "Title_YJ025": {
-        "enable": true,
+        "enable": false,
         "supportLang": {
             "en": true,
             "ko": false

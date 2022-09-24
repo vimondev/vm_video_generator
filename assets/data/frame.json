@@ -72,7 +72,7 @@
         "enable": true
     },
     "FRAME_SW015": {
-        "enable": true
+        "enable": false
     },
     "FRAME_SW016": {
         "enable": false
