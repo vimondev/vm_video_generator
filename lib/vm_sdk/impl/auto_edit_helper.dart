@@ -763,7 +763,7 @@ Future<AllEditedData> generateAllEditedData(
     MusicData musicData = musicList[musicIndex % musicList.length];
     allEditedData.musicList.add(musicData);
 
-    final File file = await downloadResource(musicData.filename, musicData.url);
+    final File file = (await downloadResource(musicData.filename, musicData.url)).file;
     musicData.absolutePath = file.path;
 
     print(musicData.filename);

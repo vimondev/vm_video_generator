@@ -21,16 +21,9 @@ class ResourceData {
 }
 
 class TextData extends ResourceData {
-  Map<String, bool> supportLang = {};
 
   TextData(String key) : super(key);
   TextData.fromJson(String key, Map map) : super(key) {
-    Map? supportLangMap = map["supportLang"];
-    if (supportLangMap != null) {
-      for (final key in supportLangMap.keys) {
-        supportLang[key] = supportLangMap[key] ?? false;
-      }
-    }
   }
 }
 

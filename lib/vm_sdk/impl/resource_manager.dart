@@ -13,6 +13,8 @@ class ResourceManager {
   final Map<String, StickerData> _stickerMap = <String, StickerData>{};
   final Map<String, TextData> _textMap = <String, TextData>{};
   final Map<EMusicStyle, List<TemplateData>> _templateMap = {};
+  
+  final Map<String, Map<String, String>> _replaceFontMap = {};
 
   static ResourceManager getInstance() {
     _instance ??= ResourceManager();
@@ -118,6 +120,17 @@ class ResourceManager {
       _textMap[key] = TextData.fromJson(key, map);
       _textMap[key]!.isEnableAutoEdit = textJsonMap[key]["enable"];
     }
+
+    final replaceFontJsonMap = jsonDecode(await loadResourceString("data/replace-font.json"));
+
+    for (final String fontFamily in replaceFontJsonMap.keys) {
+      final Map map = replaceFontJsonMap[fontFamily];
+      
+      _replaceFontMap[fontFamily] = {};
+      for (final lang in map.keys) {
+        _replaceFontMap[fontFamily]![lang] = map[lang];
+      }
+    }
   }
 
   Future<void> loadResourceMap() async {
@@ -181,11 +194,9 @@ class ResourceManager {
     return map;
   }
 
-  List<String> getTextList({bool autoEditOnly = true, language = "ko"}) {
+  List<String> getTextList({bool autoEditOnly = true}) {
     return _textMap.keys
         .where((key) =>
-            _textMap[key]!.supportLang[language] != null &&
-            _textMap[key]!.supportLang[language]! == true &&
             (!autoEditOnly || _textMap[key]!.isEnableAutoEdit))
         .map<String>((key) => key)
         .toList();
@@ -218,6 +229,14 @@ class ResourceManager {
     EMusicStyle picked = keys[pickedIndex];
 
     return _templateMap[picked]!;
+  }
+
+  String getReplaceFont(String fontFamily, String language) {
+    if (_replaceFontMap.containsKey(fontFamily) && _replaceFontMap[fontFamily]!.containsKey(language)) {
+      return _replaceFontMap[fontFamily]![language]!;
+    }
+
+    return fontFamily;
   }
 
   Future<void> loadResourceFromAssets(

@@ -677,7 +677,7 @@
         }
     },
     "Title_JH004": {
-        "enable": true,
+        "enable": false,
         "supportLang": {
             "en": true,
             "ko": false
@@ -685,7 +685,8 @@
         "supportLine": {
             "ONE": true,
             "TWO": true
-        }
+        },
+        "desc": "UNABLE TO USE"
     },
     "Title_JH005": {
         "enable": false,

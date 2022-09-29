@@ -81,128 +81,134 @@
     }
 
     async function setData({ fontFamily, base64, json, texts }) {
-        let sleepCount = 1;
-        while (!isInitialized) {
-            sleepCount++
-            await sleep(200)
-            if (sleepCount > 10) return
-        }
-
-        const fontBase64 = base64
-        console.log(`setData is called..`)
-        currentFontFamily = fontFamily
-        currentFontFilename = []
-        currentFontBase64 = fontBase64
-        currentJson = json
-        boundingBoxTexts = texts
-        openTypeFont = []
-
-        //const elements1 = document.getElementsByClassName("lottie-for-font-load-temporary-tags")
-        //while (elements1.length > 0) {
-        //    elements1[0].parentNode.removeChild(elements1[0])
-        //}
-
-        //const elements2 = document.getElementsByClassName("font-tags")
-        //while (elements2.length > 0) {
-        //    elements2[0].parentNode.removeChild(elements2[0])
-        //}
-
-        for (let i = 0; i < currentFontBase64.length; i++) {
-            openTypeFont.push(opentype.parse(base64ToArrayBuffer(currentFontBase64[i])))
-        }
-
-        while (styleList.length > 0) {
-            const s = styleList.pop()
-            document.head.removeChild(s)
-        }
-
-        for (let i = 0; i < currentFontFamily.length; i++) {
-            const styleEl = document.createElement('style')
-            styleEl.className = `font-tags`
-            // styleEl.innerHTML = `
-            //     @font-face {
-            //         font-family: ${currentFontFamily[i]};
-            //         src: url("${currentFontFilename[i]}");
-            //     }
-            // `
-            styleEl.innerHTML = `
-                @font-face {
-                    font-family: ${currentFontFamily[i]};
-                    src: url(data:application/font-woff;charset=utf-8;base64,${currentFontBase64[i]});
-                }
-            `
-
-            document.head.appendChild(styleEl)
-            styleList.push(styleEl)
-
-            const div = document.createElement('div')
-            div.className = `lottie-for-font-load-temporary-tags`
-            div.style.position = 'absolute'
-            div.style.left = '-99999px'
-            div.style.fontFamily = currentFontFamily[i]
-            div.style.visibility = 'hidden'
-            div.innerText = currentFontFamily[i]
-            document.body.appendChild(div)
-
-            // 최대 60초동안 로드
-            for (let x = 0; x < 100; x++) {
-                await sleep(100)
-                console.log(currentFontFamily[i], document.fonts.check(`12px ${currentFontFamily[i]}`))
-                if (document.fonts.check(`12px ${currentFontFamily[i]}`)) break
+        try {
+            let sleepCount = 1;
+            while (!isInitialized) {
+                sleepCount++
+                await sleep(200)
+                if (sleepCount > 10) return
             }
-        }
-
-        const { assets, layers } = currentJson
-        const textCompMap = {}
-
-        console.log('111111111111111111111111');
-
-        assets.forEach(item => {
-            if (item.nm && typeof item.nm === 'string' && item.nm.toLowerCase().startsWith('#text')) {
-                textCompMap[item.nm] = item
+    
+            const fontBase64 = base64
+            console.log(`setData is called..`)
+            currentFontFamily = fontFamily
+            currentFontFilename = []
+            currentFontBase64 = fontBase64
+            currentJson = json
+            boundingBoxTexts = texts
+            openTypeFont = []
+    
+            //const elements1 = document.getElementsByClassName("lottie-for-font-load-temporary-tags")
+            //while (elements1.length > 0) {
+            //    elements1[0].parentNode.removeChild(elements1[0])
+            //}
+    
+            //const elements2 = document.getElementsByClassName("font-tags")
+            //while (elements2.length > 0) {
+            //    elements2[0].parentNode.removeChild(elements2[0])
+            //}
+    
+            for (let i = 0; i < currentFontBase64.length; i++) {
+                openTypeFont.push(opentype.parse(base64ToArrayBuffer(currentFontBase64[i])))
             }
-        })
-        layers.forEach(item => {
-            if (item.nm && typeof item.nm == 'string' && item.nm.toLowerCase().startsWith('@preview')) {
-                previewFrameNumber = parseInt(item.ip)
+    
+            while (styleList.length > 0) {
+                const s = styleList.pop()
+                document.head.removeChild(s)
             }
-        })
-
-        console.log('222222222222222222222222');
-        textComps = Object.keys(textCompMap)
-        textComps.sort((a, b) => a > b ? 1 : a < b ? -1 : 0)
-        console.log(textComps.join('\n'))
-        console.log(textCompMap)
-
-        const replaceText = (layers, text) => {
-            let originalText = ''
-            if (!text) text = ''
-
-            for (let i = 0; i < layers.length; i++) {
-                const layer = layers[i]
-                if (layer.nm === '@Source') {
-                    originalText = String(layer.t.d.k[0].s.t)
-                    layer.t.d.k[0].s.t = text
-                    console.log(layer)
-                    break
+    
+            for (let i = 0; i < currentFontFamily.length; i++) {
+                const styleEl = document.createElement('style')
+                styleEl.className = `font-tags`
+                // styleEl.innerHTML = `
+                //     @font-face {
+                //         font-family: ${currentFontFamily[i]};
+                //         src: url("${currentFontFilename[i]}");
+                //     }
+                // `
+                styleEl.innerHTML = `
+                    @font-face {
+                        font-family: ${currentFontFamily[i]};
+                        src: url(data:application/font-woff;charset=utf-8;base64,${currentFontBase64[i]});
+                    }
+                `
+    
+                document.head.appendChild(styleEl)
+                styleList.push(styleEl)
+    
+                const div = document.createElement('div')
+                div.className = `lottie-for-font-load-temporary-tags`
+                div.style.position = 'absolute'
+                div.style.left = '-99999px'
+                div.style.fontFamily = currentFontFamily[i]
+                div.style.visibility = 'hidden'
+                div.innerText = currentFontFamily[i]
+                document.body.appendChild(div)
+    
+                // 최대 60초동안 로드
+                for (let x = 0; x < 100; x++) {
+                    await sleep(100)
+                    console.log(currentFontFamily[i], document.fonts.check(`12px ${currentFontFamily[i]}`))
+                    if (document.fonts.check(`12px ${currentFontFamily[i]}`)) break
                 }
             }
-            layers.forEach(layer => {
-                if (layer.t &&
-                    layer.t.d &&
-                    layer.t.d.k &&
-                    layer.t.d.k[0] &&
-                    layer.t.d.k[0].s &&
-                    layer.t.d.k[0].s.t &&
-                    layer.t.d.k[0].s.t === originalText
-                ) {
-                    layer.t.d.k[0].s.t = text
+    
+            const { assets, layers } = currentJson
+            const textCompMap = {}
+    
+            console.log('111111111111111111111111');
+    
+            assets.forEach(item => {
+                if (item.nm && typeof item.nm === 'string' && item.nm.toLowerCase().startsWith('#text')) {
+                    textCompMap[item.nm] = item
                 }
             })
+            layers.forEach(item => {
+                if (item.nm && typeof item.nm == 'string' && item.nm.toLowerCase().startsWith('@preview')) {
+                    previewFrameNumber = parseInt(item.ip)
+                }
+            })
+    
+            console.log('222222222222222222222222');
+            textComps = Object.keys(textCompMap)
+            textComps.sort((a, b) => a > b ? 1 : a < b ? -1 : 0)
+            console.log(textComps.join('\n'))
+            console.log(textCompMap)
+    
+            const replaceText = (layers, text) => {
+                let originalText = ''
+                if (!text) text = ''
+    
+                for (let i = 0; i < layers.length; i++) {
+                    const layer = layers[i]
+                    if (layer.nm === '@Source') {
+                        originalText = String(layer.t.d.k[0].s.t)
+                        layer.t.d.k[0].s.t = text
+                        console.log(layer)
+                        break
+                    }
+                }
+                layers.forEach(layer => {
+                    if (layer.t &&
+                        layer.t.d &&
+                        layer.t.d.k &&
+                        layer.t.d.k[0] &&
+                        layer.t.d.k[0].s &&
+                        layer.t.d.k[0].s.t &&
+                        layer.t.d.k[0].s.t === originalText
+                    ) {
+                        layer.t.d.k[0].s.t = text
+                    }
+                })
+            }
+            textComps.forEach((name, index) => {
+                replaceText(textCompMap[name].layers, texts[index])
+            })
         }
-        textComps.forEach((name, index) => {
-            replaceText(textCompMap[name].layers, texts[index])
-        })
+        catch (e) {
+            console.log(e)
+            throw e
+        }
     }
 
     let isInitialized = false
@@ -223,10 +229,10 @@
             images[0].parentNode.removeChild(images[0]);
         }
 
-        // setData({
+        // await setData({
         //     fontFamily: loadedFontFamily,
         //     fontFilename: loadedFontFilename,
-        //     fontBase64: loadedFontBase64,
+        //     base64: loadedFontBase64,
         //     json: loadedJson,
         //     texts: [ 'THIS IS VIMON', 'FANCY-TITLE!!' ]
         // })
@@ -241,10 +247,10 @@
             images[0].parentNode.removeChild(images[0]);
         }
 
-        // setData({
+        // await setData({
         //     fontFamily: loadedFontFamily,
         //     fontFilename: loadedFontFilename,
-        //     fontBase64: loadedFontBase64,
+        //     base64: loadedFontBase64,
         //     json: loadedJson,
         //     texts: [ 'THIS IS VIMON', 'FANCY-TITLE!!' ]
         // })
