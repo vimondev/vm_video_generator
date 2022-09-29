@@ -75,6 +75,9 @@ class VMSDKWidget extends StatelessWidget {
       templateList.removeAt(randIdx);
     }
 
+    mediaList = await _filterNotExistsMedia(mediaList);
+    mediaList = await _scaleImageMedia(mediaList);
+
     final AllEditedData allEditedData = await generateAllEditedData(
         mediaList, style, randomSortedTemplateList, isAutoEdit);
 
@@ -162,18 +165,29 @@ class VMSDKWidget extends StatelessWidget {
     return result;
   }
 
-  Future<List<EditedMedia>> _filterNotExistsMedia(List<EditedMedia> editedMediaList) async {
-    List<EditedMedia> result = [];
+  Future<List<MediaData>> _filterNotExistsMedia(List<MediaData> mediaList) async {
+    List<MediaData> result = [];
 
-    for (final editedMedia in editedMediaList) {
-      final media = editedMedia.mediaData;
-
+    for (final media in mediaList) {
       final File file = File(media.absolutePath);
       final bool isExists = await file.exists();
 
       if (isExists) {
-        result.add(editedMedia);
+        result.add(media);
       }
+    }
+
+    return result;
+  }
+
+  Future<List<MediaData>> _scaleImageMedia(List<MediaData> mediaList) async {
+    List<MediaData> result = [];
+
+    for (int i=0; i<mediaList.length; i++) {
+      final media = mediaList[i];
+      MediaData newMedia = await scaleImageMedia(media, i);
+
+      result.add(newMedia);
     }
 
     return result;
@@ -186,8 +200,6 @@ class VMSDKWidget extends StatelessWidget {
       Function(EGenerateStatus status, double progress)?
           progressCallback) async {
     try {
-      editedMediaList = await _filterNotExistsMedia(editedMediaList);
-
       await ResourceManager.getInstance()
           .loadResourceFromAssets(editedMediaList, ratio);
 
