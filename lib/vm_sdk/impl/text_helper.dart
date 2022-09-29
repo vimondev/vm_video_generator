@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import '../types/types.dart';
 import 'resource_manager.dart';
 import 'resource_fetch_helper.dart';
@@ -17,8 +19,15 @@ Future<TextWidgetData?> loadTextWidgetData(String id, int lineCount) async {
 
   String json = await loadResourceString("raw/lottie-jsons/$filename");
 
+  String locale = Platform.localeName;
+  if (locale.contains("_")) {
+    locale = locale.split("_")[0];
+  }
+
+  print(locale);
+
   for (int i=0; i<fontFamily.length; i++) {
-    String replaceFontfamily = ResourceManager.getInstance().getReplaceFont(fontFamily[i], "th");
+    String replaceFontfamily = ResourceManager.getInstance().getReplaceFont(fontFamily[i], locale);
     if (replaceFontfamily.compareTo(fontFamily[i]) != 0) {
       print(replaceFontfamily);
       json = json.replaceAll("\"${fontFamily[i]}\"", "\"$replaceFontfamily\"");
