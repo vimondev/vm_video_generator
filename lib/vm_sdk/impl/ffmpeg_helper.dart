@@ -497,7 +497,7 @@ Future<RenderedData> applyFadeOut(List<RenderedData> clips) async {
   }
 
   filterComplexStr +=
-      "concat=n=${clips.length}:v=1:a=1[outv][outa];[outv]fade=t=out:st=${totalDuration - 5}:d=4[faded]";
+      "concat=n=${clips.length}:v=1:a=1[outv][outa];[outv]fade=t=out:st=${totalDuration - 1.5}:d=1.5[faded]";
 
   arguments.addAll(inputArguments);
   arguments.addAll(["-filter_complex", filterComplexStr]);

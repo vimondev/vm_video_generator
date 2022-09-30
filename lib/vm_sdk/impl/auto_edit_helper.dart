@@ -501,6 +501,17 @@ Future<AllEditedData> generateAllEditedData(
     }
   }
 
+  final lastEditedMedia = allEditedData.editedMediaList[allEditedData.editedMediaList.length - 1];
+  if (lastEditedMedia.mediaData.type == EMediaType.image) {
+    lastEditedMedia.duration = 5;
+  }
+  else {
+    if (lastEditedMedia.duration < 5 && lastEditedMedia.mediaData.duration! >= 5) {
+      lastEditedMedia.startTime = 0;
+      lastEditedMedia.duration = 5;
+    }
+  }
+
   //////////////////
   // DETECT RATIO //
   //////////////////
