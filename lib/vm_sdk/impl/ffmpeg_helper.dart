@@ -497,7 +497,7 @@ Future<RenderedData> applyFadeOut(List<RenderedData> clips) async {
   }
 
   filterComplexStr +=
-      "concat=n=${clips.length}:v=1:a=1[outv][outa];[outv]fade=t=out:st=${totalDuration - 2}:d=1.5[faded]";
+      "concat=n=${clips.length}:v=1:a=1[outv][outa];[outv]fade=t=out:st=${totalDuration - 1.5}:d=1.5[faded]";
 
   arguments.addAll(inputArguments);
   arguments.addAll(["-filter_complex", filterComplexStr]);
@@ -863,6 +863,51 @@ Future<String?> extractThumbnail(EditedMedia editedMedia, int clipIdx) async {
 
   await _ffmpegManager.execute(arguments, null);
   return outputPath;
+}
+
+Future<MediaData> scaleImageMedia( MediaData mediaData, int clipIdx) async {
+  final List<String> arguments = <String>[];
+  final String appDirPath = await getAppDirectoryPath();
+  final String outputPath = "$appDirPath/scaled_image_$clipIdx.jpg";
+
+  final List<String> inputArguments = <String>[];
+  final List<String> filterStrings = <String>[];
+
+  if (mediaData.type == EMediaType.video) return mediaData;
+
+  int scaledTargetSize = 1920;
+  double imageScaleFactor = 1.0;
+
+  if (mediaData.width <= scaledTargetSize && mediaData.height <= scaledTargetSize) return mediaData;
+  inputArguments.addAll(["-i", mediaData.absolutePath]);
+
+  if (mediaData.width >= mediaData.height) {
+    imageScaleFactor = scaledTargetSize / mediaData.width;
+  }
+  else {
+    imageScaleFactor = scaledTargetSize / mediaData.height;
+  }
+
+  int scaledWidth = (mediaData.width * imageScaleFactor).floor();
+  int scaledHeight = (mediaData.height * imageScaleFactor).floor();
+
+  scaledWidth -= scaledWidth % 2;
+  scaledHeight -= scaledHeight % 2;
+
+  filterStrings.add(
+      "${_getTransposeFilter(mediaData.orientation)}scale=$scaledWidth:$scaledHeight,setdar=dar=${scaledWidth / scaledHeight}");
+
+  String filterComplexStr = "";
+  for (final String filterStr in filterStrings) {
+    filterComplexStr += filterStr;
+  }
+
+  arguments.addAll(inputArguments);
+  arguments.addAll(["-filter_complex", filterComplexStr]);
+  arguments.addAll([outputPath, "-y"]);
+
+  await _ffmpegManager.execute(arguments, null);
+  return MediaData(outputPath, mediaData.type, scaledWidth, scaledHeight, 0, mediaData.duration, mediaData.createDate, mediaData.gpsString, mediaData.mlkitDetected);
 }
 
 int getFramerate() {

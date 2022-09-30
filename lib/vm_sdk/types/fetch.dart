@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'global.dart';
 import '../impl/type_helper.dart';
 
@@ -119,4 +121,16 @@ class FontFetchModel {
       source = SourceModel.fromJson(sourceMap);
     }
   }
+}
+
+class DownloadResourceResponse {
+  String filename;
+  File file;
+  
+  DownloadResourceResponse(this.filename, this.file);
+}
+
+class DownloadFontResponse extends DownloadResourceResponse {
+  String base64;
+  DownloadFontResponse(String filename, File file, this.base64) : super(filename, file);
 }

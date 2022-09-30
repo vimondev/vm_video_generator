@@ -67,7 +67,7 @@ Future<List<StickerFetchModel>> fetchStickers() async {
   return list.map<StickerFetchModel>((map) => StickerFetchModel.fromJson(map)).toList();
 }
 
-Future<File> downloadResource(String filename, String url) async {
+Future<DownloadResourceResponse> downloadResource(String filename, String url) async {
   final Response response = await httpGet(url, null);
   if (response.contentLength == 0) {
     throw Exception("ERR_RESOURCE_DOWNLOAD_FAILED");
@@ -79,10 +79,10 @@ Future<File> downloadResource(String filename, String url) async {
 
   print(file.path);
 
-  return file;
+  return DownloadResourceResponse(filename, file);
 }
 
-Future<File> downloadFont(String fontFamily, String fontFileName) async {
+Future<DownloadFontResponse> downloadFont(String fontFamily) async {
   final Response response = await httpGet("/fonts?fontFamily=$fontFamily&pageSize=99999", null);
   final result = jsonDecode(response.body);
 
@@ -90,12 +90,15 @@ Future<File> downloadFont(String fontFamily, String fontFileName) async {
   if (list.isEmpty) throw Exception("ERR_FONT_NOT_FOUND");
 
   for (int i=0; i<list.length; i++) {
-    final source = FontFetchModel.fromJson(list[i]).source!;
-    if (source.name == fontFileName) {
-      return await downloadResource(source.name, source.url);    
+    final font = FontFetchModel.fromJson(list[i]);
+    if (font.fontFamily.compareTo(fontFamily) == 0) {
+      DownloadResourceResponse res = await downloadResource(font.source!.name, font.source!.url);
+      return DownloadFontResponse(res.filename, res.file, base64.encode(await res.file.readAsBytes()));
     }
   }
 
   final source = FontFetchModel.fromJson(list[0]).source!;
-  return await downloadResource(source.name, source.url);
+  DownloadResourceResponse res = await downloadResource(source.name, source.url);
+
+  return DownloadFontResponse(res.filename, res.file, base64.encode(await res.file.readAsBytes()));
 }

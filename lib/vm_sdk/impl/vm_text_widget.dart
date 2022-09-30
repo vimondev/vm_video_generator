@@ -67,13 +67,22 @@ class VMTextWidget extends StatelessWidget {
   String? get allSequencesPath => _allSequencesPath;
   List<String> get allSequencePaths => _allSequencePaths;
 
-  Future<void> loadText(String id, int lineCount) async {
+  Future<void> loadText(String id, { int lineCount = 1 }) async {
     _id = id;
     _data = (await loadTextWidgetData(id, lineCount))!;
     if (_data == null) return;
 
     _data!.texts.add("THIS IS TITLE!");
     _data!.texts.add("This is sub-title");
+
+    // _data!.texts.add("パスワードを再確認してください。");
+    // _data!.texts.add("パスワードを再確認してください。");
+
+    // _data!.texts.add("Sẵn sàng tiệc chưa?");
+    // _data!.texts.add("Sẵn sàng tiệc chưa?");
+
+    // _data!.texts.add("วิดีโอที่คุณสร้างกำลังรอคุณอยู่");
+    // _data!.texts.add("วิดีโอที่คุณสร้างกำลังรอคุณอยู่");
 
     await extractPreview();
   }

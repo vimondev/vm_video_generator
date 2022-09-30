@@ -6,12 +6,6 @@ import 'resource_fetch_helper.dart';
 import 'global_helper.dart';
 import 'dart:convert';
 
-Future<String> _loadFontBase64(String fontFamily, String fontFileName) async {
-  // return await loadResourceBase64("raw/fonts/$fontFileName");
-  File file = await downloadFont(fontFamily, fontFileName);
-  return base64.encode(await file.readAsBytes());
-}
-
 Future<TextWidgetData?> loadTextWidgetData(String id, int lineCount) async {
   if (ResourceManager.getInstance().getTextData(id) == null) return null;
 
@@ -22,17 +16,39 @@ Future<TextWidgetData?> loadTextWidgetData(String id, int lineCount) async {
       id.toString().startsWith("Caption") ? ETextType.Caption : ETextType.Title;
   final String filename = loadedMap["filename"];
   final List<String> fontFamily = List<String>.from(loadedMap["fontFamily"]);
-  final List<String> fontFileName =
-      List<String>.from(loadedMap["fontFileName"]);
 
-  final String json = await loadResourceString("raw/lottie-jsons/$filename");
+  String json = await loadResourceString("raw/lottie-jsons/$filename");
 
-  List<Future<String>> loadFontBase64Futures = [];
-  for (int i = 0; i < fontFamily.length; i++) {
-    loadFontBase64Futures.add(_loadFontBase64(fontFamily[i], fontFileName[i]));
+  String locale = Platform.localeName;
+  if (locale.contains("_")) {
+    locale = locale.split("_")[0];
+  }
+  
+  print(locale);
+
+  switch (locale) {
+    case "vi":
+    case "es":
+      locale = "th";
+      break;
+
+    default: break;
   }
 
-  List<String> fontBase64 = await Future.wait(loadFontBase64Futures);
+  for (int i=0; i<fontFamily.length; i++) {
+    String replaceFontfamily = ResourceManager.getInstance().getReplaceFont(fontFamily[i], locale);
+    if (replaceFontfamily.compareTo(fontFamily[i]) != 0) {
+      print(replaceFontfamily);
+      json = json.replaceAll("\"${fontFamily[i]}\"", "\"$replaceFontfamily\"");
+      fontFamily[i] = replaceFontfamily;
+    }
+  }
+
+  List<Future<DownloadFontResponse>> loadFontBase64Futures = [];
+  for (int i = 0; i < fontFamily.length; i++) {
+    loadFontBase64Futures.add(downloadFont(fontFamily[i]));
+  }
+  List<String> fontBase64 = (await Future.wait(loadFontBase64Futures)).map<String>((item) => item.base64).toList();
 
   return TextWidgetData(type, json, fontFamily, fontBase64);
 }

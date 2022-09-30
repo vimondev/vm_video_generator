@@ -156,14 +156,18 @@ Future<AllEditedData> generateAllEditedData(
   print("curSpeed : $speed");
 
   bool isUseTemplateDuration = false;
-  switch (speed) {
-    case "MM":
-    case "F":
-    case "FF":
-      isUseTemplateDuration = true;
-      break;
 
-    default: break;
+  if (list.length >= 10) {
+    switch (speed) {
+      case "MM":
+      case "F":
+      case "FF":
+        isUseTemplateDuration = true;
+        break;
+
+      default:
+        break;
+    }
   }
 
   ////////////////////////////////////
@@ -497,6 +501,17 @@ Future<AllEditedData> generateAllEditedData(
     }
   }
 
+  final lastEditedMedia = allEditedData.editedMediaList[allEditedData.editedMediaList.length - 1];
+  if (lastEditedMedia.mediaData.type == EMediaType.image) {
+    lastEditedMedia.duration = 5;
+  }
+  else {
+    if (lastEditedMedia.duration < 5 && lastEditedMedia.mediaData.duration! >= 5) {
+      lastEditedMedia.startTime = 0;
+      lastEditedMedia.duration = 5;
+    }
+  }
+
   //////////////////
   // DETECT RATIO //
   //////////////////
@@ -763,7 +778,7 @@ Future<AllEditedData> generateAllEditedData(
     MusicData musicData = musicList[musicIndex % musicList.length];
     allEditedData.musicList.add(musicData);
 
-    final File file = await downloadResource(musicData.filename, musicData.url);
+    final File file = (await downloadResource(musicData.filename, musicData.url)).file;
     musicData.absolutePath = file.path;
 
     print(musicData.filename);
