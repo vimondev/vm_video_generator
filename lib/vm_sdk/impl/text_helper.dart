@@ -23,8 +23,17 @@ Future<TextWidgetData?> loadTextWidgetData(String id, int lineCount) async {
   if (locale.contains("_")) {
     locale = locale.split("_")[0];
   }
-
+  
   print(locale);
+
+  switch (locale) {
+    case "vi":
+    case "es":
+      locale = "th";
+      break;
+
+    default: break;
+  }
 
   for (int i=0; i<fontFamily.length; i++) {
     String replaceFontfamily = ResourceManager.getInstance().getReplaceFont(fontFamily[i], locale);
