@@ -156,14 +156,18 @@ Future<AllEditedData> generateAllEditedData(
   print("curSpeed : $speed");
 
   bool isUseTemplateDuration = false;
-  switch (speed) {
-    case "MM":
-    case "F":
-    case "FF":
-      isUseTemplateDuration = true;
-      break;
 
-    default: break;
+  if (list.length >= 10) {
+    switch (speed) {
+      case "MM":
+      case "F":
+      case "FF":
+        isUseTemplateDuration = true;
+        break;
+
+      default:
+        break;
+    }
   }
 
   ////////////////////////////////////

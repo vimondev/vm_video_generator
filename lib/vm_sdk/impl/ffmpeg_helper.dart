@@ -497,7 +497,7 @@ Future<RenderedData> applyFadeOut(List<RenderedData> clips) async {
   }
 
   filterComplexStr +=
-      "concat=n=${clips.length}:v=1:a=1[outv][outa];[outv]fade=t=out:st=${totalDuration - 2}:d=1.5[faded]";
+      "concat=n=${clips.length}:v=1:a=1[outv][outa];[outv]fade=t=out:st=${totalDuration - 5}:d=4[faded]";
 
   arguments.addAll(inputArguments);
   arguments.addAll(["-filter_complex", filterComplexStr]);
@@ -875,7 +875,7 @@ Future<MediaData> scaleImageMedia( MediaData mediaData, int clipIdx) async {
 
   if (mediaData.type == EMediaType.video) return mediaData;
 
-  int scaledTargetSize = 1440;
+  int scaledTargetSize = 1920;
   double imageScaleFactor = 1.0;
 
   if (mediaData.width <= scaledTargetSize && mediaData.height <= scaledTargetSize) return mediaData;

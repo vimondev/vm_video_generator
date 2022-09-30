@@ -336,7 +336,7 @@ class VMSDKWidget extends StatelessWidget {
           fadeOutClips.add(lastClip);
           
           curDuration += lastClip.duration;
-          if (curDuration >= 3) {
+          if (curDuration >= 5) {
             final RenderedData fadeOutApplied =
                 await applyFadeOut(fadeOutClips.reversed.toList());
 
