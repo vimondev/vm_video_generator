@@ -804,7 +804,7 @@ Future<RenderedData> applyMusics(
   }
 
   filterStrings.addAll([
-    "[0:a][bgm_volume_applied]amix=inputs=2:dropout_transition=99999,volume=2[merged];[merged]atrim=0:${mergedClip.duration}[trimed];[trimed]afade=t=out:st=${max(mergedClip.duration - _fadeDuration, 0)}:d=$_fadeDuration[out]"
+    "[0:a]volume=0.8[merge_audio];[merge_audio][bgm_volume_applied]amix=inputs=2:dropout_transition=99999,volume=2[merged];[merged]atrim=0:${mergedClip.duration}[trimed];[trimed]afade=t=out:st=${max(mergedClip.duration - _fadeDuration, 0)}:d=$_fadeDuration[out]"
   ]);
 
   String filterComplexStr = "";
