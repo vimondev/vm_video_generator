@@ -28,8 +28,8 @@ class _TestWidgetState extends State<TestWidget> {
 
   final FFMpegManager _ffmpegManager = FFMpegManager();
 
-  void updateTextCallback(String key, String text) async {
-    await _vmTextWidget.setTextValue(key, text);
+  void updateTextCallback(int index, String text) async {
+    // await _vmTextWidget.setTextValue(index, text);
 
     String? preview = _vmTextWidget.previewImagePath;
     setState(() {
@@ -80,7 +80,12 @@ class _TestWidgetState extends State<TestWidget> {
         print('text is $currentText');
         print('_currentIndex is $i / ${allTexts.length}');
 
-        await _vmTextWidget.loadText(currentText, lineCount: 2);
+
+        await _vmTextWidget.loadText(currentText, initTexts: ["첫번째줄 테스트", "두번째줄 테스트"]);
+
+        // await _vmTextWidget.setTextValue(["UPDATED TEXT 1", "UPDATED TEXT 2"]);
+        // await _vmTextWidget.setTextValue(["UPDATED TEXT ONE LINE"]);
+
         // await _vmTextWidget.extractAllSequence((progress) => {});
 
         final String appDirPath = await getAppDirectoryPath();
@@ -150,8 +155,11 @@ class _TestWidgetState extends State<TestWidget> {
     ));
 
     if (isPreview) {
-      for (final VMText vmText in _vmTextWidget.textDataMap.values) {
+      final textList = _vmTextWidget.textDataMap.values.toList();
+      for (int i=0; i<textList.length; i++) {
+        final VMText vmText = textList[i];
         list.add(RectangleBox(
+          index: i,
           mediaWidth: MediaQuery.of(context).size.width,
           width: _vmTextWidget.width,
           height: _vmTextWidget.height,
@@ -198,6 +206,7 @@ class _TestWidgetState extends State<TestWidget> {
 }
 
 class RectangleBox extends StatefulWidget {
+  int index;
   double mediaWidth;
   double width;
   double height;
@@ -206,6 +215,7 @@ class RectangleBox extends StatefulWidget {
 
   RectangleBox({
     Key? key,
+    required this.index,
     required this.mediaWidth,
     required this.width,
     required this.height,
@@ -233,7 +243,7 @@ class _RectangleBoxState extends State<RectangleBox> {
         if (diff <= -1) {
           if (_textController.text.isEmpty) {
           } else {
-            widget.updateTextCallback(widget.vmText.key, _textController.text);
+            widget.updateTextCallback(widget.index, _textController.text);
           }
         }
       });

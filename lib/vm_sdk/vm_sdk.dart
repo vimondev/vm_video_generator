@@ -84,13 +84,8 @@ class VMSDKWidget extends StatelessWidget {
     List<String> textIds = ResourceManager.getInstance().getTextList();
     final String pickedTextId =
         textIds[(Random()).nextInt(textIds.length) % textIds.length];
-    await _textWidget.loadText(pickedTextId, lineCount: texts.length);
+    await _textWidget.loadText(pickedTextId, initTexts: texts);
 
-    for (int i = 0; i < texts.length; i++) {
-      final String key = "#TEXT${(i + 1)}";
-      await _textWidget.setTextValue(key, texts[i],
-          isExtractPreviewImmediate: false);
-    }
     await _textWidget.extractAllSequence((progress) {
       if (progressCallback != null) {
         progressCallback(_currentStatus, progress * _titleExportPercentage);

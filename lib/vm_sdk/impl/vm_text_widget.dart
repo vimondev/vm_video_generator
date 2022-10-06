@@ -67,13 +67,12 @@ class VMTextWidget extends StatelessWidget {
   String? get allSequencesPath => _allSequencesPath;
   List<String> get allSequencePaths => _allSequencePaths;
 
-  Future<void> loadText(String id, { int lineCount = 1 }) async {
+  Future<void> loadText(String id, { List<String>? initTexts }) async {
     _id = id;
-    _data = (await loadTextWidgetData(id, lineCount))!;
+    _data = (await loadTextWidgetData(id, initTexts?.length ?? 1))!;
     if (_data == null) return;
 
-    _data!.texts.add("THIS IS TITLE!");
-    _data!.texts.add("This is sub-title");
+    _data!.texts.addAll(initTexts ?? [ "THIS IS TITLE!" ]);
 
     // _data!.texts.add("パスワードを再確認してください。");
     // _data!.texts.add("パスワードを再確認してください。");
@@ -87,18 +86,12 @@ class VMTextWidget extends StatelessWidget {
     await extractPreview();
   }
 
-  Future<void> setTextValue(String key, String value,
+  Future<void> setTextValue(List<String> values,
       {bool isExtractPreviewImmediate = true}) async {
     if (_data == null) return;
 
-    final List<VMText> texts = _textDataMap.values.toList();
-    for (int i = 0; i < texts.length; i++) {
-      VMText text = texts[i];
-      if (text.key == key) {
-        _data!.texts[i] = value;
-        break;
-      }
-    }
+    _data!.texts = [];
+    _data!.texts.addAll(values);
 
     if (isExtractPreviewImmediate) {
       await extractPreview();
