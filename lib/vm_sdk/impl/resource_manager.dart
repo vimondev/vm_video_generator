@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import '../types/types.dart';
@@ -119,6 +120,7 @@ class ResourceManager {
       final Map map = textJsonMap[key];
       _textMap[key] = TextData.fromJson(key, map);
       _textMap[key]!.isEnableAutoEdit = textJsonMap[key]["enable"];
+      _textMap[key]!.unsupportLang = textJsonMap[key]["unsupportLang"];
     }
 
     final replaceFontJsonMap = jsonDecode(await loadResourceString("data/replace-font.json"));
@@ -195,9 +197,14 @@ class ResourceManager {
   }
 
   List<String> getTextList({bool autoEditOnly = true}) {
+    String locale = Platform.localeName;
+    if (locale.contains("_")) {
+      locale = locale.split("_")[0].toLowerCase();
+    }
+
     return _textMap.keys
         .where((key) =>
-            (!autoEditOnly || _textMap[key]!.isEnableAutoEdit))
+            ((!autoEditOnly) || (_textMap[key]!.isEnableAutoEdit && !_textMap[key]!.unsupportLang.containsKey(locale))))
         .map<String>((key) => key)
         .toList();
   }

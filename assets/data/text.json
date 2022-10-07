@@ -1,1497 +1,663 @@
 {
     "Title_DA001": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_DA002": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_DA003": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_DA004": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_DA005": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_DA006": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_DA007": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_DA008": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_DA009": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_DA010": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        },
+        "unsupportLang": {},
         "desc": "HEAVY"
     },
     "Title_DA011": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_DA012": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_DA013": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_DA014": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_DA015": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_DA016": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_DA017": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_DA018": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_DA019": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        },
+        "unsupportLang": {},
         "desc": "HEAVY"
     },
     "Title_DA020": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_DA021": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_DA022": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_DA023": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_DA024": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_DA025": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": false
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_DA026": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": false
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_DA027": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": false
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_DA028": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": false
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_DA029": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": false
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_DA030": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": false
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_DA031": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": false
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_DA032": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": false
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_HJ001": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_HJ002": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": false
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_HJ003": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_HJ004": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_HJ005": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": false
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_HJ006": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": false
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_HJ007": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_HJ008": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_HJ009": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": false
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_HJ010": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_HJ011": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_HJ012": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_HJ013": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_HJ014": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": false
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_HJ015": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_HJ016": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_HJ017": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        },
+        "unsupportLang": {},
         "desc": "HEAVY"
     },
     "Title_HJ018": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        },
+        "unsupportLang": {},
         "desc": "HEAVY"
     },
     "Title_HJ019": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_HJ020": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_HJ021": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": false
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_HJ022": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": false
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_HJ023": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": false
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_HJ024": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": false
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_HJ025": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": false
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_HJ026": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": false
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_JH001": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        },
+        "unsupportLang": {},
         "desc": "HEAVY"
     },
     "Title_JH002": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        },
+        "unsupportLang": {},
         "desc": "INVALID FONT"
     },
     "Title_JH003": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": false
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_JH004": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": false
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        },
+        "unsupportLang": {},
         "desc": "UNABLE TO USE"
     },
     "Title_JH005": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        },
+        "unsupportLang": {},
         "desc": "HEAVY"
     },
     "Title_JH006": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        },
+        "unsupportLang": {},
         "desc": "HEAVY"
     },
     "Title_JH007": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        },
+        "unsupportLang": {},
         "desc": "HEAVY"
     },
     "Title_ON001": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_ON002": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_ON003": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_ON005": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_ON006": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_ON007": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_ON008": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_ON009": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_ON010": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_ON011": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_ON012": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_ON013": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_SW001": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_SW002": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_SW003": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": false
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_SW004": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_SW005": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_SW006": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_SW007": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_SW008": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": false
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_SW009": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_SW010": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        },
+        "unsupportLang": {},
         "desc": "HEAVY"
     },
     "Title_SW011": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_SW012": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_SW013": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_SW014": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_SW015": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_SW016": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_SW017": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_SW018": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": false
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_SW019": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        },
+        "unsupportLang": {},
         "desc": "HEAVY"
     },
     "Title_SW020": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        },
+        "unsupportLang": {},
         "desc": "INVALID FONT"
     },
     "Title_SW021": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_SW022": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_SW023": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        },
+        "unsupportLang": {},
         "desc": "HEAVY"
     },
     "Title_SW024": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": false
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_SW025": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": false
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_SW026": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        },
+        "unsupportLang": {},
         "desc": "HEAVY"
     },
     "Title_SW027": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        },
+        "unsupportLang": {},
         "desc": "HEAVY"
     },
     "Title_SW028": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": false
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_SW029": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": false
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_SW030": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        },
+        "unsupportLang": {},
         "desc": "HEAVY"
     },
     "Title_SW031": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": false
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_SW032": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        },
+        "unsupportLang": {},
         "desc": "HEAVY"
     },
     "Title_YJ001": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        },
+        "unsupportLang": {},
         "desc": "HEAVY"
     },
     "Title_YJ002": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_YJ003": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_YJ004": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_YJ005": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": false
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_YJ006": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_YJ007": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_YJ008": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_YJ009": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        },
+        "unsupportLang": {},
         "desc": "HEAVY"
     },
     "Title_YJ010": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_YJ011": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_YJ012": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_YJ013": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_YJ014": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_YJ015": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_YJ016": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_YJ017": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_YJ018": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_YJ019": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_YJ020": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     },
     "Title_YJ021": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_YJ022": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_YJ023": {
         "enable": true,
-        "supportLang": {
-            "en": true,
-            "ko": false
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
+        "unsupportLang": {
+            "th": true
         }
     },
     "Title_YJ024": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": true
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        },
+        "unsupportLang": {},
         "desc": "HEAVY"
     },
     "Title_YJ025": {
         "enable": false,
-        "supportLang": {
-            "en": true,
-            "ko": false
-        },
-        "supportLine": {
-            "ONE": true,
-            "TWO": true
-        }
+        "unsupportLang": {}
     }
 }
