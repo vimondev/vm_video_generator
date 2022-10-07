@@ -110,8 +110,8 @@ class VMSDKWidget extends StatelessWidget {
     }
 
     Resolution resolution = allEditedData.resolution;
-    final int maxTextWidth = (resolution.width * 0.9).floor();
-    final int maxTextHeight = (resolution.height * 0.9).floor();
+    final int maxTextWidth = resolution.width;
+    final int maxTextHeight = resolution.height;
     
     exportedText.scale = 1;
     if (exportedText.width > maxTextWidth) {
