@@ -20,7 +20,7 @@ String parseAllEditedDataToJSON(AllEditedData allEditedData) {
     FrameData? frameData = editedMedia.frame;
     List<EditedStickerData> stickerDataList = editedMedia.stickers;
     TransitionData? transitionData = editedMedia.transition;
-    TextExportData? exportedText = editedMedia.exportedText;
+    List<EditedTextData> textList = editedMedia.editedTexts;
 
     String slideKey = uuid.v4();
 
@@ -46,28 +46,33 @@ String parseAllEditedDataToJSON(AllEditedData allEditedData) {
       "flip": null
     });
 
-    if (exportedText != null) {
-      overlays.add({
-        "id": uuid.v4(),
-        "type": "TEXT",
-        "rect": {
-          "x": exportedText.x,
-          "y": exportedText.y,
-          "width": exportedText.width,
-          "height": exportedText.height
-        },
-        "stickerData": {
-          "localData": {
-            "id": exportedText.id.toString(),
-            "type": "TEXT",
-            "filePath": exportedText.previewImagePath
+    for (int i = 0; i < textList.length; i++) {
+      final EditedTextData editedText = textList[i];
+      final TextExportData? exportedText = editedText.textExportData;
+
+      if (exportedText != null) {
+        overlays.add({
+          "id": uuid.v4(),
+          "type": "TEXT",
+          "rect": {
+            "x": editedText.x,
+            "y": editedText.y,
+            "width": editedText.width,
+            "height": editedText.height
           },
-          "payload": exportedText.texts
-        },
-        "scale": exportedText.scale,
-        "angle": 0,
-        "slideKey": slideKey
-      });
+          "stickerData": {
+            "localData": {
+              "id": exportedText.id.toString(),
+              "type": "TEXT",
+              "filePath": exportedText.previewImagePath
+            },
+            "payload": editedText.texts
+          },
+          "scale": 1,
+          "angle": 0,
+          "slideKey": slideKey
+        });
+      }
     }
 
     for (int j = 0; j < stickerDataList.length; j++) {
@@ -241,16 +246,39 @@ AllEditedData parseJSONToAllEditedData(String encodedJSON) {
         if (stickerData != null) {
           final EditedStickerData editedStickerData = EditedStickerData(stickerData);
 
+          editedStickerData.width = (overlay["rect"]["width"] * 1.0).floor();
+          editedStickerData.height = (overlay["rect"]["height"] * 1.0).floor();
           editedStickerData.x = overlay["rect"]["x"] * 1.0;
           editedStickerData.y = overlay["rect"]["y"] * 1.0;
-          editedStickerData.scale = overlay["scale"] * 1.0;
           editedStickerData.rotate = overlay["angle"] * 1.0;
 
           editedMedia.stickers.add(editedStickerData);
         }
       } //
       else if (overlay["type"] == "TEXT") {
-        // TO DO
+        final String textId = overlay["stickerData"]["localData"]["id"];
+        final Map payload = overlay["stickerData"]["payload"];
+
+        final TextData? textData =
+            ResourceManager.getInstance().getTextData(textId);
+
+        if (textData != null) {
+          EditedTextData editedTextData = EditedTextData(
+              textId,
+              overlay["rect"]["x"] * 1.0,
+              overlay["rect"]["y"] * 1.0,
+              overlay["rect"]["width"] * 1.0,
+              overlay["rect"]["height"] * 1.0);
+
+          if (payload.containsKey("#TEXT1")) {
+            editedTextData.texts["#TEXT1"] = payload["#TEXT1"];
+          }
+          // if (payload.containsKey("#TEXT2")) {
+          //   editedTextData.texts["#TEXT2"] = payload["#TEXT2"];
+          // }
+
+          editedMedia.editedTexts.add(editedTextData);
+        }
       }
     }
   }

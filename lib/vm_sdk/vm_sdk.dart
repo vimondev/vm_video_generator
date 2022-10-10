@@ -95,38 +95,47 @@ class VMSDKWidget extends StatelessWidget {
     if (progressCallback != null) {
       progressCallback(_currentStatus, _titleExportPercentage);
     }
-
+    
     TextExportData exportedText = TextExportData(
         pickedTextId,
-        _textWidget.width * 1.3,
-        _textWidget.height * 1.3,
+        _textWidget.width,
+        _textWidget.height,
         _textWidget.frameRate,
         _textWidget.previewImagePath!,
         _textWidget.allSequencesPath!);
 
+    EditedTextData editedTextData = EditedTextData(
+      exportedText.id,
+      0,
+      0,
+      _textWidget.width * 1.3,
+      _textWidget.height * 1.3,
+    );
+    editedTextData.textExportData = exportedText;
+
     for (int i = 0; i < texts.length; i++) {
       final String key = "#TEXT${(i + 1)}";
-      exportedText.texts[key] = texts[i];
+      editedTextData.texts[key] = texts[i];
     }
 
     Resolution resolution = allEditedData.resolution;
     final int maxTextWidth = resolution.width;
     final int maxTextHeight = resolution.height;
-    
-    exportedText.scale = 1;
-    if (exportedText.width > maxTextWidth) {
-      exportedText.scale = maxTextWidth / exportedText.width;
-    }
-    if (exportedText.height > maxTextHeight) {
-      exportedText.scale = min(maxTextHeight / exportedText.height, exportedText.scale);
-    }
 
-    exportedText.x =
-        (resolution.width / 2) - (exportedText.width * exportedText.scale / 2);
-    exportedText.y = (resolution.height / 2) -
-        (exportedText.height * exportedText.scale / 2);
+    double scale = 1.0;
+    if (editedTextData.width > maxTextWidth) {
+      scale = maxTextWidth / editedTextData.width;
+    }
+    if (editedTextData.height > maxTextHeight) {
+      scale = min(maxTextHeight / exportedText.height, scale);
+    }
+    editedTextData.width *= scale;
+    editedTextData.height *= scale;
 
-    allEditedData.editedMediaList[0].exportedText = exportedText;
+    editedTextData.x = (resolution.width / 2) - (editedTextData.width / 2);
+    editedTextData.y = (resolution.height / 2) - (editedTextData.height / 2);
+
+    allEditedData.editedMediaList[0].editedTexts.add(editedTextData);
 
     final VideoGeneratedResult result = await _runFFmpeg(
         allEditedData.editedMediaList,
@@ -150,6 +159,32 @@ class VMSDKWidget extends StatelessWidget {
       Function(EGenerateStatus status, double progress)?
           progressCallback) async {
     AllEditedData allEditedData = parseJSONToAllEditedData(encodedJSON);
+
+    List<EditedTextData> texts = [];
+    for (final EditedMedia editedMedia in allEditedData.editedMediaList) {
+      if (editedMedia.editedTexts.isNotEmpty) {
+        texts.addAll(editedMedia.editedTexts);
+      }
+    }
+    double totalProgress = 0;
+    for (final EditedTextData editedText in texts) {
+      await _textWidget.loadText(editedText.id,
+          initTexts: editedText.texts.values.toList());
+      await _textWidget.extractAllSequence((progress) {
+        if (progressCallback != null) {
+          progressCallback(_currentStatus, (totalProgress + (progress / texts.length)) * _titleExportPercentage);
+        }
+      });
+      totalProgress = min(totalProgress + (1.0 / texts.length), 1.0);
+
+      editedText.textExportData = TextExportData(
+          editedText.id,
+          _textWidget.width,
+          _textWidget.height,
+          _textWidget.frameRate,
+          _textWidget.previewImagePath!,
+          _textWidget.allSequencesPath!);
+    }
 
     final VideoGeneratedResult result = await _runFFmpeg(
         allEditedData.editedMediaList,

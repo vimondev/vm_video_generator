@@ -76,7 +76,7 @@ Future<RenderedData> clipRender(
   final MediaData mediaData = editedMedia.mediaData;
   final FrameData? frame = editedMedia.frame;
   final List<EditedStickerData> stickerList = editedMedia.stickers;
-  final TextExportData? exportedText = editedMedia.exportedText;
+  final List<EditedTextData> textList = editedMedia.editedTexts;
 
   double duration =
       normalizeTime(editedMedia.duration + editedMedia.xfadeDuration);
@@ -267,9 +267,6 @@ Future<RenderedData> clipRender(
   for (int i = 0; i < stickerList.length; i++) {
     final EditedStickerData sticker = stickerList[i];
     ResourceFileInfo fileInfo = sticker.fileinfo!;
-
-    final int stickerWidth = (fileInfo.width * sticker.scale).floor();
-    final int stickerHeight = (fileInfo.height * sticker.scale).floor();
     // final double angle = sticker.rotate % 360;
 
     final int loopCount = (duration / fileInfo.duration).floor();
@@ -290,7 +287,7 @@ Future<RenderedData> clipRender(
     filterStrings.add(
         "[${inputFileCount++}:v]trim=0:$duration,setpts=PTS-STARTPTS$stickerMapVariable;");
     filterStrings.add(
-        "${stickerMapVariable}scale=$stickerWidth:$stickerHeight$stickerScaledMapVariable;");
+        "${stickerMapVariable}scale=${sticker.width}:${sticker.height}$stickerScaledMapVariable;");
     filterStrings.add(
         "$videoOutputMapVariable${stickerScaledMapVariable}overlay=${sticker.x}:${sticker.y}$stickerMergedMapVariable;");
 
@@ -301,23 +298,28 @@ Future<RenderedData> clipRender(
   // ADD TITLE //
   ///////////////
 
-  if (exportedText != null) {
-    String textMapVariable = "[text]";
-    String textMergedMapVariable = "[text_merged]";
+  for (int i = 0; i < textList.length; i++) {
+    final EditedTextData editedText = textList[i];
+    final TextExportData? exportedText = editedText.textExportData;
 
-    inputArguments.addAll([
-      "-framerate",
-      exportedText.frameRate.toString(),
-      "-i",
-      "${exportedText.allSequencesPath}/%d.png"
-    ]);
+    if (exportedText != null) {
+      String textMapVariable = "[text$i]";
+      String textMergedMapVariable = "[text_merged$i]";
 
-    filterStrings.add(
-        "[${inputFileCount++}:v]trim=0:$duration,setpts=PTS-STARTPTS,scale=${(exportedText.width * exportedText.scale).floor()}:${(exportedText.height * exportedText.scale).floor()}$textMapVariable;");
-    filterStrings.add(
-        "$videoOutputMapVariable${textMapVariable}overlay=${exportedText.x}:${exportedText.y}$textMergedMapVariable;");
+      inputArguments.addAll([
+        "-framerate",
+        exportedText.frameRate.toString(),
+        "-i",
+        "${exportedText.allSequencesPath}/%d.png"
+      ]);
 
-    videoOutputMapVariable = textMergedMapVariable;
+      filterStrings.add(
+          "[${inputFileCount++}:v]trim=0:$duration,setpts=PTS-STARTPTS,scale=${(editedText.width).floor()}:${(editedText.height).floor()}$textMapVariable;");
+      filterStrings.add(
+          "$videoOutputMapVariable${textMapVariable}overlay=${editedText.x}:${editedText.y}$textMergedMapVariable;");
+
+      videoOutputMapVariable = textMergedMapVariable;
+    }
   }
 
   ////////////////////////////

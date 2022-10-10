@@ -9,22 +9,28 @@ class TextWidgetData {
 
   TextWidgetData(this.type, this.json, this.fontFamily, this.fontBase64);
 }
-
 class TextExportData {
   String id;
-
-  double x = 0;
-  double y = 0;
   double width;
   double height;
   double frameRate;
-  double scale = 0;
-  double rotate = 0;
   String previewImagePath;
   String allSequencesPath;
 
-  Map<String, String> texts = {};
-
   TextExportData(this.id, this.width, this.height, this.frameRate,
       this.previewImagePath, this.allSequencesPath);
+}
+
+class EditedTextData {
+  String id;
+  double x;
+  double y;
+  double width;
+  double height;
+  double rotate = 0;
+  
+  Map<String, String> texts = {};
+
+  TextExportData? textExportData;
+  EditedTextData(this.id, this.x, this.y, this.width, this.height);
 }

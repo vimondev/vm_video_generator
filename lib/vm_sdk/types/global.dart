@@ -122,7 +122,7 @@ class EditedMedia {
   FrameData? frame;
   List<EditedStickerData> stickers = [];
   TransitionData? transition;
-  TextExportData? exportedText;
+  List<EditedTextData> editedTexts = [];
 
   EditedMedia(this.mediaData);
 }
