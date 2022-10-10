@@ -16,8 +16,11 @@ class MusicData {
 class ResourceData {
   String key;
   bool isEnableAutoEdit = false;
+  bool isRecommend = false;
+  Map exceptSpeed = {};
 
   ResourceData(this.key);
+  ResourceData.fromJson(this.key, Map map) {}
 }
 
 class TextData extends ResourceData {

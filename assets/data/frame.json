@@ -1,239 +1,405 @@
 {
     "FRAME_DA007": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_DA010": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_DA015": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_HJ008": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_HJ009": {
-        "enable": true
+        "enable": true,
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "FRAME_HJ014": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_HJ016": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_ON010": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_ON011": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_ON012": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_ON014": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_ON016": {
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_ON018": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_ON019": {
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_ON020": {
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_ON021": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_ON022": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_ON023": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_SW002": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_SW004": {
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_SW009": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_SW011": {
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_SW012": {
-        "enable": true
+        "enable": true,
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "FRAME_SW014": {
-        "enable": true
+        "enable": true,
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "FRAME_SW015": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_SW016": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_SW017": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_SW022": {
-        "enable": true
+        "enable": true,
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "FRAME_SW023": {
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_SW024": {
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_SW025": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_SW027": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_YJ004": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_YJ008": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_YJ009": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_YJ010": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_YJ012": {
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_YJ013": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_YJ014": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_YJ015": {
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_YJ016": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_YJ017": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_YJ019": {
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_YJ020": {
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_YJ025": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_YJ026": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_YJ027": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_YJ031": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "FRAME_YJ032": {
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "NEW_FRAME_DA001": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "NEW_FRAME_DA002": {
-        "enable": true
+        "enable": true,
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "NEW_FRAME_DA003": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "NEW_FRAME_DA004": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "NEW_FRAME_DA005": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "NEW_FRAME_DA006": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "NEW_FRAME_DA007": {
-        "enable": true
+        "enable": true,
+        "isRecommend": true,
+        "exceptSpeed": {
+            "SS": true,
+            "S": true,
+            "FF": true
+        }
     },
     "NEW_FRAME_HJ001": {
-        "enable": true
+        "enable": true,
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "NEW_FRAME_HJ002": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "NEW_FRAME_HJ003": {
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "NEW_FRAME_HJ004": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "NEW_FRAME_HJ006": {
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "NEW_FRAME_JH001": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "NEW_FRAME_JH002": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "NEW_FRAME_JH003": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "NEW_FRAME_JH004": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "NEW_FRAME_JH005": {
-        "enable": true
+        "enable": true,
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "NEW_FRAME_JH006": {
-        "enable": true
+        "enable": true,
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "NEW_FRAME_SW001": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "NEW_FRAME_SW002": {
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "NEW_FRAME_SW003": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "NEW_FRAME_SW004": {
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "NEW_FRAME_SW005": {
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {
+            "SS": true,
+            "S": true,
+            "FF": true
+        }
     },
     "NEW_FRAME_SW006": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "NEW_FRAME_SW007": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "NEW_FRAME_SW008": {
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "NEW_FRAME_SW009": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "NEW_FRAME_YJ001": {
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "NEW_FRAME_YJ002": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "NEW_FRAME_YJ003": {
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     }
 }

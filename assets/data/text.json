@@ -3,661 +3,953 @@
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_DA002": {
         "enable": false,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_DA003": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "Title_DA004": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "Title_DA005": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "Title_DA006": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_DA007": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_DA008": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_DA009": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_DA010": {
         "enable": false,
         "unsupportLang": {},
-        "desc": "HEAVY"
+        "desc": "HEAVY",
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_DA011": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_DA012": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_DA013": {
         "enable": false,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_DA014": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_DA015": {
         "enable": false,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_DA016": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_DA017": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_DA018": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_DA019": {
         "enable": false,
         "unsupportLang": {},
-        "desc": "HEAVY"
+        "desc": "HEAVY",
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_DA020": {
         "enable": false,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_DA021": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_DA022": {
         "enable": false,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_DA023": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": true,
+        "exceptSpeed": {
+            "SS": true,
+            "S": true,
+            "FF": true
+        }
     },
     "Title_DA024": {
         "enable": false,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_DA025": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_DA026": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_DA027": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_DA028": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_DA029": {
         "enable": false,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_DA030": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_DA031": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_DA032": {
         "enable": true,
         "unsupportLang": {
             "th": true
+        },
+        "isRecommend": false,
+        "exceptSpeed": {
+            "SS": true,
+            "S": true,
+            "FF": true
         }
     },
     "Title_HJ001": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_HJ002": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_HJ003": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_HJ004": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_HJ005": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "Title_HJ006": {
         "enable": false,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_HJ007": {
         "enable": false,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_HJ008": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_HJ009": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_HJ010": {
         "enable": false,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_HJ011": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_HJ012": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_HJ013": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_HJ014": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "Title_HJ015": {
         "enable": false,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_HJ016": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_HJ017": {
         "enable": false,
         "unsupportLang": {},
-        "desc": "HEAVY"
+        "desc": "HEAVY",
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_HJ018": {
         "enable": false,
         "unsupportLang": {},
-        "desc": "HEAVY"
+        "desc": "HEAVY",
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_HJ019": {
         "enable": false,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_HJ020": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_HJ021": {
         "enable": false,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_HJ022": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_HJ023": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_HJ024": {
         "enable": false,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_HJ025": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_HJ026": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_JH001": {
         "enable": false,
         "unsupportLang": {},
-        "desc": "HEAVY"
+        "desc": "HEAVY",
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "Title_JH002": {
         "enable": false,
         "unsupportLang": {},
-        "desc": "INVALID FONT"
+        "desc": "INVALID FONT",
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_JH003": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "Title_JH004": {
         "enable": false,
         "unsupportLang": {},
-        "desc": "UNABLE TO USE"
+        "desc": "UNABLE TO USE",
+        "isRecommend": true,
+        "exceptSpeed": {
+            "SS": true,
+            "S": true,
+            "FF": true
+        }
     },
     "Title_JH005": {
         "enable": false,
         "unsupportLang": {},
-        "desc": "HEAVY"
+        "desc": "HEAVY",
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_JH006": {
         "enable": false,
         "unsupportLang": {},
-        "desc": "HEAVY"
+        "desc": "HEAVY",
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_JH007": {
         "enable": false,
         "unsupportLang": {},
-        "desc": "HEAVY"
+        "desc": "HEAVY",
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_ON001": {
         "enable": false,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_ON002": {
         "enable": false,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_ON003": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_ON005": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_ON006": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_ON007": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_ON008": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_ON009": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "Title_ON010": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "Title_ON011": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "Title_ON012": {
         "enable": false,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_ON013": {
         "enable": false,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_SW001": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "Title_SW002": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_SW003": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "Title_SW004": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_SW005": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_SW006": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_SW007": {
         "enable": false,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_SW008": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "Title_SW009": {
         "enable": true,
         "unsupportLang": {
             "th": true
+        },
+        "isRecommend": true,
+        "exceptSpeed": {
+            "SS": true,
+            "S": true,
+            "FF": true
         }
     },
     "Title_SW010": {
         "enable": false,
         "unsupportLang": {},
-        "desc": "HEAVY"
+        "desc": "HEAVY",
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_SW011": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_SW012": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_SW013": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_SW014": {
         "enable": false,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_SW015": {
         "enable": false,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_SW016": {
         "enable": false,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_SW017": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_SW018": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "Title_SW019": {
         "enable": false,
         "unsupportLang": {},
-        "desc": "HEAVY"
+        "desc": "HEAVY",
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_SW020": {
         "enable": false,
         "unsupportLang": {},
-        "desc": "INVALID FONT"
+        "desc": "INVALID FONT",
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_SW021": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_SW022": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "Title_SW023": {
         "enable": false,
         "unsupportLang": {},
-        "desc": "HEAVY"
+        "desc": "HEAVY",
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_SW024": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "Title_SW025": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "Title_SW026": {
         "enable": false,
         "unsupportLang": {},
-        "desc": "HEAVY"
+        "desc": "HEAVY",
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_SW027": {
         "enable": false,
         "unsupportLang": {},
-        "desc": "HEAVY"
+        "desc": "HEAVY",
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_SW028": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "Title_SW029": {
         "enable": false,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_SW030": {
         "enable": false,
         "unsupportLang": {},
-        "desc": "HEAVY"
+        "desc": "HEAVY",
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_SW031": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_SW032": {
         "enable": false,
         "unsupportLang": {},
-        "desc": "HEAVY"
+        "desc": "HEAVY",
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_YJ001": {
         "enable": false,
         "unsupportLang": {},
-        "desc": "HEAVY"
+        "desc": "HEAVY",
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_YJ002": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "Title_YJ003": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "Title_YJ004": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_YJ005": {
         "enable": false,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_YJ006": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_YJ007": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_YJ008": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_YJ009": {
         "enable": false,
         "unsupportLang": {},
-        "desc": "HEAVY"
+        "desc": "HEAVY",
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_YJ010": {
         "enable": true,
         "unsupportLang": {
             "th": true
+        },
+        "isRecommend": true,
+        "exceptSpeed": {
+            "SS": true,
+            "S": true,
+            "FF": true
         }
     },
     "Title_YJ011": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_YJ012": {
         "enable": true,
         "unsupportLang": {
             "th": true
+        },
+        "isRecommend": true,
+        "exceptSpeed": {
+            "SS": true,
+            "S": true,
+            "FF": true
         }
     },
     "Title_YJ013": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_YJ014": {
         "enable": false,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_YJ015": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_YJ016": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_YJ017": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_YJ018": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_YJ019": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_YJ020": {
         "enable": true,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_YJ021": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_YJ022": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_YJ023": {
         "enable": true,
         "unsupportLang": {
             "th": true
-        }
+        },
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_YJ024": {
         "enable": false,
         "unsupportLang": {},
-        "desc": "HEAVY"
+        "desc": "HEAVY",
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "Title_YJ025": {
         "enable": false,
-        "unsupportLang": {}
+        "unsupportLang": {},
+        "isRecommend": true,
+        "exceptSpeed": {}
     }
 }

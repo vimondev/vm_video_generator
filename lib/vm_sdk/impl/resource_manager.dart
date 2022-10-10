@@ -38,16 +38,17 @@ class ResourceManager {
       if (transitionJsonMap[key]["type"] == "overlay") {
         TransitionFetchModel? fetchModel = map[key];
         if (fetchModel != null) {
-          _transitionMap[key] =
-              OverlayTransitionData.fromFetchModel(key, fetchModel);
-          _transitionMap[key]!.isEnableAutoEdit =
-              transitionJsonMap[key]["enable"];
+          _transitionMap[key] = OverlayTransitionData.fromFetchModel(key, fetchModel);
         }
-      } else {
-        _transitionMap[key] =
-            XFadeTransitionData.fromJson(key, transitionJsonMap[key]);
-        _transitionMap[key]!.isEnableAutoEdit =
-            transitionJsonMap[key]["enable"];
+      }
+      else {
+        _transitionMap[key] = XFadeTransitionData.fromJson(key, transitionJsonMap[key]);
+      }
+
+      if (_transitionMap.containsKey(key)) {
+        _transitionMap[key]!.isEnableAutoEdit = transitionJsonMap[key]["enable"];
+        _transitionMap[key]!.isRecommend = transitionJsonMap[key]["isRecommend"];
+        _transitionMap[key]!.exceptSpeed = transitionJsonMap[key]["exceptSpeed"];
       }
     }
   }
@@ -69,6 +70,8 @@ class ResourceManager {
       if (fetchModel != null) {
         _frameMap[key] = FrameData.fromFetchModel(key, fetchModel);
         _frameMap[key]!.isEnableAutoEdit = frameJsonMap[key]["enable"];
+        _frameMap[key]!.isRecommend = frameJsonMap[key]["isRecommend"];
+        _frameMap[key]!.exceptSpeed = frameJsonMap[key]["exceptSpeed"];
       }
     }
   }
@@ -121,6 +124,8 @@ class ResourceManager {
       _textMap[key] = TextData.fromJson(key, map);
       _textMap[key]!.isEnableAutoEdit = textJsonMap[key]["enable"];
       _textMap[key]!.unsupportLang = textJsonMap[key]["unsupportLang"];
+      _textMap[key]!.isRecommend = textJsonMap[key]["isRecommend"];
+      _textMap[key]!.exceptSpeed = textJsonMap[key]["exceptSpeed"];
     }
 
     final replaceFontJsonMap = jsonDecode(await loadResourceString("data/replace-font.json"));
@@ -146,33 +151,33 @@ class ResourceManager {
   }
 
   List<OverlayTransitionData> getAllOverlayTransitions(
-      {bool autoEditOnly = true}) {
+      {bool autoEditOnly = true, String? speed}) {
     return _transitionMap.keys
         .where((key) =>
             _transitionMap[key]!.type == ETransitionType.overlay &&
-            (!autoEditOnly || _transitionMap[key]!.isEnableAutoEdit))
+            (!autoEditOnly || (_transitionMap[key]!.isEnableAutoEdit && !_transitionMap[key]!.exceptSpeed.containsKey(speed))))
         .map<OverlayTransitionData>(
             (key) => _transitionMap[key] as OverlayTransitionData)
         .toList();
   }
 
-  List<XFadeTransitionData> getAllXFadeTransitions({bool autoEditOnly = true}) {
+  List<XFadeTransitionData> getAllXFadeTransitions({bool autoEditOnly = true, String? speed}) {
     return _transitionMap.keys
         .where((key) =>
             _transitionMap[key]!.type == ETransitionType.xfade &&
-            (!autoEditOnly || _transitionMap[key]!.isEnableAutoEdit))
+            (!autoEditOnly || (_transitionMap[key]!.isEnableAutoEdit && !_transitionMap[key]!.exceptSpeed.containsKey(speed))))
         .map<XFadeTransitionData>(
             (key) => _transitionMap[key] as XFadeTransitionData)
         .toList();
   }
 
-  Map<EMediaLabel, List<FrameData>> getFrameDataMap({bool autoEditOnly = true}) {
+  Map<EMediaLabel, List<FrameData>> getFrameDataMap({bool autoEditOnly = true, String? speed}) {
     Map<EMediaLabel, List<FrameData>> map = {EMediaLabel.background: []};
 
     for (final key in _frameMap.keys) {
       final FrameData frame = _frameMap[key]!;
 
-      if (!autoEditOnly || frame.isEnableAutoEdit) {
+      if (!autoEditOnly || (frame.isEnableAutoEdit && !frame.exceptSpeed.containsKey(speed))) {
         map[EMediaLabel.background]!.add(frame);
       }
     }
@@ -181,13 +186,13 @@ class ResourceManager {
   }
 
   Map<EMediaLabel, List<StickerData>> getStickerDataMap(
-      {bool autoEditOnly = true}) {
+      {bool autoEditOnly = true, String? speed}) {
     Map<EMediaLabel, List<StickerData>> map = {};
 
     for (final key in _stickerMap.keys) {
       final StickerData sticker = _stickerMap[key]!;
 
-      if (!autoEditOnly || sticker.isEnableAutoEdit) {
+      if (!autoEditOnly || (sticker.isEnableAutoEdit && !sticker.exceptSpeed.containsKey(speed))) {
         if (!map.containsKey(sticker.type)) map[sticker.type] = [];
         map[sticker.type]!.add(sticker);
       }
@@ -196,7 +201,7 @@ class ResourceManager {
     return map;
   }
 
-  List<String> getTextList({bool autoEditOnly = true}) {
+  List<String> getTextList({bool autoEditOnly = true, String? speed}) {
     String locale = Platform.localeName;
     if (locale.contains("_")) {
       locale = locale.split("_")[0].toLowerCase();
@@ -204,7 +209,7 @@ class ResourceManager {
 
     return _textMap.keys
         .where((key) =>
-            ((!autoEditOnly) || (_textMap[key]!.isEnableAutoEdit && !_textMap[key]!.unsupportLang.containsKey(locale))))
+            ((!autoEditOnly) || (_textMap[key]!.isEnableAutoEdit && !_textMap[key]!.unsupportLang.containsKey(locale) && !_textMap[key]!.exceptSpeed.containsKey(speed))))
         .map<String>((key) => key)
         .toList();
   }

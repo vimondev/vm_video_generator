@@ -551,14 +551,15 @@ Future<AllEditedData> generateAllEditedData(
 
   // TO DO : Load from Template Data
   final List<XFadeTransitionData> originXfadeTransitionList =
-          ResourceManager.getInstance().getAllXFadeTransitions();
+          ResourceManager.getInstance().getAllXFadeTransitions(speed: speed);
   final List<OverlayTransitionData>
-      originOverlayTransitionList = ResourceManager.getInstance().getAllOverlayTransitions();
+      originOverlayTransitionList = ResourceManager.getInstance().getAllOverlayTransitions(speed: speed);
 
   final List<XFadeTransitionData> curXfadeTransitionList = [];
-  final List<OverlayTransitionData> curOverlayTransitionList = [];
+  final List<OverlayTransitionData> curRecommendedOverlayTransitionList = [], curOtherOverlayTransitionList = [];
   curXfadeTransitionList.addAll(originXfadeTransitionList);
-  curOverlayTransitionList.addAll(originOverlayTransitionList);
+  curRecommendedOverlayTransitionList.addAll(originOverlayTransitionList.where((element) => element.isRecommend).toList());
+  curOtherOverlayTransitionList.addAll(originOverlayTransitionList.where((element) => !element.isRecommend).toList());
 
   int lastTransitionInsertedIndex = 0;
   int clipCount = 3 + (Random()).nextInt(2);
@@ -585,7 +586,7 @@ Future<AllEditedData> generateAllEditedData(
       }
 
       if (isPassedBoundary) {
-        currentTransitionType = (Random()).nextDouble() >= 0.4
+        currentTransitionType = (Random()).nextDouble() >= 0.3
             ? ETransitionType.xfade
             : ETransitionType.overlay;
       } //
@@ -618,6 +619,18 @@ Future<AllEditedData> generateAllEditedData(
         }
       } //
       else if (currentTransitionType == ETransitionType.overlay) {
+        List<OverlayTransitionData> curOverlayTransitionList;
+        if (Random().nextDouble() >= 0.4 && curRecommendedOverlayTransitionList.isNotEmpty) {
+          curOverlayTransitionList = curRecommendedOverlayTransitionList;
+        }
+        else {
+          if (curRecommendedOverlayTransitionList.isEmpty && curOtherOverlayTransitionList.isEmpty) {
+            curRecommendedOverlayTransitionList.addAll(originOverlayTransitionList.where((element) => element.isRecommend).toList());
+            curOtherOverlayTransitionList.addAll(originOverlayTransitionList.where((element) => !element.isRecommend).toList());
+          }
+          curOverlayTransitionList = curOtherOverlayTransitionList;
+        }
+
         int randIdx = (Random()).nextInt(curOverlayTransitionList.length) %
             curOverlayTransitionList.length;
         editedMedia.transition = curOverlayTransitionList[randIdx];
@@ -633,9 +646,6 @@ Future<AllEditedData> generateAllEditedData(
         }
 
         curOverlayTransitionList.removeAt(randIdx);
-        if (curOverlayTransitionList.isEmpty) {
-          curOverlayTransitionList.addAll(originOverlayTransitionList);
-        }
       }
 
       lastTransitionInsertedIndex = i;
@@ -650,14 +660,17 @@ Future<AllEditedData> generateAllEditedData(
 
   // TO DO : Load from Template Data
 
-  final Map<EMediaLabel, List<FrameData>> originFrameMap = ResourceManager.getInstance().getFrameDataMap(),
-      curFrameMap = {};
-  final Map<EMediaLabel, List<StickerData>> originStickerMap = ResourceManager.getInstance().getStickerDataMap(),
+  final Map<EMediaLabel, List<FrameData>> originFrameMap = ResourceManager.getInstance().getFrameDataMap(speed: speed),
+      curRecommendedFrameMap = {}, curOtherFrameMap = {};
+  final Map<EMediaLabel, List<StickerData>> originStickerMap = ResourceManager.getInstance().getStickerDataMap(speed: speed),
       curStickerMap = {};
 
   for (final key in originFrameMap.keys) {
-    curFrameMap[key] = [];
-    curFrameMap[key]!.addAll(originFrameMap[key]!);
+    curRecommendedFrameMap[key] = [];
+    curOtherFrameMap[key] = [];
+    
+    curRecommendedFrameMap[key]!.addAll(originFrameMap[key]!.where((frame) => frame.isRecommend).toList());
+    curOtherFrameMap[key]!.addAll(originFrameMap[key]!.where((frame) => !frame.isRecommend).toList());
   }
 
   for (final key in originStickerMap.keys) {
@@ -685,17 +698,24 @@ Future<AllEditedData> generateAllEditedData(
         {
           if (diff >= clipCount) {
             mediaLabel = EMediaLabel.background;
-            if (!curFrameMap.containsKey(mediaLabel)) continue;
+            if (!originFrameMap.containsKey(mediaLabel)) continue;
 
-            List<FrameData> curFrameList = curFrameMap[mediaLabel]!;
+            List<FrameData> curFrameList;
+            if (Random().nextDouble() >= 0.4 && curRecommendedFrameMap[mediaLabel]!.isNotEmpty) {
+              curFrameList = curRecommendedFrameMap[mediaLabel]!;
+            }
+            else {
+              if (curRecommendedFrameMap[mediaLabel]!.isEmpty && curOtherFrameMap[mediaLabel]!.isEmpty) {
+                curRecommendedFrameMap[mediaLabel]!.addAll(originFrameMap[mediaLabel]!.where((frame) => frame.isRecommend).toList());
+                curOtherFrameMap[mediaLabel]!.addAll(originFrameMap[mediaLabel]!.where((frame) => !frame.isRecommend).toList());
+              }
+              curFrameList = curOtherFrameMap[mediaLabel]!;
+            }
+
             int randIdx =
                 (Random()).nextInt(curFrameList.length) % curFrameList.length;
             editedMedia.frame = curFrameList[randIdx];
-
             curFrameList.removeAt(randIdx);
-            if (curFrameList.isEmpty) {
-              curFrameList.addAll(originFrameMap[mediaLabel]!);
-            }
 
             lastFrameInsertedIndex = i;
             clipCount = 4 + (Random()).nextInt(1);
@@ -760,15 +780,15 @@ Future<AllEditedData> generateAllEditedData(
     final editedMedia = allEditedData.editedMediaList[i];
     print(
         "${basename(editedMedia.mediaData.absolutePath)} / totalDuration:${editedMedia.mediaData.duration} / start:${editedMedia.startTime} / duration:${editedMedia.duration} / remain:${editedMedia.mediaData.duration != null ? (editedMedia.mediaData.duration! - editedMedia.startTime - editedMedia.duration) : 0} / ${editedMedia.mediaLabel}");
-    // print(
-    //     "frame:${editedMedia.frame?.key} / resolution:(${editedMedia.mediaData.width},${editedMedia.mediaData.height}) / zoom:(${editedMedia.zoomX},${editedMedia.zoomY}) / translate:(${editedMedia.translateX},${editedMedia.translateY})");
-    // if (editedMedia.transition != null) {
-    //   print("index : $i");
-    //   print(editedMedia.transition?.key);
-    //   print("");
-    //   print("");
-    // }
-    // print("");
+    print(
+        "frame:${editedMedia.frame?.key} / resolution:(${editedMedia.mediaData.width},${editedMedia.mediaData.height}) / zoom:(${editedMedia.zoomX},${editedMedia.zoomY}) / translate:(${editedMedia.translateX},${editedMedia.translateY})");
+    if (editedMedia.transition != null) {
+      print("index : $i");
+      print(editedMedia.transition?.key);
+      print("");
+      print("");
+    }
+    print("");
   }
 
   totalRemainDuration = totalDuration;

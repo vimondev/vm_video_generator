@@ -2,206 +2,348 @@
     "TRANSITION_DA001": {
         "type": "overlay",
         "speed": "M",
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "TRANSITION_DA002": {
         "type": "overlay",
         "speed": "M",
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "TRANSITION_DA003": {
         "type": "overlay",
         "speed": "M",
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "TRANSITION_HJ001": {
         "type": "overlay",
         "speed": "M",
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "TRANSITION_HJ002": {
         "type": "overlay",
         "speed": "M",
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "TRANSITION_HJ003": {
         "type": "overlay",
         "speed": "M",
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "TRANSITION_ON001": {
         "type": "overlay",
         "speed": "M",
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "TRANSITION_ON002": {
         "type": "overlay",
         "speed": "M",
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "TRANSITION_ON003": {
         "type": "overlay",
         "speed": "M",
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "TRANSITION_SW001": {
         "type": "overlay",
         "speed": "M",
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "TRANSITION_SW002": {
         "type": "overlay",
         "speed": "M",
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "TRANSITION_SW003": {
         "type": "overlay",
         "speed": "L",
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {
+            "MM": true,
+            "F": true,
+            "FF": true
+        }
     },
     "TRANSITION_SW004": {
         "type": "overlay",
         "speed": "L",
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {
+            "M": true,
+            "MM": true,
+            "F": true,
+            "FF": true
+        }
     },
     "TRANSITION_SW005": {
         "type": "overlay",
         "speed": "L",
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {
+            "M": true,
+            "MM": true,
+            "F": true,
+            "FF": true
+        }
     },
     "TRANSITION_SW006": {
         "type": "overlay",
         "speed": "L",
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {
+            "M": true,
+            "MM": true,
+            "F": true,
+            "FF": true
+        }
     },
     "TRANSITION_YJ001": {
         "type": "overlay",
         "speed": "M",
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {
+            "SS": true,
+            "S": true
+        }
     },
     "TRANSITION_YJ002": {
         "type": "overlay",
         "speed": "M",
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "TRANSITION_YJ003": {
         "type": "overlay",
         "speed": "M",
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {
+            "SS": true,
+            "S": true
+        }
     },
     "TRANSITION_YJ004": {
         "type": "overlay",
         "speed": "M",
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "TRANSITION_YJ005": {
         "type": "overlay",
         "speed": "M",
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "TRANSITION_YJ006": {
         "type": "overlay",
         "speed": "L",
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {
+            "M": true,
+            "MM": true,
+            "F": true,
+            "FF": true
+        }
     },
     "TRANSITION_YJ007": {
         "type": "overlay",
         "speed": "L",
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {
+            "M": true,
+            "MM": true,
+            "F": true,
+            "FF": true
+        }
     },
     "TRANSITION_YJ008": {
         "type": "overlay",
         "speed": "L",
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {
+            "M": true,
+            "MM": true,
+            "F": true,
+            "FF": true
+        }
     },
     "TRANSITION_YJ009": {
         "type": "overlay",
         "speed": "M",
-        "enable": true
+        "enable": true,
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "TRANSITION_YJ010": {
         "type": "overlay",
         "speed": "L",
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {
+            "M": true,
+            "MM": true,
+            "F": true,
+            "FF": true
+        }
     },
     "TRANSITION_YJ011": {
         "type": "overlay",
         "speed": "M",
-        "enable": true
+        "enable": true,
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "TRANSITION_YJ012": {
         "type": "overlay",
         "speed": "M",
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {
+            "M": true,
+            "MM": true,
+            "F": true,
+            "FF": true
+        }
     },
     "TRANSITION_YJ013": {
         "type": "overlay",
         "speed": "L",
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {
+            "M": true,
+            "MM": true,
+            "F": true,
+            "FF": true
+        }
     },
     "TRANSITION_YJ014": {
         "type": "overlay",
         "speed": "L",
-        "enable": true
+        "enable": true,
+        "isRecommend": false,
+        "exceptSpeed": {
+            "M": true,
+            "MM": true,
+            "F": true,
+            "FF": true
+        }
     },
     "xfade_fade": {
         "type": "xfade",
         "filterName": "fade",
-        "enable": true
+        "enable": true,
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "xfade_fadeblack": {
         "type": "xfade",
         "filterName": "fadeblack",
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "xfade_wiperight": {
         "type": "xfade",
         "filterName": "wiperight",
-        "enable": true
+        "enable": true,
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "xfade_slideright": {
         "type": "xfade",
         "filterName": "slideright",
-        "enable": true
+        "enable": true,
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "xfade_rectcrop": {
         "type": "xfade",
         "filterName": "rectcrop",
-        "enable": true
+        "enable": true,
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "xfade_circlecrop": {
         "type": "xfade",
         "filterName": "circlecrop",
-        "enable": true
+        "enable": true,
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "xfade_radial": {
         "type": "xfade",
         "filterName": "radial",
-        "enable": true
+        "enable": true,
+        "isRecommend": true,
+        "exceptSpeed": {}
     },
     "xfade_diagtr": {
         "type": "xfade",
         "filterName": "diagtr",
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "xfade_fadewhite": {
         "type": "xfade",
         "filterName": "fadewhite",
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "xfade_circleopen": {
         "type": "xfade",
         "filterName": "circleopen",
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "xfade_smoothright": {
         "type": "xfade",
         "filterName": "smoothright",
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     },
     "xfade_vertopen": {
         "type": "xfade",
         "filterName": "vertopen",
-        "enable": false
+        "enable": false,
+        "isRecommend": false,
+        "exceptSpeed": {}
     }
 }
