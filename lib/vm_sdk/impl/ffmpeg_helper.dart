@@ -125,8 +125,11 @@ Future<RenderedData> clipRender(
   ]);
   inputFileCount++;
 
+  int scaledWidth = max((editedMedia.mediaData.width * editedMedia.zoomX).floor() + 2, _resolution.width);
+  int scaledHeight = max((editedMedia.mediaData.height * editedMedia.zoomY).floor() + 2, _resolution.height);
+
   filterStrings.add(
-      "[0:v]$trimFilter${_getTransposeFilter(mediaData.orientation)}scale=${(editedMedia.mediaData.width * editedMedia.zoomX).floor()}:${(editedMedia.mediaData.height * editedMedia.zoomY).floor()},crop=${_resolution.width}:${_resolution.height}:${editedMedia.translateX}:${editedMedia.translateY},setdar=dar=${_resolution.width / _resolution.height}[vid];");
+      "[0:v]$trimFilter${_getTransposeFilter(mediaData.orientation)}scale=$scaledWidth:$scaledHeight,crop=${_resolution.width}:${_resolution.height}:${editedMedia.translateX}:${editedMedia.translateY},setdar=dar=${_resolution.width / _resolution.height}[vid];");
   videoOutputMapVariable = "[vid]";
   inputFileCount++;
 
