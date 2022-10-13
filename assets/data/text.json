@@ -951,5 +951,49 @@
         "unsupportLang": {},
         "isRecommend": true,
         "exceptSpeed": {}
+    },
+
+
+    "Subtitle_SW001": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
+    },
+    "Subtitle_SW002": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
+    },
+    "Subtitle_SW003": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
+    },
+    "Title_JH008": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
+    },
+    "Title_JH009": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
+    },
+    "Title_SW033": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
+    },
+    "Title_SW034": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
     }
 }

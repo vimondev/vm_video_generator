@@ -6,6 +6,11 @@ import 'resource_fetch_helper.dart';
 import 'global_helper.dart';
 import 'dart:convert';
 
+Future<DownloadFontResponse> _downloadFont(String fontFamily, String fontFileName) async {
+  return DownloadFontResponse(fontFileName, File(""), await loadResourceBase64('raw/font/$fontFileName'));
+  // return downloadFont(fontFamily);
+}
+
 Future<TextWidgetData?> loadTextWidgetData(String id, int lineCount) async {
   if (ResourceManager.getInstance().getTextData(id) == null) return null;
 
@@ -16,6 +21,7 @@ Future<TextWidgetData?> loadTextWidgetData(String id, int lineCount) async {
       id.toString().startsWith("Caption") ? ETextType.Caption : ETextType.Title;
   final String filename = loadedMap["filename"];
   final List<String> fontFamily = List<String>.from(loadedMap["fontFamily"]);
+  final List<String> fontFileName = List<String>.from(loadedMap["fontFileName"]);
 
   String json = await loadResourceString("raw/lottie-jsons/$filename");
 
@@ -46,7 +52,7 @@ Future<TextWidgetData?> loadTextWidgetData(String id, int lineCount) async {
 
   List<Future<DownloadFontResponse>> loadFontBase64Futures = [];
   for (int i = 0; i < fontFamily.length; i++) {
-    loadFontBase64Futures.add(downloadFont(fontFamily[i]));
+    loadFontBase64Futures.add(_downloadFont(fontFamily[i], fontFileName[i]));
   }
   List<String> fontBase64 = (await Future.wait(loadFontBase64Futures)).map<String>((item) => item.base64).toList();
 
