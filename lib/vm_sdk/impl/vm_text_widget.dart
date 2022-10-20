@@ -191,8 +191,8 @@ class VMTextWidget extends StatelessWidget {
       Function(double progress)? progressCallback) async {
     if (_data == null) return;
 
-    // await _reload();
-    // await _removeAll();
+    await _reload();
+    await _removeAll();
 
     _currentDirPath =
         "${await getAppDirectoryPath()}/${_id}_${DateTime.now().millisecondsSinceEpoch}";
@@ -366,6 +366,11 @@ class VMTextWidget extends StatelessWidget {
     }
   }
 
+  void _handleTerminated(InAppWebViewController controller) {
+    print("terminated. reload!");
+    controller.reload();
+  }
+
   void _setController(InAppWebViewController controller) {
     controller.addJavaScriptHandler(
         handlerName: "TransferInit", callback: _handleTransferInit);
@@ -399,6 +404,7 @@ class VMTextWidget extends StatelessWidget {
         // offset: const Offset(0, 0),
         child: CustomWebView(
           callback: _setController,
+          handleTerminated: _handleTerminated,
           initialFile: "packages/myapp/assets/html/index5.html",
         ),
       ),
