@@ -14,6 +14,7 @@ Future<DownloadFontResponse> _downloadFont(String fontFamily, String fontFileNam
 Future<TextWidgetData?> loadTextWidgetData(String id, int lineCount) async {
   if (ResourceManager.getInstance().getTextData(id) == null) return null;
 
+  if (id.startsWith("Subtitle_")) lineCount = 1;
   final Map<String, dynamic> loadedMap =
       jsonDecode(await loadResourceString("text/$id ${lineCount >= 2 ? "TWO" : "ONE"}.json"));
 

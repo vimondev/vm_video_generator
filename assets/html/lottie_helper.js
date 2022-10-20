@@ -109,11 +109,34 @@ const ConvertTextToPath = (node, opentypeMap, textElements = []) => {
     return textElements
 }
 
+const SetTextTr = animationData => {
+    const { assets } = animationData
+    assets.forEach(item => {
+        if (typeof item.nm === 'string' && item.nm.toLowerCase().startsWith('#text')) {
+            item.layers.forEach(layer => {
+                if (typeof layer.nm === 'string') {
+                    let isTextLayer = false
+                    if (layer.nm.toLowerCase().startsWith('@source')) isTextLayer = true
+                    else if (layer.t && layer.t.d && typeof layer.t.d.x === 'string' && layer.t.d.x.includes('text.sourceText')) isTextLayer = true
+
+                    if (isTextLayer) {
+                        if (layer.t && layer.t.d && layer.t.d.k && layer.t.d.k[0] && layer.t.d.k[0].s) {
+                            layer.t.d.k[0].s.tr = 75
+                        }
+                    }
+                }
+            })
+        }
+    })
+}
+
 const LoadAnimation = async (id, animationData) => {
     const containerRef = document.createElement('div')
     containerRef.className = 'lottie-container'
     containerRef.id = id
     document.body.appendChild(containerRef)
+
+    SetTextTr(animationData)
 
     const anim = bodymovin.loadAnimation({
         container: containerRef,
