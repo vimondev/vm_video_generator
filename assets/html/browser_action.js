@@ -45,6 +45,8 @@ window.onload = function () {
     })
 }
 
+let test = 0
+
 const extractPreviewTest = async () => {
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
     const now = Date.now()
@@ -70,9 +72,8 @@ const extractPreviewTest = async () => {
 
         _animMap[loadedJsonFilename] = anim
     }
-
-    anim.TextUpdate(anim.textComps[0], 'THIS IS TITLE')
-    anim.TextUpdate(anim.textComps[1], 'THIS IS SUBTITLE')
+    anim.TextUpdate(anim.textComps[0], 'THIS IS TITLE' + test++)
+    anim.TextUpdate(anim.textComps[1], 'THIS IS SUBTITLE' + test++)
 
     const { svgElement, allRect: { x, y, width, height } } = anim.CopySVGElement(anim.previewFrame, _opentypeMap)
 
@@ -117,7 +118,7 @@ const extractAllSequenceTest = async () => {
     const svgElements = []
     let minX = 0, minY = 0, maxWidth = -1, maxHeight = -1
     for (let i = 0; i < anim.totalFrames; i++) {
-        const { svgElement, allRect: { x, y, width, height } } = anim.CopySVGElement(anim.previewFrame, opentypeMap)
+        const { svgElement, allRect: { x, y, width, height } } = anim.CopySVGElement(anim.previewFrame, _opentypeMap)
 
         if (width > maxWidth) {
             minX = x
@@ -135,7 +136,7 @@ const extractAllSequenceTest = async () => {
         const svg = svgElements[i]
         console.log(i, svgElements.length)
         
-        const pngbase64 = await CanvasHelper.DrawPNG(svg, x, y, width, height)
+        const pngbase64 = await CanvasHelper.DrawPNG(svg, minX, minY, maxWidth, maxHeight)
         const image = new Image()
         image.src = pngbase64
         document.body.appendChild(image)

@@ -147,8 +147,8 @@ class VMTextWidget extends StatelessWidget {
   Future<void> extractPreview() async {
     if (_data == null) return;
 
-    await _reload();
-    await _removeAll();
+    // await _reload();
+    // await _removeAll();
     _currentDirPath =
         "${await getAppDirectoryPath()}/${_id}_${DateTime.now().millisecondsSinceEpoch}";
     _currentPreviewPath = "$_currentDirPath/preview";
@@ -177,9 +177,12 @@ class VMTextWidget extends StatelessWidget {
     }
     textArr += "]";
 
+    // await _controller!.evaluateJavascript(
+    //     source:
+    //         "(async function () { await setData({ fontFamily: $fontFamilyArr, base64: $fontBase64Arr, json: ${_data!.json}, texts: $textArr }); extractPreview(); })()");
     await _controller!.evaluateJavascript(
         source:
-            "(async function () { await setData({ fontFamily: $fontFamilyArr, base64: $fontBase64Arr, json: ${_data!.json}, texts: $textArr }); extractPreview(); })()");
+            "ExtractPreview({ id: '$_id', jobId: '', fontFamliyArr: $fontFamilyArr, fontBase64: $fontBase64Arr, json: ${_data!.json}, texts: $textArr })");
 
     return _currentPreviewCompleter!.future;
   }
@@ -188,8 +191,8 @@ class VMTextWidget extends StatelessWidget {
       Function(double progress)? progressCallback) async {
     if (_data == null) return;
 
-    await _reload();
-    await _removeAll();
+    // await _reload();
+    // await _removeAll();
 
     _currentDirPath =
         "${await getAppDirectoryPath()}/${_id}_${DateTime.now().millisecondsSinceEpoch}";
@@ -220,9 +223,12 @@ class VMTextWidget extends StatelessWidget {
     }
     textArr += "]";
 
-    _controller!.evaluateJavascript(
+    // _controller!.evaluateJavascript(
+    //     source:
+    //         "(async function () { await setData({ fontFamily: $fontFamilyArr, base64: $fontBase64Arr, json: ${_data!.json}, texts: $textArr }); extractAllSequence(); })()");
+    await _controller!.evaluateJavascript(
         source:
-            "(async function () { await setData({ fontFamily: $fontFamilyArr, base64: $fontBase64Arr, json: ${_data!.json}, texts: $textArr }); extractAllSequence(); })()");
+            "ExtractAllSequence({ id: '$_id', jobId: '', fontFamliyArr: $fontFamilyArr, fontBase64: $fontBase64Arr, json: ${_data!.json}, texts: $textArr })");
 
     return _currentSequencesCompleter!.future;
   }
@@ -393,7 +399,7 @@ class VMTextWidget extends StatelessWidget {
         // offset: const Offset(0, 0),
         child: CustomWebView(
           callback: _setController,
-          initialFile: "packages/myapp/assets/html/index4.html",
+          initialFile: "packages/myapp/assets/html/index5.html",
         ),
       ),
     );

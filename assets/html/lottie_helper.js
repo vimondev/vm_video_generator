@@ -66,7 +66,7 @@ const ConvertTextToPath = (node, opentypeMap, textElements = []) => {
         const fontFamily = parent.getAttribute('font-family')
         
         const OTF = opentypeMap[fontFamily] || opentypeMap[Object.keys(opentypeMap)[0]]
-        const path = OTF.getPath(value, 0, 0, fontSize)
+        let path = OTF.getPath(value, 0, 0, fontSize)
 
         if (textAnchor) {
             const { x1, x2 } = path.getBoundingBox()

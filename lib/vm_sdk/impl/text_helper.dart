@@ -7,8 +7,8 @@ import 'global_helper.dart';
 import 'dart:convert';
 
 Future<DownloadFontResponse> _downloadFont(String fontFamily, String fontFileName) async {
-  return DownloadFontResponse(fontFileName, File(""), await loadResourceBase64('raw/font/$fontFileName'));
-  // return downloadFont(fontFamily);
+  // return DownloadFontResponse(fontFileName, File(""), await loadResourceBase64('raw/font/$fontFileName'));
+  return downloadFont(fontFamily);
 }
 
 Future<TextWidgetData?> loadTextWidgetData(String id, int lineCount) async {
@@ -44,7 +44,7 @@ Future<TextWidgetData?> loadTextWidgetData(String id, int lineCount) async {
   for (int i=0; i<fontFamily.length; i++) {
     String replaceFontfamily = ResourceManager.getInstance().getReplaceFont(fontFamily[i], locale);
     if (replaceFontfamily.compareTo(fontFamily[i]) != 0) {
-      print(replaceFontfamily);
+      print("replaceFontFamily : $replaceFontfamily");
       json = json.replaceAll("\"${fontFamily[i]}\"", "\"$replaceFontfamily\"");
       fontFamily[i] = replaceFontfamily;
     }

@@ -44,6 +44,8 @@ const GetAnimAndSetText = async (id, json, texts) => {
             anim.TextUpdate(anim.textComps[index], text)
         }
     })
+
+    return anim
 }
 
 const ExtractPreview = async ({ id, jobId, fontFamliyArr, fontBase64, json, texts }) => {
@@ -57,18 +59,19 @@ const ExtractPreview = async ({ id, jobId, fontFamliyArr, fontBase64, json, text
         const anim = await GetAnimAndSetText(id, json, texts)
         if (!anim) throw new Error("ERR_LOAD_FAILED")
     
-        const { svgElement, allRect: { x, y, width, height } } = anim.CopySVGElement(anim.previewFrame, opentypeMap)
+        const { svgElement, allRect: { x, y, width, height } } = anim.CopySVGElement(anim.previewFrame, opentypeMap)    
         window.flutter_inappwebview.callHandler('TransferPreviewPNGData', {
             width,
             height,
             frameRate: anim.animationData.fr,
             preview: await CanvasHelper.DrawPNG(svgElement, x, y, width, height),
-            textData
+            textData: []
         })
         console.log(`elapsed - : ${Date.now() - now}ms`)
     }
     catch (e) {
         console.log(e)
+        console.log(err.stack)
         window.flutter_inappwebview.callHandler('TransferPreviewFailed')
     }
 }
@@ -87,7 +90,7 @@ const ExtractAllSequence = async ({ id, jobId, fontFamliyArr, fontBase64, json, 
 
         let minX, minY, maxWidth = -1, maxHeight = -1
         for (let i = 0; i < anim.totalFrames; i++) {
-            const { svgElement, allRect: { x, y, width, height } } = anim.CopySVGElement(anim.previewFrame, opentypeMap)
+            const { svgElement, allRect: { x, y, width, height } } = anim.CopySVGElement(i, opentypeMap)
 
             if (width > maxWidth) {
                 minX = x
@@ -114,7 +117,7 @@ const ExtractAllSequence = async ({ id, jobId, fontFamliyArr, fontBase64, json, 
             
             window.flutter_inappwebview.callHandler('TransferAllSequencePNGData', {
                 frameNumber: i,
-                data: await CanvasHelper.DrawPNG(svg, x, y, width, height)
+                data: await CanvasHelper.DrawPNG(svg, minX, minY, maxWidth, maxHeight)
             })
         }
 
@@ -123,6 +126,7 @@ const ExtractAllSequence = async ({ id, jobId, fontFamliyArr, fontBase64, json, 
     }
     catch (e) {
         console.log(e)
+        console.log(err.stack)
         window.flutter_inappwebview.callHandler('TransferAllSequenceFailed')
     }
 }

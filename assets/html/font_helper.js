@@ -45,6 +45,7 @@ const LoadFontFamily = async (familyName, base64) => {
     }
     catch (e) {
         console.lop(e)
+        console.log(err.stack)
     }
     return false
 }
