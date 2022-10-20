@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'dart:math';
+import 'package:ffmpeg_kit_flutter_full_gpl/ffprobe_kit.dart';
 import 'package:ffmpeg_kit_flutter_full_gpl/statistics.dart';
+import 'package:ffmpeg_kit_flutter_full_gpl/stream_information.dart';
 
 import '../types/types.dart';
 import 'global_helper.dart';
@@ -109,9 +111,25 @@ Future<RenderedData> clipRender(
     inputArguments
         .addAll(["-r", _framerate.toString(), "-i", mediaData.absolutePath]);
 
-    filterStrings.add(
+    final mediaInfo = (await FFprobeKit.getMediaInformation(mediaData.absolutePath)).getMediaInformation();
+    final List<StreamInformation> streams = mediaInfo != null ? mediaInfo.getStreams() : [];
+
+    bool isAudioExists = false;
+    for (final stream in streams) {
+      if (stream.getType() == "audio") {
+        isAudioExists = true;
+        break;
+      }
+    }
+
+    if (isAudioExists) {
+      filterStrings.add(
         "[0:a]atrim=$startTime:${startTime + duration},asetpts=PTS-STARTPTS[aud];[aud][1:a]amix=inputs=2[aud_mixed];[aud_mixed]atrim=0:$duration,asetpts=PTS-STARTPTS[aud_trim];[aud_trim]volume=${editedMedia.volume}[aud_volume_applied];");
-    audioOutputMapVariable = "[aud_volume_applied]";
+      audioOutputMapVariable = "[aud_volume_applied]";
+    }
+    else {
+      audioOutputMapVariable = "1:a";
+    }
   }
 
   // [1:a]
