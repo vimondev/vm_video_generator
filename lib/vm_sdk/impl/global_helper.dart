@@ -11,15 +11,15 @@ Future<String> getAppDirectoryPath() async {
 }
 
 Future<String> loadResourceString(String assetPath) async {
-  return await rootBundle.loadString("packages/myapp/$assetPath");
+  return await rootBundle.loadString("packages/myapp/assets/$assetPath");
 }
 
 Future<ByteData> loadResourceByteData(String assetPath) async {
-  return await rootBundle.load("packages/myapp/$assetPath");
+  return await rootBundle.load("packages/myapp/assets/$assetPath");
 }
 
 Future<String> loadResourceBase64(String assetPath) async {
-  final ByteData byteData = await rootBundle.load("packages/myapp/$assetPath");
+  final ByteData byteData = await rootBundle.load("packages/myapp/assets/$assetPath");
   return base64.encode(byteData.buffer
       .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
 }
@@ -35,7 +35,7 @@ Future<File> copyAssetToLocalDirectory(String assetPath) async {
   final String filename = basename(assetPath);
   final String appDirPath = await getAppDirectoryPath();
 
-  final ByteData byteData = await rootBundle.load("packages/myapp/$assetPath");
+  final ByteData byteData = await rootBundle.load("packages/myapp/assets/$assetPath");
   return await File("$appDirPath/$filename").writeAsBytes(byteData.buffer
       .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
 }
