@@ -73,16 +73,6 @@ class VMTextWidget extends StatelessWidget {
     if (_data == null) return;
 
     _data!.texts.addAll(initTexts ?? [ "THIS IS TITLE!" ]);
-
-    // _data!.texts.add("パスワードを再確認してください。");
-    // _data!.texts.add("パスワードを再確認してください。");
-
-    // _data!.texts.add("Sẵn sàng tiệc chưa?");
-    // _data!.texts.add("Sẵn sàng tiệc chưa?");
-
-    // _data!.texts.add("วิดีโอที่คุณสร้างกำลังรอคุณอยู่");
-    // _data!.texts.add("วิดีโอที่คุณสร้างกำลังรอคุณอยู่");
-
     await extractPreview();
   }
 
@@ -147,7 +137,7 @@ class VMTextWidget extends StatelessWidget {
   Future<void> extractPreview() async {
     if (_data == null) return;
 
-    await _reload();
+    // await _reload();
     await _removeAll();
     _currentDirPath =
         "${await getAppDirectoryPath()}/${_id}_${DateTime.now().millisecondsSinceEpoch}";
@@ -177,9 +167,12 @@ class VMTextWidget extends StatelessWidget {
     }
     textArr += "]";
 
+    // await _controller!.evaluateJavascript(
+    //     source:
+    //         "(async function () { await setData({ fontFamily: $fontFamilyArr, base64: $fontBase64Arr, json: ${_data!.json}, texts: $textArr }); extractPreview(); })()");
     await _controller!.evaluateJavascript(
         source:
-            "(async function () { await setData({ fontFamily: $fontFamilyArr, base64: $fontBase64Arr, json: ${_data!.json}, texts: $textArr }); extractPreview(); })()");
+            "ExtractPreview({ id: '$_id', jobId: '', fontFamliyArr: $fontFamilyArr, fontBase64: $fontBase64Arr, json: ${_data!.json}, texts: $textArr })");
 
     return _currentPreviewCompleter!.future;
   }
@@ -220,9 +213,12 @@ class VMTextWidget extends StatelessWidget {
     }
     textArr += "]";
 
-    _controller!.evaluateJavascript(
+    // _controller!.evaluateJavascript(
+    //     source:
+    //         "(async function () { await setData({ fontFamily: $fontFamilyArr, base64: $fontBase64Arr, json: ${_data!.json}, texts: $textArr }); extractAllSequence(); })()");
+    await _controller!.evaluateJavascript(
         source:
-            "(async function () { await setData({ fontFamily: $fontFamilyArr, base64: $fontBase64Arr, json: ${_data!.json}, texts: $textArr }); extractAllSequence(); })()");
+            "ExtractAllSequence({ id: '$_id', jobId: '', fontFamliyArr: $fontFamilyArr, fontBase64: $fontBase64Arr, json: ${_data!.json}, texts: $textArr })");
 
     return _currentSequencesCompleter!.future;
   }
@@ -360,6 +356,11 @@ class VMTextWidget extends StatelessWidget {
     }
   }
 
+  void _handleTerminated(InAppWebViewController controller) {
+    print("terminated. reload!");
+    controller.reload();
+  }
+
   void _setController(InAppWebViewController controller) {
     controller.addJavaScriptHandler(
         handlerName: "TransferInit", callback: _handleTransferInit);
@@ -393,7 +394,8 @@ class VMTextWidget extends StatelessWidget {
         // offset: const Offset(0, 0),
         child: CustomWebView(
           callback: _setController,
-          initialFile: "packages/myapp/assets/html/index4.html",
+          handleTerminated: _handleTerminated,
+          initialFile: "packages/myapp/assets/html/index5.html",
         ),
       ),
     );

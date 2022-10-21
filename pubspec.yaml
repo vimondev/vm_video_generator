@@ -41,7 +41,7 @@ dependencies:
   google_mlkit_face_detection:
   google_mlkit_image_labeling:
   firebase_core:
-  flutter_inappwebview: ^5.2.0
+  flutter_inappwebview: 5.4.3+7
   uuid: ^3.0.6
   http:
 

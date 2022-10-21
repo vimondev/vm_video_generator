@@ -429,5 +429,40 @@
         "ko": "runningmanjeonsomin",
         "ja": "Natsume",
         "th": "Itim-Regular"
+    },
+    "NotoSansCJKkr-DemiLight": {
+        "ko": "NotoSansCJKkr-DemiLight",
+        "ja": "NotoSansCJKkr-DemiLight",
+        "th": "NotoSansCJKkr-DemiLight"
+    },
+    "NanumMyeongjo": {
+        "ko": "NanumMyeongjo",
+        "ja": "rounded-x-mgenplus-1c-light",
+        "th": "Taviraj-Medium"
+    },
+    "Hahmlet-Light": {
+        "ko": "Hahmlet-Light",
+        "ja": "Togalite-light",
+        "th": "BaiJamjuree-Regular"
+    },
+    "OpenSans-Regular": {
+        "ko": "OpenSans-Regular",
+        "ja": "OpenSans-Regular",
+        "th": "OpenSans-Regular"
+    },
+    "PlayfairDisplay-MediumItalic": {
+        "ko": "PlayfairDisplay-MediumItalic",
+        "ja": "Togalite-bold",
+        "th": "Taviraj-Medium"
+    },
+    "CormorantGaramond-Bold": {
+        "ko": "CormorantGaramond-Bold",
+        "ja": "rounded-x-mgenplus-1c-bold",
+        "th": "Taviraj-Bold"
+    },
+    "CormorantGaramond-Regular": {
+        "ko": "CormorantGaramond-Regular",
+        "ja": "rounded-x-mgenplus-1c-light",
+        "th": "Taviraj-Regular"
     }
 }

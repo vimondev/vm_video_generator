@@ -98,16 +98,6 @@
             boundingBoxTexts = texts
             openTypeFont = []
     
-            //const elements1 = document.getElementsByClassName("lottie-for-font-load-temporary-tags")
-            //while (elements1.length > 0) {
-            //    elements1[0].parentNode.removeChild(elements1[0])
-            //}
-    
-            //const elements2 = document.getElementsByClassName("font-tags")
-            //while (elements2.length > 0) {
-            //    elements2[0].parentNode.removeChild(elements2[0])
-            //}
-    
             for (let i = 0; i < currentFontBase64.length; i++) {
                 openTypeFont.push(opentype.parse(base64ToArrayBuffer(currentFontBase64[i])))
             }
@@ -120,12 +110,6 @@
             for (let i = 0; i < currentFontFamily.length; i++) {
                 const styleEl = document.createElement('style')
                 styleEl.className = `font-tags`
-                // styleEl.innerHTML = `
-                //     @font-face {
-                //         font-family: ${currentFontFamily[i]};
-                //         src: url("${currentFontFilename[i]}");
-                //     }
-                // `
                 styleEl.innerHTML = `
                     @font-face {
                         font-family: ${currentFontFamily[i]};
@@ -177,7 +161,6 @@
     
             const replaceText = (layers, text) => {
                 let originalText = ''
-                if (!text) text = ''
     
                 for (let i = 0; i < layers.length; i++) {
                     const layer = layers[i]

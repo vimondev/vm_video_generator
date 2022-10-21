@@ -49,6 +49,18 @@ class _TestWidgetState extends State<TestWidget> {
       });
 
       final List<String> allTexts = ResourceManager.getInstance().getTextList();
+
+      // final List<String> allTexts = [
+        // "Subtitle_SW001",
+        // "Subtitle_SW002",
+        // "Subtitle_SW003",
+        // "Title_JH008",
+        // "Title_JH009",
+        // "Title_SW033",
+        // "Title_SW034",
+        // "Title_JH007",
+      // ];
+
       // final List<String> allTexts = ["Title_DA001"];
 
       // final String currentText =
@@ -80,11 +92,11 @@ class _TestWidgetState extends State<TestWidget> {
         print('text is $currentText');
         print('_currentIndex is $i / ${allTexts.length}');
 
-
-        await _vmTextWidget.loadText(currentText, initTexts: ["첫번째줄 테스트", "두번째줄 테스트"]);
-
-        // await _vmTextWidget.setTextValue(["UPDATED TEXT 1", "UPDATED TEXT 2"]);
-        // await _vmTextWidget.setTextValue(["UPDATED TEXT ONE LINE"]);
+        // await _vmTextWidget.loadText(currentText, initTexts: ["첫번째줄 테스트", "두번째줄 테스트"]);
+        await _vmTextWidget.loadText(currentText, initTexts: ["THIS IS TITLE", "THIS IS SUBTITLE"]);
+        // await _vmTextWidget.loadText(currentText, initTexts: ["パスワードを再確認してください。", "パスワードを再確認してください。"]);
+        // await _vmTextWidget.loadText(currentText, initTexts: ["Sẵn sàng tiệc chưa?", "Sẵn sàng tiệc chưa?"]);
+        // await _vmTextWidget.loadText(currentText, initTexts: ["วิดีโอที่คุณสร้างกำลังรอคุณอยู่", "วิดีโอที่คุณสร้างกำลังรอคุณอยู่"]);
 
         // await _vmTextWidget.extractAllSequence((progress) => {});
 
@@ -111,26 +123,29 @@ class _TestWidgetState extends State<TestWidget> {
         //   "${_vmTextWidget.allSequencesPath!}/%d.png",
         //   "-vf",
         //   "scale=$width:$height",
-        //   "-c:v",
-        //   "libvpx-vp9",
-        //   "-pix_fmt",
-        //   "yuva420p",
-        //   "$webmPath/$currentText.webm",
         //   // "-c:v",
-        //   // "libx264",
-        //   // "-preset",
-        //   // "ultrafast",
+        //   // "libvpx-vp9",
         //   // "-pix_fmt",
-        //   // "yuv420p",
-        //   // "$webmPath/$currentText.mp4",
+        //   // "yuva420p",
+        //   // "$webmPath/$currentText.webm",
+        //   "-c:v",
+        //   "libx264",
+        //   "-preset",
+        //   "ultrafast",
+        //   "-pix_fmt",
+        //   "yuv420p",
+        //   "$webmPath/${currentText}_en.mp4",
         //   "-y"
         // ], (p0) => null);
 
         File thumbnailFile = File(_vmTextWidget.previewImagePath!);
-        await thumbnailFile.copy("$webmPath/$currentText.png");
+        await thumbnailFile.copy("$webmPath/${currentText}_en.png");
 
         print(thumbnailFile.path);
         await Future.delayed(const Duration(seconds: 1));
+
+        print(currentText);
+        print("");
       }
 
       print("");

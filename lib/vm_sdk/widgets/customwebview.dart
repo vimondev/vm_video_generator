@@ -4,11 +4,13 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 class CustomWebView extends StatelessWidget {
   static final CustomWebView _instance = CustomWebView._internal();
   static var _callback;
+  static var _handleTerminated;
   static String? _initialFile;
 
 
-  factory CustomWebView({callback, initialFile}) {
+  factory CustomWebView({callback, handleTerminated, initialFile}) {
     _callback = callback;
+    _handleTerminated = handleTerminated;
     _initialFile = initialFile;
     return _instance;
   }
@@ -41,6 +43,10 @@ class CustomWebView extends StatelessWidget {
           initialFile: _initialFile,
           onWebViewCreated: (controller) {
             _callback(controller);
+          },
+          
+          iosOnWebContentProcessDidTerminate: (controller) {
+            _handleTerminated(controller);
           },
           onConsoleMessage: (controller, consoleMessage) {
             print(consoleMessage);
