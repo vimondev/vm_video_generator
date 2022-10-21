@@ -172,11 +172,6 @@ const LoadAnimation = async (id, animationData) => {
                 anim.previewFrame = ip
                 anim.goToAndStop(ip, true)
             }
-            anim.renderer.svgElement.childNodes.forEach(node => {
-                if (node.tagName === 'g') {
-                    RemoveMasks(node, false)
-                }
-            })
         }
     })
 
@@ -251,6 +246,8 @@ function CopySVGElement(frameNumber, opentypeMap) {
                 break
 
             case 'g': {
+                RemoveMasks(node, false)
+                
                 const gEl = node.cloneNode(true)
                 const textElements = ConvertTextToPath(gEl, opentypeMap)
                 textElements.forEach(element => element.remove())

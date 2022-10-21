@@ -18,12 +18,12 @@ class TestWidget extends StatelessWidget {
     }
 
     final filelist = json.decode(
-        await rootBundle.loadString("assets/_test/mediajson-joined/oriented.json"));
+        await rootBundle.loadString("assets/_test/mediajson-joined/monaco2.json"));
 
     List<MediaData> mediaList = [];
 
     for (final Map file in filelist) {
-      final String filename = file["filename"];
+      String filename = file["filename"];
       final EMediaType type =
           file["type"] == "image" ? EMediaType.image : EMediaType.video;
       final int width = file["width"];
@@ -39,10 +39,16 @@ class TestWidget extends StatelessWidget {
 
       if (file.containsKey("duration")) duration = file["duration"] * 1.0;
 
+      if (filename == "20211113_195754.mp4") {
+        filename = "20211113_195754_no_audio.mp4";
+      }
+
       final writedFile =
-          await copyAssetToLocalDirectory("_test/oriented/$filename");
+          await copyAssetToLocalDirectory("_test/monaco2/$filename");
       mediaList.add(MediaData(writedFile.path, type, width, height, orientation, duration,
           createDate, gpsString, mlkitDetected));
+
+      if (mediaList.length >= 10) break;
     }
 
     for (int i=0; i<EMusicStyle.values.length; i++) {

@@ -30,8 +30,6 @@ Future<TextWidgetData?> loadTextWidgetData(String id, int lineCount) async {
   if (locale.contains("_")) {
     locale = locale.split("_")[0];
   }
-
-  locale = "en";
   
   print(locale);
 

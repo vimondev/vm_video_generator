@@ -119,6 +119,7 @@ const ExtractAllSequence = async ({ id, jobId, fontFamliyArr, fontBase64, json, 
                 frameNumber: i,
                 data: await CanvasHelper.DrawPNG(svg, minX, minY, maxWidth, maxHeight)
             })
+            await sleep(10)
         }
 
         window.flutter_inappwebview.callHandler('TransferAllSequenceComplete')

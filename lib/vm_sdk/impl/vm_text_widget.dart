@@ -73,16 +73,6 @@ class VMTextWidget extends StatelessWidget {
     if (_data == null) return;
 
     _data!.texts.addAll(initTexts ?? [ "THIS IS TITLE!" ]);
-
-    // _data!.texts.add("パスワードを再確認してください。");
-    // _data!.texts.add("パスワードを再確認してください。");
-
-    // _data!.texts.add("Sẵn sàng tiệc chưa?");
-    // _data!.texts.add("Sẵn sàng tiệc chưa?");
-
-    // _data!.texts.add("วิดีโอที่คุณสร้างกำลังรอคุณอยู่");
-    // _data!.texts.add("วิดีโอที่คุณสร้างกำลังรอคุณอยู่");
-
     await extractPreview();
   }
 
@@ -148,7 +138,7 @@ class VMTextWidget extends StatelessWidget {
     if (_data == null) return;
 
     // await _reload();
-    // await _removeAll();
+    await _removeAll();
     _currentDirPath =
         "${await getAppDirectoryPath()}/${_id}_${DateTime.now().millisecondsSinceEpoch}";
     _currentPreviewPath = "$_currentDirPath/preview";
