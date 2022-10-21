@@ -194,7 +194,7 @@ const GetTextSourceLayers = (anim, compositionId) => {
             for (let j = 0; j < elements.length; j++) {
                 const { data: { nm: sourceNm } } = elements[j]
                 if (typeof sourceNm === 'string'
-                    && sourceNm.toLowerCase() === '@source'
+                    && sourceNm.toLowerCase().startsWith('@source')
                     && typeof elements[j].updateDocumentData === 'function') {
                     textSourceLayerElements.push(elements[j])
                 }
