@@ -135,6 +135,10 @@ class VMSDKWidget extends StatelessWidget {
     editedTextData.x = (resolution.width / 2) - (editedTextData.width / 2);
     editedTextData.y = (resolution.height / 2) - (editedTextData.height / 2);
 
+    if (allEditedData.ratio == ERatio.ratio916) {
+      editedTextData.y *= 0.7;
+    }
+
     allEditedData.editedMediaList[0].editedTexts.add(editedTextData);
 
     final VideoGeneratedResult result = await _runFFmpeg(

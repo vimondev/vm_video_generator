@@ -23,6 +23,22 @@ const RemoveMasks = (node, isText) => {
     }
 }
 
+const ResetUnusedDefs = defsNode => {
+    if (defsNode.hasChildNodes()) {
+        defsNode.childNodes.forEach(childNode => {
+            if (childNode.tagName === 'filter' && childNode.getAttribute('filterUnits') === 'objectBoundingBox') {
+                childNode.removeAttribute('x')
+                childNode.removeAttribute('y')
+                childNode.removeAttribute('width')
+                childNode.removeAttribute('height')
+            }
+            else if (childNode.tagName === 'text') {
+                childNode.remove()
+            }
+        })
+    }
+}
+
 const AssignFrameNumber = (node, index) => {
     if (node.attributes) {
         for (let i = 0; i < node.attributes.length; i++) {
@@ -241,6 +257,7 @@ function CopySVGElement(frameNumber, opentypeMap) {
         switch (node.tagName) {
             case 'defs': {
                 const defsEl = AssignFrameNumber(node.cloneNode(true), frameNumber)
+                ResetUnusedDefs(defsEl)
                 svgElement.appendChild(defsEl)
             }
                 break
