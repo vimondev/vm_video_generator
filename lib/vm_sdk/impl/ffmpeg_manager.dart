@@ -13,11 +13,9 @@ class FFMpegManager {
 
   Future<void> execute(
       List<String> args, Function(Statistics)? callback) async {
+    
     if (callback != null) {
-      FFmpegKitConfig.enableStatisticsCallback(callback);
-    } //
-    else {
-      FFmpegKitConfig.disableStatistics();
+      FFmpegKitConfig.enableStatisticsCallback((statistics) => callback(statistics));
     }
 
     log = "";
