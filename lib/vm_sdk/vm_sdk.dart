@@ -321,7 +321,10 @@ class VMSDKWidget extends StatelessWidget {
 
         clipDataList.add(clipData);
 
-        thumbnailList.add(await extractThumbnail(editedMediaList[i], i) ?? "");
+        String thumbnailPath = await extractThumbnail(editedMediaList[i], i) ?? "";
+        editedMedia.thumbnailPath = thumbnailPath;
+        thumbnailList.add(thumbnailPath);
+
         totalDuration += editedMedia.duration;
       }
 

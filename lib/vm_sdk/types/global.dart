@@ -103,6 +103,7 @@ class MediaData {
 
 class EditedMedia {
   MediaData mediaData;
+  String? thumbnailPath;
   EMediaLabel mediaLabel = EMediaLabel.none;
   bool isBoundary = false;
 

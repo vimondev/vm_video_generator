@@ -34,6 +34,7 @@ String parseAllEditedDataToJSON(AllEditedData allEditedData) {
       "mediaWidth": editedMedia.mediaData.width,
       "mediaHeight": editedMedia.mediaData.height,
       "mediaDuration": editedMedia.mediaData.duration,
+      "mediaThumbnail": editedMedia.thumbnailPath,
       "startTime": editedMedia.startTime,
       "endTime": editedMedia.startTime + editedMedia.duration,
       "angle": 0,
