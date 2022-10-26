@@ -136,7 +136,7 @@ class VMSDKWidget extends StatelessWidget {
     editedTextData.y = (resolution.height / 2) - (editedTextData.height / 2);
 
     if (allEditedData.ratio == ERatio.ratio916) {
-      editedTextData.y *= 0.7;
+      editedTextData.y *= 0.6;
     }
 
     allEditedData.editedMediaList[0].editedTexts.add(editedTextData);
