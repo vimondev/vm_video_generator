@@ -50,7 +50,11 @@ class VMTextWidget extends StatelessWidget {
   Map<int, String> _allSequencePathMap = {};
   List<String> _allSequencePaths = [];
 
-  TextWidgetData? _data;
+  final Map<String, TextWidgetData?> _dataMapOneLine = {};
+  final Map<String, TextWidgetData?> _dataMapTwoLine = {};
+
+  List<String> _texts = [];
+
   Completer<void>? _reloadCompleter;
   Completer<void>? _currentPreviewCompleter;
   Completer<void>? _currentSequencesCompleter;
@@ -69,19 +73,22 @@ class VMTextWidget extends StatelessWidget {
 
   Future<void> loadText(String id, { List<String>? initTexts }) async {
     _id = id;
-    _data = (await loadTextWidgetData(id, initTexts?.length ?? 1))!;
-    if (_data == null) return;
 
-    _data!.texts.addAll(initTexts ?? [ "THIS IS TITLE!" ]);
-    await extractPreview();
+    if (!_dataMapOneLine.containsKey(id)) {
+      _dataMapOneLine[id] = await loadTextWidgetData(id, 1);
+    }
+    if (!_dataMapTwoLine.containsKey(id)) {
+      _dataMapTwoLine[id] = await loadTextWidgetData(id, 2);
+    }
+
+    await setTextValue(initTexts ?? [ "THIS IS TITLE!" ]);
   }
 
   Future<void> setTextValue(List<String> values,
       {bool isExtractPreviewImmediate = true}) async {
-    if (_data == null) return;
 
-    _data!.texts = [];
-    _data!.texts.addAll(values);
+    _texts = [];
+    _texts.addAll(values);
 
     if (isExtractPreviewImmediate) {
       await extractPreview();
@@ -134,8 +141,19 @@ class VMTextWidget extends StatelessWidget {
     await dir.create(recursive: true);
   }
 
+  TextWidgetData? _getTextWidgetData() {
+    if (_texts.length >= 2 && _dataMapTwoLine.containsKey(_id)) {
+      return _dataMapTwoLine[_id];
+    }
+    return _dataMapOneLine.containsKey(_id) ? _dataMapOneLine[_id] : null;
+  }
+
   Future<void> extractPreview() async {
+    TextWidgetData? _data = _getTextWidgetData();
     if (_data == null) return;
+
+    _data.texts = [];
+    _data.texts.addAll(_texts);
 
     // await _reload();
     await _removeAll();
@@ -172,14 +190,18 @@ class VMTextWidget extends StatelessWidget {
     //         "(async function () { await setData({ fontFamily: $fontFamilyArr, base64: $fontBase64Arr, json: ${_data!.json}, texts: $textArr }); extractPreview(); })()");
     await _controller!.evaluateJavascript(
         source:
-            "ExtractPreview({ id: '$_id', jobId: '', fontFamliyArr: $fontFamilyArr, fontBase64: $fontBase64Arr, json: ${_data!.json}, texts: $textArr })");
+            "ExtractPreview({ id: '$_id ${_data.texts.length >= 2 ? "TWO" : "ONE"} LINE', jobId: '', fontFamliyArr: $fontFamilyArr, fontBase64: $fontBase64Arr, json: ${_data!.json}, texts: $textArr })");
 
     return _currentPreviewCompleter!.future;
   }
 
   Future<void> extractAllSequence(
       Function(double progress)? progressCallback) async {
+    TextWidgetData? _data = _getTextWidgetData();
     if (_data == null) return;
+
+    _data.texts = [];
+    _data.texts.addAll(_texts);
 
     await _reload();
     await _removeAll();
@@ -218,7 +240,7 @@ class VMTextWidget extends StatelessWidget {
     //         "(async function () { await setData({ fontFamily: $fontFamilyArr, base64: $fontBase64Arr, json: ${_data!.json}, texts: $textArr }); extractAllSequence(); })()");
     await _controller!.evaluateJavascript(
         source:
-            "ExtractAllSequence({ id: '$_id', jobId: '', fontFamliyArr: $fontFamilyArr, fontBase64: $fontBase64Arr, json: ${_data!.json}, texts: $textArr })");
+            "ExtractAllSequence({ id: '$_id ${_data.texts.length >= 2 ? "TWO" : "ONE"} LINE', jobId: '', fontFamliyArr: $fontFamilyArr, fontBase64: $fontBase64Arr, json: ${_data!.json}, texts: $textArr })");
 
     return _currentSequencesCompleter!.future;
   }
