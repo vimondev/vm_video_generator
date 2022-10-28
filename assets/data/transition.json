@@ -2,7 +2,7 @@
     "TRANSITION_DA001": {
         "type": "overlay",
         "speed": "M",
-        "enable": true,
+        "enable": false,
         "isRecommend": false,
         "exceptSpeed": {}
     },
@@ -23,7 +23,7 @@
     "TRANSITION_HJ001": {
         "type": "overlay",
         "speed": "M",
-        "enable": true,
+        "enable": false,
         "isRecommend": false,
         "exceptSpeed": {}
     },
