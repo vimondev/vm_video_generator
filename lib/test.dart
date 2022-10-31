@@ -7,15 +7,8 @@ import 'vm_sdk/impl/global_helper.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 
-class TestWidget extends StatefulWidget {
+class TestWidget extends StatelessWidget {
   TestWidget({Key? key}) : super(key: key);
-
-  @override
-  State<TestWidget> createState() => _TestWidgetState();
-}
-
-class _TestWidgetState extends State<TestWidget> {
-  String text = "Initialized!";
 
   final VMSDKWidget _vmsdkWidget = VMSDKWidget();
 
@@ -65,9 +58,8 @@ class _TestWidgetState extends State<TestWidget> {
           await _vmsdkWidget.generateVideo(mediaList, style, false,
               // ["THIS IS", "VIMON V-LOG"],
               ["$style"], "ko", (status, progress) {
-        setState(() {
-          text = "Status($status)\nProgress(${(progress * 10000).floor() / 100}%)";
-        });
+        print(status);
+        print(progress);
       });
 
       await GallerySaver.saveVideo(result.generatedVideoPath);
@@ -89,15 +81,7 @@ class _TestWidgetState extends State<TestWidget> {
       appBar: AppBar(
         title: const Text("VM SDK TEST"),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(text),
-            _vmsdkWidget
-          ]
-        )
-      ),
+      body: _vmsdkWidget,
       floatingActionButton: FloatingActionButton(
           onPressed: _run, tooltip: 'Run', child: const Icon(Icons.play_arrow)),
     );
