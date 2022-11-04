@@ -77,8 +77,9 @@ const extractPreviewTest = async () => {
 
         _animMap[loadedJsonFilename] = anim
     }
-    anim.TextUpdate(anim.textComps[0], 'THIS IS TITLE' + test++)
-    anim.TextUpdate(anim.textComps[1], 'THIS IS SUBTITLE' + test++)
+
+    if (anim.textComps[0]) anim.TextUpdate(anim.textComps[0], 'THIS IS TITLE' + test++)
+    if (anim.textComps[1]) anim.TextUpdate(anim.textComps[1], 'THIS IS SUBTITLE' + test++)
 
     const { svgElement, allRect: { x, y, width, height }, allRect, previewData } = anim.CopySVGElement(anim.previewFrame, _opentypeMap)
 
@@ -87,6 +88,9 @@ const extractPreviewTest = async () => {
     const image = new Image()
     image.src = pngbase64
     document.body.appendChild(image)
+
+    console.log(anim.goToAndPlay)
+    anim.goToAndPlay(0, true)
 
     console.log(`elapsed - : ${Date.now() - now}ms`)
 }
@@ -122,13 +126,13 @@ const extractAllSequenceTest = async () => {
         _animMap[loadedJsonFilename] = anim
     }
     
-    anim.TextUpdate(anim.textComps[0], 'THIS IS TITLE')
-    anim.TextUpdate(anim.textComps[1], 'THIS IS SUBTITLE')
+    if (anim.textComps[0]) anim.TextUpdate(anim.textComps[0], 'THIS IS TITLE')
+    if (anim.textComps[1]) anim.TextUpdate(anim.textComps[1], 'THIS IS SUBTITLE')
 
     const svgElements = []
     let minX = 0, minY = 0, maxWidth = -1, maxHeight = -1
     for (let i = 0; i < anim.totalFrames; i++) {
-        const { svgElement, allRect: { x, y, width, height } } = anim.CopySVGElement(anim.previewFrame, _opentypeMap)
+        const { svgElement, allRect: { x, y, width, height } } = anim.CopySVGElement(i, _opentypeMap)
 
         if (width > maxWidth) {
             minX = x
@@ -151,5 +155,8 @@ const extractAllSequenceTest = async () => {
         image.src = pngbase64
         document.body.appendChild(image)
     }
+
+    anim.goToAndPlay(0, true)
+
     console.log(`elapsed - : ${Date.now() - now}ms`)
 }
