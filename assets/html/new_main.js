@@ -12,12 +12,17 @@ window.addEventListener("flutterInAppWebViewPlatformReady", function (event) {
 })
 
 const LoadFont = async (fontFamliyArr, fontBase64) => {
-    await Promise.all(fontFamliyArr.map((fontFamily, index) => {
-        if (!opentypeMap[fontFamily]) {
-            opentypeMap[fontFamily] = FontHelper.LoadOpenTypeFromBase64(fontBase64[index])
-        }
-        return FontHelper.LoadFontFamily(fontFamily, fontBase64[index])
-    }))
+    try {
+        await Promise.all(fontFamliyArr.map((fontFamily, index) => {
+            if (!opentypeMap[fontFamily]) {
+                opentypeMap[fontFamily] = FontHelper.LoadOpenTypeFromBase64(fontBase64[index])
+            }
+            return FontHelper.LoadFontFamily(fontFamily, fontBase64[index])
+        }))
+    }
+    catch (e) {
+        console.log(e)
+    }
 }
 
 const GetAnimAndSetText = async (id, json, texts) => {

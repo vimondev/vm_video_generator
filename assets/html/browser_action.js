@@ -51,10 +51,15 @@ const extractPreviewTest = async () => {
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
     const now = Date.now()
 
-    await Promise.all(loadedFontFamily.map((fontFamily, index) => {
-        _opentypeMap[fontFamily] = FontHelper.LoadOpenTypeFromBase64(loadedFontBase64[index])
-        return FontHelper.LoadFontFamily(fontFamily, loadedFontBase64[index])
-    }))
+    try {
+        await Promise.all(loadedFontFamily.map((fontFamily, index) => {
+            _opentypeMap[fontFamily] = FontHelper.LoadOpenTypeFromBase64(loadedFontBase64[index])
+            return FontHelper.LoadFontFamily(fontFamily, loadedFontBase64[index])
+        }))
+    }
+    catch (e) {
+        console.log(e)
+    }
     console.log(_opentypeMap)
 
     let anim
@@ -75,9 +80,9 @@ const extractPreviewTest = async () => {
     anim.TextUpdate(anim.textComps[0], 'THIS IS TITLE' + test++)
     anim.TextUpdate(anim.textComps[1], 'THIS IS SUBTITLE' + test++)
 
-    const { svgElement, allRect: { x, y, width, height } } = anim.CopySVGElement(anim.previewFrame, _opentypeMap)
+    const { svgElement, allRect: { x, y, width, height }, allRect, previewData } = anim.CopySVGElement(anim.previewFrame, _opentypeMap)
 
-    const pngbase64 = await CanvasHelper.DrawPNG(svgElement, x, y, width, height)
+    const pngbase64 = await CanvasHelper.DrawPNG(svgElement, x, y, width, height, allRect, previewData)
 
     const image = new Image()
     image.src = pngbase64
@@ -90,10 +95,15 @@ const extractAllSequenceTest = async () => {
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
     const now = Date.now()
 
-    await Promise.all(loadedFontFamily.map((fontFamily, index) => {
-        _opentypeMap[fontFamily] = FontHelper.LoadOpenTypeFromBase64(loadedFontBase64[index])
-        return FontHelper.LoadFontFamily(fontFamily, loadedFontBase64[index])
-    }))
+    try {
+        await Promise.all(loadedFontFamily.map((fontFamily, index) => {
+            _opentypeMap[fontFamily] = FontHelper.LoadOpenTypeFromBase64(loadedFontBase64[index])
+            return FontHelper.LoadFontFamily(fontFamily, loadedFontBase64[index])
+        }))
+    }
+    catch (e) {
+        console.log(e)
+    }
     console.log(_opentypeMap)
 
     let anim
