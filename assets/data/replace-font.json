@@ -435,6 +435,16 @@
         "ja": "NotoSansCJKkr-DemiLight",
         "th": "NotoSansCJKkr-DemiLight"
     },
+    "NotoSansKR-Medium": {
+        "ko": "NotoSansKR-Medium",
+        "ja": "NotoSansKR-Medium",
+        "th": "NotoSansKR-Medium"
+    },
+    "NotoSansKR-Regular": {
+        "ko": "NotoSansKR-Regular",
+        "ja": "NotoSansKR-Regular",
+        "th": "NotoSansKR-Regular"
+    },
     "NanumMyeongjo": {
         "ko": "NanumMyeongjo",
         "ja": "rounded-x-mgenplus-1c-light",
