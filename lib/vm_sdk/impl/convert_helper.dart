@@ -274,9 +274,9 @@ AllEditedData parseJSONToAllEditedData(String encodedJSON) {
           if (payload.containsKey("#TEXT1")) {
             editedTextData.texts["#TEXT1"] = payload["#TEXT1"];
           }
-          // if (payload.containsKey("#TEXT2")) {
-          //   editedTextData.texts["#TEXT2"] = payload["#TEXT2"];
-          // }
+          if (payload.containsKey("#TEXT2")) {
+            editedTextData.texts["#TEXT2"] = payload["#TEXT2"];
+          }
 
           editedMedia.editedTexts.add(editedTextData);
         }
