@@ -270,6 +270,7 @@ AllEditedData parseJSONToAllEditedData(String encodedJSON) {
               overlay["rect"]["y"] * 1.0,
               overlay["rect"]["width"] * 1.0,
               overlay["rect"]["height"] * 1.0);
+          editedTextData.rotate = overlay["angle"] * 1.0;
 
           if (payload.containsKey("#TEXT1")) {
             editedTextData.texts["#TEXT1"] = payload["#TEXT1"];
