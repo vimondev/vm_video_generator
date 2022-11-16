@@ -256,6 +256,19 @@ AllEditedData parseJSONToAllEditedData(String encodedJSON) {
           editedMedia.stickers.add(editedStickerData);
         }
       } //
+      else if (overlay["type"] == "CANVAS") {
+        final String imagePath = overlay["stickerData"]["localData"]["filePath"];
+        final CanvasTextData canvasTextData = CanvasTextData();
+
+        canvasTextData.imagePath = imagePath;
+        canvasTextData.width = (overlay["rect"]["width"] * 1.0).floor();
+        canvasTextData.height = (overlay["rect"]["height"] * 1.0).floor();
+        canvasTextData.x = overlay["rect"]["x"] * 1.0;
+        canvasTextData.y = overlay["rect"]["y"] * 1.0;
+        canvasTextData.rotate = overlay["angle"] * 1.0;
+
+        editedMedia.canvasTexts.add(canvasTextData);
+      } //
       else if (overlay["type"] == "TEXT") {
         final String textId = overlay["stickerData"]["localData"]["id"];
         final Map payload = overlay["stickerData"]["payload"];

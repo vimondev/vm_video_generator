@@ -122,6 +122,7 @@ class EditedMedia {
 
   FrameData? frame;
   List<EditedStickerData> stickers = [];
+  List<CanvasTextData> canvasTexts = [];
   TransitionData? transition;
   List<EditedTextData> editedTexts = [];
 

@@ -78,6 +78,7 @@ Future<RenderedData> clipRender(
   final MediaData mediaData = editedMedia.mediaData;
   final FrameData? frame = editedMedia.frame;
   final List<EditedStickerData> stickerList = editedMedia.stickers;
+  final List<CanvasTextData> canvasTexts = editedMedia.canvasTexts;
   final List<EditedTextData> textList = editedMedia.editedTexts;
 
   double duration =
@@ -321,6 +322,39 @@ Future<RenderedData> clipRender(
         "$videoOutputMapVariable${stickerRotatedMapVariable}overlay=${sticker.x}-(((${sticker.width}*cos($rotateForCal)+${sticker.height}*sin($rotateForCal))-${sticker.width})/2):${sticker.y}-(((${sticker.width}*sin($rotateForCal)+${sticker.height}*cos($rotateForCal))-${sticker.height})/2)$stickerMergedMapVariable;");
 
     videoOutputMapVariable = stickerMergedMapVariable;
+  }
+
+  /////////////////////
+  // ADD CANVAS TEXT //
+  /////////////////////
+
+  for (int i = 0; i < canvasTexts.length; i++) {
+    final CanvasTextData canvasText = canvasTexts[i];
+
+    final String canvasTextScaledMapVariable = "[canvas_text_scaled$i]";
+    final String canvasTextRotatedMapVariable = "[canvas_text_rotated$i]";
+    final String canvasTextMergedMapVariable = "[canvas_text_merged$i]";
+
+    double rotate = canvasText.rotate;
+    if (rotate < 0) rotate = pi + (pi + rotate);
+
+    double rotateForCal = rotate;
+    if (rotateForCal > pi) rotateForCal -= pi;
+    if (rotateForCal > pi / 2) rotateForCal = (pi / 2) - (rotateForCal - (pi / 2));
+
+    inputArguments.addAll([
+      "-i",
+      canvasText.imagePath
+    ]);
+
+    filterStrings.add(
+        "[${inputFileCount++}:v]scale=${canvasText.width}:${canvasText.height}$canvasTextScaledMapVariable;");
+    filterStrings.add(
+        "${canvasTextScaledMapVariable}rotate=$rotate:c=none:ow=rotw($rotate):oh=roth($rotate)$canvasTextRotatedMapVariable;");
+    filterStrings.add(
+        "$videoOutputMapVariable${canvasTextRotatedMapVariable}overlay=${canvasText.x}-(((${canvasText.width}*cos($rotateForCal)+${canvasText.height}*sin($rotateForCal))-${canvasText.width})/2):${canvasText.y}-(((${canvasText.width}*sin($rotateForCal)+${canvasText.height}*cos($rotateForCal))-${canvasText.height})/2)$canvasTextMergedMapVariable;");
+
+    videoOutputMapVariable = canvasTextMergedMapVariable;
   }
 
   ///////////////
