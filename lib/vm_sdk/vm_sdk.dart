@@ -76,6 +76,7 @@ class VMSDKWidget extends StatelessWidget {
     }
 
     mediaList = await _filterNotExistsMedia(mediaList);
+    mediaList = await _scaleImageMedia(mediaList);
 
     final AllEditedData allEditedData = await generateAllEditedData(
         mediaList, style, randomSortedTemplateList, isAutoEdit);
@@ -213,6 +214,19 @@ class VMSDKWidget extends StatelessWidget {
     return result;
   }
 
+  Future<List<MediaData>> _scaleImageMedia(List<MediaData> mediaList) async {
+    List<MediaData> result = [];
+
+    for (int i=0; i<mediaList.length; i++) {
+      final media = mediaList[i];
+      MediaData newMedia = await scaleImageMedia(media, i);
+
+      result.add(newMedia);
+    }
+
+    return result;
+  }
+
   Future<VideoGeneratedResult> _runFFmpeg(
       List<EditedMedia> editedMediaList,
       List<MusicData> musicList,
@@ -282,7 +296,6 @@ class VMSDKWidget extends StatelessWidget {
 
       for (int i = 0; i < editedMediaList.length; i++) {
         final EditedMedia editedMedia = editedMediaList[i];
-        editedMedia.mediaData = await scaleImageMedia(editedMedia.mediaData, i);
 
         TransitionData? prevTransition, nextTransition;
         if (i > 0) {
