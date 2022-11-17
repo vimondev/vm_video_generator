@@ -5,6 +5,7 @@ enum ETransitionType { xfade, overlay }
 enum EStickerType { object }
 
 class MusicData {
+  String title = "";
   String filename = "";
   String speed = "";
   String url = "";

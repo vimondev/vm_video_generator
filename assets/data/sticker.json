@@ -325,5 +325,125 @@
     },
     "STIKER_ON008": {
         "enable": true
+    },
+    "STICKER_OGQ_08": {
+        "enable": false
+    },
+    "STICKER_OGQ_10_ANIM": {
+        "enable": false
+    },
+    "STICKER_OGQ_12": {
+        "enable": false
+    },
+    "STICKER_OGQ_16_ANIM": {
+        "enable": false
+    },
+    "STICKER_OGQ_19": {
+        "enable": false
+    },
+    "STICKER_OGQ_22": {
+        "enable": false
+    },
+    "STICKER_OGQ_23": {
+        "enable": false
+    },
+    "STICKER_OGQ_ARROW_01": {
+        "enable": false
+    },
+    "STICKER_OGQ_ARROW_01_ANIM": {
+        "enable": false
+    },
+    "STICKER_OGQ_HEART": {
+        "enable": false
+    },
+    "STICKER_OGQ_HEART_01": {
+        "enable": false
+    },
+    "STICKER_OGQ_HEART_01_ANIM": {
+        "enable": false
+    },
+    "STICKER_OGQ_HEART_02": {
+        "enable": false
+    },
+    "STICKER_OGQ_HEART_03": {
+        "enable": false
+    },
+    "STICKER_OGQ_HEART_04": {
+        "enable": false
+    },
+    "STICKER_OGQ_TRAVEL15": {
+        "enable": false
+    },
+    "STICKER_OGQ_TRAVEL_01": {
+        "enable": false
+    },
+    "STICKER_OGQ_TRAVEL_01_ANIM": {
+        "enable": false
+    },
+    "STICKER_OGQ_TRAVEL_02": {
+        "enable": false
+    },
+    "STICKER_OGQ_TRAVEL_03": {
+        "enable": false
+    },
+    "STICKER_OGQ_TRAVEL_04": {
+        "enable": false
+    },
+    "STICKER_OGQ_TRAVEL_05": {
+        "enable": false
+    },
+    "STICKER_OGQ_TRAVEL_06": {
+        "enable": false
+    },
+    "STICKER_OGQ_TRAVEL_07": {
+        "enable": false
+    },
+    "STICKER_OGQ_TRAVEL_08": {
+        "enable": false
+    },
+    "STICKER_OGQ_TRAVEL_09": {
+        "enable": false
+    },
+    "STICKER_OGQ_TRAVEL_10": {
+        "enable": false
+    },
+    "STICKER_OGQ_TRAVEL_11": {
+        "enable": false
+    },
+    "STICKER_OGQ_TRAVEL_12": {
+        "enable": false
+    },
+    "STICKER_OGQ_TRAVEL_13": {
+        "enable": false
+    },
+    "STICKER_OGQ_TRAVEL_14": {
+        "enable": false
+    },
+    "STICKER_OGQ_WEATHER_01": {
+        "enable": false
+    },
+    "STICKER_OGQ_WEATHER_01_ANIM": {
+        "enable": false
+    },
+    "STICKER_OGQ_WEATHER_02": {
+        "enable": false
+    },
+    "STICKER_OGQ_WEATHER_02_ANIM": {
+        "enable": false
+    },
+    "STICKER_OGQ_WEATHER_03": {
+        "enable": false
+    },
+    "STICKER_OGQ_WEATHER_03_ANIM": {
+        "enable": false
+    },
+    "STICKER_OGQ_WEATHER_04": {
+        "enable": false
+    },
+    "STICKER_OGQ_WEATHER_05_ANIM": {
+        "enable": false
+    },
+    "STICKER_OGQ_WEATHER_06":{
+        "enable": false
     }
 }

@@ -143,6 +143,7 @@ String parseAllEditedDataToJSON(AllEditedData allEditedData) {
   for (int i = 0; i < allEditedData.musicList.length; i++) {
     MusicData music = allEditedData.musicList[i];
     bgm.add({
+      "name": music.title,
       "sourcePath": music.absolutePath,
       "order": i,
       "startTime": currentTime,

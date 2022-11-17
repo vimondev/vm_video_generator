@@ -914,6 +914,7 @@ Future<_GetMusicResponse> _getMusics(EMusicStyle? musicStyle) async {
       String url = source.url;
 
       MusicData musicData = MusicData();
+      musicData.title = song.title;
       musicData.duration = duration;
       musicData.filename = name;
       musicData.speed = song.speed;
