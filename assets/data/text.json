@@ -955,6 +955,30 @@
         "isRecommend": true,
         "exceptSpeed": {}
     },
+    "Title_YJ026": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
+    },
+    "Title_YJ027": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
+    },
+    "Title_YJ028": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
+    },
+    "Title_YJ029": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {}
+    },
 
 
     "Subtitle_SW001": {
