@@ -78,6 +78,7 @@ Future<RenderedData> clipRender(
   final MediaData mediaData = editedMedia.mediaData;
   final FrameData? frame = editedMedia.frame;
   final List<EditedStickerData> stickerList = editedMedia.stickers;
+  final List<CanvasTextData> canvasTexts = editedMedia.canvasTexts;
   final List<EditedTextData> textList = editedMedia.editedTexts;
 
   double duration =
@@ -288,13 +289,19 @@ Future<RenderedData> clipRender(
   for (int i = 0; i < stickerList.length; i++) {
     final EditedStickerData sticker = stickerList[i];
     ResourceFileInfo fileInfo = sticker.fileinfo!;
-    // final double angle = sticker.rotate % 360;
 
     final int loopCount = (duration / fileInfo.duration).floor();
     final String stickerMapVariable = "[sticker$i]";
     final String stickerScaledMapVariable = "[sticker_scaled$i]";
-    // final String stickerRotatedMapVariable = "[sticker_rotated$i]";
+    final String stickerRotatedMapVariable = "[sticker_rotated$i]";
     final String stickerMergedMapVariable = "[sticker_merged$i]";
+
+    double rotate = sticker.rotate;
+    if (rotate < 0) rotate = pi + (pi + rotate);
+
+    double rotateForCal = rotate;
+    if (rotateForCal > pi) rotateForCal -= pi;
+    if (rotateForCal > pi / 2) rotateForCal = (pi / 2) - (rotateForCal - (pi / 2));
 
     inputArguments.addAll([
       "-stream_loop",
@@ -310,9 +317,44 @@ Future<RenderedData> clipRender(
     filterStrings.add(
         "${stickerMapVariable}scale=${sticker.width}:${sticker.height}$stickerScaledMapVariable;");
     filterStrings.add(
-        "$videoOutputMapVariable${stickerScaledMapVariable}overlay=${sticker.x}:${sticker.y}$stickerMergedMapVariable;");
+        "${stickerScaledMapVariable}rotate=$rotate:c=none:ow=rotw($rotate):oh=roth($rotate)$stickerRotatedMapVariable;");
+    filterStrings.add(
+        "$videoOutputMapVariable${stickerRotatedMapVariable}overlay=${sticker.x}-(((${sticker.width}*cos($rotateForCal)+${sticker.height}*sin($rotateForCal))-${sticker.width})/2):${sticker.y}-(((${sticker.width}*sin($rotateForCal)+${sticker.height}*cos($rotateForCal))-${sticker.height})/2)$stickerMergedMapVariable;");
 
     videoOutputMapVariable = stickerMergedMapVariable;
+  }
+
+  /////////////////////
+  // ADD CANVAS TEXT //
+  /////////////////////
+
+  for (int i = 0; i < canvasTexts.length; i++) {
+    final CanvasTextData canvasText = canvasTexts[i];
+
+    final String canvasTextScaledMapVariable = "[canvas_text_scaled$i]";
+    final String canvasTextRotatedMapVariable = "[canvas_text_rotated$i]";
+    final String canvasTextMergedMapVariable = "[canvas_text_merged$i]";
+
+    double rotate = canvasText.rotate;
+    if (rotate < 0) rotate = pi + (pi + rotate);
+
+    double rotateForCal = rotate;
+    if (rotateForCal > pi) rotateForCal -= pi;
+    if (rotateForCal > pi / 2) rotateForCal = (pi / 2) - (rotateForCal - (pi / 2));
+
+    inputArguments.addAll([
+      "-i",
+      canvasText.imagePath
+    ]);
+
+    filterStrings.add(
+        "[${inputFileCount++}:v]scale=${canvasText.width}:${canvasText.height}$canvasTextScaledMapVariable;");
+    filterStrings.add(
+        "${canvasTextScaledMapVariable}rotate=$rotate:c=none:ow=rotw($rotate):oh=roth($rotate)$canvasTextRotatedMapVariable;");
+    filterStrings.add(
+        "$videoOutputMapVariable${canvasTextRotatedMapVariable}overlay=${canvasText.x}-(((${canvasText.width}*cos($rotateForCal)+${canvasText.height}*sin($rotateForCal))-${canvasText.width})/2):${canvasText.y}-(((${canvasText.width}*sin($rotateForCal)+${canvasText.height}*cos($rotateForCal))-${canvasText.height})/2)$canvasTextMergedMapVariable;");
+
+    videoOutputMapVariable = canvasTextMergedMapVariable;
   }
 
   ///////////////
@@ -325,7 +367,18 @@ Future<RenderedData> clipRender(
 
     if (exportedText != null) {
       String textMapVariable = "[text$i]";
+      String textRotatedMapVariable = "[text_rotated$i]";
       String textMergedMapVariable = "[text_merged$i]";
+
+      double rotate = editedText.rotate;
+      if (rotate < 0) rotate = pi + (pi + rotate);
+
+      double rotateForCal = rotate;
+      if (rotateForCal > pi) rotateForCal -= pi;
+      if (rotateForCal > pi / 2) rotateForCal = (pi / 2) - (rotateForCal - (pi / 2));
+
+      int width = (editedText.width).floor();
+      int height = (editedText.height).floor();
 
       inputArguments.addAll([
         "-framerate",
@@ -335,9 +388,11 @@ Future<RenderedData> clipRender(
       ]);
 
       filterStrings.add(
-          "[${inputFileCount++}:v]trim=0:$duration,setpts=PTS-STARTPTS,scale=${(editedText.width).floor()}:${(editedText.height).floor()}$textMapVariable;");
+          "[${inputFileCount++}:v]trim=0:$duration,setpts=PTS-STARTPTS,scale=$width:$height$textMapVariable;");
       filterStrings.add(
-          "$videoOutputMapVariable${textMapVariable}overlay=${editedText.x}:${editedText.y}$textMergedMapVariable;");
+          "${textMapVariable}rotate=$rotate:c=none:ow=rotw($rotate):oh=roth($rotate)$textRotatedMapVariable;");
+      filterStrings.add(
+          "$videoOutputMapVariable${textRotatedMapVariable}overlay=${editedText.x}-((($width*cos($rotateForCal)+$height*sin($rotateForCal))-$width)/2):${editedText.y}-((($width*sin($rotateForCal)+$height*cos($rotateForCal))-$height)/2)$textMergedMapVariable;");
 
       videoOutputMapVariable = textMergedMapVariable;
     }

@@ -5,6 +5,7 @@ enum ETransitionType { xfade, overlay }
 enum EStickerType { object }
 
 class MusicData {
+  String title = "";
   String filename = "";
   String speed = "";
   String url = "";
@@ -126,4 +127,15 @@ class EditedStickerData extends StickerData {
     fileinfo = stickerData.fileinfo;
     type = stickerData.type;
   }
+}
+
+class CanvasTextData {
+  String imagePath = "";
+  int width = 0;
+  int height = 0;
+  double x = 0;
+  double y = 0;
+  double rotate = 0;
+
+  CanvasTextData();
 }

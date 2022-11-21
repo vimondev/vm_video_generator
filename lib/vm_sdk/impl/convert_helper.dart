@@ -143,6 +143,7 @@ String parseAllEditedDataToJSON(AllEditedData allEditedData) {
   for (int i = 0; i < allEditedData.musicList.length; i++) {
     MusicData music = allEditedData.musicList[i];
     bgm.add({
+      "name": music.title,
       "sourcePath": music.absolutePath,
       "order": i,
       "startTime": currentTime,
@@ -256,6 +257,19 @@ AllEditedData parseJSONToAllEditedData(String encodedJSON) {
           editedMedia.stickers.add(editedStickerData);
         }
       } //
+      else if (overlay["type"] == "CANVAS") {
+        final String imagePath = overlay["stickerData"]["localData"]["filePath"];
+        final CanvasTextData canvasTextData = CanvasTextData();
+
+        canvasTextData.imagePath = imagePath;
+        canvasTextData.width = (overlay["rect"]["width"] * 1.0).floor();
+        canvasTextData.height = (overlay["rect"]["height"] * 1.0).floor();
+        canvasTextData.x = overlay["rect"]["x"] * 1.0;
+        canvasTextData.y = overlay["rect"]["y"] * 1.0;
+        canvasTextData.rotate = overlay["angle"] * 1.0;
+
+        editedMedia.canvasTexts.add(canvasTextData);
+      } //
       else if (overlay["type"] == "TEXT") {
         final String textId = overlay["stickerData"]["localData"]["id"];
         final Map payload = overlay["stickerData"]["payload"];
@@ -270,13 +284,14 @@ AllEditedData parseJSONToAllEditedData(String encodedJSON) {
               overlay["rect"]["y"] * 1.0,
               overlay["rect"]["width"] * 1.0,
               overlay["rect"]["height"] * 1.0);
+          editedTextData.rotate = overlay["angle"] * 1.0;
 
           if (payload.containsKey("#TEXT1")) {
             editedTextData.texts["#TEXT1"] = payload["#TEXT1"];
           }
-          // if (payload.containsKey("#TEXT2")) {
-          //   editedTextData.texts["#TEXT2"] = payload["#TEXT2"];
-          // }
+          if (payload.containsKey("#TEXT2")) {
+            editedTextData.texts["#TEXT2"] = payload["#TEXT2"];
+          }
 
           editedMedia.editedTexts.add(editedTextData);
         }

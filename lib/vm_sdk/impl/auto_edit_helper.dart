@@ -846,10 +846,10 @@ Future<_GetMusicResponse> _getMusics(EMusicStyle? musicStyle) async {
   EMusicStyle? curStyle = musicStyle;
   if (curStyle == null || curStyle == EMusicStyle.none) {
     Map<double, String> speedProbabilityMap = {
-      0.2: "S",
-      0.4: "M",
-      0.7: "MM",
-      1.0: "F"
+      0.4: "S",
+      0.8: "M",
+      1.0: "MM",
+      // 1.0: "F"
     };
     double randValue = Random().nextDouble();
     String randSpeed = songMapBySpeed.keys.first;
@@ -914,6 +914,7 @@ Future<_GetMusicResponse> _getMusics(EMusicStyle? musicStyle) async {
       String url = source.url;
 
       MusicData musicData = MusicData();
+      musicData.title = song.title;
       musicData.duration = duration;
       musicData.filename = name;
       musicData.speed = song.speed;
