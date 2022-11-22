@@ -16,7 +16,7 @@
     "TRANSITION_DA003": {
         "type": "overlay",
         "speed": "M",
-        "enable": true,
+        "enable": false,
         "isRecommend": false,
         "exceptSpeed": {}
     },
