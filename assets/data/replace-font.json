@@ -4,170 +4,19 @@
         "ja": "rounded-x-mgenplus-1c-black",
         "th": "BaiJamjuree-Bold"
     },
-    "GmarketSansBold": {
-        "ko": "GmarketSansBold",
-        "ja": "HackGen-Bold",
-        "th": "BaiJamjuree-Bold"
-    },
-    "tvNEnjoystoriesB": {
-        "ko": "tvNEnjoystoriesB",
-        "ja": "apricotJapanesefont",
-        "th": "Itim-Regular"
-    },
-    "SANGJU Gyeongcheon Island": {
-        "ko": "SANGJU Gyeongcheon Island",
+    "aAbstractGroovy": {
+        "ko": "Jalnan",
         "ja": "rounded-x-mgenplus-1c-black",
-        "th": "Taviraj-Black"
-    },
-    "NEXONFootballGothicB": {
-        "ko": "NEXONFootballGothicB",
-        "ja": "HackGen-Bold",
         "th": "BaiJamjuree-Bold"
-    },
-    "TTTogether": {
-        "en": "VITRO-CORE-TTF",
-        "ko": "VITRO-CORE-TTF",
-        "ja": "rounded-x-mgenplus-1c-black",
-        "th": "Trirong-Black"
-    },
-    "MapoAgape": {
-        "ko": "MapoAgape",
-        "ja": "GenJyuuGothicL-Monospace-Bold",
-        "th": "Trirong-Black"
-    },
-    "BBTreeC_B": {
-        "ko": "BBTreeC_B",
-        "ja": "apricotJapanesefont",
-        "th": "Itim-Regular"
-    },
-    "JalnanOTF": {
-        "ko": "JalnanOTF",
-        "ja": "rounded-x-mgenplus-1c-black",
-        "th": "Taviraj-ExtraBold"
-    },
-    "DungGeunMo": {
-        "ko": "DungGeunMo",
-        "ja": "CP-period",
-        "th": "BaiJamjuree-Bold"
-    },
-    "GangwonEduPowerExtraBold": {
-        "ko": "GangwonEduPowerExtraBold",
-        "ja": "Isemin",
-        "th": "BaiJamjuree-Bold"
-    },
-    "SBAggroB": {
-        "ko": "SBAggroB",
-        "ja": "Isemin",
-        "th": "BaiJamjuree-Bold"
-    },
-    "GmarketSansTTFBold": {
-        "ko": "GmarketSansTTFBold",
-        "ja": "Isemin",
-        "th": "BaiJamjuree-Bold"
-    },
-    "Cafe24Ohsquare": {
-        "ko": "Cafe24Ohsquare",
-        "ja": "Isemin",
-        "th": "BaiJamjuree-Bold"
-    },
-    "LeeSeoyun": {
-        "ko": "LeeSeoyun",
-        "ja": "Natsume",
-        "th": "Itim-Regular"
-    },
-    "THEFACESHOP": {
-        "ko": "THEFACESHOP",
-        "ja": "Natsume",
-        "th": "Itim-Regular"
-    },
-    "establishRetrosans": {
-        "ko": "establishRetrosans",
-        "ja": "rounded-x-mgenplus-1c-black",
-        "th": "Itim-Regular"
-    },
-    "MapoBackpacking": {
-        "ko": "MapoBackpacking",
-        "ja": "GenJyuuGothicL-Monospace-Bold",
-        "th": "BaiJamjuree-SemiBold"
-    },
-    "MapoDacapo": {
-        "ko": "MapoDacapo",
-        "ja": "Togalite-light",
-        "th": "Trirong-Regular"
-    },
-    "RussoOne": {
-        "ko": "VITRO-CORE-TTF",
-        "ja": "Isemin",
-        "th": "BaiJamjuree-Bold"
-    },
-    "Maybe Coffee": {
-        "ko": "HSSanTokki",
-        "ja": "rounded-x-mgenplus-1c-black",
-        "th": "Itim-Regular"
-    },
-    "YesevaOne": {
-        "ko": "SANGJU Gyeongcheon Island",
-        "ja": "Isemin",
-        "th": "Taviraj-Black"
     },
     "Alphakind": {
         "ko": "RixYeoljeongdoR",
         "ja": "Isemin",
         "th": "BaiJamjuree-Bold"
     },
-    "Mentimun": {
-        "ko": "MaplestoryBold",
-        "ja": "rounded-x-mgenplus-1c-black",
-        "th": "BaiJamjuree-Bold"
-    },
-    "DimboRegular": {
-        "ko": "establishRetrosans",
-        "ja": "bananaslipplus",
-        "th": "BaiJamjuree-Bold"
-    },
-    "GranstanderClean": {
-        "ko": "VITRO-CORE-TTF",
-        "ja": "Isemin",
-        "th": "BaiJamjuree-Bold"
-    },
-    "HandletterinkRegular": {
-        "ko": "ghanachoco",
-        "ja": "Mushin",
-        "th": "Itim-Regular"
-    },
-    "HSDuggobi": {
-        "ko": "HSDuggobi",
-        "ja": "Isemin",
-        "th": "BaiJamjuree-Bold"
-    },
-    "KestoySelfie": {
-        "ko": "ghanachoco",
-        "ja": "rounded-x-mgenplus-1c-black",
-        "th": "BaiJamjuree-Bold"
-    },
-    "Comicy": {
-        "ko": "CookieRun-Black",
-        "ja": "Isemin",
-        "th": "BaiJamjuree-Bold"
-    },
-    "Carten": {
-        "ko": "ghanachoco",
-        "ja": "rounded-x-mgenplus-1c-black",
-        "th": "BaiJamjuree-Bold"
-    },
-    "aAbstractGroovy": {
-        "ko": "Jalnan",
-        "ja": "rounded-x-mgenplus-1c-black",
-        "th": "BaiJamjuree-Bold"
-    },
     "Amperzand": {
         "ko": "ghanachoco",
         "ja": "rounded-x-mgenplus-1c-bold",
-        "th": "BaiJamjuree-Bold"
-    },
-    "null": {
-        "ko": "CookieRun-Black",
-        "ja": "rounded-x-mgenplus-1c-black",
         "th": "BaiJamjuree-Bold"
     },
     "Autery": {
@@ -189,6 +38,11 @@
         "ko": "BazziRegular",
         "ja": "rounded-x-mgenplus-1c-bold",
         "th": "BaiJamjuree-SemiBold"
+    },
+    "BBTreeC_B": {
+        "ko": "BBTreeC_B",
+        "ja": "apricotJapanesefont",
+        "th": "Itim-Regular"
     },
     "Besty": {
         "ko": "establishRoomNo703",
@@ -245,6 +99,16 @@
         "ja": "Togalite-light",
         "th": "Taviraj-Bold"
     },
+    "Cafe24Ohsquare": {
+        "ko": "Cafe24Ohsquare",
+        "ja": "Isemin",
+        "th": "BaiJamjuree-Bold"
+    },
+    "Cafe24Oneprettynight": {
+        "ko": "Cafe24Oneprettynight",
+        "ja": "Togalite-light",
+        "th": "Trirong-Regular"
+    },
     "Cafe24Shiningstar": {
         "ko": "Cafe24Shiningstar",
         "ja": "apricotJapanesefont",
@@ -255,9 +119,14 @@
         "ja": "Natsume",
         "th": "Itim-Regular"
     },
-    "CWDangamAsac-Bold": {
-        "ko": "CWDangamAsac-Bold",
+    "Carten": {
+        "ko": "ghanachoco",
         "ja": "rounded-x-mgenplus-1c-black",
+        "th": "BaiJamjuree-Bold"
+    },
+    "CenturyGothic": {
+        "ko": "BlackHanSans-Regular",
+        "ja": "Isemin",
         "th": "BaiJamjuree-Bold"
     },
     "Cintaly": {
@@ -265,8 +134,48 @@
         "ja": "rounded-x-mgenplus-1c-black",
         "th": "Taviraj-Black"
     },
+    "Comicy": {
+        "ko": "CookieRun-Black",
+        "ja": "Isemin",
+        "th": "BaiJamjuree-Bold"
+    },
     "CookieRun-Black": {
         "ko": "CookieRun-Black",
+        "ja": "rounded-x-mgenplus-1c-black",
+        "th": "Taviraj-Black"
+    },
+    "CormorantGaramond-Bold": {
+        "ko": "CormorantGaramond-Bold",
+        "ja": "rounded-x-mgenplus-1c-bold",
+        "th": "Taviraj-Bold"
+    },
+    "CormorantGaramond-Regular": {
+        "ko": "CormorantGaramond-Regular",
+        "ja": "rounded-x-mgenplus-1c-light",
+        "th": "Taviraj-Regular"
+    },
+    "CWDangamAsac-Bold": {
+        "ko": "CWDangamAsac-Bold",
+        "ja": "rounded-x-mgenplus-1c-black",
+        "th": "BaiJamjuree-Bold"
+    },
+    "DimboRegular": {
+        "ko": "establishRetrosans",
+        "ja": "bananaslipplus",
+        "th": "BaiJamjuree-Bold"
+    },
+    "DungGeunMo": {
+        "ko": "DungGeunMo",
+        "ja": "CP-period",
+        "th": "BaiJamjuree-Bold"
+    },
+    "establishRetrosans": {
+        "ko": "establishRetrosans",
+        "ja": "rounded-x-mgenplus-1c-black",
+        "th": "Itim-Regular"
+    },
+    "establishRoomNo703": {
+        "ko": "establishRoomNo703",
         "ja": "rounded-x-mgenplus-1c-black",
         "th": "Taviraj-Black"
     },
@@ -280,18 +189,28 @@
         "ja": "Isemin",
         "th": "Taviraj-Black"
     },
+    "GangwonEduPowerExtraBold": {
+        "ko": "GangwonEduPowerExtraBold",
+        "ja": "Isemin",
+        "th": "BaiJamjuree-Bold"
+    },
     "ghanachoco": {
         "ko": "ghanachoco",
         "ja": "rounded-x-mgenplus-1c-black",
         "th": "Taviraj-Black"
     },
-    "Sandome__G": {
-        "ko": "ghanachoco",
-        "ja": "rounded-x-mgenplus-1c-black",
-        "th": "Taviraj-Black"
+    "GmarketSansBold": {
+        "ko": "GmarketSansBold",
+        "ja": "HackGen-Bold",
+        "th": "BaiJamjuree-Bold"
     },
-    "CenturyGothic": {
-        "ko": "BlackHanSans-Regular",
+    "GmarketSansTTFBold": {
+        "ko": "GmarketSansTTFBold",
+        "ja": "Isemin",
+        "th": "BaiJamjuree-Bold"
+    },
+    "GranstanderClean": {
+        "ko": "VITRO-CORE-TTF",
         "ja": "Isemin",
         "th": "BaiJamjuree-Bold"
     },
@@ -300,10 +219,25 @@
         "ja": "JNR_Font",
         "th": "BaiJamjuree-Bold"
     },
+    "Hahmlet-Light": {
+        "ko": "Hahmlet-Light",
+        "ja": "Togalite-light",
+        "th": "BaiJamjuree-Regular"
+    },
+    "HandletterinkRegular": {
+        "ko": "ghanachoco",
+        "ja": "Mushin",
+        "th": "Itim-Regular"
+    },
     "Hey August": {
         "ko": "JSArirang-Regular",
         "ja": "rounded-x-mgenplus-1c-black",
         "th": "Taviraj-Black"
+    },
+    "HSDuggobi": {
+        "ko": "HSDuggobi",
+        "ja": "Isemin",
+        "th": "BaiJamjuree-Bold"
     },
     "HSSanTokki": {
         "ko": "HSSanTokki",
@@ -314,6 +248,11 @@
         "ko": "Jalnan",
         "ja": "Isemin",
         "th": "Taviraj-Black"
+    },
+    "JalnanOTF": {
+        "ko": "JalnanOTF",
+        "ja": "rounded-x-mgenplus-1c-black",
+        "th": "Taviraj-ExtraBold"
     },
     "JamesStroker": {
         "ko": "JSArirang-Regular",
@@ -330,6 +269,16 @@
         "ja": "Isemin",
         "th": "Taviraj-Black"
     },
+    "KestoySelfie": {
+        "ko": "ghanachoco",
+        "ja": "rounded-x-mgenplus-1c-black",
+        "th": "BaiJamjuree-Bold"
+    },
+    "LeeSeoyun": {
+        "ko": "LeeSeoyun",
+        "ja": "Natsume",
+        "th": "Itim-Regular"
+    },
     "Lets Coffee": {
         "ko": "establishRoomNo703",
         "ja": "rounded-x-mgenplus-1c-bold",
@@ -345,10 +294,50 @@
         "ja": "rounded-x-mgenplus-1c-bold",
         "th": "Trirong-ExtraBold"
     },
+    "MapoAgape": {
+        "ko": "MapoAgape",
+        "ja": "GenJyuuGothicL-Monospace-Bold",
+        "th": "Trirong-Black"
+    },
+    "MapoBackpacking": {
+        "ko": "MapoBackpacking",
+        "ja": "GenJyuuGothicL-Monospace-Bold",
+        "th": "BaiJamjuree-SemiBold"
+    },
+    "MapoDacapo": {
+        "ko": "MapoDacapo",
+        "ja": "Togalite-light",
+        "th": "Trirong-Regular"
+    },
+    "MapoFlowerIsland": {
+        "ko": "MapoFlowerIsland",
+        "ja": "Togalite-light",
+        "th": "Trirong-Regular"
+    },
     "MapoHongdaeFreedom": {
         "ko": "MapoHongdaeFreedom",
         "ja": "Isemin",
         "th": "Taviraj-Black"
+    },
+    "Maybe Coffee": {
+        "ko": "HSSanTokki",
+        "ja": "rounded-x-mgenplus-1c-black",
+        "th": "Itim-Regular"
+    },
+    "Mentimun": {
+        "ko": "MaplestoryBold",
+        "ja": "rounded-x-mgenplus-1c-black",
+        "th": "BaiJamjuree-Bold"
+    },
+    "NanumHaNaSonGeurSsi": {
+        "ko": "NanumHaNaSonGeurSsi",
+        "ja": "apricotJapanesefont",
+        "th": "Itim-Regular"
+    },
+    "NanumMyeongjo": {
+        "ko": "NanumMyeongjo",
+        "ja": "rounded-x-mgenplus-1c-light",
+        "th": "Taviraj-Medium"
     },
     "NanumPen": {
         "ko": "NanumPen",
@@ -360,15 +349,60 @@
         "ja": "CP-period",
         "th": "BaiJamjuree-Bold"
     },
+    "NEXONFootballGothicB": {
+        "ko": "NEXONFootballGothicB",
+        "ja": "HackGen-Bold",
+        "th": "BaiJamjuree-Bold"
+    },
+    "NotoSansCJKkr-DemiLight": {
+        "ko": "NotoSansCJKkr-DemiLight",
+        "ja": "Togalite-light",
+        "th": "BaiJamjuree-Regular"
+    },
+    "NotoSansKR-Medium": {
+        "ko": "NotoSansKR-Medium",
+        "ja": "IPAGothic",
+        "th": "BaiJamjuree-Medium"
+    },
+    "NotoSansKR-Regular": {
+        "ko": "NotoSansKR-Regular",
+        "ja": "GenJyuuGothicL-Monospace-Regular",
+        "th": "BaiJamjuree-Regular"
+    },
     "NotoSerifCJKkr-SemiBold": {
         "ko": "NotoSerifCJKkr-SemiBold",
         "ja": "IPAGothic",
         "th": "Taviraj-Medium"
     },
+    "NotoSerifKR-Light": {
+        "ko": "NotoSerifKR-Light",
+        "ja": "Togalite-light",
+        "th": "Trirong-Regular"
+    },
+    "NotoSerifKR-Medium": {
+        "ko": "NotoSerifKR-Medium",
+        "ja": "IPAGothic",
+        "th": "Trirong-Medium"
+    },
+    "null": {
+        "ko": "CookieRun-Black",
+        "ja": "rounded-x-mgenplus-1c-black",
+        "th": "BaiJamjuree-Bold"
+    },
     "ONEMobilePOPRegular": {
         "ko": "ONEMobilePOPRegular",
         "ja": "Isemin",
         "th": "Taviraj-Black"
+    },
+    "OpenSans-Regular": {
+        "ko": "OpenSans-Regular",
+        "ja": "GenJyuuGothicL-Monospace-Regular",
+        "th": "BaiJamjuree-Regular"
+    },
+    "PlayfairDisplay-MediumItalic": {
+        "ko": "PlayfairDisplay-MediumItalic",
+        "ja": "Togalite-bold",
+        "th": "Taviraj-Medium"
     },
     "RixYeoljeongdoR": {
         "ko": "RixYeoljeongdoR",
@@ -380,8 +414,18 @@
         "ja": "Mushin",
         "th": "Itim-Regular"
     },
-    "establishRoomNo703": {
-        "ko": "establishRoomNo703",
+    "runningmanjeonsomin": {
+        "ko": "runningmanjeonsomin",
+        "ja": "Natsume",
+        "th": "Itim-Regular"
+    },
+    "RussoOne": {
+        "ko": "VITRO-CORE-TTF",
+        "ja": "Isemin",
+        "th": "BaiJamjuree-Bold"
+    },
+    "Sandome__G": {
+        "ko": "ghanachoco",
         "ja": "rounded-x-mgenplus-1c-black",
         "th": "Taviraj-Black"
     },
@@ -389,6 +433,32 @@
         "ko": "SANGJU Gotgam",
         "ja": "rounded-x-mgenplus-1c-bold",
         "th": "Taviraj-Black"
+    },
+    "SANGJU Gyeongcheon Island": {
+        "ko": "SANGJU Gyeongcheon Island",
+        "ja": "rounded-x-mgenplus-1c-black",
+        "th": "Taviraj-Black"
+    },
+    "SBAggroB": {
+        "ko": "SBAggroB",
+        "ja": "Isemin",
+        "th": "BaiJamjuree-Bold"
+    },
+    "THEFACESHOP": {
+        "ko": "THEFACESHOP",
+        "ja": "Natsume",
+        "th": "Itim-Regular"
+    },
+    "TTTogether": {
+        "en": "VITRO-CORE-TTF",
+        "ko": "VITRO-CORE-TTF",
+        "ja": "rounded-x-mgenplus-1c-black",
+        "th": "Trirong-Black"
+    },
+    "tvNEnjoystoriesB": {
+        "ko": "tvNEnjoystoriesB",
+        "ja": "apricotJapanesefont",
+        "th": "Itim-Regular"
     },
     "twaysky": {
         "ko": "twaysky",
@@ -410,11 +480,6 @@
         "ja": "Mushin",
         "th": "Itim-Regular"
     },
-    "NanumHaNaSonGeurSsi": {
-        "ko": "NanumHaNaSonGeurSsi",
-        "ja": "apricotJapanesefont",
-        "th": "Itim-Regular"
-    },
     "VITRO-CORE-TTF": {
         "ko": "VITRO-CORE-TTF",
         "ja": "rounded-x-mgenplus-1c-bold",
@@ -425,54 +490,9 @@
         "ja": "rounded-x-mgenplus-1c-bold",
         "th": "Taviraj-Black"
     },
-    "runningmanjeonsomin": {
-        "ko": "runningmanjeonsomin",
-        "ja": "Natsume",
-        "th": "Itim-Regular"
-    },
-    "NotoSansCJKkr-DemiLight": {
-        "ko": "NotoSansCJKkr-DemiLight",
-        "ja": "NotoSansCJKkr-DemiLight",
-        "th": "NotoSansCJKkr-DemiLight"
-    },
-    "NotoSansKR-Medium": {
-        "ko": "NotoSansKR-Medium",
-        "ja": "NotoSansKR-Medium",
-        "th": "NotoSansKR-Medium"
-    },
-    "NotoSansKR-Regular": {
-        "ko": "NotoSansKR-Regular",
-        "ja": "NotoSansKR-Regular",
-        "th": "NotoSansKR-Regular"
-    },
-    "NanumMyeongjo": {
-        "ko": "NanumMyeongjo",
-        "ja": "rounded-x-mgenplus-1c-light",
-        "th": "Taviraj-Medium"
-    },
-    "Hahmlet-Light": {
-        "ko": "Hahmlet-Light",
-        "ja": "Togalite-light",
-        "th": "BaiJamjuree-Regular"
-    },
-    "OpenSans-Regular": {
-        "ko": "OpenSans-Regular",
-        "ja": "OpenSans-Regular",
-        "th": "OpenSans-Regular"
-    },
-    "PlayfairDisplay-MediumItalic": {
-        "ko": "PlayfairDisplay-MediumItalic",
-        "ja": "Togalite-bold",
-        "th": "Taviraj-Medium"
-    },
-    "CormorantGaramond-Bold": {
-        "ko": "CormorantGaramond-Bold",
-        "ja": "rounded-x-mgenplus-1c-bold",
-        "th": "Taviraj-Bold"
-    },
-    "CormorantGaramond-Regular": {
-        "ko": "CormorantGaramond-Regular",
-        "ja": "rounded-x-mgenplus-1c-light",
-        "th": "Taviraj-Regular"
+    "YesevaOne": {
+        "ko": "SANGJU Gyeongcheon Island",
+        "ja": "Isemin",
+        "th": "Taviraj-Black"
     }
 }
