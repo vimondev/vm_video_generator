@@ -158,6 +158,7 @@ class Resolution {
 class AllEditedData {
   List<EditedMedia> editedMediaList = [];
   List<MusicData> musicList = [];
+  String speed = "";
   ERatio ratio = ERatio.ratio11;
   EMusicStyle style = EMusicStyle.none;
   Resolution resolution = Resolution.fromRatio(ERatio.ratio11);

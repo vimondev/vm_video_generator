@@ -152,6 +152,7 @@ Future<AllEditedData> generateAllEditedData(
 
   final List<MusicData> musicList = musicsData.musicList;
   final String speed = musicList.isNotEmpty ? musicList[0].speed : "M";
+  allEditedData.speed = speed;
 
   print("curSpeed : $speed");
 
@@ -918,7 +919,7 @@ Future<_GetMusicResponse> _getMusics(EMusicStyle? musicStyle) async {
 
   while (recommendedSongList.isNotEmpty || otherSongList.isNotEmpty) {
     SongFetchModel song;
-    if (otherSongList.isEmpty || recommendedSongList.isNotEmpty && Random().nextDouble() <= 0.7) {
+    if (otherSongList.isEmpty || recommendedSongList.isNotEmpty) {// && Random().nextDouble() <= 0.7) {
       int randIdx = (Random()).nextInt(recommendedSongList.length) % recommendedSongList.length;
       song = recommendedSongList[randIdx];
       recommendedSongList.removeAt(randIdx);

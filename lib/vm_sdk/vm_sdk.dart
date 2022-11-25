@@ -81,9 +81,13 @@ class VMSDKWidget extends StatelessWidget {
     final AllEditedData allEditedData = await generateAllEditedData(
         mediaList, style, randomSortedTemplateList, isAutoEdit);
 
-    List<String> textIds = ResourceManager.getInstance().getTextList();
-    final String pickedTextId =
-        textIds[(Random()).nextInt(textIds.length) % textIds.length];
+    List<TextData> textDatas = ResourceManager.getInstance().getTextDataList(lineCount: texts.length, speed: allEditedData.speed);
+    if (textDatas.isEmpty) {
+      textDatas = ResourceManager.getInstance().getTextDataList(lineCount: texts.length);
+    }
+    final TextData pickedText = textDatas[(Random()).nextInt(textDatas.length) % textDatas.length];
+    final String pickedTextId = pickedText.key;
+
     await _textWidget.loadText(pickedTextId, initTexts: texts);
 
     await _textWidget.extractAllSequence((progress) {

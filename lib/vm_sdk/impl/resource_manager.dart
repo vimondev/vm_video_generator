@@ -126,6 +126,7 @@ class ResourceManager {
       _textMap[key]!.unsupportLang = textJsonMap[key]["unsupportLang"];
       _textMap[key]!.isRecommend = textJsonMap[key]["isRecommend"];
       _textMap[key]!.exceptSpeed = textJsonMap[key]["exceptSpeed"];
+      _textMap[key]!.lineCount = textJsonMap[key]["lineCount"];
     }
 
     final replaceFontJsonMap = jsonDecode(await loadResourceString("data/replace-font.json"));
@@ -201,7 +202,7 @@ class ResourceManager {
     return map;
   }
 
-  List<String> getTextList({bool autoEditOnly = true, String? speed}) {
+  List<String> getTextList({bool autoEditOnly = true, String? speed, int lineCount = 2}) {
     String locale = Platform.localeName;
     if (locale.contains("_")) {
       locale = locale.split("_")[0].toLowerCase();
@@ -209,8 +210,21 @@ class ResourceManager {
 
     return _textMap.keys
         .where((key) =>
-            ((!autoEditOnly) || (_textMap[key]!.isEnableAutoEdit && !_textMap[key]!.unsupportLang.containsKey(locale) && !_textMap[key]!.exceptSpeed.containsKey(speed))))
+            ((!autoEditOnly) || (_textMap[key]!.isRecommend && !_textMap[key]!.unsupportLang.containsKey(locale) && !_textMap[key]!.exceptSpeed.containsKey(speed) && _textMap[key]!.lineCount >= lineCount)))
         .map<String>((key) => key)
+        .toList();
+  }
+
+  List<TextData> getTextDataList({bool autoEditOnly = true, String? speed, int lineCount = 2}) {
+    String locale = Platform.localeName;
+    if (locale.contains("_")) {
+      locale = locale.split("_")[0].toLowerCase();
+    }
+
+    return _textMap.keys
+        .where((key) =>
+            ((!autoEditOnly) || (_textMap[key]!.isRecommend && !_textMap[key]!.unsupportLang.containsKey(locale) && !_textMap[key]!.exceptSpeed.containsKey(speed) && _textMap[key]!.lineCount >= lineCount)))
+        .map<TextData>((key) => _textMap[key]!)
         .toList();
   }
 

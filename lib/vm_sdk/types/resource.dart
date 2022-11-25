@@ -26,6 +26,7 @@ class ResourceData {
 
 class TextData extends ResourceData {
   Map unsupportLang = {};
+  int lineCount = 1;
 
   TextData(String key) : super(key);
   TextData.fromJson(String key, Map map) : super(key) {
