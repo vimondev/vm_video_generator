@@ -272,9 +272,8 @@ Future<AllEditedData> generateAllEditedData(
   // MEDIA FILTERING, REMOVE DUPLICATE CLIP //
   ////////////////////////////////////////////
 
+  int totalMediaCount = list.length;
   if (isAutoSelect) {
-    int totalMediaCount = list.length;
-
     // MEDIA FILTERING
     for (final entry in groupMap.entries) {
       if (totalMediaCount < 20) break;
@@ -470,23 +469,47 @@ Future<AllEditedData> generateAllEditedData(
       }
       else {
         if (mediaData.type == EMediaType.image) {
-          editedMedia.duration = 3 + Random().nextDouble();
+          if (totalMediaCount > 1) {
+            editedMedia.duration = 3 + Random().nextDouble();
+          }
+          else {
+            editedMedia.duration = 5 + Random().nextDouble();
+          }
         } //
         else if (mediaData.type == EMediaType.video) {
-          // ~5s
-          if (mediaData.duration! < 5) {
-            editedMedia.duration = mediaData.duration!;
+          if (totalMediaCount > 1) {
+            // ~5s
+            if (mediaData.duration! < 5) {
+              editedMedia.duration = mediaData.duration!;
+            }
+            // 5~10s
+            else if (mediaData.duration! < 10) {
+              double gap = (mediaData.duration! - 5) * 0.2; // 0 ~ 1
+              editedMedia.startTime = gap;
+              editedMedia.duration = mediaData.duration! - (gap * 2); // 5 ~ 8
+            }
+            // 10s~
+            else {
+              editedMedia.startTime = 1 + (Random().nextDouble() * 0.3);
+              editedMedia.duration = 8 + (Random().nextDouble() * 0.3);
+            }
           }
-          // 5~10s
-          else if (mediaData.duration! < 10) {
-            double gap = (mediaData.duration! - 5) * 0.2; // 0 ~ 1
-            editedMedia.startTime = gap;
-            editedMedia.duration = mediaData.duration! - (gap * 2); // 5 ~ 8
-          }
-          // 10s~
           else {
-            editedMedia.startTime = 1 + (Random().nextDouble() * 0.3);
-            editedMedia.duration = 8 + (Random().nextDouble() * 0.3);
+            // ~5s
+            if (mediaData.duration! < 5) {
+              editedMedia.duration = mediaData.duration!;
+            }
+            // 5~20s
+            else if (mediaData.duration! < 22) {
+              double gap = min(1, (mediaData.duration! - 5) * 0.2); // 0 ~ 1
+              editedMedia.startTime = gap;
+              editedMedia.duration = mediaData.duration! - (gap * 2); // 5 ~ 8
+            }
+            // 20s~
+            else {
+              editedMedia.startTime = 1 + (Random().nextDouble() * 0.3);
+              editedMedia.duration = 20 + (Random().nextDouble() * 0.3);
+            }
           }
         }
       }
