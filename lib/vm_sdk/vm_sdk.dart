@@ -219,7 +219,7 @@ class VMSDKWidget extends StatelessWidget {
 
     for (int i=0; i<mediaList.length; i++) {
       final media = mediaList[i];
-      MediaData newMedia = await scaleImageMedia(media, i);
+      MediaData newMedia = await scaleImageMedia(media);
 
       result.add(newMedia);
     }
@@ -321,7 +321,7 @@ class VMSDKWidget extends StatelessWidget {
 
         clipDataList.add(clipData);
 
-        String thumbnailPath = await extractThumbnail(editedMediaList[i], i) ?? "";
+        String thumbnailPath = await extractThumbnail(editedMediaList[i]) ?? "";
         editedMedia.thumbnailPath = thumbnailPath;
         thumbnailList.add(thumbnailPath);
 

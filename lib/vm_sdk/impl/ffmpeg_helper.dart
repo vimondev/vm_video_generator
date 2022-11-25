@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:ffmpeg_kit_flutter_full_gpl/ffprobe_kit.dart';
 import 'package:ffmpeg_kit_flutter_full_gpl/statistics.dart';
 import 'package:ffmpeg_kit_flutter_full_gpl/stream_information.dart';
+import 'package:uuid/uuid.dart';
 
 import '../types/types.dart';
 import 'global_helper.dart';
@@ -912,10 +913,10 @@ Future<RenderedData> applyMusics(
   return RenderedData(outputPath, mergedClip.duration);
 }
 
-Future<String?> extractThumbnail(EditedMedia editedMedia, int clipIdx) async {
+Future<String?> extractThumbnail(EditedMedia editedMedia) async {
   final List<String> arguments = <String>[];
   final String appDirPath = await getAppDirectoryPath();
-  final String outputPath = "$appDirPath/thumbnail_$clipIdx.jpg";
+  final String outputPath = "$appDirPath/${Uuid().v4()}.jpg";
 
   final List<String> inputArguments = <String>[];
   final List<String> filterStrings = <String>[];
@@ -943,10 +944,10 @@ Future<String?> extractThumbnail(EditedMedia editedMedia, int clipIdx) async {
   return outputPath;
 }
 
-Future<MediaData> scaleImageMedia( MediaData mediaData, int clipIdx) async {
+Future<MediaData> scaleImageMedia( MediaData mediaData) async {
   final List<String> arguments = <String>[];
   final String appDirPath = await getAppDirectoryPath();
-  final String outputPath = "$appDirPath/scaled_image_$clipIdx.jpg";
+  final String outputPath = "$appDirPath/${Uuid().v4()}.jpg";
 
   final List<String> inputArguments = <String>[];
   final List<String> filterStrings = <String>[];
