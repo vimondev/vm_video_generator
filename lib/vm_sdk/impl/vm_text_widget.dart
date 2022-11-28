@@ -8,6 +8,8 @@ import 'package:myapp/vm_sdk/impl/text_helper.dart';
 import 'package:myapp/vm_sdk/types/types.dart';
 import 'package:myapp/vm_sdk/impl/global_helper.dart';
 import 'package:myapp/vm_sdk/widgets/customwebview.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:rxdart/subjects.dart';
 
 class Rectangle {
   double _x, _y, _width, _height;
@@ -53,6 +55,11 @@ class VMTextWidget extends StatelessWidget {
   Completer<void>? _reloadCompleter;
   Completer<void>? _currentPreviewCompleter;
   Completer<void>? _currentSequencesCompleter;
+
+  final BehaviorSubject<String> _bhPreview = BehaviorSubject();
+  final BehaviorSubject<String> _bhSequences = BehaviorSubject();
+  ValueStream<String> get previewStream => _bhPreview.stream;
+  ValueStream<String> get sequencesStream => _bhSequences.stream;
 
   Function(double progress)? _currentProgressCallback;
 
@@ -275,6 +282,7 @@ class VMTextWidget extends StatelessWidget {
 
       if (_currentPreviewCompleter != null) {
         _currentPreviewCompleter!.complete();
+        _bhSequences.add(_previewImagePath!);
       }
     } catch (e) {
       if (_currentPreviewCompleter != null) {
@@ -364,6 +372,7 @@ class VMTextWidget extends StatelessWidget {
 
       if (_currentSequencesCompleter != null) {
         _currentSequencesCompleter!.complete();
+        _bhSequences.add(_allSequencesPath!);
       }
     } catch (e) {
       if (_currentSequencesCompleter != null) {
@@ -424,5 +433,10 @@ class VMTextWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void release(){
+    _bhPreview.drain().then((value) => _bhPreview.close());
+    _bhSequences.drain().then((value) => _bhSequences.close());
   }
 }
