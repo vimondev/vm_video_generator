@@ -85,9 +85,18 @@ const extractPreviewTest = async () => {
 
     const pngbase64 = await CanvasHelper.DrawPNG(svgElement, x, y, width, height, allRect, previewData)
 
+    const div = document.createElement('div')
+    div.className = 'sequence-image-container'
+    document.body.appendChild(div)
+    
     const image = new Image()
+    image.className = 'sequence-image'
     image.src = pngbase64
-    document.body.appendChild(image)
+    div.appendChild(image)
+
+    const guideDiv = document.createElement('div')
+    guideDiv.className = 'sequence-guide'
+    div.appendChild(guideDiv)
 
     console.log(anim.goToAndPlay)
     anim.goToAndPlay(0, true)
@@ -150,10 +159,20 @@ const extractAllSequenceTest = async () => {
         const svg = svgElements[i]
         console.log(i, svgElements.length)
         
-        const pngbase64 = await CanvasHelper.DrawPNG(svg, minX, minY, maxWidth, maxHeight)
+        const pngbase64 = await CanvasHelper.DrawPNG(svg, minX, minY, maxWidth, maxHeight)        
+
+        const div = document.createElement('div')
+        div.className = 'sequence-image-container'
+        document.body.appendChild(div)
+
         const image = new Image()
+        image.className = 'sequence-image'
         image.src = pngbase64
-        document.body.appendChild(image)
+        div.appendChild(image)
+
+        const guideDiv = document.createElement('div')
+        guideDiv.className = 'sequence-guide'
+        div.appendChild(guideDiv)
     }
 
     anim.goToAndPlay(0, true)
