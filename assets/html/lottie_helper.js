@@ -137,7 +137,7 @@ const SetTextTr = animationData => {
 
                     if (isTextLayer) {
                         if (layer.t && layer.t.d && layer.t.d.k && layer.t.d.k[0] && layer.t.d.k[0].s) {
-                            layer.t.d.k[0].s.tr = 75
+                            layer.t.d.k[0].s.tr += 40
                         }
                     }
                 }
