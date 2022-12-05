@@ -7,7 +7,13 @@ import 'package:flutter/services.dart' show rootBundle;
 
 Future<String> getAppDirectoryPath() async {
   final appDirectory = await getApplicationDocumentsDirectory();
-  return appDirectory.path;
+
+  Directory directory = Directory("${appDirectory.path}/VMSDK");
+  if (!(await directory.exists())) {
+    await directory.create();
+  }
+
+  return directory.path;
 }
 
 Future<String> loadResourceString(String assetPath) async {
