@@ -1,3 +1,5 @@
+import '../impl/vm_text_widget.dart';
+
 enum ETextType { Title, Caption }
 class TextWidgetData {
   ETextType type;
@@ -14,11 +16,13 @@ class TextExportData {
   double width;
   double height;
   double frameRate;
+  int totalFrameCount;
   String previewImagePath;
   String allSequencesPath;
+  Map<String, VMText> textDataMap;
 
-  TextExportData(this.id, this.width, this.height, this.frameRate,
-      this.previewImagePath, this.allSequencesPath);
+  TextExportData(this.id, this.width, this.height, this.frameRate, this.totalFrameCount,
+      this.previewImagePath, this.allSequencesPath, this.textDataMap);
 }
 
 class EditedTextData {

@@ -5,6 +5,7 @@ import 'package:uuid/uuid.dart';
 import '../types/global.dart';
 import '../types/text.dart';
 import 'resource_manager.dart';
+import 'vm_text_widget.dart';
 
 String parseAllEditedDataToJSON(AllEditedData allEditedData) {
   final uuid = Uuid();
@@ -52,6 +53,22 @@ String parseAllEditedDataToJSON(AllEditedData allEditedData) {
       final TextExportData? exportedText = editedText.textExportData;
 
       if (exportedText != null) {
+        final Map textDataMap = {};
+
+        for (final key in exportedText.textDataMap.keys) {
+          VMText vmText = exportedText.textDataMap[key]!;
+          textDataMap[key] = {
+            "key": vmText.key,
+            "value": vmText.value,
+            "boundingBox": {
+              "x": vmText.boundingBox.x,
+              "y": vmText.boundingBox.y,
+              "width": vmText.boundingBox.width,
+              "height": vmText.boundingBox.height
+            }
+          };
+        }
+
         overlays.add({
           "id": uuid.v4(),
           "type": "TEXT",
@@ -67,7 +84,16 @@ String parseAllEditedDataToJSON(AllEditedData allEditedData) {
               "type": "TEXT",
               "filePath": exportedText.previewImagePath
             },
-            "payload": editedText.texts
+            "payload": editedText.texts,
+            "textInfo": {
+              "previewImagePath": exportedText.previewImagePath,
+              "allSequencesPath": exportedText.allSequencesPath,
+              "width": exportedText.width,
+              "height": exportedText.height,
+              "frameRate": exportedText.frameRate,
+              "totalFrameCount": exportedText.totalFrameCount,
+              "textDataMap": textDataMap,
+            }
           },
           "scale": 1,
           "angle": 0,
