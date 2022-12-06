@@ -153,7 +153,7 @@
         "lineCount": 2
     },
     "Title_DA018": {
-        "enable": true,
+        "enable": false,
         "unsupportLang": {
             "th": true
         },
@@ -540,7 +540,7 @@
         "lineCount": 2
     },
     "Title_SW001": {
-        "enable": true,
+        "enable": false,
         "unsupportLang": {
             "th": true
         },
@@ -769,7 +769,7 @@
         "lineCount": 2
     },
     "Title_YJ002": {
-        "enable": true,
+        "enable": false,
         "unsupportLang": {},
         "isRecommend": true,
         "exceptSpeed": {
@@ -822,7 +822,7 @@
         "lineCount": 2
     },
     "Title_YJ010": {
-        "enable": true,
+        "enable": false,
         "unsupportLang": {
             "th": true
         },
@@ -1022,21 +1022,21 @@
         "lineCount": 1
     },
     "Subtitle_YJ001": {
-        "enable": true,
+        "enable": false,
         "unsupportLang": {},
         "isRecommend": true,
         "exceptSpeed": {},
         "lineCount": 1
     },
     "Subtitle_YJ002": {
-        "enable": true,
+        "enable": false,
         "unsupportLang": {},
         "isRecommend": true,
         "exceptSpeed": {},
         "lineCount": 1
     },
     "Subtitle_YJ003": {
-        "enable": true,
+        "enable": false,
         "unsupportLang": {},
         "isRecommend": true,
         "exceptSpeed": {},
@@ -1050,35 +1050,35 @@
         "lineCount": 1
     },
     "Subtitle_YJ005": {
-        "enable": true,
+        "enable": false,
         "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {},
         "lineCount": 1
     },
     "Subtitle_YJ006": {
-        "enable": true,
+        "enable": false,
         "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {},
         "lineCount": 1
     },
     "Subtitle_YJ007": {
-        "enable": true,
+        "enable": false,
         "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {},
         "lineCount": 1
     },
     "Subtitle_YJ008": {
-        "enable": true,
+        "enable": false,
         "unsupportLang": {},
         "isRecommend": true,
         "exceptSpeed": {},
         "lineCount": 1
     },
     "Subtitle_YJ009": {
-        "enable": true,
+        "enable": false,
         "unsupportLang": {},
         "isRecommend": true,
         "exceptSpeed": {},
