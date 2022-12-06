@@ -44,11 +44,35 @@ const GetAnimAndSetText = async (id, json, texts) => {
         animMap[id] = anim
     }
     
+    let maxTextWidth = -1
     texts.forEach((text, index) => {
         if (anim.textComps[index]) {
-            anim.TextUpdate(anim.textComps[index], text)
+            const compositionId = anim.textComps[index]
+            anim.TextUpdate({
+                compositionId,
+                text
+            })
+
+            const box = anim.GetTextBoundingBox(compositionId)
+            if (box && !isNaN(box.width) && box.width > maxTextWidth) {
+                maxTextWidth = (box.width * 1.05)
+            }
         }
     })
+
+    if (maxTextWidth !== -1) {
+        texts.forEach((text, index) => {
+            if (anim.textComps[index]) {
+                const compositionId = anim.textComps[index]
+                const scale = anim.compWidth / maxTextWidth
+                
+                anim.TextUpdate({
+                    compositionId,
+                    scale
+                })
+            }
+        })
+    }
 
     return anim
 }

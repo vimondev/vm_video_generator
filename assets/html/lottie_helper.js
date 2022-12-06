@@ -164,6 +164,7 @@ const LoadAnimation = async (id, animationData) => {
     anim.id = id
     anim.isDOMLoaded = false
     anim.previewFrame = 0
+    anim.GetTextBoundingBox = GetTextBoundingBox
     anim.TextUpdate = TextUpdate
     anim.CopySVGElement = CopySVGElement
     anim.Release = Release
@@ -182,6 +183,9 @@ const LoadAnimation = async (id, animationData) => {
         anim.textComps = Object.keys(textCompMap)
         anim.textComps.sort((a, b) => a > b ? 1 : a < b ? -1 : 0)
 
+        anim.compWidth = anim.renderer.data.w
+        anim.compHeight = anim.renderer.data.h
+
         for (let i = 0; i < layers.length; i++) {
             const { nm, ip } = layers[i]
             if (nm.toLowerCase() === '@preview') {
@@ -189,6 +193,18 @@ const LoadAnimation = async (id, animationData) => {
                 anim.goToAndStop(ip, true)
             }
         }
+
+        anim.textComps.forEach(compositionId => {
+            const textLayers = GetTextSourceLayers(anim, compositionId)
+            if (Array.isArray(textLayers)) {
+                textLayers.forEach(textLayer => {
+                    const layer = textLayer.data
+                    if (layer.t && layer.t.d && layer.t.d.k && layer.t.d.k[0] && layer.t.d.k[0].s) {
+                        textLayer.originalFontSize = layer.t.d.k[0].s.s
+                    }
+                })
+            }
+        })
     })
 
     return anim
@@ -216,7 +232,22 @@ const GetTextSourceLayers = (anim, compositionId) => {
     return textSourceLayerElements
 }
 
-function TextUpdate(compositionId, text, styles) {
+function GetTextBoundingBox(compositionId) {
+    const anim = this
+
+    if (!anim) return null
+    if (!anim.isDOMLoaded) return null
+    
+    const svgElement = anim.renderer.svgElement
+
+    const TEXTBOX = svgElement.querySelector(`g#${compositionId.replace("#", "")}`)
+    if (!TEXTBOX) return null
+
+    const textBoundingBox = TEXTBOX.getBoundingClientRect()
+    return textBoundingBox
+}
+
+function TextUpdate({ compositionId, text = '', scale = 1 }) {    
     const anim = this
 
     if (!anim) return
@@ -224,13 +255,12 @@ function TextUpdate(compositionId, text, styles) {
 
     const textSourceLayerElements = GetTextSourceLayers(anim, compositionId)
     textSourceLayerElements.forEach(element => {
-        element.updateDocumentData({ t: text })
+        if (typeof text === 'string' && text.length > 0) {
+            element.updateDocumentData({ t: text })
+        }
 
-        if (styles) {
-            const { scale, fontFamily } = styles
-
-            // TO DO : 레이어별 기본 폰트 사이즈 별도 저장 후 값 업데이트
-            // element.setAttribute('origin-font-size', value)
+        if (scale <= 1) {
+            element.updateDocumentData({ s: Math.floor(element.originalFontSize * scale) })
         }
     })
 
