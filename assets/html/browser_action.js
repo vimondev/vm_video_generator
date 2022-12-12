@@ -77,7 +77,6 @@ const extractPreviewTest = async () => {
         _animMap[loadedJsonFilename] = anim
     }
 
-    let maxTextWidth = -1
     if (anim.textComps[0]) { 
         const compositionId = anim.textComps[0]
         anim.TextUpdate({
@@ -86,8 +85,11 @@ const extractPreviewTest = async () => {
         })
 
         const box = anim.GetTextSize(compositionId)
-        if (box && !isNaN(box.width) && box.width > maxTextWidth) {
-            maxTextWidth = (box.width * 1.1)
+        if (box && !isNaN(box.width) && box.width > anim.compWidth) {
+            anim.TextUpdate({
+                compositionId,
+                scale: anim.compWidth / box.width
+            })
         }
     }
     if (anim.textComps[1]) { 
@@ -98,21 +100,14 @@ const extractPreviewTest = async () => {
         })
 
         const box = anim.GetTextSize(compositionId)
-        if (box && !isNaN(box.width) && box.width > maxTextWidth) {
-            maxTextWidth = (box.width * 1.1)
+        if (box && !isNaN(box.width) && box.width > anim.compWidth) {
+            anim.TextUpdate({
+                compositionId,
+                scale: anim.compWidth / box.width
+            })
         }
     }
     test += '12345678901234567890'
-
-    if (maxTextWidth !== -1) {
-        const scale = anim.compWidth / maxTextWidth
-        anim.textComps.forEach(compositionId => {
-            anim.TextUpdate({
-                compositionId,
-                scale
-            })
-        })
-    }
 
     const { svgElement, allRect: { x, y, width, height }, allRect, previewData } = anim.CopySVGElement(anim.previewFrame, _opentypeMap)
 
@@ -167,7 +162,6 @@ const extractAllSequenceTest = async () => {
         _animMap[loadedJsonFilename] = anim
     }
     
-    let maxTextWidth = -1
     if (anim.textComps[0]) {
         const compositionId = anim.textComps[0]
         anim.TextUpdate({
@@ -176,8 +170,11 @@ const extractAllSequenceTest = async () => {
         })
 
         const box = anim.GetTextSize(compositionId)
-        if (box && !isNaN(box.width) && box.width > maxTextWidth) {
-            maxTextWidth = (box.width * 1.1)
+        if (box && !isNaN(box.width) && box.width > anim.compWidth) {
+            anim.TextUpdate({
+                compositionId,
+                scale: anim.compWidth / box.width
+            })
         }
     }
     if (anim.textComps[1]) {
@@ -188,19 +185,12 @@ const extractAllSequenceTest = async () => {
         })
 
         const box = anim.GetTextSize(compositionId)
-        if (box && !isNaN(box.width) && box.width > maxTextWidth) {
-            maxTextWidth = (box.width * 1.1)
-        }
-    }
-
-    if (maxTextWidth !== -1) {
-        const scale = anim.compWidth / maxTextWidth
-        anim.textComps.forEach(compositionId => {
+        if (box && !isNaN(box.width) && box.width > anim.compWidth) {
             anim.TextUpdate({
                 compositionId,
-                scale
+                scale: anim.compWidth / box.width
             })
-        })
+        }
     }
 
     const svgElements = []

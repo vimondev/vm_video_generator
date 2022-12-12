@@ -277,7 +277,7 @@ function GetTextSize(compositionId) {
         if (boundingBox.height > maxHeight) maxHeight = boundingBox.height
     })
 
-    return { width: maxWidth, height: maxHeight }
+    return { width: maxWidth * 1.1, height: maxHeight * 1.1 }
 }
 
 function TextUpdate({ compositionId, text = '', scale = 1 }) {    
