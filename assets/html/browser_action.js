@@ -45,7 +45,7 @@ window.onload = function () {
     })
 }
 
-let test = '12345678901234567890'
+let test = ''
 
 const extractPreviewTest = async () => {
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -85,9 +85,9 @@ const extractPreviewTest = async () => {
             text: 'THIS IS TITLE' + test
         })
 
-        const box = anim.GetTextBoundingBox(compositionId)
+        const box = anim.GetTextSize(compositionId)
         if (box && !isNaN(box.width) && box.width > maxTextWidth) {
-            maxTextWidth = (box.width * 1.05)
+            maxTextWidth = (box.width * 1.1)
         }
     }
     if (anim.textComps[1]) { 
@@ -97,12 +97,12 @@ const extractPreviewTest = async () => {
             text: 'THIS IS SUBTITLE' + test
         })
 
-        const box = anim.GetTextBoundingBox(compositionId)
+        const box = anim.GetTextSize(compositionId)
         if (box && !isNaN(box.width) && box.width > maxTextWidth) {
-            maxTextWidth = (box.width * 1.05)
+            maxTextWidth = (box.width * 1.1)
         }
     }
-    test += '1234567890'
+    test += '12345678901234567890'
 
     if (maxTextWidth !== -1) {
         const scale = anim.compWidth / maxTextWidth
@@ -116,7 +116,8 @@ const extractPreviewTest = async () => {
 
     const { svgElement, allRect: { x, y, width, height }, allRect, previewData } = anim.CopySVGElement(anim.previewFrame, _opentypeMap)
 
-    const pngbase64 = await CanvasHelper.DrawPNG(svgElement, x, y, width, height, allRect, previewData)
+    // const pngbase64 = await CanvasHelper.DrawPNG(svgElement, x, y, width, height, allRect, previewData)
+    const pngbase64 = await CanvasHelper.DrawPNG(svgElement, x, y, width, height)
 
     const div = document.createElement('div')
     div.className = 'sequence-image-container'
@@ -174,9 +175,9 @@ const extractAllSequenceTest = async () => {
             text: 'THIS IS TITLE' + test
         })
 
-        const box = anim.GetTextBoundingBox(compositionId)
+        const box = anim.GetTextSize(compositionId)
         if (box && !isNaN(box.width) && box.width > maxTextWidth) {
-            maxTextWidth = (box.width * 1.05)
+            maxTextWidth = (box.width * 1.1)
         }
     }
     if (anim.textComps[1]) {
@@ -186,9 +187,9 @@ const extractAllSequenceTest = async () => {
             text: 'THIS IS SUBTITLE' + test
         })
 
-        const box = anim.GetTextBoundingBox(compositionId)
+        const box = anim.GetTextSize(compositionId)
         if (box && !isNaN(box.width) && box.width > maxTextWidth) {
-            maxTextWidth = (box.width * 1.05)
+            maxTextWidth = (box.width * 1.1)
         }
     }
 

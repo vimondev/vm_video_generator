@@ -53,9 +53,9 @@ const GetAnimAndSetText = async (id, json, texts) => {
                 text
             })
 
-            const box = anim.GetTextBoundingBox(compositionId)
+            const box = anim.GetTextSize(compositionId)
             if (box && !isNaN(box.width) && box.width > maxTextWidth) {
-                maxTextWidth = (box.width * 1.05)
+                maxTextWidth = (box.width * 1.1)
             }
         }
     })

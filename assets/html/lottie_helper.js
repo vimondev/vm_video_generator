@@ -125,20 +125,43 @@ const ConvertTextToPath = (node, opentypeMap, textElements = []) => {
     return textElements
 }
 
-const SetTextTr = animationData => {
+const FixTextLayer = animationData => {
     const { assets } = animationData
     assets.forEach(item => {
+        let compName = ''
         if (typeof item.nm === 'string' && item.nm.toLowerCase().startsWith('#text')) {
+            compName = item.nm
+        }
+
+        if (Array.isArray(item.layers)) {
             item.layers.forEach(layer => {
                 if (typeof layer.nm === 'string') {
                     let isTextLayer = false
                     if (layer.nm.toLowerCase().startsWith('@source')) isTextLayer = true
-                    else if (layer.t && layer.t.d && typeof layer.t.d.x === 'string' && layer.t.d.x.includes('text.sourceText')) isTextLayer = true
-
-                    if (isTextLayer) {
-                        if (layer.t && layer.t.d && layer.t.d.k && layer.t.d.k[0] && layer.t.d.k[0].s) {
-                            layer.t.d.k[0].s.tr = 40
+                    if (layer.t && layer.t.d && typeof layer.t.d.x === 'string' && layer.t.d.x.includes('text.sourceText')) {
+                        if (!compName) {
+                            let currentExpression = layer.t.d.x
+                            let startIndex = currentExpression.indexOf('comp(\'')
+                            if (startIndex !== -1) {
+                                currentExpression = currentExpression.substr(startIndex + 6, currentExpression.length)
+                                let endIndex = currentExpression.indexOf('\')')
+                                if (endIndex !== -1) {
+                                    currentExpression = currentExpression.substr(0, endIndex)
+                                    if (typeof currentExpression === 'string' && currentExpression.toLowerCase().startsWith('#text')) {
+                                        compName = currentExpression
+                                        item.nm = currentExpression
+                                    }
+                                }
+                            }
                         }
+    
+                        delete layer.t.d.x
+                        layer.nm = '@Source'
+                        isTextLayer = true
+                    }
+    
+                    if (isTextLayer) {
+                        layer.compName = compName
                     }
                 }
             })
@@ -152,7 +175,7 @@ const LoadAnimation = async (id, animationData) => {
     containerRef.id = id
     document.body.appendChild(containerRef)
 
-    SetTextTr(animationData)
+    FixTextLayer(animationData)
 
     const anim = bodymovin.loadAnimation({
         container: containerRef,
@@ -164,11 +187,12 @@ const LoadAnimation = async (id, animationData) => {
     anim.id = id
     anim.isDOMLoaded = false
     anim.previewFrame = 0
-    anim.GetTextBoundingBox = GetTextBoundingBox
+    anim.GetTextSize = GetTextSize
     anim.TextUpdate = TextUpdate
     anim.CopySVGElement = CopySVGElement
     anim.Release = Release
     anim.opentype = {}
+    anim.textMap = {}
 
     anim.addEventListener('DOMLoaded', async function (e) {
         anim.isDOMLoaded = true
@@ -200,6 +224,7 @@ const LoadAnimation = async (id, animationData) => {
                 textLayers.forEach(textLayer => {
                     const layer = textLayer.data
                     if (layer.t && layer.t.d && layer.t.d.k && layer.t.d.k[0] && layer.t.d.k[0].s) {
+                        anim.textMap[compositionId] = layer.t.d.k[0].s.t
                         textLayer.originalFontSize = layer.t.d.k[0].s.s
                     }
                 })
@@ -213,38 +238,46 @@ const LoadAnimation = async (id, animationData) => {
 const GetTextSourceLayers = (anim, compositionId) => {
     compositionId = compositionId.toLowerCase()
 
-    const textSourceLayerElements = []
-
-    for (let i = 0; i < anim.renderer.elements.length; i++) {
-        const { data: { nm }, elements } = anim.renderer.elements[i]
-        if (typeof nm === 'string' && nm.toLowerCase() === compositionId) {
-            for (let j = 0; j < elements.length; j++) {
-                const { data: { nm: sourceNm } } = elements[j]
+    const findTextLayerElements = (compositionId, currentElements, textLayerElements = []) => {
+        for (let i=0; i<currentElements.length; i++) {
+            const currentElement = currentElements[i]
+            const { data: { nm: sourceNm, compName }, elements } = currentElement
+            if (Array.isArray(elements)) {
+                findTextLayerElements(compositionId, elements, textLayerElements)
+            }
+            else {
                 if (typeof sourceNm === 'string'
+                    && typeof compName === 'string'
+                    && compName.toLowerCase() === compositionId
                     && sourceNm.toLowerCase().startsWith('@source')
-                    && typeof elements[j].updateDocumentData === 'function') {
-                    textSourceLayerElements.push(elements[j])
+                    && typeof currentElement.updateDocumentData === 'function') {
+                        textLayerElements.push(currentElement)
                 }
             }
         }
+        return textLayerElements
     }
 
-    return textSourceLayerElements
+    return findTextLayerElements(compositionId, anim.renderer.elements)
 }
 
-function GetTextBoundingBox(compositionId) {
+function GetTextSize(compositionId) {
     const anim = this
 
     if (!anim) return null
-    if (!anim.isDOMLoaded) return null
-    
-    const svgElement = anim.renderer.svgElement
+    if (!anim.isDOMLoaded) return null    
 
-    const TEXTBOX = svgElement.querySelector(`g#${compositionId.replace("#", "")}`)
-    if (!TEXTBOX) return null
+    let maxWidth = -1, maxHeight = -1
+    const texyLayers = GetTextSourceLayers(anim, compositionId)
+    texyLayers.forEach(textLayer => {
+        const element = textLayer.baseElement || textLayer.layerElement
+        const boundingBox = element.getBoundingClientRect()
 
-    const textBoundingBox = TEXTBOX.getBoundingClientRect()
-    return textBoundingBox
+        if (boundingBox.width > maxWidth) maxWidth = boundingBox.width
+        if (boundingBox.height > maxHeight) maxHeight = boundingBox.height
+    })
+
+    return { width: maxWidth, height: maxHeight }
 }
 
 function TextUpdate({ compositionId, text = '', scale = 1 }) {    
@@ -252,16 +285,19 @@ function TextUpdate({ compositionId, text = '', scale = 1 }) {
 
     if (!anim) return
     if (!anim.isDOMLoaded) return
+    
+    if (typeof text === 'string' && text.length > 0) {
+        anim.textMap[compositionId] = text
+    }
 
     const textSourceLayerElements = GetTextSourceLayers(anim, compositionId)
-    textSourceLayerElements.forEach(element => {
-        if (typeof text === 'string' && text.length > 0) {
-            element.updateDocumentData({ t: text })
-        }
 
+    textSourceLayerElements.forEach(element => {
+        const updateObj = { t: anim.textMap[compositionId], tr: 40 }
         if (scale <= 1) {
-            element.updateDocumentData({ s: Math.floor(element.originalFontSize * scale) })
+            updateObj.s = Math.floor(element.originalFontSize * scale)
         }
+        element.updateDocumentData(updateObj)
     })
 
     const previewFrame = anim.previewFrame || 0
