@@ -17,8 +17,10 @@ class TestWidget extends StatelessWidget {
       await _vmsdkWidget.initialize();
     }
 
+    String testSetName = "monaco2";
+
     final filelist = json.decode(
-        await rootBundle.loadString("assets/_test/mediajson-joined/monaco2.json"));
+        await rootBundle.loadString("assets/_test/mediajson-joined/$testSetName.json"));
 
     List<MediaData> mediaList = [];
 
@@ -44,7 +46,7 @@ class TestWidget extends StatelessWidget {
       }
 
       final writedFile =
-          await copyAssetToLocalDirectory("_test/monaco2/$filename");
+          await copyAssetToLocalDirectory("_test/$testSetName/$filename");
       mediaList.add(MediaData(writedFile.path, type, width, height, orientation, duration,
           createDate, gpsString, mlkitDetected));
 

@@ -109,9 +109,9 @@ Future<RenderedData> clipRender(
     audioOutputMapVariable = "1:a";
   } //
   else {
-    trimFilter = "trim=$startTime:${startTime + duration},setpts=PTS-STARTPTS,";
+    trimFilter = "fps=$_framerate,trim=$startTime:${startTime + duration},setpts=PTS-STARTPTS,";
     inputArguments
-        .addAll(["-r", _framerate.toString(), "-i", mediaData.absolutePath]);
+        .addAll(["-i", mediaData.absolutePath]);
 
     final mediaInfo = (await FFprobeKit.getMediaInformation(mediaData.absolutePath)).getMediaInformation();
     final List<StreamInformation> streams = mediaInfo != null ? mediaInfo.getStreams() : [];
