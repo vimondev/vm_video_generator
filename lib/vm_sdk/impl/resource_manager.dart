@@ -210,7 +210,7 @@ class ResourceManager {
 
     return _textMap.keys
         .where((key) =>
-            ((!autoEditOnly) || (_textMap[key]!.isRecommend && !_textMap[key]!.unsupportLang.containsKey(locale) && !_textMap[key]!.exceptSpeed.containsKey(speed) && _textMap[key]!.lineCount >= lineCount)))
+            ((!autoEditOnly) || (_textMap[key]!.isEnableAutoEdit && _textMap[key]!.isRecommend && !_textMap[key]!.unsupportLang.containsKey(locale) && !_textMap[key]!.exceptSpeed.containsKey(speed) && _textMap[key]!.lineCount >= lineCount)))
         .map<String>((key) => key)
         .toList();
   }
@@ -223,7 +223,7 @@ class ResourceManager {
 
     return _textMap.keys
         .where((key) =>
-            ((!autoEditOnly) || (_textMap[key]!.isRecommend && !_textMap[key]!.unsupportLang.containsKey(locale) && !_textMap[key]!.exceptSpeed.containsKey(speed) && _textMap[key]!.lineCount >= lineCount)))
+            ((!autoEditOnly) || (_textMap[key]!.isEnableAutoEdit && _textMap[key]!.isRecommend && !_textMap[key]!.unsupportLang.containsKey(locale) && !_textMap[key]!.exceptSpeed.containsKey(speed) && _textMap[key]!.lineCount >= lineCount)))
         .map<TextData>((key) => _textMap[key]!)
         .toList();
   }
