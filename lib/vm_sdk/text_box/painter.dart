@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:myapp/text_box/text_box_wrap_type.dart';
+import 'package:myapp/vm_sdk/text_box/text_box_wrap_type.dart';
 import 'package:network_font/network_font.dart';
 import 'emoji_text_span.dart';
 import 'text/config.dart';
