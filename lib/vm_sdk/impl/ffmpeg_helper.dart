@@ -112,7 +112,7 @@ Future<RenderedData> clipRender(
       "-t",
       "1",
       "-i",
-      mediaData.absolutePath,
+      mediaData.scaledPath ?? mediaData.absolutePath,
       "-c:v",
       "libx264",
       "-pix_fmt",
@@ -1030,7 +1030,11 @@ Future<MediaData> scaleImageMedia( MediaData mediaData) async {
   arguments.addAll([outputPath, "-y"]);
 
   await _ffmpegManager.execute(arguments, null);
-  return MediaData(outputPath, mediaData.type, scaledWidth, scaledHeight, 0, mediaData.duration, mediaData.createDate, mediaData.gpsString, mediaData.mlkitDetected);
+
+  final MediaData resultData = MediaData(mediaData.absolutePath, mediaData.type, mediaData.width, mediaData.height, 0, mediaData.duration, mediaData.createDate, mediaData.gpsString, mediaData.mlkitDetected);
+  resultData.scaledPath = outputPath;
+
+  return resultData;
 }
 
 int getFramerate() {
