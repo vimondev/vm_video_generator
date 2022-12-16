@@ -1,0 +1,4 @@
+enum TextBoxWrapType {
+  wrapLine,
+  wrapBox
+}
