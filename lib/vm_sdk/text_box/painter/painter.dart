@@ -1,9 +1,9 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:myapp/vm_sdk/text_box/text_box_wrap_type.dart';
+import 'package:myapp/vm_sdk/text_box/helper/text_box_wrap_type.dart';
 import 'package:network_font/network_font.dart';
-import 'emoji_text_span.dart';
-import 'text/config.dart';
+import '../helper/emoji_text_span.dart';
+import '../text/config.dart';
 
 class TextBoxPainter {
   final CanvasTextConfig config;
