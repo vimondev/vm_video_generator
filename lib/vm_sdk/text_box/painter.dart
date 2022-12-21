@@ -16,35 +16,35 @@ class TextBoxPainter {
   double lineMetricGapRatio = 1.0;
 
   TextStyle get foreGroundStl => TextStyle(
-        color: config.textColor,
-        fontWeight: FontWeight.w600,
-        fontSize: config.fontSize,
-        letterSpacing: config.letterSpacing,
-        height: config.textHeight + (config.borderWidth / config.fontSize),
-      ).network(config.font ?? font);
+    color: config.textColor,
+    fontWeight: FontWeight.w600,
+    fontSize: config.fontSize,
+    letterSpacing: config.letterSpacing,
+    height: config.textHeight + (config.borderWidth / config.fontSize),
+  ).network(config.font ?? font);
 
   TextStyle get outLineStl => TextStyle(
-        fontWeight: FontWeight.w600,
-        fontSize: config.fontSize,
-        letterSpacing: config.letterSpacing,
-        height: config.textHeight + (config.borderWidth / config.fontSize),
-        foreground: Paint()
-          ..color = config.outlineColor != null && config.outlineWidth > 0 ? config.outlineColor! : Colors.transparent
-          ..strokeWidth = config.outlineWidth
-          ..strokeJoin = StrokeJoin.round
-          ..strokeCap = StrokeCap.round
-          ..style = PaintingStyle.stroke,
-        shadows: config.shadowRadius > 0.0
-            ? [
-                Shadow(
-                  blurRadius: config.shadowRadius,
-                  offset: Offset(cos(config.shadowAngle * pi * 2) * config.shadowDistance,
-                      sin(config.shadowAngle * pi * 2) * config.shadowDistance),
-                  color: config.textShadow,
-                )
-              ]
-            : null,
-      ).network(config.font ?? font);
+    fontWeight: FontWeight.w600,
+    fontSize: config.fontSize,
+    letterSpacing: config.letterSpacing,
+    height: config.textHeight + (config.borderWidth / config.fontSize),
+    foreground: Paint()
+      ..color = config.outlineColor != null && config.outlineWidth > 0 ? config.outlineColor! : Colors.transparent
+      ..strokeWidth = config.outlineWidth
+      ..strokeJoin = StrokeJoin.round
+      ..strokeCap = StrokeCap.round
+      ..style = PaintingStyle.stroke,
+    shadows: config.shadowRadius > 0.0
+        ? [
+      Shadow(
+        blurRadius: config.shadowRadius,
+        offset: Offset(cos(config.shadowAngle * pi * 2) * config.shadowDistance,
+            sin(config.shadowAngle * pi * 2) * config.shadowDistance),
+        color: config.textShadow,
+      )
+    ]
+        : null,
+  ).network(config.font ?? font);
 
   Rect paint(Canvas canvas, Size size) {
     return drawTextDynamically(canvas, config.text);
@@ -349,7 +349,10 @@ class TextBoxPainter {
         _path.arcToPoint(Offset(nextX, heightByNextLine), radius: rad, clockwise: true);
       }
 
-      if (last) {}
+      if (last) {
+        _path.lineTo(gapByCenterW + (painter.width / 2) + basePadding + sidePadding, heightByNextLine);
+        //_path.arcToPoint(Offset(edge + sidePadding, heightByNextLine - radius), radius: rad, clockwise: true);
+      }
     }
   }
 }
