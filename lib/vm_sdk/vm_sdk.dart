@@ -115,9 +115,9 @@ class VMSDKWidget extends StatelessWidget {
 
       _textBoxConfigController.updateConfig(CanvasTextConfig(
           text: texts.join("\n"),
-          fontSize: 60,
-          borderRadius: 12,
-          contentPadding: 64,
+          fontSize: 51,
+          borderRadius: 9,
+          contentPadding: 48,
           textHeight: 1.3,
           fillColor: Color.fromARGB(255, 0, 0, 0),
           textColor: Color.fromARGB(255, 255, 255, 255)));
