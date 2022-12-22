@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:myapp/vm_sdk/text_box/text/config.dart';
+import 'package:myapp/vm_sdk/text_box/text_box_config_controller.dart';
 
 import 'impl/convert_helper.dart';
 import 'types/types.dart';
@@ -10,8 +12,11 @@ import 'impl/resource_manager.dart';
 import 'impl/auto_edit_helper.dart';
 import 'impl/ml_kit_helper.dart';
 import 'impl/vm_text_widget.dart';
-
 import 'impl/ffmpeg_helper.dart';
+
+import 'text_box/text_box_builder.dart';
+
+import 'extensions/extensions.dart';
 
 const double _titleExportPercentage = 1 / 3.0;
 
@@ -19,6 +24,12 @@ class VMSDKWidget extends StatelessWidget {
   VMSDKWidget({Key? key}) : super(key: key);
 
   final VMTextWidget _textWidget = VMTextWidget();
+
+  final TextBoxConfigController _textBoxConfigController = TextBoxConfigController(
+    "label",
+    padding: const EdgeInsets.all(10)
+  );
+  CanvasTextConfig _textConfig = CanvasTextConfig(text: "");
 
   bool _isInitialized = false;
   final FFMpegManager _ffmpegManager = FFMpegManager();
@@ -81,77 +92,137 @@ class VMSDKWidget extends StatelessWidget {
     final AllEditedData allEditedData = await generateAllEditedData(
         mediaList, style, randomSortedTemplateList, isAutoEdit);
 
-    List<TextData> textDatas = ResourceManager.getInstance().getTextDataList(lineCount: texts.length, speed: allEditedData.speed);
-    if (textDatas.isEmpty) {
-      textDatas = ResourceManager.getInstance().getTextDataList(lineCount: texts.length);
-    }
-    final TextData pickedText = textDatas[(Random()).nextInt(textDatas.length) % textDatas.length];
-    final String pickedTextId = pickedText.key;
-
-    await _textWidget.loadText(pickedTextId, initTexts: texts);
-
-    await _textWidget.extractAllSequence((progress) {
-      if (progressCallback != null) {
-        progressCallback(_currentStatus, progress * _titleExportPercentage);
-      }
-    });
-
-    if (progressCallback != null) {
-      progressCallback(_currentStatus, _titleExportPercentage);
-    }
-    
-    TextExportData exportedText = TextExportData(
-        pickedTextId,
-        _textWidget.width,
-        _textWidget.height,
-        _textWidget.frameRate,
-        _textWidget.totalFrameCount,
-        _textWidget.previewImagePath!,
-        _textWidget.allSequencesPath!,
-        _textWidget.textDataMap);
-
-    EditedTextData editedTextData = EditedTextData(
-      exportedText.id,
-      0,
-      0,
-      _textWidget.width * 1.3,
-      _textWidget.height * 1.3,
-    );
-    editedTextData.textExportData = exportedText;
-
-    for (int i = 0; i < texts.length; i++) {
-      final String key = "#TEXT${(i + 1)}";
-      editedTextData.texts[key] = texts[i];
-    }
-
     Resolution resolution = allEditedData.resolution;
-    final int maxTextWidth = resolution.width;
+    final int maxTextWidth = (resolution.width * 0.9).floor();
     final int maxTextHeight = resolution.height;
 
-    double scale = 1.0;
-    if (editedTextData.width > maxTextWidth) {
-      scale = maxTextWidth / editedTextData.width;
+    bool isUseCanvasText = false;
+    if (texts.length >= 3) {
+      isUseCanvasText = true;
     }
-    if (editedTextData.height > maxTextHeight) {
-      scale = min(maxTextHeight / exportedText.height, scale);
-    }
-    editedTextData.width *= scale;
-    editedTextData.height *= scale;
-
-    editedTextData.x = (resolution.width / 2) - (editedTextData.width / 2);
-    editedTextData.y = (resolution.height / 2) - (editedTextData.height / 2);
-
-    if (allEditedData.ratio == ERatio.ratio916) {
-      editedTextData.y *= 0.6;
+    else {
+      for (final text in texts) {
+        if (text.hasEmoji()) {
+          isUseCanvasText = true;
+          break;
+        }
+      }
     }
 
-    allEditedData.editedMediaList[0].editedTexts.add(editedTextData);
+    String pickedTextId = "";
+    if (isUseCanvasText) {
+      pickedTextId = "CanvasText";
+
+      _textBoxConfigController.updateConfig(CanvasTextConfig(
+          text: texts.join("\n"),
+          fontSize: 60,
+          borderRadius: 12,
+          contentPadding: 64,
+          textHeight: 1.3,
+          fillColor: Color.fromARGB(255, 0, 0, 0),
+          textColor: Color.fromARGB(255, 255, 255, 255)));
+
+      int tryCount = 0;
+      String pngPath = "";
+      try {
+        pngPath = await _textBoxConfigController.renderImageAndSave().timeout(const Duration(seconds: 5));
+      }
+      catch (e) {
+        print(e);
+        if (tryCount >= 6) rethrow;
+      }
+      print(pngPath);
+      Size size = _textBoxConfigController.size;
+
+      double scale = 1.0;
+      if (size.width > maxTextWidth) {
+        scale = maxTextWidth / size.width;
+      }
+      if (size.height > maxTextHeight) {
+        scale = min(maxTextHeight / size.height, scale);
+      }
+
+      final CanvasTextData canvasTextData = CanvasTextData();
+      canvasTextData.imagePath = pngPath;
+      canvasTextData.width = (size.width * scale).floor();
+      canvasTextData.height = (size.height * scale).floor();
+      canvasTextData.x = (resolution.width / 2) - (canvasTextData.width / 2);
+      canvasTextData.y = (resolution.height / 2) - (canvasTextData.height / 2);
+      if (allEditedData.ratio == ERatio.ratio916) {
+        canvasTextData.y *= 0.6;
+      }
+
+      allEditedData.editedMediaList[0].canvasTexts.add(canvasTextData);
+    }
+    else {
+      List<TextData> textDatas = ResourceManager.getInstance().getTextDataList(lineCount: texts.length, speed: allEditedData.speed);
+      if (textDatas.isEmpty) {
+        textDatas = ResourceManager.getInstance().getTextDataList(lineCount: texts.length);
+      }
+      final TextData pickedText = textDatas[(Random()).nextInt(textDatas.length) % textDatas.length];
+      pickedTextId = pickedText.key;
+
+      await _textWidget.loadText(pickedTextId, initTexts: texts);
+
+      await _textWidget.extractAllSequence((progress) {
+        if (progressCallback != null) {
+          progressCallback(_currentStatus, progress * _titleExportPercentage);
+        }
+      });
+
+      if (progressCallback != null) {
+        progressCallback(_currentStatus, _titleExportPercentage);
+      }
+
+      TextExportData exportedText = TextExportData(
+          pickedTextId,
+          _textWidget.width,
+          _textWidget.height,
+          _textWidget.frameRate,
+          _textWidget.totalFrameCount,
+          _textWidget.previewImagePath!,
+          _textWidget.allSequencesPath!,
+          _textWidget.textDataMap);
+
+      EditedTextData editedTextData = EditedTextData(
+        exportedText.id,
+        0,
+        0,
+        _textWidget.width,
+        _textWidget.height,
+      );
+      editedTextData.textExportData = exportedText;
+
+      for (int i = 0; i < texts.length; i++) {
+        final String key = "#TEXT${(i + 1)}";
+        editedTextData.texts[key] = texts[i];
+      }
+
+      double scale = 1.0;
+      if (editedTextData.width > maxTextWidth) {
+        scale = maxTextWidth / editedTextData.width;
+      }
+      if (editedTextData.height > maxTextHeight) {
+        scale = min(maxTextHeight / exportedText.height, scale);
+      }
+      editedTextData.width *= scale;
+      editedTextData.height *= scale;
+
+      editedTextData.x = (resolution.width / 2) - (editedTextData.width / 2);
+      editedTextData.y = (resolution.height / 2) - (editedTextData.height / 2);
+
+      if (allEditedData.ratio == ERatio.ratio916) {
+        editedTextData.y *= 0.6;
+      }
+
+      allEditedData.editedMediaList[0].editedTexts.add(editedTextData);
+    }
 
     final VideoGeneratedResult result = await _runFFmpeg(
         allEditedData.editedMediaList,
         allEditedData.musicList,
         allEditedData.ratio,
-        progressCallback);
+        progressCallback, isAutoEdit: true);
 
     result.musicStyle = allEditedData.style;
     result.editedMediaList.addAll(allEditedData.editedMediaList);
@@ -240,7 +311,7 @@ class VMSDKWidget extends StatelessWidget {
       List<MusicData> musicList,
       ERatio ratio,
       Function(EGenerateStatus status, double progress)?
-          progressCallback) async {
+          progressCallback, { isAutoEdit = false }) async {
     try {
       await ResourceManager.getInstance()
           .loadResourceFromAssets(editedMediaList, ratio);
@@ -319,7 +390,7 @@ class VMSDKWidget extends StatelessWidget {
             prevTransition,
             nextTransition,
             (statistics) => _currentRenderedFrameInCallback =
-                statistics.getVideoFrameNumber());
+                statistics.getVideoFrameNumber(), isAutoEdit: isAutoEdit);
 
         _currentRenderedFrameInCallback = 0;
 
@@ -446,6 +517,11 @@ class VMSDKWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _textWidget;
+    return Transform.translate(
+        offset: const Offset(-9999999, -99999),
+        child: Stack(children: [
+          _textWidget,
+          TextBoxBuilder(controller: _textBoxConfigController, config: _textConfig)
+        ]));
   }
 }

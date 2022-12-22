@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
@@ -20,6 +21,8 @@ class TextBoxConfigController {
   Size get size => _size ?? Size.zero;
   Function(Size size)? onSizeUpdate;
 
+  Completer<String>? _saveCompleter;
+
   Debouncer debouncer = Debouncer(delay: Duration(milliseconds: 100));
 
   TextBoxConfigController(this.label,
@@ -36,49 +39,69 @@ class TextBoxConfigController {
 
   TextBoxPainter? get painter => config != null ? TextBoxPainter(config: config!, boxPadding: padding) : null;
 
-  void renderImageAndSave() async {
-    if (painter != null) {
-      final ui.PictureRecorder recorder = ui.PictureRecorder();
-      appPath ??= await getApplicationDocumentsDirectory();
-      Rect newSize;
-      Size? mSize;
-      Canvas canvas = Canvas(recorder);
-      double ratio = mSize != null ? 1080 / mSize.width : 1;
-      Size imageSize;
-      print('mSize - $mSize');
-      if (mSize != null) {
-        imageSize = Size(mSize.width * ratio, mSize.height * ratio);
-        canvas.save();
-        canvas.scale(ratio);
-        newSize = painter!.paint(canvas, Size.infinite);
-      } else {
-        newSize = painter!.paint(canvas, Size.infinite);
+  Future<String> renderImageAndSave() async {
+    _saveCompleter = Completer();
+    try {
+      if (painter != null) {
+        final ui.PictureRecorder recorder = ui.PictureRecorder();
+        appPath ??= await getApplicationDocumentsDirectory();
+        Rect newSize;
+        Size? mSize;
+        Canvas canvas = Canvas(recorder);
+        double ratio = mSize != null ? 1080 / mSize.width : 1;
+        Size imageSize;
+        print('mSize - $mSize');
+        if (mSize != null) {
+          imageSize = Size(mSize.width * ratio, mSize.height * ratio);
+          canvas.save();
+          canvas.scale(ratio);
+          newSize = painter!.paint(canvas, Size.infinite);
+        } else {
+          newSize = painter!.paint(canvas, Size.infinite);
 
-        imageSize = newSize.size;
-        canvas.save();
-        canvas.scale(ratio);
-      }
-
-      print('newSize - $newSize');
-      canvas.restore();
-
-      var outerSize = Size(
-          newSize.size.width, newSize.size.height + ((padding.top + padding.bottom) / (scaleSetter?.call() ?? 1.0)));
-      updateSize(outerSize);
-      debouncer.call(() async {
-        ui.Image renderedImage =
-            await recorder.endRecording().toImage(imageSize.width.floor(), imageSize.height.floor());
-
-        var pngBytes = await renderedImage.toByteData(format: ui.ImageByteFormat.png);
-
-        File saveFile = File('${appPath!.path}$subPath/$label.png');
-
-        if (!(await saveFile.exists())) {
-          await saveFile.create(recursive: true);
+          imageSize = newSize.size;
+          canvas.save();
+          canvas.scale(ratio);
         }
-        saveFile.writeAsBytesSync(pngBytes!.buffer.asUint8List(), flush: true);
-      });
+
+        print('newSize - $newSize');
+        canvas.restore();
+
+        var outerSize = Size(
+            newSize.size.width, newSize.size.height + ((padding.top + padding.bottom) / (scaleSetter?.call() ?? 1.0)));
+        updateSize(outerSize);
+        debouncer.call(() async {
+          try {
+            ui.Image renderedImage =
+              await recorder.endRecording().toImage(imageSize.width.floor(), imageSize.height.floor());
+
+            var pngBytes = await renderedImage.toByteData(format: ui.ImageByteFormat.png);
+
+            File saveFile = File('${appPath!.path}$subPath/$label.png');
+
+            if (!(await saveFile.exists())) {
+              await saveFile.create(recursive: true);
+            }
+            await saveFile.writeAsBytes(pngBytes!.buffer.asUint8List(), flush: true);
+
+            if (_saveCompleter != null) {
+              _saveCompleter!.complete(saveFile.path);
+            }
+          }
+          catch (e) {
+            if (_saveCompleter != null) {
+              _saveCompleter!.completeError(e);
+            }
+          }
+        });
+      }
     }
+    catch (e) {
+      if (_saveCompleter != null) {
+        _saveCompleter!.completeError(e);
+      }
+    }
+    return _saveCompleter!.future;
   }
 
   void updateSize(Size size){
