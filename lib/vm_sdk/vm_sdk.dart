@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:myapp/vm_sdk/text_box/text/config.dart';
 import 'package:myapp/vm_sdk/text_box/text_box_config_controller.dart';
+import 'package:tuple/tuple.dart';
 
 import 'impl/convert_helper.dart';
 import 'types/types.dart';
@@ -113,17 +114,31 @@ class VMSDKWidget extends StatelessWidget {
     if (isUseCanvasText) {
       pickedTextId = "CanvasText";
 
-      _textBoxConfigController.updateConfig(CanvasTextConfig(
-          text: texts.join("\n"),
-          fontSize: 51,
-          borderRadius: 9,
-          contentPadding: 48,
-          textHeight: 1.3,
-          fillColor: Color.fromARGB(255, 0, 0, 0),
-          textColor: Color.fromARGB(255, 255, 255, 255)));
+      const List<Tuple3<Color, Color, Color>> colors = [
+        Tuple3(Color(0xfffefefe), Colors.transparent, Colors.black),
+        Tuple3(Colors.black, Colors.transparent, Color(0xffffcb1e)),
+        Tuple3(Colors.white, Colors.transparent, Color(0xff8380d7)),
+        Tuple3(Color(0xffffbe00), Colors.black, Colors.transparent),
+        Tuple3(Color(0xffff4e91), Colors.white, Colors.transparent),
+        Tuple3(Color(0xff9ee8f6), Color(0xff000001), Colors.transparent),
+      ];
 
+      final Tuple3<Color, Color, Color> pickedColor = colors[(Random()).nextInt(colors.length) % colors.length];
       int tryCount = 0;
       String pngPath = "";
+
+      _textBoxConfigController.updateConfig(CanvasTextConfig(
+        text: texts.join("\n"),
+        fontSize: 51,
+        borderRadius: 9,
+        contentPadding: 48,
+        textHeight: 1.3,
+        outlineWidth: 12,
+        textColor: pickedColor.item1,
+        outlineColor: pickedColor.item2,
+        fillColor: pickedColor.item3,
+      ));
+
       try {
         pngPath = await _textBoxConfigController.renderImageAndSave().timeout(const Duration(seconds: 5));
       }

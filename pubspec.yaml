@@ -46,6 +46,7 @@ dependencies:
   http:
   rxdart:
   network_font:
+  tuple:
 
 dev_dependencies:
   flutter_test:

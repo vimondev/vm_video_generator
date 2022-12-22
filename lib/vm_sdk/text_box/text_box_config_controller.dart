@@ -77,7 +77,7 @@ class TextBoxConfigController {
 
             var pngBytes = await renderedImage.toByteData(format: ui.ImageByteFormat.png);
 
-            File saveFile = File('${appPath!.path}$subPath/$label.png');
+            File saveFile = File('${appPath!.path}$subPath/${DateTime.now().millisecondsSinceEpoch}.png');
 
             if (!(await saveFile.exists())) {
               await saveFile.create(recursive: true);
