@@ -103,7 +103,7 @@ class VMSDKWidget extends StatelessWidget {
     }
     else {
       for (final text in texts) {
-        if (text.hasEmoji()) {
+        if (text.hasEmoji() || text.hasSpecialCharacter()) {
           isUseCanvasText = true;
           break;
         }
