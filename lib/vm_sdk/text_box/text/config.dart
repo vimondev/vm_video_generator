@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:network_font/network_font.dart';
-import '../text_box_wrap_type.dart';
+import '../helper/text_box_wrap_type.dart';
 import 'base_text_config.dart';
 
 class CanvasTextConfig extends BaseTextConfig {
