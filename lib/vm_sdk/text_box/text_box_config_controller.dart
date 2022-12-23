@@ -53,7 +53,6 @@ class TextBoxConfigController {
         newSize = painter!.paint(canvas, Size.infinite);
       } else {
         newSize = painter!.paint(canvas, Size.infinite);
-
         imageSize = newSize.size;
         canvas.save();
         canvas.scale(ratio);
