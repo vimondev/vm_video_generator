@@ -54,13 +54,15 @@ class TestWidget extends StatelessWidget {
     }
 
     for (int i=0; i<EMusicStyle.values.length; i++) {
-      EMusicStyle style = EMusicStyle.values[i];
+      EMusicStyle style = EMusicStyle.values[i % EMusicStyle.values.length];
 
       VideoGeneratedResult result =
           await _vmsdkWidget.generateVideo(mediaList, style, false,
-              // ["THIS IS", "VIMON V-LOG"],
-              ["THIS IS TITLE", "THIS IS SUBTITLE"], "ko", (status, progress) {
-                //😀
+              // ["THIS IS TITLE", "THIS IS SUBTITLE"], "ko", (status, progress) {
+              // ["THIS IS TITLE 😀", "🕹 이모지 테스트 ✅"], "ko", (status, progress) {
+              // ["THIS IS TITLE", "☻ ♥ ♦ ♣ ♠ 특수문자 테스트"], "ko", (status, progress) {
+              ["THIS IS TITLE 😀", "🕹 ☻ ♥ ♦ ♣ ♠ 특수문자 테스트 ✅"], "ko", (status, progress) {
+                //["THIS IS TITLE", "☻ ♥ ♦ ♣ ♠ 특수문자 테스트"
         print(status);
         print(progress);
       });

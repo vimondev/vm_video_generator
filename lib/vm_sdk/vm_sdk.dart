@@ -203,8 +203,8 @@ class VMSDKWidget extends StatelessWidget {
         exportedText.id,
         0,
         0,
-        _textWidget.width,
-        _textWidget.height,
+        _textWidget.width * 1.2,
+        _textWidget.height * 1.2,
       );
       editedTextData.textExportData = exportedText;
 

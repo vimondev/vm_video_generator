@@ -8,22 +8,28 @@ import '../text/config.dart';
 class TextBoxPainter {
   final CanvasTextConfig config;
   final EdgeInsets boxPadding;
-  final NetworkFont font = NetworkFont('Roboto', url: '');
 
   TextBoxPainter({required this.config, required this.boxPadding});
 
   double sidePadding = 10;
   double lineMetricGapRatio = 1.0;
 
-  TextStyle get foreGroundStl => TextStyle(
+  TextStyle _mergeStyleWithFont(TextStyle style) {
+    if (config.font != null) {
+      return style.network(config.font!);
+    }
+    return style.merge(const TextStyle(fontFamily: 'Roboto'));
+  }
+
+  TextStyle get foreGroundStl => _mergeStyleWithFont(TextStyle(
     color: config.textColor,
     fontWeight: FontWeight.w600,
     fontSize: config.fontSize,
     letterSpacing: config.letterSpacing,
     height: config.textHeight + (config.borderWidth / config.fontSize),
-  ).network(config.font ?? font);
+  ));
 
-  TextStyle get outLineStl => TextStyle(
+  TextStyle get outLineStl => _mergeStyleWithFont(TextStyle(
     fontWeight: FontWeight.w600,
     fontSize: config.fontSize,
     letterSpacing: config.letterSpacing,
@@ -44,7 +50,7 @@ class TextBoxPainter {
       )
     ]
         : null,
-  ).network(config.font ?? font);
+  ));
 
   Rect paint(Canvas canvas, Size size) {
     return drawTextDynamically(canvas, config.text);

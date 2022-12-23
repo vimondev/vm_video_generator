@@ -131,7 +131,7 @@ class CanvasTextConfig extends BaseTextConfig {
         contentPadding: parseDouble(map['contentPadding']) ?? 5.0,
         fontSize: parseDouble(map['fontSize']) ?? 20.0,
         textAlign: textAlign,
-        font: map['font']?['fontFamily'] != null
+        font: map['font']?['fontFamily'] != null && map['font']?['url'] != null
             ? NetworkFont(map['font']?['fontFamily'], url: map['font']?['url'])
             : null,
         borderShadow: map['borderShadow'] != null && map['borderShadow'] is int ? Color(map['borderShadow']) : null,
