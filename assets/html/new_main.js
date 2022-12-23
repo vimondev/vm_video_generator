@@ -77,14 +77,18 @@ const ExtractPreview = async ({ id, jobId, fontFamliyArr, fontBase64, json, text
         if (!anim) throw new Error("ERR_LOAD_FAILED")
     
         const { svgElement, allRect: { x, y, width, height } } = anim.CopySVGElement(anim.previewFrame, opentypeMap)    
+        const preview = await CanvasHelper.DrawPNG(svgElement, x, y, width, height)
+        const elapsedTime = Date.now() - now
+
         window.flutter_inappwebview.callHandler('TransferPreviewPNGData', {
             width,
             height,
             frameRate: anim.animationData.fr,
-            preview: await CanvasHelper.DrawPNG(svgElement, x, y, width, height),
-            textData: []
+            preview,
+            textData: [],
+            elapsedTime
         })
-        console.log(`elapsed - : ${Date.now() - now}ms`)
+        console.log(`elapsed - : ${elapsedTime}ms`)
     }
     catch (e) {
         console.log(e)

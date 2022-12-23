@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:myapp/vm_sdk/impl/vm_text_widget.dart';
+import 'package:path/path.dart';
 import 'vm_sdk/impl/global_helper.dart';
 import 'vm_sdk/impl/resource_manager.dart';
 import 'vm_sdk/impl/ffmpeg_manager.dart';
@@ -48,7 +49,7 @@ class _TestWidgetState extends State<TestWidget> {
         imageList = [];
       });
 
-      final List<String> allTexts = ResourceManager.getInstance().getTextList();
+      final List<String> allTexts = ResourceManager.getInstance().getTextList(autoEditOnly: false, lineCount: 2);
 
       // final List<String> allTexts = [
         // "Subtitle_SW001",
@@ -98,7 +99,10 @@ class _TestWidgetState extends State<TestWidget> {
         // await _vmTextWidget.loadText(currentText, initTexts: ["Sẵn sàng tiệc chưa?", "Sẵn sàng tiệc chưa?"]);
         // await _vmTextWidget.loadText(currentText, initTexts: ["วิดีโอที่คุณสร้างกำลังรอคุณอยู่", "วิดีโอที่คุณสร้างกำลังรอคุณอยู่"]);
 
-        // await _vmTextWidget.extractAllSequence((progress) => {});
+        // await _vmTextWidget.loadText(currentText, initTexts: ["THIS IS TITLE THIS IS TITLE THIS IS TITLE THIS IS TITLE", "THIS IS SUBTITLE THIS IS SUBTITLE THIS IS SUBTITLE THIS IS SUBTITLE"]);
+        // await _vmTextWidget.loadText(currentText, initTexts: ["THIS IS SUBTITLE THIS IS SUBTITLE THIS IS SUBTITLE THIS IS SUBTITLE"]);
+
+        await _vmTextWidget.extractAllSequence((progress) => {});
 
         final String appDirPath = await getAppDirectoryPath();
         final String webmPath = "$appDirPath/webm";
@@ -138,13 +142,42 @@ class _TestWidgetState extends State<TestWidget> {
         //   "-y"
         // ], (p0) => null);
 
+        final String textDirPath = "$webmPath/$currentText";
+        final String previewDirPath = "$textDirPath/preview";
+        final String sequenceDirPath = "$textDirPath/sequence";
+        final Directory previewDir = Directory(previewDirPath);
+        final Directory sequenceDir = Directory(sequenceDirPath);
+
+        await previewDir.create(recursive: true);
+        await sequenceDir.create(recursive: true);
+
         File thumbnailFile = File(_vmTextWidget.previewImagePath!);
-        await thumbnailFile.copy("$webmPath/${currentText}_en.png");
+        await thumbnailFile.copy("$previewDirPath/$currentText.png");
 
-        print(thumbnailFile.path);
-        await Future.delayed(const Duration(seconds: 1));
+        for (int i=0; i<_vmTextWidget.allSequencePaths.length; i++) {
+          String curSequencePath = _vmTextWidget.allSequencePaths[i];
+          String filename = basename(curSequencePath);
 
+          File curSequenceFile = File(curSequencePath);
+          await curSequenceFile.copy("$sequenceDirPath/$filename");
+        }
+        File jsonFile = File("$textDirPath/$currentText.json");
+        await jsonFile.writeAsString(jsonEncode({
+          "width": _vmTextWidget.width,
+          "height": _vmTextWidget.height,
+          "frameRate": _vmTextWidget.frameRate,
+          "totalFrameCount": _vmTextWidget.totalFrameCount
+        }));
+
+        print(webmPath);
         print(currentText);
+
+        // if (_vmTextWidget.elapsedTime >= 1000) {
+        //   print("heavy!");
+        //   print("");
+        // }
+
+        await Future.delayed(const Duration(milliseconds: 500));
         print("");
       }
 
@@ -164,7 +197,7 @@ class _TestWidgetState extends State<TestWidget> {
     list.add(Container(
       child: Image.file(
         File(imageList[index]),
-        width: MediaQuery.of(context).size.width,
+        width: MediaQuery.of(this.context).size.width,
         fit: BoxFit.fitWidth,
       ),
     ));
@@ -175,7 +208,7 @@ class _TestWidgetState extends State<TestWidget> {
         final VMText vmText = textList[i];
         list.add(RectangleBox(
           index: i,
-          mediaWidth: MediaQuery.of(context).size.width,
+          mediaWidth: MediaQuery.of(this.context).size.width,
           width: _vmTextWidget.width,
           height: _vmTextWidget.height,
           vmText: vmText,

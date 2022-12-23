@@ -293,7 +293,7 @@ function TextUpdate({ compositionId, text = '', scale = 1 }) {
     const textSourceLayerElements = GetTextSourceLayers(anim, compositionId)
 
     textSourceLayerElements.forEach(element => {
-        const updateObj = { t: anim.textMap[compositionId], tr: 40 }
+        const updateObj = { t: anim.textMap[compositionId], tr: 60 }
         if (scale <= 1) {
             updateObj.s = Math.floor(element.originalFontSize * scale)
         }
