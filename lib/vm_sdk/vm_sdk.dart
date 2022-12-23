@@ -144,7 +144,7 @@ class VMSDKWidget extends StatelessWidget {
       }
       catch (e) {
         print(e);
-        if (tryCount >= 6) rethrow;
+        if (++tryCount >= 6) rethrow;
       }
       print(pngPath);
       Size size = _textBoxConfigController.size;
