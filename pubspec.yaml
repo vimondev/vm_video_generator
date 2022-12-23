@@ -81,6 +81,7 @@ flutter:
     # - assets/_test/asdasd/
     # - assets/_test/oriented/
     # - assets/_test/mediajson-joined/
+    # - assets/_test/font/
     - assets/data/
     - assets/html/
     - assets/text/
