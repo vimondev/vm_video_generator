@@ -1,9 +1,7 @@
 {
     "Title_DA001": {
         "enable": false,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {
             "SS": true,
@@ -25,9 +23,7 @@
     },
     "Title_DA004": {
         "enable": true,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {
             "SS": true,
@@ -60,36 +56,10 @@
     },
     "Title_DA007": {
         "enable": true,
-        "unsupportLang": {
-            "th": true
-        },
-        "isRecommend": false,
-        "exceptSpeed": {
-            "SS": true,
-            "FF": true
-        },
-        "lineCount": 2
-    },
-    "Title_DA008": {
-        "enable": false,
-        "unsupportLang": {
-            "th": true
-        },
-        "isRecommend": false,
-        "exceptSpeed": {
-            "SS": true,
-            "F": true,
-            "FF": true
-        },
-        "lineCount": 2
-    },
-    "Title_DA009": {
-        "enable": false,
         "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {
             "SS": true,
-            "F": true,
             "FF": true
         },
         "lineCount": 2
@@ -116,9 +86,7 @@
     },
     "Title_DA014": {
         "enable": true,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": true,
         "exceptSpeed": {
             "SS": true,
@@ -128,9 +96,7 @@
     },
     "Title_DA016": {
         "enable": false,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {
             "SS": true,
@@ -141,9 +107,7 @@
     },
     "Title_DA017": {
         "enable": true,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {
             "SS": true,
@@ -154,24 +118,11 @@
     },
     "Title_DA018": {
         "enable": false,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": true,
         "exceptSpeed": {
             "SS": true,
             "S": true
-        },
-        "lineCount": 2
-    },
-    "Title_DA021": {
-        "enable": true,
-        "unsupportLang": {},
-        "isRecommend": false,
-        "exceptSpeed": {
-            "SS": true,
-            "S": true,
-            "FF": true
         },
         "lineCount": 2
     },
@@ -230,9 +181,7 @@
     },
     "Title_DA030": {
         "enable": false,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {
             "SS": true,
@@ -243,9 +192,7 @@
     },
     "Title_DA031": {
         "enable": true,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {
             "SS": true,
@@ -256,9 +203,7 @@
     },
     "Title_DA032": {
         "enable": false,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {},
         "lineCount": 2
@@ -272,18 +217,14 @@
     },
     "Title_HJ002": {
         "enable": false,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {},
         "lineCount": 2
     },
     "Title_HJ003": {
         "enable": true,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": true,
         "exceptSpeed": {
             "SS": true,
@@ -322,9 +263,7 @@
     },
     "Title_HJ009": {
         "enable": true,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": true,
         "exceptSpeed": {
             "SS": true,
@@ -335,9 +274,7 @@
     },
     "Title_HJ011": {
         "enable": true,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {
             "SS": true,
@@ -347,18 +284,14 @@
     },
     "Title_HJ012": {
         "enable": false,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {},
         "lineCount": 2
     },
     "Title_HJ013": {
         "enable": false,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {},
         "lineCount": 2
@@ -374,9 +307,7 @@
     },
     "Title_HJ016": {
         "enable": false,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {},
         "lineCount": 2
@@ -394,27 +325,21 @@
     },
     "Title_HJ023": {
         "enable": false,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {},
         "lineCount": 2
     },
     "Title_HJ025": {
         "enable": false,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {},
         "lineCount": 2
     },
     "Title_HJ026": {
         "enable": false,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {},
         "lineCount": 2
@@ -453,9 +378,7 @@
     },
     "Title_ON003": {
         "enable": true,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {
             "SS": true,
@@ -466,27 +389,21 @@
     },
     "Title_ON005": {
         "enable": false,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {},
         "lineCount": 2
     },
     "Title_ON006": {
         "enable": false,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {},
         "lineCount": 2
     },
     "Title_ON007": {
         "enable": true,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {
             "SS": true,
@@ -496,9 +413,7 @@
     },
     "Title_ON008": {
         "enable": true,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": true,
         "exceptSpeed": {
             "F": true,
@@ -508,9 +423,7 @@
     },
     "Title_ON009": {
         "enable": true,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": true,
         "exceptSpeed": {
             "SS": true,
@@ -521,9 +434,7 @@
     },
     "Title_ON010": {
         "enable": false,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {},
         "lineCount": 2
@@ -541,9 +452,7 @@
     },
     "Title_SW001": {
         "enable": false,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": true,
         "exceptSpeed": {
             "SS": true,
@@ -553,9 +462,7 @@
     },
     "Title_SW002": {
         "enable": true,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {
             "SS": true,
@@ -573,9 +480,7 @@
     },
     "Title_SW004": {
         "enable": true,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {
             "SS": true,
@@ -586,9 +491,7 @@
     },
     "Title_SW005": {
         "enable": true,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {
             "SS": true,
@@ -620,9 +523,7 @@
     },
     "Title_SW009": {
         "enable": false,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {},
         "lineCount": 2
@@ -639,9 +540,7 @@
     },
     "Title_SW012": {
         "enable": false,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {},
         "lineCount": 2
@@ -659,9 +558,7 @@
     },
     "Title_SW017": {
         "enable": true,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {
             "SS": true,
@@ -693,9 +590,7 @@
     },
     "Title_SW022": {
         "enable": true,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {
             "SS": true,
@@ -724,17 +619,6 @@
         },
         "lineCount": 2
     },
-    "Title_SW028": {
-        "enable": true,
-        "unsupportLang": {},
-        "isRecommend": true,
-        "exceptSpeed": {
-            "SS": true,
-            "S": true,
-            "FF": true
-        },
-        "lineCount": 2
-    },
     "Title_SW031": {
         "enable": true,
         "unsupportLang": {},
@@ -742,17 +626,6 @@
         "exceptSpeed": {
             "SS": true,
             "S": true,
-            "FF": true
-        },
-        "lineCount": 2
-    },
-    "Title_SW033": {
-        "enable": true,
-        "unsupportLang": {},
-        "isRecommend": false,
-        "exceptSpeed": {
-            "SS": true,
-            "F": true,
             "FF": true
         },
         "lineCount": 2
@@ -780,9 +653,7 @@
     },
     "Title_YJ003": {
         "enable": true,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": true,
         "exceptSpeed": {
             "F": true,
@@ -792,18 +663,14 @@
     },
     "Title_YJ004": {
         "enable": false,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {},
         "lineCount": 2
     },
     "Title_YJ007": {
         "enable": true,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {
             "SS": true,
@@ -814,18 +681,14 @@
     },
     "Title_YJ008": {
         "enable": false,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {},
         "lineCount": 2
     },
     "Title_YJ010": {
         "enable": false,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": true,
         "exceptSpeed": {
             "SS": true,
@@ -836,9 +699,7 @@
     },
     "Title_YJ011": {
         "enable": true,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {
             "SS": true,
@@ -849,9 +710,7 @@
     },
     "Title_YJ012": {
         "enable": true,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": true,
         "exceptSpeed": {
             "SS": true,
@@ -873,9 +732,7 @@
     },
     "Title_YJ015": {
         "enable": true,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": true,
         "exceptSpeed": {
             "SS": true,
@@ -886,36 +743,28 @@
     },
     "Title_YJ016": {
         "enable": false,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {},
         "lineCount": 2
     },
     "Title_YJ017": {
         "enable": false,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {},
         "lineCount": 2
     },
     "Title_YJ018": {
         "enable": false,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {},
         "lineCount": 2
     },
     "Title_YJ019": {
         "enable": true,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {
             "MM": true,
@@ -926,9 +775,7 @@
     },
     "Title_YJ021": {
         "enable": true,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {
             "SS": true,
@@ -939,18 +786,14 @@
     },
     "Title_YJ022": {
         "enable": false,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {},
         "lineCount": 2
     },
     "Title_YJ023": {
         "enable": true,
-        "unsupportLang": {
-            "th": true
-        },
+        "unsupportLang": {},
         "isRecommend": true,
         "exceptSpeed": {
             "SS": true,
@@ -999,103 +842,312 @@
         },
         "lineCount": 2
     },
-
-    "Subtitle_SW001": {
+    "Title_DA002": {
         "enable": false,
         "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {},
-        "lineCount": 1
+        "lineCount": 2
     },
-    "Subtitle_SW002": {
+    "Title_DA013": {
         "enable": false,
         "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {},
-        "lineCount": 1
+        "lineCount": 2
     },
-    "Subtitle_SW003": {
+    "Title_DA015": {
         "enable": false,
         "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {},
-        "lineCount": 1
+        "lineCount": 2
     },
-    "Subtitle_YJ001": {
-        "enable": false,
-        "unsupportLang": {},
-        "isRecommend": true,
-        "exceptSpeed": {},
-        "lineCount": 1
-    },
-    "Subtitle_YJ002": {
-        "enable": false,
-        "unsupportLang": {},
-        "isRecommend": true,
-        "exceptSpeed": {},
-        "lineCount": 1
-    },
-    "Subtitle_YJ003": {
-        "enable": false,
-        "unsupportLang": {},
-        "isRecommend": true,
-        "exceptSpeed": {},
-        "lineCount": 1
-    },
-    "Subtitle_YJ004": {
+    "Title_DA019": {
         "enable": false,
         "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {},
-        "lineCount": 1
+        "lineCount": 2
     },
-    "Subtitle_YJ005": {
+    "Title_DA020": {
         "enable": false,
         "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {},
-        "lineCount": 1
+        "lineCount": 2
     },
-    "Subtitle_YJ006": {
+    "Title_DA022": {
         "enable": false,
         "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {},
-        "lineCount": 1
+        "lineCount": 2
     },
-    "Subtitle_YJ007": {
+    "Title_DA024": {
         "enable": false,
         "unsupportLang": {},
         "isRecommend": false,
         "exceptSpeed": {},
-        "lineCount": 1
+        "lineCount": 2
     },
-    "Subtitle_YJ008": {
+    "Title_DA029": {
         "enable": false,
         "unsupportLang": {},
-        "isRecommend": true,
+        "isRecommend": false,
         "exceptSpeed": {},
-        "lineCount": 1
+        "lineCount": 2
     },
-    "Subtitle_YJ009": {
+    "Title_HJ006": {
         "enable": false,
         "unsupportLang": {},
-        "isRecommend": true,
+        "isRecommend": false,
         "exceptSpeed": {},
-        "lineCount": 1
+        "lineCount": 2
     },
-    "Subtitle_YJ010": {
-        "enable": true,
+    "Title_HJ007": {
+        "enable": false,
         "unsupportLang": {},
-        "isRecommend": true,
+        "isRecommend": false,
         "exceptSpeed": {},
-        "lineCount": 1
+        "lineCount": 2
     },
-    "Subtitle_YJ011": {
-        "enable": true,
+    "Title_HJ010": {
+        "enable": false,
         "unsupportLang": {},
-        "isRecommend": true,
+        "isRecommend": false,
         "exceptSpeed": {},
-        "lineCount": 1
+        "lineCount": 2
+    },
+    "Title_HJ015": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 2
+    },
+    "Title_HJ019": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 2
+    },
+    "Title_HJ021": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 2
+    },
+    "Title_HJ022": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 2
+    },
+    "Title_HJ024": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 2
+    },
+    "Title_JH001": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 2
+    },
+    "Title_JH005": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 2
+    },
+    "Title_ON001": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 2
+    },
+    "Title_ON002": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 2
+    },
+    "Title_ON012": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 2
+    },
+    "Title_ON013": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 2
+    },
+    "Title_SW007": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 2
+    },
+    "Title_SW010": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 2
+    },
+    "Title_SW014": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 2
+    },
+    "Title_SW015": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 2
+    },
+    "Title_SW016": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 2
+    },
+    "Title_SW019": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 2
+    },
+    "Title_SW026": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 2
+    },
+    "Title_SW029": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 2
+    },
+    "Title_SW030": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 2
+    },
+    "Title_SW032": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 2
+    },
+    "Title_SW036": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 2
+    },
+    "Title_YJ001": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 2
+    },
+    "Title_YJ005": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 2
+    },
+    "Title_YJ006": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 2
+    },
+    "Title_YJ009": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 2
+    },
+    "Title_YJ014": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 2
+    },
+    "Title_YJ020": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 2
+    },
+    "Title_YJ024": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 2
+    },
+    "Title_YJ025": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 2
+    },
+    "Title_YJ030": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 2
+    },
+    "Title_YJ031": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 2
+    },
+    "Title_YJ032": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 2
     }
 }

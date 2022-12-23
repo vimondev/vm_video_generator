@@ -45,7 +45,7 @@ window.onload = function () {
     })
 }
 
-let test = 0
+let test = ''
 
 const extractPreviewTest = async () => {
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -60,7 +60,6 @@ const extractPreviewTest = async () => {
     catch (e) {
         console.log(e)
     }
-    console.log(_opentypeMap)
 
     let anim
     if (_animMap[loadedJsonFilename]) anim = _animMap[loadedJsonFilename]
@@ -78,12 +77,42 @@ const extractPreviewTest = async () => {
         _animMap[loadedJsonFilename] = anim
     }
 
-    if (anim.textComps[0]) anim.TextUpdate(anim.textComps[0], 'THIS IS TITLE' + test++)
-    if (anim.textComps[1]) anim.TextUpdate(anim.textComps[1], 'THIS IS SUBTITLE' + test++)
+    if (anim.textComps[0]) { 
+        const compositionId = anim.textComps[0]
+        anim.TextUpdate({
+            compositionId,
+            text: 'THIS IS TITLE' + test
+        })
+
+        const box = anim.GetTextSize(compositionId)
+        if (box && !isNaN(box.width) && box.width > anim.compWidth) {
+            anim.TextUpdate({
+                compositionId,
+                scale: anim.compWidth / box.width
+            })
+        }
+    }
+    if (anim.textComps[1]) { 
+        const compositionId = anim.textComps[1]
+        anim.TextUpdate({
+            compositionId,
+            text: 'THIS IS SUBTITLE' + test
+        })
+
+        const box = anim.GetTextSize(compositionId)
+        if (box && !isNaN(box.width) && box.width > anim.compWidth) {
+            anim.TextUpdate({
+                compositionId,
+                scale: anim.compWidth / box.width
+            })
+        }
+    }
+    test += '12345678901234567890'
 
     const { svgElement, allRect: { x, y, width, height }, allRect, previewData } = anim.CopySVGElement(anim.previewFrame, _opentypeMap)
 
-    const pngbase64 = await CanvasHelper.DrawPNG(svgElement, x, y, width, height, allRect, previewData)
+    // const pngbase64 = await CanvasHelper.DrawPNG(svgElement, x, y, width, height, allRect, previewData)
+    const pngbase64 = await CanvasHelper.DrawPNG(svgElement, x, y, width, height)
 
     const div = document.createElement('div')
     div.className = 'sequence-image-container'
@@ -98,7 +127,6 @@ const extractPreviewTest = async () => {
     guideDiv.className = 'sequence-guide'
     div.appendChild(guideDiv)
 
-    console.log(anim.goToAndPlay)
     anim.goToAndPlay(0, true)
 
     console.log(`elapsed - : ${Date.now() - now}ms`)
@@ -117,7 +145,6 @@ const extractAllSequenceTest = async () => {
     catch (e) {
         console.log(e)
     }
-    console.log(_opentypeMap)
 
     let anim
     if (_animMap[loadedJsonFilename]) anim = _animMap[loadedJsonFilename]
@@ -135,8 +162,36 @@ const extractAllSequenceTest = async () => {
         _animMap[loadedJsonFilename] = anim
     }
     
-    if (anim.textComps[0]) anim.TextUpdate(anim.textComps[0], 'THIS IS TITLE')
-    if (anim.textComps[1]) anim.TextUpdate(anim.textComps[1], 'THIS IS SUBTITLE')
+    if (anim.textComps[0]) {
+        const compositionId = anim.textComps[0]
+        anim.TextUpdate({
+            compositionId,
+            text: 'THIS IS TITLE' + test
+        })
+
+        const box = anim.GetTextSize(compositionId)
+        if (box && !isNaN(box.width) && box.width > anim.compWidth) {
+            anim.TextUpdate({
+                compositionId,
+                scale: anim.compWidth / box.width
+            })
+        }
+    }
+    if (anim.textComps[1]) {
+        const compositionId = anim.textComps[1]
+        anim.TextUpdate({
+            compositionId,
+            text: 'THIS IS SUBTITLE' + test
+        })
+
+        const box = anim.GetTextSize(compositionId)
+        if (box && !isNaN(box.width) && box.width > anim.compWidth) {
+            anim.TextUpdate({
+                compositionId,
+                scale: anim.compWidth / box.width
+            })
+        }
+    }
 
     const svgElements = []
     let minX = 0, minY = 0, maxWidth = -1, maxHeight = -1

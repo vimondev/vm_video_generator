@@ -45,6 +45,7 @@ class VMTextWidget extends StatelessWidget {
   double _height = 0;
   double _frameRate = 0;
   int _totalFrameCount = 0;
+  double _elapsedTime = 0;
   Map<String, VMText> _textDataMap = {};
 
   String? _previewImagePath;
@@ -72,6 +73,7 @@ class VMTextWidget extends StatelessWidget {
   double get height => _height;
   double get frameRate => _frameRate;
   int get totalFrameCount => _totalFrameCount;
+  double get elapsedTime => _elapsedTime;
   Map<String, VMText> get textDataMap => _textDataMap;
 
   String? get previewImagePath => _previewImagePath;
@@ -272,6 +274,7 @@ class VMTextWidget extends StatelessWidget {
       _height = args[0]["height"].toDouble();
       List textData = args[0]["textData"];
       _frameRate = args[0]["frameRate"].toDouble();
+      _elapsedTime = args[0]["elapsedTime"].toDouble();
       _textDataMap.clear();
       _allSequencePaths.clear();
 
