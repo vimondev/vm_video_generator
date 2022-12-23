@@ -25,6 +25,6 @@ class VMTextConfig extends BaseTextConfig {
   }
 
   Map<String, dynamic> toMap() {
-    return {'text': text, 'path': path, 'textId': textId, 'id': id, 'ratio': ratio, 'textInfo': textInfo};
+    return {'text': text, 'path': path, 'textId': textId, 'id': id, 'ratio': ratio, 'textInfo': textInfo?.map};
   }
 }
