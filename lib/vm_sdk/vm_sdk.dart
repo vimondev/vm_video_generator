@@ -147,6 +147,29 @@ class VMSDKWidget extends StatelessWidget {
         if (++tryCount >= 6) rethrow;
       }
       print(pngPath);
+
+      // wait 3~4 seconds
+      await Future.delayed(Duration(seconds: 3 + Random().nextInt(2)));
+
+      // wait 3~5 + 0~1 seconbd
+      double totalFakeDelayTimeMs = (3.0 + Random().nextInt(3) + Random().nextDouble()) * 1000;
+      final Duration fakeDelayDuration = Duration(milliseconds: (totalFakeDelayTimeMs / 100).floor());
+      for (int i=0; i<100; i++) {
+        double fakeProgress = i / 100.0;
+        if (progressCallback != null) {
+          progressCallback(_currentStatus, fakeProgress * _titleExportPercentage);
+        }
+        await Future.delayed(fakeDelayDuration);
+        print("fakeProgress : $fakeProgress");
+      }
+
+      if (progressCallback != null) {
+        progressCallback(_currentStatus, _titleExportPercentage);
+      }
+
+      // wait 0.5 seconds
+      await Future.delayed(const Duration(milliseconds: 500));
+
       Size size = _textBoxConfigController.size;
 
       double scale = 1.0;
