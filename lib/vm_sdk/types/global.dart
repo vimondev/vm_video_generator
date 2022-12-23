@@ -85,6 +85,7 @@ class GPSData {
 
 class MediaData {
   String absolutePath; // File absolute path
+  String? scaledPath;
   EMediaType type; // Media Tyle (image/video)
   int width; // Width
   int height; // Height

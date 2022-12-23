@@ -102,16 +102,34 @@ Future<RenderedData> clipRender(
   // INPUT IMAGE & VIDEO //
   /////////////////////////
   if (mediaData.type == EMediaType.image) {
-    inputArguments
-        .addAll(["-framerate", "$_framerate", "-loop", "1", "-t", "$duration"]);
-    inputArguments.addAll(["-t", "$duration", "-i", mediaData.absolutePath]);
+    final String preProcessedPath = "$appDirPath/preprocessed_$clipIdx.mp4";
 
+    await _ffmpegManager.execute([
+      "-framerate",
+      "1",
+      "-loop",
+      "1",
+      "-t",
+      "1",
+      "-i",
+      mediaData.scaledPath ?? mediaData.absolutePath,
+      "-c:v",
+      "libx264",
+      "-pix_fmt",
+      "yuv420p",
+      "-r",
+      "1",
+      preProcessedPath,
+      "-y"
+    ], null);
+
+    inputArguments.addAll(["-stream_loop", duration.floor().toString(), "-i", preProcessedPath]);
     audioOutputMapVariable = "1:a";
   } //
   else {
     trimFilter = "trim=$startTime:${startTime + duration},setpts=PTS-STARTPTS,";
     inputArguments
-        .addAll(["-r", _framerate.toString(), "-i", mediaData.absolutePath]);
+        .addAll(["-i", mediaData.absolutePath]);
 
     final mediaInfo = (await FFprobeKit.getMediaInformation(mediaData.absolutePath)).getMediaInformation();
     final List<StreamInformation> streams = mediaInfo != null ? mediaInfo.getStreams() : [];
@@ -145,19 +163,33 @@ Future<RenderedData> clipRender(
   ]);
   inputFileCount++;
 
-  int scaledWidth = max((editedMedia.mediaData.width * editedMedia.zoomX).floor() + 2, _resolution.width);
-  int scaledHeight = max((editedMedia.mediaData.height * editedMedia.zoomY).floor() + 2, _resolution.height);
+  int scaledWidth = (editedMedia.mediaData.width * editedMedia.zoomX).floor();
+  int scaledHeight = (editedMedia.mediaData.height * editedMedia.zoomY).floor();
 
+  if (scaledWidth < _resolution.width) {
+    scaledHeight = ((scaledHeight) * (_resolution.width / scaledWidth)).floor();
+    scaledWidth = _resolution.width;
+  }
+  if (scaledHeight < _resolution.height) {
+    scaledWidth = ((scaledWidth) * (_resolution.height / scaledHeight)).floor();
+    scaledHeight = _resolution.height;
+  }
+
+  scaledWidth -= scaledWidth % 2;
+  scaledHeight -= scaledHeight % 2;
+  
   filterStrings.add(
-      "[0:v]$trimFilter${_getTransposeFilter(mediaData.orientation)}scale=$scaledWidth:$scaledHeight,crop=${_resolution.width}:${_resolution.height}:${editedMedia.translateX}:${editedMedia.translateY},setdar=dar=${_resolution.width / _resolution.height}[vid];");
+      "[0:v]fps=$_framerate,$trimFilter${_getTransposeFilter(mediaData.orientation)}scale=$scaledWidth:$scaledHeight,crop=${_resolution.width}:${_resolution.height}:${editedMedia.translateX}:${editedMedia.translateY},setdar=dar=${_resolution.width / _resolution.height}[vid];");
   videoOutputMapVariable = "[vid]";
   inputFileCount++;
 
   ///////////////////////////
   // IMAGE SCALE ANIMATION //
   ///////////////////////////
-  if (mediaData.type == EMediaType.image) {
-    const int animationSpeed = 96;
+  if (mediaData.type == EMediaType.image && Random().nextDouble() <= 0.3) {
+    int animationSpeed = 48;
+    double animationScaleFactor = 3;
+
     final int videoWidth = _resolution.width;
     final int videoHeight = _resolution.height;
 
@@ -176,7 +208,7 @@ Future<RenderedData> clipRender(
           cropZoomVal = (editedMedia.duration * (animationSpeed / 2)).floor();
 
           startScaleWidth = "-1";
-          startScaleHeight = "${(videoHeight * 3).floor()}+($scaleAddVal*t)";
+          startScaleHeight = "${(videoHeight * animationScaleFactor).floor()}+($scaleAddVal*t)";
           cropPosX = "($cropZoomVal*t)";
           cropPosY = "($cropZoomVal*t)";
         }
@@ -189,7 +221,7 @@ Future<RenderedData> clipRender(
 
           startScaleWidth = "-1";
           startScaleHeight =
-              "${(videoHeight * 3 + scaleAddVal * editedMedia.duration).floor()}-($scaleAddVal*t)";
+              "${(videoHeight * animationScaleFactor + scaleAddVal * editedMedia.duration).floor()}-($scaleAddVal*t)";
           cropPosX =
               "(${(cropZoomVal * editedMedia.duration).floor()}-$cropZoomVal*t)";
           cropPosY =
@@ -199,11 +231,14 @@ Future<RenderedData> clipRender(
 
       case EImageScaleType.leftToRight:
         {
+          animationSpeed = (animationSpeed / 2).floor();
+          animationScaleFactor /= 2;
+
           cropZoomVal = animationSpeed * 2;
 
           startScaleWidth = "-1";
           startScaleHeight =
-              "${(videoHeight * 3 + (cropZoomVal * 2 * editedMedia.duration)).floor()}";
+              "${(videoHeight * animationScaleFactor + (cropZoomVal * 2 * editedMedia.duration)).floor()}";
           cropPosX = "($cropZoomVal*t)";
           cropPosY = "${((cropZoomVal / 2) * editedMedia.duration).floor()}";
         }
@@ -211,11 +246,14 @@ Future<RenderedData> clipRender(
 
       case EImageScaleType.rightToLeft:
         {
+          animationSpeed = (animationSpeed / 2).floor();
+          animationScaleFactor /= 2;
+          
           cropZoomVal = animationSpeed * 2;
 
           startScaleWidth = "-1";
           startScaleHeight =
-              "${(videoHeight * 3 + (cropZoomVal * 2 * editedMedia.duration)).floor()}";
+              "${(videoHeight * animationScaleFactor + (cropZoomVal * 2 * editedMedia.duration)).floor()}";
           cropPosX =
               "(${(cropZoomVal * editedMedia.duration).floor()}-$cropZoomVal*t)";
           cropPosY = "${((cropZoomVal / 2) * editedMedia.duration).floor()}";
@@ -224,11 +262,14 @@ Future<RenderedData> clipRender(
 
       case EImageScaleType.topToBottom:
         {
+          animationSpeed = (animationSpeed / 2).floor();
+          animationScaleFactor /= 2;
+          
           cropZoomVal = animationSpeed * 2;
 
           startScaleWidth = "-1";
           startScaleHeight =
-              "${(videoHeight * 3 + (cropZoomVal * 2 * editedMedia.duration)).floor()}";
+              "${(videoHeight * animationScaleFactor + (cropZoomVal * 2 * editedMedia.duration)).floor()}";
           cropPosX = "${((cropZoomVal / 2) * editedMedia.duration).floor()}";
           cropPosY = "($cropZoomVal*t)";
         }
@@ -237,11 +278,14 @@ Future<RenderedData> clipRender(
       case EImageScaleType.bottomToTop:
       default:
         {
+          animationSpeed = (animationSpeed / 2).floor();
+          animationScaleFactor /= 2;
+          
           cropZoomVal = animationSpeed * 2;
 
           startScaleWidth = "-1";
           startScaleHeight =
-              "${(videoHeight * 3 + (cropZoomVal * 2 * editedMedia.duration)).floor()}";
+              "${(videoHeight * animationScaleFactor + (cropZoomVal * 2 * editedMedia.duration)).floor()}";
           cropPosX = "${((cropZoomVal / 2) * editedMedia.duration).floor()}";
           cropPosY =
               "(${(cropZoomVal * editedMedia.duration).floor()}-$cropZoomVal*t)";
@@ -250,7 +294,7 @@ Future<RenderedData> clipRender(
     }
 
     filterStrings.add(
-        "${videoOutputMapVariable}scale=$startScaleWidth:$startScaleHeight:eval=frame,crop=${(videoWidth * 3).floor()}:${(videoHeight * 3).floor()}:$cropPosX:$cropPosY,scale=$videoWidth:$videoHeight[applied_animation];");
+        "${videoOutputMapVariable}scale=$startScaleWidth:$startScaleHeight:eval=frame,crop=${(videoWidth * animationScaleFactor).floor()}:${(videoHeight * animationScaleFactor).floor()}:$cropPosX:$cropPosY,scale=$videoWidth:$videoHeight[applied_animation];");
 
     videoOutputMapVariable = "[applied_animation]";
   }
@@ -986,7 +1030,11 @@ Future<MediaData> scaleImageMedia( MediaData mediaData) async {
   arguments.addAll([outputPath, "-y"]);
 
   await _ffmpegManager.execute(arguments, null);
-  return MediaData(outputPath, mediaData.type, scaledWidth, scaledHeight, 0, mediaData.duration, mediaData.createDate, mediaData.gpsString, mediaData.mlkitDetected);
+
+  final MediaData resultData = MediaData(mediaData.absolutePath, mediaData.type, mediaData.width, mediaData.height, 0, mediaData.duration, mediaData.createDate, mediaData.gpsString, mediaData.mlkitDetected);
+  resultData.scaledPath = outputPath;
+
+  return resultData;
 }
 
 int getFramerate() {
