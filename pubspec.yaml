@@ -45,6 +45,8 @@ dependencies:
   uuid: ^3.0.6
   http:
   rxdart:
+  network_font:
+  tuple:
 
 dev_dependencies:
   flutter_test:

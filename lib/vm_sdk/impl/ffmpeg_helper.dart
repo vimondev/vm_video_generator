@@ -75,7 +75,7 @@ Future<RenderedData> clipRender(
     int clipIdx,
     TransitionData? prevTransition,
     TransitionData? nextTransition,
-    Function(Statistics)? ffmpegCallback) async {
+    Function(Statistics)? ffmpegCallback, { isAutoEdit = false }) async {
   final MediaData mediaData = editedMedia.mediaData;
   final FrameData? frame = editedMedia.frame;
   final List<EditedStickerData> stickerList = editedMedia.stickers;
@@ -392,12 +392,17 @@ Future<RenderedData> clipRender(
       canvasText.imagePath
     ]);
 
+    String overlayTimeFilter = "";
+    if (isAutoEdit) {
+      overlayTimeFilter = "enable='between(t\\,0,${min(5, editedMedia.duration)})':";
+    }
+
     filterStrings.add(
-        "[${inputFileCount++}:v]scale=${canvasText.width}:${canvasText.height}$canvasTextScaledMapVariable;");
+        "[${inputFileCount++}:v]scale=${canvasText.width}:-1$canvasTextScaledMapVariable;");
     filterStrings.add(
         "${canvasTextScaledMapVariable}rotate=$rotate:c=none:ow=rotw($rotate):oh=roth($rotate)$canvasTextRotatedMapVariable;");
     filterStrings.add(
-        "$videoOutputMapVariable${canvasTextRotatedMapVariable}overlay=${canvasText.x}-(((${canvasText.width}*cos($rotateForCal)+${canvasText.height}*sin($rotateForCal))-${canvasText.width})/2):${canvasText.y}-(((${canvasText.width}*sin($rotateForCal)+${canvasText.height}*cos($rotateForCal))-${canvasText.height})/2)$canvasTextMergedMapVariable;");
+        "$videoOutputMapVariable${canvasTextRotatedMapVariable}overlay=${overlayTimeFilter}x=${canvasText.x}-(((${canvasText.width}*cos($rotateForCal)+${canvasText.height}*sin($rotateForCal))-${canvasText.width})/2):y=${canvasText.y}-(((${canvasText.width}*sin($rotateForCal)+${canvasText.height}*cos($rotateForCal))-${canvasText.height})/2)$canvasTextMergedMapVariable;");
 
     videoOutputMapVariable = canvasTextMergedMapVariable;
   }
@@ -432,12 +437,17 @@ Future<RenderedData> clipRender(
         "${exportedText.allSequencesPath}/%d.png"
       ]);
 
+      String overlayTimeFilter = "";
+      if (isAutoEdit) {
+        overlayTimeFilter = "enable='between(t\\,0,${min(5, editedMedia.duration)})':";
+      }
+
       filterStrings.add(
-          "[${inputFileCount++}:v]trim=0:$duration,setpts=PTS-STARTPTS,scale=$width:$height$textMapVariable;");
+          "[${inputFileCount++}:v]trim=0:$duration,setpts=PTS-STARTPTS,scale=$width:-1$textMapVariable;");
       filterStrings.add(
           "${textMapVariable}rotate=$rotate:c=none:ow=rotw($rotate):oh=roth($rotate)$textRotatedMapVariable;");
       filterStrings.add(
-          "$videoOutputMapVariable${textRotatedMapVariable}overlay=${editedText.x}-((($width*cos($rotateForCal)+$height*sin($rotateForCal))-$width)/2):${editedText.y}-((($width*sin($rotateForCal)+$height*cos($rotateForCal))-$height)/2)$textMergedMapVariable;");
+          "$videoOutputMapVariable${textRotatedMapVariable}overlay=${overlayTimeFilter}x=${editedText.x}-((($width*cos($rotateForCal)+$height*sin($rotateForCal))-$width)/2):y=${editedText.y}-((($width*sin($rotateForCal)+$height*cos($rotateForCal))-$height)/2)$textMergedMapVariable;");
 
       videoOutputMapVariable = textMergedMapVariable;
     }
