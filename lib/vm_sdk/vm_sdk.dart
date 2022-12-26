@@ -72,7 +72,7 @@ class VMSDKWidget extends StatelessWidget {
       List<String> texts,
       String language,
       Function(EGenerateStatus status, double progress)?
-          progressCallback) async {
+          progressCallback, { isExportTitle = true, isRunFFmpeg = true }) async {
     DateTime now = DateTime.now();
     _currentStatus = EGenerateStatus.titleExport;
 
@@ -148,27 +148,29 @@ class VMSDKWidget extends StatelessWidget {
       }
       print(pngPath);
 
-      // wait 3~4 seconds
-      await Future.delayed(Duration(seconds: 3 + Random().nextInt(2)));
+      if (isExportTitle) {
+        // wait 3~4 seconds
+        await Future.delayed(Duration(seconds: 3 + Random().nextInt(2)));
 
-      // wait 3~5 + 0~1 seconbd
-      double totalFakeDelayTimeMs = (3.0 + Random().nextInt(3) + Random().nextDouble()) * 1000;
-      final Duration fakeDelayDuration = Duration(milliseconds: (totalFakeDelayTimeMs / 100).floor());
-      for (int i=0; i<100; i++) {
-        double fakeProgress = i / 100.0;
-        if (progressCallback != null) {
-          progressCallback(_currentStatus, fakeProgress * _titleExportPercentage);
+        // wait 3~5 + 0~1 seconbd
+        double totalFakeDelayTimeMs = (3.0 + Random().nextInt(3) + Random().nextDouble()) * 1000;
+        final Duration fakeDelayDuration = Duration(milliseconds: (totalFakeDelayTimeMs / 250).floor());
+        for (int i=0; i<250; i++) {
+          double fakeProgress = i / 250.0;
+          if (progressCallback != null) {
+            progressCallback(_currentStatus, fakeProgress * _titleExportPercentage);
+          }
+          await Future.delayed(fakeDelayDuration);
+          print("fakeProgress : $fakeProgress");
         }
-        await Future.delayed(fakeDelayDuration);
-        print("fakeProgress : $fakeProgress");
-      }
 
-      if (progressCallback != null) {
-        progressCallback(_currentStatus, _titleExportPercentage);
-      }
+        if (progressCallback != null) {
+          progressCallback(_currentStatus, _titleExportPercentage);
+        }
 
-      // wait 0.5 seconds
-      await Future.delayed(const Duration(milliseconds: 500));
+        // wait 0.5 seconds
+        await Future.delayed(const Duration(milliseconds: 500));
+      }
 
       Size size = _textBoxConfigController.size;
 
@@ -200,16 +202,18 @@ class VMSDKWidget extends StatelessWidget {
       final TextData pickedText = textDatas[(Random()).nextInt(textDatas.length) % textDatas.length];
       pickedTextId = pickedText.key;
 
-      await _textWidget.loadText(pickedTextId, initTexts: texts);
+      if (isExportTitle) {
+        await _textWidget.loadText(pickedTextId, initTexts: texts);
 
-      await _textWidget.extractAllSequence((progress) {
+        await _textWidget.extractAllSequence((progress) {
+          if (progressCallback != null) {
+            progressCallback(_currentStatus, progress * _titleExportPercentage);
+          }
+        });
+
         if (progressCallback != null) {
-          progressCallback(_currentStatus, progress * _titleExportPercentage);
+          progressCallback(_currentStatus, _titleExportPercentage);
         }
-      });
-
-      if (progressCallback != null) {
-        progressCallback(_currentStatus, _titleExportPercentage);
       }
 
       TextExportData exportedText = TextExportData(
@@ -218,8 +222,8 @@ class VMSDKWidget extends StatelessWidget {
           _textWidget.height,
           _textWidget.frameRate,
           _textWidget.totalFrameCount,
-          _textWidget.previewImagePath!,
-          _textWidget.allSequencesPath!,
+          _textWidget.previewImagePath ?? "",
+          _textWidget.allSequencesPath ?? "",
           _textWidget.textDataMap);
 
       EditedTextData editedTextData = EditedTextData(
@@ -260,7 +264,7 @@ class VMSDKWidget extends StatelessWidget {
         allEditedData.editedMediaList,
         allEditedData.musicList,
         allEditedData.ratio,
-        progressCallback, isAutoEdit: true);
+        progressCallback, isAutoEdit: true, isRunFFmpeg: isRunFFmpeg);
 
     result.musicStyle = allEditedData.style;
     result.editedMediaList.addAll(allEditedData.editedMediaList);
@@ -349,8 +353,37 @@ class VMSDKWidget extends StatelessWidget {
       List<MusicData> musicList,
       ERatio ratio,
       Function(EGenerateStatus status, double progress)?
-          progressCallback, { isAutoEdit = false }) async {
+          progressCallback, { isAutoEdit = false, isRunFFmpeg = true }) async {
     try {
+      final List<SpotInfo> spotInfoList = [];
+      final List<String> thumbnailList = [];
+
+      setRatio(ratio);
+
+      double currentDuration = 0;
+      for (int i = 0; i < editedMediaList.length; i++) {
+        spotInfoList.add(
+            SpotInfo(currentDuration, editedMediaList[i].mediaData.gpsString));
+        currentDuration += editedMediaList[i].duration;
+      }
+
+      if (!isRunFFmpeg) {
+        for (int i = 0; i < editedMediaList.length; i++) {
+          final EditedMedia editedMedia = editedMediaList[i];
+
+          String thumbnailPath = await extractThumbnail(editedMediaList[i]) ?? "";
+          editedMedia.thumbnailPath = thumbnailPath;
+          thumbnailList.add(thumbnailPath);
+        }
+        final VideoGeneratedResult result = VideoGeneratedResult(
+          "", spotInfoList, thumbnailList);
+
+        result.editedMediaList.addAll(editedMediaList);
+        result.musicList.addAll(musicList);
+
+        return result;
+      }
+
       await ResourceManager.getInstance()
           .loadResourceFromAssets(editedMediaList, ratio);
 
@@ -404,11 +437,9 @@ class VMSDKWidget extends StatelessWidget {
         }
       });
 
-      setRatio(ratio);
       DateTime now = DateTime.now();
 
       final List<RenderedData> clipDataList = [];
-      final List<String> thumbnailList = [];
       double totalDuration = 0;
 
       for (int i = 0; i < editedMediaList.length; i++) {
@@ -513,19 +544,11 @@ class VMSDKWidget extends StatelessWidget {
       }
       _currentTimer = null;
 
-      final List<SpotInfo> spotInfoList = [];
-      double currentDuration = 0;
-      for (int i = 0; i < editedMediaList.length; i++) {
-        spotInfoList.add(
-            SpotInfo(currentDuration, editedMediaList[i].mediaData.gpsString));
-        currentDuration += editedMediaList[i].duration;
-      }
-
       if (progressCallback != null) {
         progressCallback(_currentStatus, 1);
       }
 
-      final VideoGeneratedResult result =  VideoGeneratedResult(
+      final VideoGeneratedResult result = VideoGeneratedResult(
           resultClip.absolutePath, spotInfoList, thumbnailList);
 
       result.editedMediaList.addAll(editedMediaList);
