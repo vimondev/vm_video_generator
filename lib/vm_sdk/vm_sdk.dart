@@ -88,7 +88,10 @@ class VMSDKWidget extends StatelessWidget {
     }
 
     mediaList = await _filterNotExistsMedia(mediaList);
-    mediaList = await _scaleImageMedia(mediaList);
+
+    if (isRunFFmpeg) {
+      mediaList = await _scaleImageMedia(mediaList);
+    }
 
     final AllEditedData allEditedData = await generateAllEditedData(
         mediaList, style, randomSortedTemplateList, isAutoEdit);
