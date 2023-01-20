@@ -1149,5 +1149,26 @@
         "isRecommend": false,
         "exceptSpeed": {},
         "lineCount": 2
+    },
+    "Subtitle_SW001": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 1
+    },
+    "Subtitle_SW002": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 1
+    },
+    "Subtitle_SW003": {
+        "enable": false,
+        "unsupportLang": {},
+        "isRecommend": false,
+        "exceptSpeed": {},
+        "lineCount": 1
     }
 }
