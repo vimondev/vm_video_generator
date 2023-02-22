@@ -59,15 +59,17 @@ String _getTransposeFilter(int orientation) {
   }
 }
 
+int _getEvenNumber(int num) {
+  num -= (num % 2);
+  return num;
+}
+
 void setRatio(ERatio ratio) {
   _ratio = ratio;
   _resolution = Resolution.fromRatio(ratio);
 
-  _scaledVideoWidth = (_resolution.width * _scaleFactor).floor();
-  _scaledVideoHeight = (_resolution.height * _scaleFactor).floor();
-
-  _scaledVideoWidth -= (_scaledVideoWidth % 2);
-  _scaledVideoHeight -= (_scaledVideoHeight % 2);
+  _scaledVideoWidth = _getEvenNumber((_resolution.width * _scaleFactor).floor());
+  _scaledVideoHeight = _getEvenNumber((_resolution.height * _scaleFactor).floor());
 }
 
 Future<RenderedData> clipRender(
@@ -113,6 +115,8 @@ Future<RenderedData> clipRender(
       "1",
       "-i",
       mediaData.scaledPath ?? mediaData.absolutePath,
+      "-vf",
+      "scale=${_getEvenNumber(mediaData.width)}:${_getEvenNumber(mediaData.height)}",
       "-c:v",
       "libx264",
       "-pix_fmt",
@@ -163,8 +167,8 @@ Future<RenderedData> clipRender(
   ]);
   inputFileCount++;
 
-  int scaledWidth = (editedMedia.mediaData.width * editedMedia.zoomX).floor();
-  int scaledHeight = (editedMedia.mediaData.height * editedMedia.zoomY).floor();
+  int scaledWidth = (mediaData.width * editedMedia.zoomX).floor();
+  int scaledHeight = (mediaData.height * editedMedia.zoomY).floor();
 
   if (scaledWidth < _resolution.width) {
     scaledHeight = ((scaledHeight) * (_resolution.width / scaledWidth)).floor();
@@ -175,8 +179,8 @@ Future<RenderedData> clipRender(
     scaledHeight = _resolution.height;
   }
 
-  scaledWidth -= scaledWidth % 2;
-  scaledHeight -= scaledHeight % 2;
+  scaledWidth = _getEvenNumber(scaledWidth);
+  scaledHeight = _getEvenNumber(scaledHeight);
   
   filterStrings.add(
       "[0:v]fps=$_framerate,$trimFilter${_getTransposeFilter(mediaData.orientation)}scale=$scaledWidth:$scaledHeight,crop=${_resolution.width}:${_resolution.height}:${editedMedia.translateX}:${editedMedia.translateY},setdar=dar=${_resolution.width / _resolution.height}[vid];");
@@ -983,7 +987,7 @@ Future<String?> extractThumbnail(EditedMedia editedMedia) async {
   }
 
   filterStrings.add(
-      "${_getTransposeFilter(mediaData.orientation)}scale=${(editedMedia.mediaData.width * editedMedia.zoomX).floor()}:${(editedMedia.mediaData.height * editedMedia.zoomY).floor()},crop=${_resolution.width}:${_resolution.height}:${editedMedia.translateX}:${editedMedia.translateY},scale=${(_scaledVideoWidth / 2).floor()}:${(_scaledVideoHeight / 2).floor()},setdar=dar=${_scaledVideoWidth / _scaledVideoHeight}");
+      "${_getTransposeFilter(mediaData.orientation)}scale=${(mediaData.width * editedMedia.zoomX).floor()}:${(mediaData.height * editedMedia.zoomY).floor()},crop=${_resolution.width}:${_resolution.height}:${editedMedia.translateX}:${editedMedia.translateY},scale=${(_scaledVideoWidth / 2).floor()}:${(_scaledVideoHeight / 2).floor()},setdar=dar=${_scaledVideoWidth / _scaledVideoHeight}");
 
   String filterComplexStr = "";
   for (final String filterStr in filterStrings) {
@@ -1021,11 +1025,8 @@ Future<MediaData> scaleImageMedia( MediaData mediaData) async {
     imageScaleFactor = scaledTargetSize / mediaData.height;
   }
 
-  int scaledWidth = (mediaData.width * imageScaleFactor).floor();
-  int scaledHeight = (mediaData.height * imageScaleFactor).floor();
-
-  scaledWidth -= scaledWidth % 2;
-  scaledHeight -= scaledHeight % 2;
+  int scaledWidth = _getEvenNumber((mediaData.width * imageScaleFactor).floor());
+  int scaledHeight = _getEvenNumber((mediaData.height * imageScaleFactor).floor());
 
   filterStrings.add(
       "${_getTransposeFilter(mediaData.orientation)}scale=$scaledWidth:$scaledHeight,setdar=dar=${scaledWidth / scaledHeight}");
