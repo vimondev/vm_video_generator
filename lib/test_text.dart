@@ -114,33 +114,33 @@ class _TestWidgetState extends State<TestWidget> {
           if (preview != null) imageList = [preview];
         });
 
-        int width = _vmTextWidget.width.floor();
-        int height = _vmTextWidget.height.floor();
+        int width = (_vmTextWidget.width / 2).floor();
+        int height = (_vmTextWidget.height / 2).floor();
 
         width -= width % 2;
         height -= height % 2;
 
-        // await _ffmpegManager.execute([
-        //   "-framerate",
-        //   _vmTextWidget.frameRate.toString(),
-        //   "-i",
-        //   "${_vmTextWidget.allSequencesPath!}/%d.png",
-        //   "-vf",
-        //   "scale=$width:$height",
-        //   // "-c:v",
-        //   // "libvpx-vp9",
-        //   // "-pix_fmt",
-        //   // "yuva420p",
-        //   // "$webmPath/$currentText.webm",
-        //   "-c:v",
-        //   "libx264",
-        //   "-preset",
-        //   "ultrafast",
-        //   "-pix_fmt",
-        //   "yuv420p",
-        //   "$webmPath/${currentText}_en.mp4",
-        //   "-y"
-        // ], (p0) => null);
+        await _ffmpegManager.execute([
+          "-framerate",
+          _vmTextWidget.frameRate.toString(),
+          "-i",
+          "${_vmTextWidget.allSequencesPath!}/%d.png",
+          "-vf",
+          "scale=$width:$height",
+          "-c:v",
+          "libvpx-vp9",
+          "-pix_fmt",
+          "yuva420p",
+          "$webmPath/$currentText.webm",
+          // "-c:v",
+          // "libx264",
+          // "-preset",
+          // "ultrafast",
+          // "-pix_fmt",
+          // "yuv420p",
+          // "$webmPath/${currentText}_en.mp4",
+          "-y"
+        ], (p0) => null);
 
         final String textDirPath = "$webmPath/$currentText";
         final String previewDirPath = "$textDirPath/preview";

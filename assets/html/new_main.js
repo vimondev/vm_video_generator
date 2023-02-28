@@ -108,9 +108,10 @@ const ExtractAllSequence = async ({ id, jobId, fontFamliyArr, fontBase64, json, 
         if (!anim) throw new Error("ERR_LOAD_FAILED")
 
         const svgElements = []
+        const totalFrames = Math.min(anim.totalFrames, parseInt(anim.animationData.fr * 5))
 
         let minX, minY, maxWidth = -1, maxHeight = -1
-        for (let i = 0; i < anim.totalFrames; i++) {
+        for (let i = 0; i < totalFrames; i++) {
             const { svgElement, allRect: { x, y, width, height } } = anim.CopySVGElement(i, opentypeMap)
 
             if (width > maxWidth) {
@@ -129,7 +130,7 @@ const ExtractAllSequence = async ({ id, jobId, fontFamliyArr, fontBase64, json, 
             width: maxWidth,
             height: maxHeight,
             frameRate: anim.animationData.fr,
-            totalFrameCount: anim.totalFrames
+            totalFrameCount: totalFrames
         })
     
         for (let i = 0; i < svgElements.length; i++) {
