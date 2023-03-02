@@ -351,6 +351,21 @@ class VMSDKWidget extends StatelessWidget {
     return result;
   }
 
+  int _currentThumbnailExtractCount = 0;
+  Future<void> _extractAndMapThumbnail(EditedMedia editedMedia) async {
+    while (_currentThumbnailExtractCount >= 5) {
+      await Future.delayed(const Duration(milliseconds: 100));
+    }
+    _currentThumbnailExtractCount++;
+    try {
+      editedMedia.thumbnailPath = await extractThumbnail(editedMedia) ?? "";
+    }
+    catch (e) {
+      print(e);
+    }
+    _currentThumbnailExtractCount--;
+  }
+
   Future<VideoGeneratedResult> _runFFmpeg(
       List<EditedMedia> editedMediaList,
       List<MusicData> musicList,
@@ -371,13 +386,16 @@ class VMSDKWidget extends StatelessWidget {
       }
 
       if (!isRunFFmpeg) {
+        List<Future> extractThumbnailFutures = [];
         for (int i = 0; i < editedMediaList.length; i++) {
-          final EditedMedia editedMedia = editedMediaList[i];
-
-          String thumbnailPath = await extractThumbnail(editedMediaList[i]) ?? "";
-          editedMedia.thumbnailPath = thumbnailPath;
-          thumbnailList.add(thumbnailPath);
+          extractThumbnailFutures.add(_extractAndMapThumbnail(editedMediaList[i]));
         }
+        await Future.wait(extractThumbnailFutures);
+
+        for (int i = 0; i < editedMediaList.length; i++) {
+          thumbnailList.add(editedMediaList[i].thumbnailPath!);
+        }
+
         final VideoGeneratedResult result = VideoGeneratedResult(
           "", spotInfoList, thumbnailList);
 

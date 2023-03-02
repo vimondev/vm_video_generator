@@ -818,12 +818,14 @@ Future<AllEditedData> generateAllEditedData(
   totalRemainDuration = totalDuration;
   int musicIndex = 0;
 
+  Map<String, MusicData> musicDataMap = {};
   while (totalRemainDuration > 0) {
     MusicData musicData = musicList[musicIndex % musicList.length];
     allEditedData.musicList.add(musicData);
 
-    final File file = (await downloadResource(musicData.filename, musicData.url)).file;
-    musicData.absolutePath = file.path;
+    if (!musicDataMap.containsKey(musicData.filename)) {
+      musicDataMap[musicData.filename] = musicData;
+    }
 
     print(musicData.filename);
     print("speed: ${musicData.speed}");
@@ -833,7 +835,18 @@ Future<AllEditedData> generateAllEditedData(
     musicIndex++;
   }
 
+  List<Future> downloadMusicFutures = [];
+  for (final musicData in musicDataMap.values) {
+    downloadMusicFutures.add(_downloadAndMapMusic(musicData));
+  }
+  await Future.wait(downloadMusicFutures);
+
   return allEditedData;
+}
+
+Future<void> _downloadAndMapMusic(MusicData musicData) async {
+  final File file = (await downloadResource(musicData.filename, musicData.url)).file;
+  musicData.absolutePath = file.path;
 }
 
 Future<_GetMusicResponse> _getMusics(EMusicStyle? musicStyle) async {
@@ -842,9 +855,8 @@ Future<_GetMusicResponse> _getMusics(EMusicStyle? musicStyle) async {
   final Map<EMusicStyle, List<SongFetchModel>> songMapByMusicStyle = {};
   final Map<String, List<SongFetchModel>> songMapBySpeed = {};
 
-  DateTime now = DateTime.now();
-  List<SongFetchModel> songs = await fetchAllSongs();
-  print("fetch : ${DateTime.now().difference(now).inMilliseconds}ms");
+  List<SongFetchModel> songs = [];
+  songs.addAll(ResourceManager.getInstance().getAllSongFetchModels()); // copy elements
 
   while (songs.isNotEmpty) {
     // RANDOM PICK & ADD (SIMILAR RANDOM SORT)

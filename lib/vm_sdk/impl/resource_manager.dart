@@ -9,6 +9,8 @@ import 'dart:convert';
 class ResourceManager {
   static ResourceManager? _instance;
 
+  final List<SongFetchModel> _fetchedSongs = [];
+
   final Map<String, TransitionData> _transitionMap = <String, TransitionData>{};
   final Map<String, FrameData> _frameMap = <String, FrameData>{};
   final Map<String, StickerData> _stickerMap = <String, StickerData>{};
@@ -20,6 +22,10 @@ class ResourceManager {
   static ResourceManager getInstance() {
     _instance ??= ResourceManager();
     return _instance!;
+  }
+
+  Future<void> _loadSongModels() async {
+    _fetchedSongs.addAll(await fetchAllSongs());
   }
 
   Future<void> _loadTransitionMap() async {
@@ -143,12 +149,17 @@ class ResourceManager {
 
   Future<void> loadResourceMap() async {
     await Future.wait([
+      _loadSongModels(),
       _loadTransitionMap(),
       _loadFrameMap(),
       _loadStickerMap(),
       _loadTemplateMap(),
       _loadTextMap()
     ]);
+  }
+
+  List<SongFetchModel> getAllSongFetchModels() {
+    return _fetchedSongs;
   }
 
   List<OverlayTransitionData> getAllOverlayTransitions(
