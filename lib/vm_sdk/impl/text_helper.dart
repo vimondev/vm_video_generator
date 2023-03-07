@@ -12,7 +12,8 @@ Future<DownloadFontResponse> _downloadFont(String fontFamily, String fontFileNam
 }
 
 Future<TextWidgetData?> loadTextWidgetData(String id, int lineCount) async {
-  if (ResourceManager.getInstance().getTextData(id) == null) return null;
+  TextData? textData = ResourceManager.getInstance().getTextData(id);
+  if (textData == null) return null;
 
   if (id.startsWith("Subtitle_")) lineCount = 1;
   final Map<String, dynamic> loadedMap =
@@ -57,5 +58,5 @@ Future<TextWidgetData?> loadTextWidgetData(String id, int lineCount) async {
   }
   List<String> fontBase64 = (await Future.wait(loadFontBase64Futures)).map<String>((item) => item.base64).toList();
 
-  return TextWidgetData(type, json, fontFamily, fontBase64);
+  return TextWidgetData(type, json, fontFamily, fontBase64, textData.letterSpacing);
 }

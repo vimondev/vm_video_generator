@@ -127,6 +127,7 @@ class ResourceManager {
       _textMap[key]!.isRecommend = textJsonMap[key]["isRecommend"];
       _textMap[key]!.exceptSpeed = textJsonMap[key]["exceptSpeed"];
       _textMap[key]!.lineCount = textJsonMap[key]["lineCount"];
+      _textMap[key]!.letterSpacing = (textJsonMap[key]["letterSpacing"] ?? 1) * 1.0;
     }
 
     final replaceFontJsonMap = jsonDecode(await loadResourceString("data/replace-font.json"));

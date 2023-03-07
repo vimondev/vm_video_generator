@@ -21,6 +21,7 @@ class _TestWidgetState extends State<TestWidget> {
   VMTextWidget _vmTextWidget = VMTextWidget();
 
   List<String> imageList = [];
+  String _currentText = "";
 
   int _currentIndex = 0;
   bool _isRunning = false;
@@ -107,7 +108,7 @@ class _TestWidgetState extends State<TestWidget> {
         print('_currentIndex is $i / ${allTexts.length}');
 
         // await _vmTextWidget.loadText(currentText, initTexts: ["첫번째줄 테스트", "두번째줄 테스트"]);
-        // await _vmTextWidget.loadText(currentText, initTexts: ["THIS IS TITLE", "THIS IS SUBTITLE"]);
+        await _vmTextWidget.loadText(currentText, initTexts: ["THIS IS TITLE", "THIS IS SUBTITLE"]);
         // await _vmTextWidget.loadText(currentText, initTexts: ["パスワードを再確認してください。", "パスワードを再確認してください。"]);
         // await _vmTextWidget.loadText(currentText, initTexts: ["Sẵn sàng tiệc chưa?", "Sẵn sàng tiệc chưa?"]);
         // await _vmTextWidget.loadText(currentText, initTexts: ["วิดีโอที่คุณสร้างกำลังรอคุณอยู่", "วิดีโอที่คุณสร้างกำลังรอคุณอยู่"]);
@@ -115,7 +116,7 @@ class _TestWidgetState extends State<TestWidget> {
         // await _vmTextWidget.loadText(currentText, initTexts: ["THIS IS TITLE THIS IS TITLE THIS IS TITLE THIS IS TITLE", "THIS IS SUBTITLE THIS IS SUBTITLE THIS IS SUBTITLE THIS IS SUBTITLE"]);
         // await _vmTextWidget.loadText(currentText, initTexts: ["THIS IS SUBTITLE THIS IS SUBTITLE THIS IS SUBTITLE THIS IS SUBTITLE"]);
 
-        await _vmTextWidget.loadText(currentText);
+        // await _vmTextWidget.loadText(currentText);
         await _vmTextWidget.extractAllSequence((progress) => {});
 
         final String appDirPath = await getAppDirectoryPath();
@@ -123,10 +124,7 @@ class _TestWidgetState extends State<TestWidget> {
         Directory dir = Directory(webmPath);
         await dir.create(recursive: true);
 
-        // String? preview = _vmTextWidget.previewImagePath;
-        // setState(() {
-        //   if (preview != null) imageList = [preview];
-        // });
+        String? preview = _vmTextWidget.previewImagePath;
 
         int width = (_vmTextWidget.width).floor();
         int height = (_vmTextWidget.height).floor();
@@ -156,32 +154,32 @@ class _TestWidgetState extends State<TestWidget> {
           "-y"
         ], (p0) => null);
 
-        final String textDirPath = "$webmPath/$currentText";
-        final String previewDirPath = "$textDirPath/preview";
-        final String sequenceDirPath = "$textDirPath/sequence";
-        final Directory previewDir = Directory(previewDirPath);
-        final Directory sequenceDir = Directory(sequenceDirPath);
+        // final String textDirPath = "$webmPath/$currentText";
+        // final String previewDirPath = "$textDirPath/preview";
+        // final String sequenceDirPath = "$textDirPath/sequence";
+        // final Directory previewDir = Directory(previewDirPath);
+        // final Directory sequenceDir = Directory(sequenceDirPath);
 
-        await previewDir.create(recursive: true);
-        await sequenceDir.create(recursive: true);
+        // await previewDir.create(recursive: true);
+        // await sequenceDir.create(recursive: true);
 
-        File thumbnailFile = File(_vmTextWidget.previewImagePath!);
-        await thumbnailFile.copy("$previewDirPath/$currentText.png");
+        // File thumbnailFile = File(_vmTextWidget.previewImagePath!);
+        // await thumbnailFile.copy("$previewDirPath/$currentText.png");
 
-        for (int i=0; i<_vmTextWidget.allSequencePaths.length; i++) {
-          String curSequencePath = _vmTextWidget.allSequencePaths[i];
-          String filename = basename(curSequencePath);
+        // for (int i=0; i<_vmTextWidget.allSequencePaths.length; i++) {
+        //   String curSequencePath = _vmTextWidget.allSequencePaths[i];
+        //   String filename = basename(curSequencePath);
 
-          File curSequenceFile = File(curSequencePath);
-          await curSequenceFile.copy("$sequenceDirPath/$filename");
-        }
-        File jsonFile = File("$textDirPath/$currentText.json");
-        await jsonFile.writeAsString(jsonEncode({
-          "width": _vmTextWidget.width,
-          "height": _vmTextWidget.height,
-          "frameRate": _vmTextWidget.frameRate,
-          "totalFrameCount": _vmTextWidget.totalFrameCount
-        }));
+        //   File curSequenceFile = File(curSequencePath);
+        //   await curSequenceFile.copy("$sequenceDirPath/$filename");
+        // }
+        // File jsonFile = File("$textDirPath/$currentText.json");
+        // await jsonFile.writeAsString(jsonEncode({
+        //   "width": _vmTextWidget.width,
+        //   "height": _vmTextWidget.height,
+        //   "frameRate": _vmTextWidget.frameRate,
+        //   "totalFrameCount": _vmTextWidget.totalFrameCount
+        // }));
 
         print(webmPath);
         print(currentText);
@@ -192,6 +190,12 @@ class _TestWidgetState extends State<TestWidget> {
         // }
 
         await Future.delayed(const Duration(milliseconds: 500));
+
+        setState(() {
+          _currentText = currentText;
+          if (preview != null) imageList = [preview];
+        });
+
         print("");
       }
 
@@ -244,6 +248,7 @@ class _TestWidgetState extends State<TestWidget> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              Text(_currentText),
               ListView.builder(
                 itemCount: imageList.length,
                 shrinkWrap: true,

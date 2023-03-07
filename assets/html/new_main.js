@@ -25,7 +25,7 @@ const LoadFont = async (fontFamliyArr, fontBase64) => {
     }
 }
 
-const GetAnimAndSetText = async (id, json, texts) => {
+const GetAnimAndSetText = async (id, json, texts, letterSpacing) => {
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
     let anim
@@ -43,20 +43,25 @@ const GetAnimAndSetText = async (id, json, texts) => {
 
         animMap[id] = anim
     }
+
+    // Test original text
+    // texts = Object.keys(anim.textMap).map(key => anim.textMap[key])
     
     texts.forEach((text, index) => {
         if (anim.textComps[index]) {
             const compositionId = anim.textComps[index]
             anim.TextUpdate({
                 compositionId,
-                text
+                text,
+                letterSpacing
             })
 
             const box = anim.GetTextSize(compositionId)
             if (box && !isNaN(box.width) && box.width > anim.compWidth) {
                 anim.TextUpdate({
                     compositionId,
-                    scale: anim.compWidth / box.width
+                    scale: anim.compWidth / box.width,
+                    letterSpacing
                 })
             }
         }
@@ -65,7 +70,7 @@ const GetAnimAndSetText = async (id, json, texts) => {
     return anim
 }
 
-const ExtractPreview = async ({ id, jobId, fontFamliyArr, fontBase64, json, texts }) => {
+const ExtractPreview = async ({ id, jobId, fontFamliyArr, fontBase64, json, texts, letterSpacing = 1 }) => {
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
     if (!isInitialized) return
 
@@ -73,7 +78,7 @@ const ExtractPreview = async ({ id, jobId, fontFamliyArr, fontBase64, json, text
         const now = Date.now()
         
         await LoadFont(fontFamliyArr, fontBase64)
-        const anim = await GetAnimAndSetText(id, json, texts)
+        const anim = await GetAnimAndSetText(id, json, texts, letterSpacing)
         if (!anim) throw new Error("ERR_LOAD_FAILED")
     
         const { svgElement, allRect: { x, y, width, height } } = anim.CopySVGElement(anim.previewFrame, opentypeMap)    
@@ -97,14 +102,14 @@ const ExtractPreview = async ({ id, jobId, fontFamliyArr, fontBase64, json, text
     }
 }
 
-const ExtractAllSequence = async ({ id, jobId, fontFamliyArr, fontBase64, json, texts }) => {
+const ExtractAllSequence = async ({ id, jobId, fontFamliyArr, fontBase64, json, texts, letterSpacing = 1 }) => {
     if (!isInitialized) return
 
     try {
         const now = Date.now()
 
         await LoadFont(fontFamliyArr, fontBase64)
-        const anim = await GetAnimAndSetText(id, json, texts)
+        const anim = await GetAnimAndSetText(id, json, texts, letterSpacing)
         if (!anim) throw new Error("ERR_LOAD_FAILED")
 
         const svgElements = []

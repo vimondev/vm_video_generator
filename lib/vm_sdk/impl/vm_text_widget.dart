@@ -177,29 +177,26 @@ class VMTextWidget extends StatelessWidget {
     _currentPreviewCompleter = Completer();
 
     String fontFamilyArr = "[";
-    for (int i = 0; i < _data!.fontFamily.length; i++) {
-      fontFamilyArr += "'${_data!.fontFamily[i]}',";
+    for (int i = 0; i < _data.fontFamily.length; i++) {
+      fontFamilyArr += "'${_data.fontFamily[i]}',";
     }
     fontFamilyArr += "]";
 
     String fontBase64Arr = "[";
-    for (int i = 0; i < _data!.fontBase64.length; i++) {
-      fontBase64Arr += "'${_data!.fontBase64[i]}',";
+    for (int i = 0; i < _data.fontBase64.length; i++) {
+      fontBase64Arr += "'${_data.fontBase64[i]}',";
     }
     fontBase64Arr += "]";
 
     String textArr = "[";
-    for (int i = 0; i < _data!.texts.length; i++) {
-      textArr += "'${_data!.texts[i]}',";
+    for (int i = 0; i < _data.texts.length; i++) {
+      textArr += "'${_data.texts[i]}',";
     }
     textArr += "]";
 
-    // await _controller!.evaluateJavascript(
-    //     source:
-    //         "(async function () { await setData({ fontFamily: $fontFamilyArr, base64: $fontBase64Arr, json: ${_data!.json}, texts: $textArr }); extractPreview(); })()");
     await _controller!.evaluateJavascript(
         source:
-            "ExtractPreview({ id: '$_id ${_data.texts.length >= 2 ? "TWO" : "ONE"} LINE', jobId: '', fontFamliyArr: $fontFamilyArr, fontBase64: $fontBase64Arr, json: ${_data!.json}, texts: $textArr })");
+            "ExtractPreview({ id: '$_id ${_data.texts.length >= 2 ? "TWO" : "ONE"} LINE', jobId: '', fontFamliyArr: $fontFamilyArr, fontBase64: $fontBase64Arr, json: ${_data.json}, texts: $textArr, letterSpacing: ${_data.letterSpacing} })");
 
     return _currentPreviewCompleter!.future;
   }
@@ -227,29 +224,26 @@ class VMTextWidget extends StatelessWidget {
     _currentSequencesCompleter = Completer();
 
     String fontFamilyArr = "[";
-    for (int i = 0; i < _data!.fontFamily.length; i++) {
-      fontFamilyArr += "'${_data!.fontFamily[i]}',";
+    for (int i = 0; i < _data.fontFamily.length; i++) {
+      fontFamilyArr += "'${_data.fontFamily[i]}',";
     }
     fontFamilyArr += "]";
 
     String fontBase64Arr = "[";
-    for (int i = 0; i < _data!.fontBase64.length; i++) {
-      fontBase64Arr += "'${_data!.fontBase64[i]}',";
+    for (int i = 0; i < _data.fontBase64.length; i++) {
+      fontBase64Arr += "'${_data.fontBase64[i]}',";
     }
     fontBase64Arr += "]";
 
     String textArr = "[";
-    for (int i = 0; i < _data!.texts.length; i++) {
-      textArr += "'${_data!.texts[i]}',";
+    for (int i = 0; i < _data.texts.length; i++) {
+      textArr += "'${_data.texts[i]}',";
     }
     textArr += "]";
 
-    // _controller!.evaluateJavascript(
-    //     source:
-    //         "(async function () { await setData({ fontFamily: $fontFamilyArr, base64: $fontBase64Arr, json: ${_data!.json}, texts: $textArr }); extractAllSequence(); })()");
     await _controller!.evaluateJavascript(
         source:
-            "ExtractAllSequence({ id: '$_id ${_data.texts.length >= 2 ? "TWO" : "ONE"} LINE', jobId: '', fontFamliyArr: $fontFamilyArr, fontBase64: $fontBase64Arr, json: ${_data!.json}, texts: $textArr })");
+            "ExtractAllSequence({ id: '$_id ${_data.texts.length >= 2 ? "TWO" : "ONE"} LINE', jobId: '', fontFamliyArr: $fontFamilyArr, fontBase64: $fontBase64Arr, json: ${_data.json}, texts: $textArr, letterSpacing: ${_data.letterSpacing} })");
 
     return _currentSequencesCompleter!.future;
   }

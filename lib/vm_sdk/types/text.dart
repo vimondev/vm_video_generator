@@ -4,12 +4,13 @@ enum ETextType { Title, Caption }
 class TextWidgetData {
   ETextType type;
   String json;
+  double letterSpacing;
 
   List<String> fontFamily;
   List<String> fontBase64;
   List<String> texts = [];
 
-  TextWidgetData(this.type, this.json, this.fontFamily, this.fontBase64);
+  TextWidgetData(this.type, this.json, this.fontFamily, this.fontBase64, this.letterSpacing);
 }
 class TextExportData {
   String id;
