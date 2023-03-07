@@ -49,18 +49,31 @@ class _TestWidgetState extends State<TestWidget> {
         imageList = [];
       });
 
-      final List<String> allTexts = ResourceManager.getInstance().getTextList(autoEditOnly: false, lineCount: 2);
+      // final List<String> allTexts = ResourceManager.getInstance().getTextList(autoEditOnly: false, lineCount: 2);
 
-      // final List<String> allTexts = [
-        // "Subtitle_SW001",
-        // "Subtitle_SW002",
-        // "Subtitle_SW003",
-        // "Title_JH008",
-        // "Title_JH009",
-        // "Title_SW033",
-        // "Title_SW034",
-        // "Title_JH007",
-      // ];
+      final List<String> allTexts = [
+        "Title_ES001",
+"Title_ES002",
+"Title_ES003",
+"Title_ES004",
+"Title_JH010",
+"Title_JH011",
+"Title_JH012",
+"Title_JH013",
+"Title_SW037",
+"Title_SW038",
+"Title_SW039",
+"Title_SW040",
+"Title_SW041",
+"Title_YJ033",
+"Title_YJ034",
+"Title_YJ035",
+"Title_YJ036",
+"Title_YJ037",
+"Title_YJ038",
+"Title_YJ039",
+"Title_YJ040",
+      ];
 
       // final List<String> allTexts = ["Title_DA001"];
 
@@ -94,7 +107,7 @@ class _TestWidgetState extends State<TestWidget> {
         print('_currentIndex is $i / ${allTexts.length}');
 
         // await _vmTextWidget.loadText(currentText, initTexts: ["첫번째줄 테스트", "두번째줄 테스트"]);
-        await _vmTextWidget.loadText(currentText, initTexts: ["THIS IS TITLE", "THIS IS SUBTITLE"]);
+        // await _vmTextWidget.loadText(currentText, initTexts: ["THIS IS TITLE", "THIS IS SUBTITLE"]);
         // await _vmTextWidget.loadText(currentText, initTexts: ["パスワードを再確認してください。", "パスワードを再確認してください。"]);
         // await _vmTextWidget.loadText(currentText, initTexts: ["Sẵn sàng tiệc chưa?", "Sẵn sàng tiệc chưa?"]);
         // await _vmTextWidget.loadText(currentText, initTexts: ["วิดีโอที่คุณสร้างกำลังรอคุณอยู่", "วิดีโอที่คุณสร้างกำลังรอคุณอยู่"]);
@@ -102,6 +115,7 @@ class _TestWidgetState extends State<TestWidget> {
         // await _vmTextWidget.loadText(currentText, initTexts: ["THIS IS TITLE THIS IS TITLE THIS IS TITLE THIS IS TITLE", "THIS IS SUBTITLE THIS IS SUBTITLE THIS IS SUBTITLE THIS IS SUBTITLE"]);
         // await _vmTextWidget.loadText(currentText, initTexts: ["THIS IS SUBTITLE THIS IS SUBTITLE THIS IS SUBTITLE THIS IS SUBTITLE"]);
 
+        await _vmTextWidget.loadText(currentText);
         await _vmTextWidget.extractAllSequence((progress) => {});
 
         final String appDirPath = await getAppDirectoryPath();
@@ -109,13 +123,13 @@ class _TestWidgetState extends State<TestWidget> {
         Directory dir = Directory(webmPath);
         await dir.create(recursive: true);
 
-        String? preview = _vmTextWidget.previewImagePath;
-        setState(() {
-          if (preview != null) imageList = [preview];
-        });
+        // String? preview = _vmTextWidget.previewImagePath;
+        // setState(() {
+        //   if (preview != null) imageList = [preview];
+        // });
 
-        int width = (_vmTextWidget.width / 2).floor();
-        int height = (_vmTextWidget.height / 2).floor();
+        int width = (_vmTextWidget.width).floor();
+        int height = (_vmTextWidget.height).floor();
 
         width -= width % 2;
         height -= height % 2;
