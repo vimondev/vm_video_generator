@@ -39,13 +39,19 @@ String parseAllEditedDataToJSON(AllEditedData allEditedData) {
       "startTime": editedMedia.startTime,
       "endTime": editedMedia.startTime + editedMedia.duration,
       "angle": 0,
-      "zoomX": editedMedia.zoomX,
-      "zoomY": editedMedia.zoomY,
-      "translateX": editedMedia.translateX,
-      "translateY": editedMedia.translateY,
+      // "zoomX": editedMedia.zoomX,
+      // "zoomY": editedMedia.zoomY,
+      // "translateX": editedMedia.translateX,
+      // "translateY": editedMedia.translateY,
       "volume": 1,
       "playbackSpeed": 1,
-      "flip": null
+      "flip": null,
+      "rect": {
+        "l": editedMedia.cropLeft,
+        "t": editedMedia.cropTop,
+        "r": editedMedia.cropRight,
+        "b": editedMedia.cropBottom,
+      }
     });
 
     for (int i = 0; i < textList.length; i++) {
@@ -246,13 +252,28 @@ AllEditedData parseJSONToAllEditedData(String encodedJSON) {
 
     editedMedia.startTime = slide["startTime"] * 1.0;
     editedMedia.duration = slide["endTime"] * 1.0 - editedMedia.startTime;
-    editedMedia.translateX = slide["translateX"];
-    editedMedia.translateY = slide["translateY"];
-    editedMedia.zoomX = slide["zoomX"] * 1.0;
-    editedMedia.zoomY = slide["zoomY"] * 1.0;
+    // editedMedia.translateX = slide["translateX"];
+    // editedMedia.translateY = slide["translateY"];
+    // editedMedia.zoomX = slide["zoomX"] * 1.0;
+    // editedMedia.zoomY = slide["zoomY"] * 1.0;
     editedMedia.angle = slide["angle"] * 1.0;
     editedMedia.volume = slide["volume"] * 1.0;
     editedMedia.playbackSpeed = slide["playbackSpeed"] * 1.0;
+
+    if (slide["rect"]) {
+      if (slide["rect"]["l"] != null) {
+        editedMedia.cropLeft = slide["rect"]["l"] * 1.0;
+      }
+      if (slide["rect"]["t"] != null) {
+        editedMedia.cropTop = slide["rect"]["t"] * 1.0;
+      }
+      if (slide["rect"]["r"] != null) {
+        editedMedia.cropRight = slide["rect"]["r"] * 1.0;
+      }
+      if (slide["rect"]["b"] != null) {
+        editedMedia.cropBottom = slide["rect"]["b"] * 1.0;
+      }
+    }
 
     allEditedData.editedMediaList.add(editedMedia);
     slideMap[slideKey] = editedMedia;

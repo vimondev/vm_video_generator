@@ -541,12 +541,11 @@ Future<AllEditedData> generateAllEditedData(
   // DETECT RATIO //
   //////////////////
 
-  final ERatio ratio = detectRatio(allEditedData.editedMediaList);
-  allEditedData.ratio = ratio;
-  allEditedData.resolution = Resolution.fromRatio(ratio);
+  final ERatio ratio = ERatio.ratio916; //detectRatio(allEditedData.editedMediaList);
+  final Resolution resolution = Resolution.fromRatio(ratio);
 
-  int videoWidth = allEditedData.resolution.width;
-  int videoHeight = allEditedData.resolution.height;
+  allEditedData.ratio = ratio;
+  allEditedData.resolution = resolution;
 
   ///////////////////
   // SET CROP DATA //
@@ -558,16 +557,38 @@ Future<AllEditedData> generateAllEditedData(
     int mediaWidth = max(1, editedMedia.mediaData.width);
     int mediaHeight = max(1, editedMedia.mediaData.height);
 
-    double scaleFactor =
-        max(videoWidth / mediaWidth, videoHeight / mediaHeight);
-    editedMedia.zoomX = scaleFactor;
-    editedMedia.zoomY = scaleFactor;
+    double aspectRatio = (resolution.width * 1.0) / resolution.height;
 
-    int scaledWidth = (mediaWidth * scaleFactor).floor();
-    int scaledHeight = (mediaHeight * scaleFactor).floor();
+    int fitValue = min(mediaWidth, mediaHeight);
+    int cropWidth = fitValue;
+    int cropHeight = fitValue;
 
-    editedMedia.translateX = ((scaledWidth - videoWidth) / 2).floor();
-    editedMedia.translateY = ((scaledHeight - videoHeight) / 2).floor();
+    if (mediaWidth > mediaHeight) {
+      cropWidth = (cropWidth * aspectRatio).floor();
+      if (cropWidth > mediaWidth) {
+        cropHeight = (cropHeight * (mediaWidth / cropWidth)).floor();
+        cropWidth = mediaWidth;
+      }
+    }
+    else {
+      cropHeight = (cropHeight * aspectRatio).floor();
+      if (cropHeight > mediaHeight) {
+        cropWidth = (cropWidth * (mediaHeight / cropHeight)).floor();
+        cropHeight = mediaHeight;
+      }
+    }
+
+    double cropLeft = (mediaWidth - cropWidth) / 2;
+    double cropRight = cropLeft + cropWidth;
+    double cropTop = (mediaHeight - cropHeight) / 2;
+    double cropBottom = cropTop + cropHeight;
+
+    editedMedia.cropLeft = cropLeft / mediaWidth;
+    editedMedia.cropRight = cropRight / mediaWidth;
+    editedMedia.cropTop = cropTop / mediaHeight;
+    editedMedia.cropBottom = cropBottom / mediaHeight;
+
+    print("");
   }
 
   ///////////////////////
@@ -806,7 +827,7 @@ Future<AllEditedData> generateAllEditedData(
     print(
         "${basename(editedMedia.mediaData.absolutePath)} / totalDuration:${editedMedia.mediaData.duration} / start:${editedMedia.startTime} / duration:${editedMedia.duration} / remain:${editedMedia.mediaData.duration != null ? (editedMedia.mediaData.duration! - editedMedia.startTime - editedMedia.duration) : 0} / ${editedMedia.mediaLabel}");
     print(
-        "frame:${editedMedia.frame?.key} / resolution:(${editedMedia.mediaData.width},${editedMedia.mediaData.height}) / zoom:(${editedMedia.zoomX},${editedMedia.zoomY}) / translate:(${editedMedia.translateX},${editedMedia.translateY})");
+        "frame:${editedMedia.frame?.key} / resolution:(${editedMedia.mediaData.width},${editedMedia.mediaData.height}) / rect: (left:${editedMedia.cropLeft}, right: ${editedMedia.cropRight}, top: ${editedMedia.cropTop}, bottom: ${editedMedia.cropBottom})");
     if (editedMedia.transition != null) {
       print("index : $i");
       print(editedMedia.transition?.key);

@@ -112,10 +112,14 @@ class EditedMedia {
   double duration = 0;
   double xfadeDuration = 0;
 
-  int translateX = 0;
-  int translateY = 0;
-  double zoomX = 0;
-  double zoomY = 0;
+  // int translateX = 0;
+  // int translateY = 0;
+  // double zoomX = 0;
+  // double zoomY = 0;
+  double cropLeft = 0;
+  double cropTop = 0;
+  double cropRight = 1;
+  double cropBottom = 1;
   double angle = 0;
 
   double volume = 1;

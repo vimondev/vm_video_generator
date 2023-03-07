@@ -52,9 +52,9 @@ EImageScaleType _getRandomImageScaleType() {
 
 String _getTransposeFilter(int orientation) {
   switch (orientation) {
-    case 90: return "transpose=1,";
-    case 180: return "transpose=2,transpose=2,";
-    case 270: return "transpose=2,";
+    // case 90: return "transpose=1,";
+    // case 180: return "transpose=2,transpose=2,";
+    // case 270: return "transpose=2,";
     default: return "";
   }
 }
@@ -167,23 +167,34 @@ Future<RenderedData> clipRender(
   ]);
   inputFileCount++;
 
-  int scaledWidth = (mediaData.width * editedMedia.zoomX).floor();
-  int scaledHeight = (mediaData.height * editedMedia.zoomY).floor();
+  // int scaledWidth = (mediaData.width * editedMedia.zoomX).floor();
+  // int scaledHeight = (mediaData.height * editedMedia.zoomY).floor();
 
-  if (scaledWidth < _resolution.width) {
-    scaledHeight = ((scaledHeight) * (_resolution.width / scaledWidth)).floor();
-    scaledWidth = _resolution.width;
-  }
-  if (scaledHeight < _resolution.height) {
-    scaledWidth = ((scaledWidth) * (_resolution.height / scaledHeight)).floor();
-    scaledHeight = _resolution.height;
-  }
+  // if (scaledWidth < _resolution.width) {
+  //   scaledHeight = ((scaledHeight) * (_resolution.width / scaledWidth)).floor();
+  //   scaledWidth = _resolution.width;
+  // }
+  // if (scaledHeight < _resolution.height) {
+  //   scaledWidth = ((scaledWidth) * (_resolution.height / scaledHeight)).floor();
+  //   scaledHeight = _resolution.height;
+  // }
 
-  scaledWidth = _getEvenNumber(scaledWidth);
-  scaledHeight = _getEvenNumber(scaledHeight);
+  // scaledWidth = _getEvenNumber(scaledWidth);
+  // scaledHeight = _getEvenNumber(scaledHeight);
+  
+  // filterStrings.add(
+  //     "[0:v]fps=$_framerate,$trimFilter${_getTransposeFilter(mediaData.orientation)}scale=$scaledWidth:$scaledHeight,crop=${_resolution.width}:${_resolution.height}:${editedMedia.translateX}:${editedMedia.translateY},setdar=dar=${_resolution.width / _resolution.height}[vid];");
+
+  int cropLeft = max(0, (mediaData.width * editedMedia.cropLeft).floor());
+  int cropRight = min(mediaData.width, (mediaData.width * editedMedia.cropRight).floor());
+  int cropTop = max(0, (mediaData.height * editedMedia.cropTop).floor());
+  int cropBottom = min(mediaData.height, (mediaData.height * editedMedia.cropBottom).floor());
+
+  int cropWidth = cropRight - cropLeft;
+  int cropHeight = cropBottom - cropTop;
   
   filterStrings.add(
-      "[0:v]fps=$_framerate,$trimFilter${_getTransposeFilter(mediaData.orientation)}scale=$scaledWidth:$scaledHeight,crop=${_resolution.width}:${_resolution.height}:${editedMedia.translateX}:${editedMedia.translateY},setdar=dar=${_resolution.width / _resolution.height}[vid];");
+      "[0:v]fps=$_framerate,$trimFilter${_getTransposeFilter(mediaData.orientation)}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,scale=${_resolution.width}:${_resolution.height},setdar=dar=${_resolution.width / _resolution.height}[vid];");
   videoOutputMapVariable = "[vid]";
   inputFileCount++;
 
@@ -985,9 +996,19 @@ Future<String?> extractThumbnail(EditedMedia editedMedia) async {
   if (mediaData.type == EMediaType.video) {
     inputArguments.addAll(["-ss", editedMedia.startTime.toString()]);
   }
+  // filterStrings.add(
+  //   "${_getTransposeFilter(mediaData.orientation)}scale=${(mediaData.width * editedMedia.zoomX).floor()}:${(mediaData.height * editedMedia.zoomY).floor()},crop=${_resolution.width}:${_resolution.height}:${editedMedia.translateX}:${editedMedia.translateY},scale=${(_scaledVideoWidth / 2).floor()}:${(_scaledVideoHeight / 2).floor()},setdar=dar=${_scaledVideoWidth / _scaledVideoHeight}");
+
+  int cropLeft = max(0, (mediaData.width * editedMedia.cropLeft).floor());
+  int cropRight = min(mediaData.width, (mediaData.width * editedMedia.cropRight).floor());
+  int cropTop = max(0, (mediaData.height * editedMedia.cropTop).floor());
+  int cropBottom = min(mediaData.height, (mediaData.height * editedMedia.cropBottom).floor());
+
+  int cropWidth = cropRight - cropLeft;
+  int cropHeight = cropBottom - cropTop;
 
   filterStrings.add(
-      "${_getTransposeFilter(mediaData.orientation)}scale=${(mediaData.width * editedMedia.zoomX).floor()}:${(mediaData.height * editedMedia.zoomY).floor()},crop=${_resolution.width}:${_resolution.height}:${editedMedia.translateX}:${editedMedia.translateY},scale=${(_scaledVideoWidth / 2).floor()}:${(_scaledVideoHeight / 2).floor()},setdar=dar=${_scaledVideoWidth / _scaledVideoHeight}");
+      "${_getTransposeFilter(mediaData.orientation)}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,scale=${(_scaledVideoWidth / 2).floor()}:${(_scaledVideoHeight / 2).floor()},setdar=dar=${_scaledVideoWidth / _scaledVideoHeight}");
 
   String filterComplexStr = "";
   for (final String filterStr in filterStrings) {
