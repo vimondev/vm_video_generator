@@ -94,7 +94,7 @@ class VMSDKWidget extends StatelessWidget {
     }
 
     final AllEditedData allEditedData = await generateAllEditedData(
-        mediaList, style, randomSortedTemplateList, isAutoEdit);
+        mediaList, style, randomSortedTemplateList, isAutoEdit, isRunFFmpeg: isRunFFmpeg);
 
     Resolution resolution = allEditedData.resolution;
     final int maxTextWidth = (resolution.width * 0.9).floor();
@@ -386,15 +386,15 @@ class VMSDKWidget extends StatelessWidget {
       }
 
       if (!isRunFFmpeg) {
-        List<Future> extractThumbnailFutures = [];
-        for (int i = 0; i < editedMediaList.length; i++) {
-          extractThumbnailFutures.add(_extractAndMapThumbnail(editedMediaList[i]));
-        }
-        await Future.wait(extractThumbnailFutures);
+        // List<Future> extractThumbnailFutures = [];
+        // for (int i = 0; i < editedMediaList.length; i++) {
+        //   extractThumbnailFutures.add(_extractAndMapThumbnail(editedMediaList[i]));
+        // }
+        // await Future.wait(extractThumbnailFutures);
 
-        for (int i = 0; i < editedMediaList.length; i++) {
-          thumbnailList.add(editedMediaList[i].thumbnailPath!);
-        }
+        // for (int i = 0; i < editedMediaList.length; i++) {
+        //   thumbnailList.add(editedMediaList[i].thumbnailPath!);
+        // }
 
         final VideoGeneratedResult result = VideoGeneratedResult(
           "", spotInfoList, thumbnailList);

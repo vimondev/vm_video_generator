@@ -142,7 +142,8 @@ Future<AllEditedData> generateAllEditedData(
     List<MediaData> list,
     EMusicStyle? musicStyle,
     List<TemplateData> templateList,
-    bool isAutoSelect) async {
+    bool isAutoSelect,
+    { isRunFFmpeg = true }) async {
   final AllEditedData allEditedData = AllEditedData();
 
   list.sort((a, b) => a.createDate.compareTo(b.createDate));
@@ -835,11 +836,13 @@ Future<AllEditedData> generateAllEditedData(
     musicIndex++;
   }
 
-  List<Future> downloadMusicFutures = [];
-  for (final musicData in musicDataMap.values) {
-    downloadMusicFutures.add(_downloadAndMapMusic(musicData));
+  if (isRunFFmpeg) {
+    List<Future> downloadMusicFutures = [];
+    for (final musicData in musicDataMap.values) {
+      downloadMusicFutures.add(_downloadAndMapMusic(musicData));
+    }
+    await Future.wait(downloadMusicFutures);
   }
-  await Future.wait(downloadMusicFutures);
 
   return allEditedData;
 }
