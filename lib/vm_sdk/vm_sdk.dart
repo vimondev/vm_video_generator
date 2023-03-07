@@ -555,8 +555,22 @@ class VMSDKWidget extends StatelessWidget {
       _currentStatus = EGenerateStatus.finishing;
       _currentRenderedFrame = _allFrame;
 
+      List<MusicData> regeneratedMusicList = [];
+      if (musicList.isNotEmpty) {
+        int currentMusicIndex = 0;
+        double remainTotalDuration = totalDuration;
+
+        while (remainTotalDuration > 0) {
+          MusicData musicData = musicList[currentMusicIndex % musicList.length];
+          regeneratedMusicList.add(musicData);
+
+          remainTotalDuration -= musicData.duration;
+          currentMusicIndex++;
+        }
+      }
+
       final RenderedData mergedClip = await mergeAllClips(xfadeAppliedList);
-      final RenderedData resultClip = await applyMusics(mergedClip, musicList);
+      final RenderedData resultClip = await applyMusics(mergedClip, regeneratedMusicList);
 
       print(DateTime.now().difference(now).inSeconds);
 
