@@ -51,12 +51,13 @@ EImageScaleType _getRandomImageScaleType() {
 }
 
 String _getTransposeFilter(int orientation) {
-  switch (orientation) {
-    case 90: return "transpose=1,";
-    case 180: return "transpose=2,transpose=2,";
-    case 270: return "transpose=2,";
-    default: return "";
-  }
+  // switch (orientation) {
+  //   case 90: return "transpose=1,";
+  //   case 180: return "transpose=2,transpose=2,";
+  //   case 270: return "transpose=2,";
+  //   default: return "";
+  // }
+  return "";
 }
 
 int _getEvenNumber(int num) {
@@ -980,7 +981,7 @@ Future<String?> extractThumbnail(EditedMedia editedMedia) async {
   final List<String> filterStrings = <String>[];
 
   final MediaData mediaData = editedMedia.mediaData;
-  inputArguments.addAll(["-i", mediaData.absolutePath]);
+  inputArguments.addAll(["-i", mediaData.scaledPath ?? mediaData.absolutePath]);
 
   if (mediaData.type == EMediaType.video) {
     inputArguments.addAll(["-ss", editedMedia.startTime.toString()]);
@@ -1042,7 +1043,7 @@ Future<MediaData> scaleImageMedia( MediaData mediaData) async {
 
   await _ffmpegManager.execute(arguments, null);
 
-  final MediaData resultData = MediaData(mediaData.absolutePath, mediaData.type, mediaData.width, mediaData.height, 0, mediaData.duration, mediaData.createDate, mediaData.gpsString, mediaData.mlkitDetected);
+  final MediaData resultData = MediaData(mediaData.absolutePath, mediaData.type, scaledWidth, scaledHeight, 0, mediaData.duration, mediaData.createDate, mediaData.gpsString, mediaData.mlkitDetected);
   resultData.scaledPath = outputPath;
 
   return resultData;
