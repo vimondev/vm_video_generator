@@ -891,10 +891,10 @@ Future<_GetMusicResponse> _getMusics(EMusicStyle? musicStyle) async {
   EMusicStyle? curStyle = musicStyle;
   if (curStyle == null || curStyle == EMusicStyle.none) {
     Map<double, String> speedProbabilityMap = {
-      0.4: "S",
-      0.8: "M",
-      1.0: "MM",
-      // 1.0: "F"
+      0.3: "S",
+      0.6: "M",
+      0.8: "MM",
+      1.0: "F"
     };
     double randValue = Random().nextDouble();
     String randSpeed = songMapBySpeed.keys.first;
@@ -926,30 +926,60 @@ Future<_GetMusicResponse> _getMusics(EMusicStyle? musicStyle) async {
     }
   }
   
-  List<SongFetchModel> originSongList = songMapByMusicStyle[curStyle]!;
-  List<SongFetchModel> recommendedSongList = [];
-  List<SongFetchModel> otherSongList = [];
+  // List<SongFetchModel> originSongList = songMapByMusicStyle[curStyle]!;
+  // List<SongFetchModel> recommendedSongList = [];
+  // List<SongFetchModel> otherSongList = [];
 
-  recommendedSongList.addAll(originSongList.where((song) => song.isRecommended));
-  otherSongList.addAll(originSongList.where((song) => !song.isRecommended));
+  // recommendedSongList.addAll(originSongList.where((song) => song.isRecommended));
+  // otherSongList.addAll(originSongList.where((song) => !song.isRecommended));
+
+  // print("style : $musicStyle");
+  // print("style : $curStyle");
+  // print("recommendedSongList : ${recommendedSongList.length}");
+  // print("otherSongList : ${otherSongList.length}");
+
+  // while (recommendedSongList.isNotEmpty || otherSongList.isNotEmpty) {
+  //   SongFetchModel song;
+  //   if (otherSongList.isEmpty || recommendedSongList.isNotEmpty) {// && Random().nextDouble() <= 0.7) {
+  //     int randIdx = (Random()).nextInt(recommendedSongList.length) % recommendedSongList.length;
+  //     song = recommendedSongList[randIdx];
+  //     recommendedSongList.removeAt(randIdx);
+  //   }
+  //   else {
+  //     int randIdx = (Random()).nextInt(otherSongList.length) % otherSongList.length;
+  //     song = otherSongList[randIdx];
+  //     otherSongList.removeAt(randIdx);
+  //   }
+
+  //   double duration = song.duration;
+  //   SourceModel? source = song.source;
+
+  //   if (source != null) {
+  //     String name = source.name;
+  //     String url = source.url;
+
+  //     MusicData musicData = MusicData();
+  //     musicData.title = song.title;
+  //     musicData.duration = duration;
+  //     musicData.filename = name;
+  //     musicData.speed = song.speed;
+  //     musicData.url = url;
+
+  //     randomSortMusicList.add(musicData);
+  //   }
+  // }
+
+  List<SongFetchModel> allSongList = [];
+  allSongList.addAll(songMapByMusicStyle[curStyle]!);
 
   print("style : $musicStyle");
   print("style : $curStyle");
-  print("recommendedSongList : ${recommendedSongList.length}");
-  print("otherSongList : ${otherSongList.length}");
+  print("allSongList : ${allSongList.length}");
 
-  while (recommendedSongList.isNotEmpty || otherSongList.isNotEmpty) {
-    SongFetchModel song;
-    if (otherSongList.isEmpty || recommendedSongList.isNotEmpty) {// && Random().nextDouble() <= 0.7) {
-      int randIdx = (Random()).nextInt(recommendedSongList.length) % recommendedSongList.length;
-      song = recommendedSongList[randIdx];
-      recommendedSongList.removeAt(randIdx);
-    }
-    else {
-      int randIdx = (Random()).nextInt(otherSongList.length) % otherSongList.length;
-      song = otherSongList[randIdx];
-      otherSongList.removeAt(randIdx);
-    }
+  while (allSongList.isNotEmpty) {
+    int randIdx = (Random()).nextInt(allSongList.length) % allSongList.length;
+    SongFetchModel song = allSongList[randIdx];
+    allSongList.removeAt(randIdx);
 
     double duration = song.duration;
     SourceModel? source = song.source;

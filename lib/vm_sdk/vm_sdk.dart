@@ -89,10 +89,6 @@ class VMSDKWidget extends StatelessWidget {
 
     mediaList = await _filterNotExistsMedia(mediaList);
 
-    if (isRunFFmpeg) {
-      mediaList = await _scaleImageMedia(mediaList);
-    }
-
     final AllEditedData allEditedData = await generateAllEditedData(
         mediaList, style, randomSortedTemplateList, isAutoEdit, isRunFFmpeg: isRunFFmpeg);
 
@@ -338,19 +334,6 @@ class VMSDKWidget extends StatelessWidget {
     return result;
   }
 
-  Future<List<MediaData>> _scaleImageMedia(List<MediaData> mediaList) async {
-    List<MediaData> result = [];
-
-    for (int i=0; i<mediaList.length; i++) {
-      final media = mediaList[i];
-      MediaData newMedia = await scaleImageMedia(media);
-
-      result.add(newMedia);
-    }
-
-    return result;
-  }
-
   int _currentThumbnailExtractCount = 0;
   Future<void> _extractAndMapThumbnail(EditedMedia editedMedia) async {
     while (_currentThumbnailExtractCount >= 5) {
@@ -465,6 +448,7 @@ class VMSDKWidget extends StatelessWidget {
 
       for (int i = 0; i < editedMediaList.length; i++) {
         final EditedMedia editedMedia = editedMediaList[i];
+        editedMedia.mediaData = await scaleImageMedia(editedMedia.mediaData);
 
         TransitionData? prevTransition, nextTransition;
         if (i > 0) {
