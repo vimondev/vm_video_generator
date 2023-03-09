@@ -280,7 +280,7 @@ function GetTextSize(compositionId) {
     return { width: maxWidth * 1.1, height: maxHeight * 1.1 }
 }
 
-function TextUpdate({ compositionId, text = '', scale = 1 }) {    
+function TextUpdate({ compositionId, text = '', scale = 1, letterSpacing = 1 }) {    
     const anim = this
 
     if (!anim) return
@@ -293,7 +293,7 @@ function TextUpdate({ compositionId, text = '', scale = 1 }) {
     const textSourceLayerElements = GetTextSourceLayers(anim, compositionId)
 
     textSourceLayerElements.forEach(element => {
-        const updateObj = { t: anim.textMap[compositionId], tr: 60 }
+        const updateObj = { t: anim.textMap[compositionId], tr: parseInt(60 * letterSpacing) }
         if (scale <= 1) {
             updateObj.s = Math.floor(element.originalFontSize * scale)
         }

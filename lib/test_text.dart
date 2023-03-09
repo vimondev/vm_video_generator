@@ -21,6 +21,7 @@ class _TestWidgetState extends State<TestWidget> {
   VMTextWidget _vmTextWidget = VMTextWidget();
 
   List<String> imageList = [];
+  String _currentText = "";
 
   int _currentIndex = 0;
   bool _isRunning = false;
@@ -49,18 +50,31 @@ class _TestWidgetState extends State<TestWidget> {
         imageList = [];
       });
 
-      final List<String> allTexts = ResourceManager.getInstance().getTextList(autoEditOnly: false, lineCount: 2);
+      // final List<String> allTexts = ResourceManager.getInstance().getTextList(autoEditOnly: false, lineCount: 2);
 
-      // final List<String> allTexts = [
-        // "Subtitle_SW001",
-        // "Subtitle_SW002",
-        // "Subtitle_SW003",
-        // "Title_JH008",
-        // "Title_JH009",
-        // "Title_SW033",
-        // "Title_SW034",
-        // "Title_JH007",
-      // ];
+      final List<String> allTexts = [
+        "Title_ES001",
+"Title_ES002",
+"Title_ES003",
+"Title_ES004",
+"Title_JH010",
+"Title_JH011",
+"Title_JH012",
+"Title_JH013",
+"Title_SW037",
+"Title_SW038",
+"Title_SW039",
+"Title_SW040",
+"Title_SW041",
+"Title_YJ033",
+"Title_YJ034",
+"Title_YJ035",
+"Title_YJ036",
+"Title_YJ037",
+"Title_YJ038",
+"Title_YJ039",
+"Title_YJ040",
+      ];
 
       // final List<String> allTexts = ["Title_DA001"];
 
@@ -102,6 +116,7 @@ class _TestWidgetState extends State<TestWidget> {
         // await _vmTextWidget.loadText(currentText, initTexts: ["THIS IS TITLE THIS IS TITLE THIS IS TITLE THIS IS TITLE", "THIS IS SUBTITLE THIS IS SUBTITLE THIS IS SUBTITLE THIS IS SUBTITLE"]);
         // await _vmTextWidget.loadText(currentText, initTexts: ["THIS IS SUBTITLE THIS IS SUBTITLE THIS IS SUBTITLE THIS IS SUBTITLE"]);
 
+        // await _vmTextWidget.loadText(currentText);
         await _vmTextWidget.extractAllSequence((progress) => {});
 
         final String appDirPath = await getAppDirectoryPath();
@@ -110,64 +125,61 @@ class _TestWidgetState extends State<TestWidget> {
         await dir.create(recursive: true);
 
         String? preview = _vmTextWidget.previewImagePath;
-        setState(() {
-          if (preview != null) imageList = [preview];
-        });
 
-        int width = _vmTextWidget.width.floor();
-        int height = _vmTextWidget.height.floor();
+        int width = (_vmTextWidget.width).floor();
+        int height = (_vmTextWidget.height).floor();
 
         width -= width % 2;
         height -= height % 2;
 
-        // await _ffmpegManager.execute([
-        //   "-framerate",
-        //   _vmTextWidget.frameRate.toString(),
-        //   "-i",
-        //   "${_vmTextWidget.allSequencesPath!}/%d.png",
-        //   "-vf",
-        //   "scale=$width:$height",
-        //   // "-c:v",
-        //   // "libvpx-vp9",
-        //   // "-pix_fmt",
-        //   // "yuva420p",
-        //   // "$webmPath/$currentText.webm",
-        //   "-c:v",
-        //   "libx264",
-        //   "-preset",
-        //   "ultrafast",
-        //   "-pix_fmt",
-        //   "yuv420p",
-        //   "$webmPath/${currentText}_en.mp4",
-        //   "-y"
-        // ], (p0) => null);
+        await _ffmpegManager.execute([
+          "-framerate",
+          _vmTextWidget.frameRate.toString(),
+          "-i",
+          "${_vmTextWidget.allSequencesPath!}/%d.png",
+          "-vf",
+          "scale=$width:$height",
+          "-c:v",
+          "libvpx-vp9",
+          "-pix_fmt",
+          "yuva420p",
+          "$webmPath/$currentText.webm",
+          // "-c:v",
+          // "libx264",
+          // "-preset",
+          // "ultrafast",
+          // "-pix_fmt",
+          // "yuv420p",
+          // "$webmPath/${currentText}_en.mp4",
+          "-y"
+        ], (p0) => null);
 
-        final String textDirPath = "$webmPath/$currentText";
-        final String previewDirPath = "$textDirPath/preview";
-        final String sequenceDirPath = "$textDirPath/sequence";
-        final Directory previewDir = Directory(previewDirPath);
-        final Directory sequenceDir = Directory(sequenceDirPath);
+        // final String textDirPath = "$webmPath/$currentText";
+        // final String previewDirPath = "$textDirPath/preview";
+        // final String sequenceDirPath = "$textDirPath/sequence";
+        // final Directory previewDir = Directory(previewDirPath);
+        // final Directory sequenceDir = Directory(sequenceDirPath);
 
-        await previewDir.create(recursive: true);
-        await sequenceDir.create(recursive: true);
+        // await previewDir.create(recursive: true);
+        // await sequenceDir.create(recursive: true);
 
-        File thumbnailFile = File(_vmTextWidget.previewImagePath!);
-        await thumbnailFile.copy("$previewDirPath/$currentText.png");
+        // File thumbnailFile = File(_vmTextWidget.previewImagePath!);
+        // await thumbnailFile.copy("$previewDirPath/$currentText.png");
 
-        for (int i=0; i<_vmTextWidget.allSequencePaths.length; i++) {
-          String curSequencePath = _vmTextWidget.allSequencePaths[i];
-          String filename = basename(curSequencePath);
+        // for (int i=0; i<_vmTextWidget.allSequencePaths.length; i++) {
+        //   String curSequencePath = _vmTextWidget.allSequencePaths[i];
+        //   String filename = basename(curSequencePath);
 
-          File curSequenceFile = File(curSequencePath);
-          await curSequenceFile.copy("$sequenceDirPath/$filename");
-        }
-        File jsonFile = File("$textDirPath/$currentText.json");
-        await jsonFile.writeAsString(jsonEncode({
-          "width": _vmTextWidget.width,
-          "height": _vmTextWidget.height,
-          "frameRate": _vmTextWidget.frameRate,
-          "totalFrameCount": _vmTextWidget.totalFrameCount
-        }));
+        //   File curSequenceFile = File(curSequencePath);
+        //   await curSequenceFile.copy("$sequenceDirPath/$filename");
+        // }
+        // File jsonFile = File("$textDirPath/$currentText.json");
+        // await jsonFile.writeAsString(jsonEncode({
+        //   "width": _vmTextWidget.width,
+        //   "height": _vmTextWidget.height,
+        //   "frameRate": _vmTextWidget.frameRate,
+        //   "totalFrameCount": _vmTextWidget.totalFrameCount
+        // }));
 
         print(webmPath);
         print(currentText);
@@ -178,6 +190,12 @@ class _TestWidgetState extends State<TestWidget> {
         // }
 
         await Future.delayed(const Duration(milliseconds: 500));
+
+        setState(() {
+          _currentText = currentText;
+          if (preview != null) imageList = [preview];
+        });
+
         print("");
       }
 
@@ -230,6 +248,7 @@ class _TestWidgetState extends State<TestWidget> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              Text(_currentText),
               ListView.builder(
                 itemCount: imageList.length,
                 shrinkWrap: true,

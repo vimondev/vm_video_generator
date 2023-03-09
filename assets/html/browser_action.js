@@ -33,19 +33,36 @@ function loadFont(files) {
     }
 }
 
+function toggleUseDefaultText(e) {
+    const textFieldWrapperDiv = document.getElementById("text-field-wrapper")
+    if (e.target.checked) {
+        textFieldWrapperDiv.style.visibility = 'hidden'
+    }
+    else {
+        textFieldWrapperDiv.style.visibility = 'visible'
+    }
+}
+
 window.onload = function () {
-    const jsonEl = document.getElementById("input-json")
-    jsonEl.addEventListener('change', e => {
+    document.getElementById("input-json").addEventListener('change', e => {
         loadJSON(e.target.files[0])
     })
 
-    const fontEl = document.getElementById("input-font")
-    fontEl.addEventListener('change', e => {
+    document.getElementById("input-font").addEventListener('change', e => {
         loadFont(e.target.files)
     })
+
+    document.getElementById("use-default-text").addEventListener('click', toggleUseDefaultText)
 }
 
-let test = ''
+const getIsUseDefaultText = () => document.getElementById("use-default-text").checked
+
+const getText1Value = () => document.getElementById("input-text1").value
+const getText2Value = () => document.getElementById("input-text2").value
+
+const updateElapsedTime = value => {
+    document.getElementById("elapsed-time").innerText = `${value}초`
+}
 
 const extractPreviewTest = async () => {
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -62,8 +79,9 @@ const extractPreviewTest = async () => {
     }
 
     let anim
-    if (_animMap[loadedJsonFilename]) anim = _animMap[loadedJsonFilename]
-    else {
+    // if (_animMap[loadedJsonFilename]) anim = _animMap[loadedJsonFilename]
+    // else 
+    {
         anim = await LottieHelper.LoadAnimation(loadedJsonFilename, loadedJson)
         for (let i=0; i<300; i++) {
             if (anim.isDOMLoaded) break
@@ -79,10 +97,12 @@ const extractPreviewTest = async () => {
 
     if (anim.textComps[0]) { 
         const compositionId = anim.textComps[0]
-        anim.TextUpdate({
-            compositionId,
-            text: 'THIS IS TITLE' + test
-        })
+        if (!getIsUseDefaultText()) {
+            anim.TextUpdate({
+                compositionId,
+                text: getText1Value()
+            })
+        }
 
         const box = anim.GetTextSize(compositionId)
         if (box && !isNaN(box.width) && box.width > anim.compWidth) {
@@ -94,10 +114,12 @@ const extractPreviewTest = async () => {
     }
     if (anim.textComps[1]) { 
         const compositionId = anim.textComps[1]
-        anim.TextUpdate({
-            compositionId,
-            text: 'THIS IS SUBTITLE' + test
-        })
+        if (!getIsUseDefaultText()) {
+            anim.TextUpdate({
+                compositionId,
+                text: getText2Value()
+            })
+        }
 
         const box = anim.GetTextSize(compositionId)
         if (box && !isNaN(box.width) && box.width > anim.compWidth) {
@@ -107,7 +129,6 @@ const extractPreviewTest = async () => {
             })
         }
     }
-    test += '12345678901234567890'
 
     const { svgElement, allRect: { x, y, width, height }, allRect, previewData } = anim.CopySVGElement(anim.previewFrame, _opentypeMap)
 
@@ -129,7 +150,10 @@ const extractPreviewTest = async () => {
 
     anim.goToAndPlay(0, true)
 
-    console.log(`elapsed - : ${Date.now() - now}ms`)
+    const elapsedTime = Date.now() - now
+    updateElapsedTime(elapsedTime / 1000)
+
+    console.log(`elapsed - : ${elapsedTime}ms`)
 }
 
 const extractAllSequenceTest = async () => {
@@ -147,8 +171,9 @@ const extractAllSequenceTest = async () => {
     }
 
     let anim
-    if (_animMap[loadedJsonFilename]) anim = _animMap[loadedJsonFilename]
-    else {
+    // if (_animMap[loadedJsonFilename]) anim = _animMap[loadedJsonFilename]
+    // else
+    {
         anim = await LottieHelper.LoadAnimation(loadedJsonFilename, loadedJson)
         for (let i=0; i<300; i++) {
             if (anim.isDOMLoaded) break
@@ -164,10 +189,12 @@ const extractAllSequenceTest = async () => {
     
     if (anim.textComps[0]) {
         const compositionId = anim.textComps[0]
-        anim.TextUpdate({
-            compositionId,
-            text: 'THIS IS TITLE' + test
-        })
+        if (!getIsUseDefaultText()) {
+            anim.TextUpdate({
+                compositionId,
+                text: getText1Value()
+            })
+        }
 
         const box = anim.GetTextSize(compositionId)
         if (box && !isNaN(box.width) && box.width > anim.compWidth) {
@@ -179,10 +206,12 @@ const extractAllSequenceTest = async () => {
     }
     if (anim.textComps[1]) {
         const compositionId = anim.textComps[1]
-        anim.TextUpdate({
-            compositionId,
-            text: 'THIS IS SUBTITLE' + test
-        })
+        if (!getIsUseDefaultText()) {
+            anim.TextUpdate({
+                compositionId,
+                text: getText2Value()
+            })
+        }
 
         const box = anim.GetTextSize(compositionId)
         if (box && !isNaN(box.width) && box.width > anim.compWidth) {
@@ -194,8 +223,10 @@ const extractAllSequenceTest = async () => {
     }
 
     const svgElements = []
+    const totalFrames = Math.min(anim.totalFrames, parseInt(anim.animationData.fr * 5))
+
     let minX = 0, minY = 0, maxWidth = -1, maxHeight = -1
-    for (let i = 0; i < anim.totalFrames; i++) {
+    for (let i = 0; i < totalFrames; i++) {
         const { svgElement, allRect: { x, y, width, height } } = anim.CopySVGElement(i, _opentypeMap)
 
         if (width > maxWidth) {
@@ -232,5 +263,8 @@ const extractAllSequenceTest = async () => {
 
     anim.goToAndPlay(0, true)
 
-    console.log(`elapsed - : ${Date.now() - now}ms`)
+    const elapsedTime = Date.now() - now
+    updateElapsedTime(elapsedTime / 1000)
+
+    console.log(`elapsed - : ${elapsedTime}ms`)
 }

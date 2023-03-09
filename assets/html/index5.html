@@ -39,18 +39,38 @@
             border-left: 1px solid cyan;
             border-right: 1px solid cyan;
         }
-        
+
         .sequence-image {
             border: 1px solid;
+        }
+
+        #input-text1, #input-text2 {
+            width: 400px;
         }
     </style>
 </head>
 
 <body style="background-color: grey;">
-<input id="input-json" type="file" />
-<input id="input-font" type="file" multiple />
-<button onclick="extractPreviewTest()">Extract Preview</button>
-<button onclick="extractAllSequenceTest()">Extract All Sequence</button>
-<div id="tempsvg"></div>
+    <input id="input-json" type="file" />
+    <input id="input-font" type="file" multiple />
+    <button onclick="extractPreviewTest()">Extract Preview</button>
+    <button onclick="extractAllSequenceTest()">Extract All Sequence</button>
+    <br>
+    <br>
+    <div>
+        <input type="checkbox" id="use-default-text" checked>
+        <label for="use-default-text">기본 텍스트 사용</label>
+        <div id="text-field-wrapper" style="visibility: hidden">
+            #TEXT1 : <input type="text" id="input-text1" value="THIS IS TITLE! THIS IS TITLE! THIS IS TITLE!"><br>
+            #TEXT2 : <input type="text" id="input-text2" value="THIS IS SUB TITLE! THIS IS SUB TITLE! THIS IS SUB TITLE!"><br>
+        </div>
+    </div>
+    <br>
+    <span>추출 시간 : </span>
+    <span id="elapsed-time">0초</span>
+    <br>
+    <br>
+    <div id="tempsvg"></div>
 </body>
+
 </html>
