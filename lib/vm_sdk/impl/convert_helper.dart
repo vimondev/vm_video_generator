@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:myapp/vm_sdk/types/resource.dart';
 import 'package:path/path.dart';
 import 'package:uuid/uuid.dart';
@@ -260,19 +261,61 @@ AllEditedData parseJSONToAllEditedData(String encodedJSON) {
     editedMedia.volume = slide["volume"] * 1.0;
     editedMedia.playbackSpeed = slide["playbackSpeed"] * 1.0;
 
-    if (slide["rect"]) {
+    bool isNeedRecalculateCrop = false;
+    if (slide["rect"] != null) {
       if (slide["rect"]["l"] != null) {
         editedMedia.cropLeft = slide["rect"]["l"] * 1.0;
       }
+      else {
+        isNeedRecalculateCrop = true;
+      }
+
       if (slide["rect"]["t"] != null) {
         editedMedia.cropTop = slide["rect"]["t"] * 1.0;
       }
+      else {
+        isNeedRecalculateCrop = true;
+      }
+
       if (slide["rect"]["r"] != null) {
         editedMedia.cropRight = slide["rect"]["r"] * 1.0;
       }
+      else {
+        isNeedRecalculateCrop = true;
+      }
+      
       if (slide["rect"]["b"] != null) {
         editedMedia.cropBottom = slide["rect"]["b"] * 1.0;
       }
+      else {
+        isNeedRecalculateCrop = true;
+      }
+    }
+    else {
+      isNeedRecalculateCrop = true;
+    }
+
+    if (isNeedRecalculateCrop) {
+      int mediaWidth = max(1, editedMedia.mediaData.width);
+      int mediaHeight = max(1, editedMedia.mediaData.height);
+
+      double aspectRatio = (allEditedData.resolution.width * 1.0) / allEditedData.resolution.height;
+      double baseCropWidth = aspectRatio;
+      double baseCropHeight = 1;
+
+      double scaleFactor = min(mediaWidth / baseCropWidth, mediaHeight / baseCropHeight);
+      int cropWidth = (baseCropWidth * scaleFactor).floor();
+      int cropHeight = (baseCropHeight * scaleFactor).floor();
+
+      double cropLeft = (mediaWidth - cropWidth) / 2;
+      double cropRight = cropLeft + cropWidth;
+      double cropTop = (mediaHeight - cropHeight) / 2;
+      double cropBottom = cropTop + cropHeight;
+
+      editedMedia.cropLeft = cropLeft / mediaWidth;
+      editedMedia.cropRight = cropRight / mediaWidth;
+      editedMedia.cropTop = cropTop / mediaHeight;
+      editedMedia.cropBottom = cropBottom / mediaHeight;
     }
 
     allEditedData.editedMediaList.add(editedMedia);
@@ -297,8 +340,8 @@ AllEditedData parseJSONToAllEditedData(String encodedJSON) {
 
           editedStickerData.width = (overlay["rect"]["width"] * 1.0).floor();
           editedStickerData.height = (overlay["rect"]["height"] * 1.0).floor();
-          editedStickerData.x = overlay["rect"]["x"] * 1.0;
-          editedStickerData.y = overlay["rect"]["y"] * 1.0;
+          editedStickerData.x = overlay["rect"]["x"] * allEditedData.resolution.width * 1.0;
+          editedStickerData.y = overlay["rect"]["y"] * allEditedData.resolution.height * 1.0;
           editedStickerData.rotate = overlay["angle"] * 1.0;
 
           editedMedia.stickers.add(editedStickerData);
@@ -311,8 +354,8 @@ AllEditedData parseJSONToAllEditedData(String encodedJSON) {
         canvasTextData.imagePath = imagePath;
         canvasTextData.width = (overlay["rect"]["width"] * 1.0).floor();
         canvasTextData.height = (overlay["rect"]["height"] * 1.0).floor();
-        canvasTextData.x = overlay["rect"]["x"] * 1.0;
-        canvasTextData.y = overlay["rect"]["y"] * 1.0;
+        canvasTextData.x = overlay["rect"]["x"] * allEditedData.resolution.width * 1.0;
+        canvasTextData.y = overlay["rect"]["y"] * allEditedData.resolution.height * 1.0;
         canvasTextData.rotate = overlay["angle"] * 1.0;
 
         editedMedia.canvasTexts.add(canvasTextData);
@@ -327,8 +370,8 @@ AllEditedData parseJSONToAllEditedData(String encodedJSON) {
         if (textData != null) {
           EditedTextData editedTextData = EditedTextData(
               textId,
-              overlay["rect"]["x"] * 1.0,
-              overlay["rect"]["y"] * 1.0,
+              overlay["rect"]["x"] * allEditedData.resolution.width * 1.0,
+              overlay["rect"]["y"] * allEditedData.resolution.height * 1.0,
               overlay["rect"]["width"] * 1.0,
               overlay["rect"]["height"] * 1.0);
           editedTextData.rotate = overlay["angle"] * 1.0;
