@@ -541,7 +541,7 @@ Future<AllEditedData> generateAllEditedData(
   // DETECT RATIO //
   //////////////////
 
-  final ERatio ratio = ERatio.ratio916; //detectRatio(allEditedData.editedMediaList);
+  final ERatio ratio = detectRatio(allEditedData.editedMediaList);
   final Resolution resolution = Resolution.fromRatio(ratio);
 
   allEditedData.ratio = ratio;
@@ -558,25 +558,12 @@ Future<AllEditedData> generateAllEditedData(
     int mediaHeight = max(1, editedMedia.mediaData.height);
 
     double aspectRatio = (resolution.width * 1.0) / resolution.height;
+    double baseCropWidth = aspectRatio;
+    double baseCropHeight = 1;
 
-    int fitValue = min(mediaWidth, mediaHeight);
-    int cropWidth = fitValue;
-    int cropHeight = fitValue;
-
-    if (mediaWidth > mediaHeight) {
-      cropWidth = (cropWidth * aspectRatio).floor();
-      if (cropWidth > mediaWidth) {
-        cropHeight = (cropHeight * (mediaWidth / cropWidth)).floor();
-        cropWidth = mediaWidth;
-      }
-    }
-    else {
-      cropHeight = (cropHeight * aspectRatio).floor();
-      if (cropHeight > mediaHeight) {
-        cropWidth = (cropWidth * (mediaHeight / cropHeight)).floor();
-        cropHeight = mediaHeight;
-      }
-    }
+    double scaleFactor = min(mediaWidth / baseCropWidth, mediaHeight / baseCropHeight);
+    int cropWidth = (baseCropWidth * scaleFactor).floor();
+    int cropHeight = (baseCropHeight * scaleFactor).floor();
 
     double cropLeft = (mediaWidth - cropWidth) / 2;
     double cropRight = cropLeft + cropWidth;
@@ -587,8 +574,6 @@ Future<AllEditedData> generateAllEditedData(
     editedMedia.cropRight = cropRight / mediaWidth;
     editedMedia.cropTop = cropTop / mediaHeight;
     editedMedia.cropBottom = cropBottom / mediaHeight;
-
-    print("");
   }
 
   ///////////////////////
