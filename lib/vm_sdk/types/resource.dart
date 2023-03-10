@@ -12,6 +12,7 @@ class MusicData {
   String? absolutePath;
   double duration = 0;
   double startTime = 0;
+  double volume = 1;
 }
 
 class ResourceData {

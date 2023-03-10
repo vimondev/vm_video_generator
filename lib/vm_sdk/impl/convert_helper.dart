@@ -181,7 +181,7 @@ String parseAllEditedDataToJSON(AllEditedData allEditedData) {
       "order": i,
       "startTime": currentTime,
       "endTime": currentTime + music.duration,
-      "volume": 1.0,
+      "volume": music.volume,
       "inPoint": 0
     });
 
@@ -436,6 +436,7 @@ AllEditedData parseJSONToAllEditedData(String encodedJSON) {
     musicData.filename = basename(musicData.absolutePath!);
     musicData.startTime = bgmItem["startTime"] * 1.0;
     musicData.duration = bgmItem["endTime"] * 1.0 - musicData.startTime;
+    musicData.volume = bgmItem["volume"] * 1.0;
 
     allEditedData.musicList.add(musicData);
   }

@@ -964,6 +964,7 @@ Future<_GetMusicResponse> _getMusics(EMusicStyle? musicStyle) async {
   //     musicData.filename = name;
   //     musicData.speed = song.speed;
   //     musicData.url = url;
+  //     musicData.volume = 0.5;
 
   //     randomSortMusicList.add(musicData);
   //   }
@@ -994,6 +995,7 @@ Future<_GetMusicResponse> _getMusics(EMusicStyle? musicStyle) async {
       musicData.filename = name;
       musicData.speed = song.speed;
       musicData.url = url;
+      musicData.volume = 0.5;
 
       randomSortMusicList.add(musicData);
     }
