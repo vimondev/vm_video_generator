@@ -50,33 +50,13 @@ class _TestWidgetState extends State<TestWidget> {
         imageList = [];
       });
 
-      // final List<String> allTexts = ResourceManager.getInstance().getTextList(autoEditOnly: false, lineCount: 2);
+      final List<TextData> allTexts = ResourceManager.getInstance().getTextDataList(autoEditOnly: true, lineCount: 2);
+      allTexts.sort((a, b) {
+        final aValue = "${a.group}_${a.key}";
+        final bValue = "${b.group}_${b.key}";
 
-      final List<String> allTexts = [
-        "Title_ES001",
-"Title_ES002",
-"Title_ES003",
-"Title_ES004",
-"Title_JH010",
-"Title_JH011",
-"Title_JH012",
-"Title_JH013",
-"Title_SW037",
-"Title_SW038",
-"Title_SW039",
-"Title_SW040",
-"Title_SW041",
-"Title_YJ033",
-"Title_YJ034",
-"Title_YJ035",
-"Title_YJ036",
-"Title_YJ037",
-"Title_YJ038",
-"Title_YJ039",
-"Title_YJ040",
-      ];
-
-      // final List<String> allTexts = ["Title_DA001"];
+        return aValue.compareTo(bValue);
+      });
 
       // final String currentText =
       //     allTexts[(_currentIndex) % allTexts.length];
@@ -101,14 +81,15 @@ class _TestWidgetState extends State<TestWidget> {
       for (int i = 0; i < allTexts.length; i++) {
         DateTime now = DateTime.now();
 
-        final String currentText = allTexts[i];
+        final TextData currentTextData = allTexts[i];
+        final String currentText = currentTextData.key;
         if (excepts.containsKey(currentText)) continue;
 
         print('text is $currentText');
         print('_currentIndex is $i / ${allTexts.length}');
 
         // await _vmTextWidget.loadText(currentText, initTexts: ["첫번째줄 테스트", "두번째줄 테스트"]);
-        await _vmTextWidget.loadText(currentText, initTexts: ["THIS IS TITLE", "THIS IS SUBTITLE"]);
+        await _vmTextWidget.loadText(currentText, initTexts: ["THIS IS TITLE"]);
         // await _vmTextWidget.loadText(currentText, initTexts: ["パスワードを再確認してください。", "パスワードを再確認してください。"]);
         // await _vmTextWidget.loadText(currentText, initTexts: ["Sẵn sàng tiệc chưa?", "Sẵn sàng tiệc chưa?"]);
         // await _vmTextWidget.loadText(currentText, initTexts: ["วิดีโอที่คุณสร้างกำลังรอคุณอยู่", "วิดีโอที่คุณสร้างกำลังรอคุณอยู่"]);
@@ -116,7 +97,6 @@ class _TestWidgetState extends State<TestWidget> {
         // await _vmTextWidget.loadText(currentText, initTexts: ["THIS IS TITLE THIS IS TITLE THIS IS TITLE THIS IS TITLE", "THIS IS SUBTITLE THIS IS SUBTITLE THIS IS SUBTITLE THIS IS SUBTITLE"]);
         // await _vmTextWidget.loadText(currentText, initTexts: ["THIS IS SUBTITLE THIS IS SUBTITLE THIS IS SUBTITLE THIS IS SUBTITLE"]);
 
-        // await _vmTextWidget.loadText(currentText);
         await _vmTextWidget.extractAllSequence((progress) => {});
 
         final String appDirPath = await getAppDirectoryPath();
@@ -143,43 +123,19 @@ class _TestWidgetState extends State<TestWidget> {
           "libvpx-vp9",
           "-pix_fmt",
           "yuva420p",
-          "$webmPath/$currentText.webm",
+          "$webmPath/${currentTextData.group}_$currentText.webm",
           // "-c:v",
           // "libx264",
           // "-preset",
           // "ultrafast",
           // "-pix_fmt",
           // "yuv420p",
-          // "$webmPath/${currentText}_en.mp4",
+          // "$webmPath/${currentTextData.group}_$currentText.mp4",
           "-y"
         ], (p0) => null);
 
-        // final String textDirPath = "$webmPath/$currentText";
-        // final String previewDirPath = "$textDirPath/preview";
-        // final String sequenceDirPath = "$textDirPath/sequence";
-        // final Directory previewDir = Directory(previewDirPath);
-        // final Directory sequenceDir = Directory(sequenceDirPath);
-
-        // await previewDir.create(recursive: true);
-        // await sequenceDir.create(recursive: true);
-
-        // File thumbnailFile = File(_vmTextWidget.previewImagePath!);
-        // await thumbnailFile.copy("$previewDirPath/$currentText.png");
-
-        // for (int i=0; i<_vmTextWidget.allSequencePaths.length; i++) {
-        //   String curSequencePath = _vmTextWidget.allSequencePaths[i];
-        //   String filename = basename(curSequencePath);
-
-        //   File curSequenceFile = File(curSequencePath);
-        //   await curSequenceFile.copy("$sequenceDirPath/$filename");
-        // }
-        // File jsonFile = File("$textDirPath/$currentText.json");
-        // await jsonFile.writeAsString(jsonEncode({
-        //   "width": _vmTextWidget.width,
-        //   "height": _vmTextWidget.height,
-        //   "frameRate": _vmTextWidget.frameRate,
-        //   "totalFrameCount": _vmTextWidget.totalFrameCount
-        // }));
+        File thumbnailFile = File(_vmTextWidget.previewImagePath!);
+        await thumbnailFile.copy("$webmPath/${currentTextData.group}_$currentText.png");
 
         print(webmPath);
         print(currentText);
@@ -189,7 +145,7 @@ class _TestWidgetState extends State<TestWidget> {
         //   print("");
         // }
 
-        await Future.delayed(const Duration(milliseconds: 500));
+        await Future.delayed(const Duration(milliseconds: 1000));
 
         setState(() {
           _currentText = currentText;

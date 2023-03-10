@@ -26,6 +26,7 @@ class ResourceData {
 
 class TextData extends ResourceData {
   Map unsupportLang = {};
+  String group = "";
   int lineCount = 1;
   double letterSpacing = 1;
 

@@ -129,8 +129,8 @@ class ResourceManager {
       final Map map = textJsonMap[key];
       _textMap[key] = TextData.fromJson(key, map);
       _textMap[key]!.isEnableAutoEdit = textJsonMap[key]["enable"];
+      _textMap[key]!.group = textJsonMap[key]["group"] ?? "";
       _textMap[key]!.unsupportLang = textJsonMap[key]["unsupportLang"];
-      _textMap[key]!.isRecommend = textJsonMap[key]["isRecommend"];
       _textMap[key]!.exceptSpeed = textJsonMap[key]["exceptSpeed"];
       _textMap[key]!.lineCount = textJsonMap[key]["lineCount"];
       _textMap[key]!.letterSpacing = (textJsonMap[key]["letterSpacing"] ?? 1) * 1.0;
@@ -222,7 +222,7 @@ class ResourceManager {
 
     return _textMap.keys
         .where((key) =>
-            ((!autoEditOnly) || (_textMap[key]!.isEnableAutoEdit && _textMap[key]!.isRecommend && !_textMap[key]!.unsupportLang.containsKey(locale) && !_textMap[key]!.exceptSpeed.containsKey(speed) && _textMap[key]!.lineCount >= lineCount)))
+            ((!autoEditOnly) || (_textMap[key]!.isEnableAutoEdit && !_textMap[key]!.unsupportLang.containsKey(locale) && !_textMap[key]!.exceptSpeed.containsKey(speed) && _textMap[key]!.lineCount >= lineCount)))
         .map<String>((key) => key)
         .toList();
   }
@@ -235,7 +235,7 @@ class ResourceManager {
 
     return _textMap.keys
         .where((key) =>
-            ((!autoEditOnly) || (_textMap[key]!.isEnableAutoEdit && _textMap[key]!.isRecommend && !_textMap[key]!.unsupportLang.containsKey(locale) && !_textMap[key]!.exceptSpeed.containsKey(speed) && _textMap[key]!.lineCount >= lineCount)))
+            ((!autoEditOnly) || (_textMap[key]!.isEnableAutoEdit && !_textMap[key]!.unsupportLang.containsKey(locale) && !_textMap[key]!.exceptSpeed.containsKey(speed) && _textMap[key]!.lineCount >= lineCount)))
         .map<TextData>((key) => _textMap[key]!)
         .toList();
   }
