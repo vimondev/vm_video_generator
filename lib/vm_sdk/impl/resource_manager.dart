@@ -8,6 +8,7 @@ import 'dart:convert';
 
 class ResourceManager {
   static ResourceManager? _instance;
+  bool _isInitialized = false;
 
   final List<SongFetchModel> _fetchedSongs = [];
 
@@ -149,14 +150,25 @@ class ResourceManager {
   }
 
   Future<void> loadResourceMap() async {
-    await Future.wait([
-      _loadSongModels(),
-      _loadTransitionMap(),
-      _loadFrameMap(),
-      _loadStickerMap(),
-      _loadTemplateMap(),
-      _loadTextMap()
-    ]);
+    if (_isInitialized) return;
+    try {
+      DateTime now = DateTime.now();
+
+      await Future.wait([
+        _loadSongModels(),
+        _loadTransitionMap(),
+        _loadFrameMap(),
+        _loadStickerMap(),
+        _loadTemplateMap(),
+        _loadTextMap()
+      ]);
+      _isInitialized = true;
+
+      print("[VM SDK] loadResourceMap is done : ${now.difference(DateTime.now()).inMilliseconds / 1000}s");
+    } catch (e) {
+      print("[VM SDK] loadResourceMap is failed");
+      print(e);
+    }
   }
 
   List<SongFetchModel> getAllSongFetchModels() {
