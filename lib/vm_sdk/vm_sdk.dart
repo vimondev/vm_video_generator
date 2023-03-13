@@ -448,7 +448,6 @@ class VMSDKWidget extends StatelessWidget {
 
       for (int i = 0; i < editedMediaList.length; i++) {
         final EditedMedia editedMedia = editedMediaList[i];
-        editedMedia.mediaData = await scaleImageMedia(editedMedia.mediaData);
 
         TransitionData? prevTransition, nextTransition;
         if (i > 0) {

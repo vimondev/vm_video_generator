@@ -1024,7 +1024,7 @@ Future<String?> extractThumbnail(EditedMedia editedMedia) async {
   return outputPath;
 }
 
-Future<MediaData> scaleImageMedia( MediaData mediaData) async {
+Future<MediaData> scaleImageMedia(MediaData mediaData) async {
   final List<String> arguments = <String>[];
   final String appDirPath = await getAppDirectoryPath();
   final String outputPath = "$appDirPath/${Uuid().v4()}.jpg";
