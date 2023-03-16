@@ -40,9 +40,6 @@ class VMText {
 }
 
 class VMTextWidget extends StatelessWidget {
-  VMTextWidget({Key? key}) : super(key: key) {
-    _controller = CustomWebView().controller;
-  }
 
   InAppWebViewController? _controller;
   String? _currentDirPath;
@@ -211,7 +208,7 @@ class VMTextWidget extends StatelessWidget {
 
     await _controller!.evaluateJavascript(
         source:
-            "ExtractPreview({ id: '$_id ${_data.texts.length >= 2 ? "TWO" : "ONE"} LINE', jobId: '', fontFamliyArr: $fontFamilyArr, fontBase64: $fontBase64Arr, json: ${_data.json}, texts: $textArr, letterSpacing: ${_data.letterSpacing} })");
+        "ExtractPreview({ id: '$_id ${_data.texts.length >= 2 ? "TWO" : "ONE"} LINE', jobId: '', fontFamliyArr: $fontFamilyArr, fontBase64: $fontBase64Arr, json: ${_data.json}, texts: $textArr, letterSpacing: ${_data.letterSpacing} })");
 
     return _currentPreviewCompleter!.future;
   }
@@ -256,7 +253,7 @@ class VMTextWidget extends StatelessWidget {
 
     await _controller!.evaluateJavascript(
         source:
-            "ExtractAllSequence({ id: '$_id ${_data.texts.length >= 2 ? "TWO" : "ONE"} LINE', jobId: '', fontFamliyArr: $fontFamilyArr, fontBase64: $fontBase64Arr, json: ${_data.json}, texts: $textArr, letterSpacing: ${_data.letterSpacing} })");
+        "ExtractAllSequence({ id: '$_id ${_data.texts.length >= 2 ? "TWO" : "ONE"} LINE', jobId: '', fontFamliyArr: $fontFamilyArr, fontBase64: $fontBase64Arr, json: ${_data.json}, texts: $textArr, letterSpacing: ${_data.letterSpacing} })");
 
     return _currentSequencesCompleter!.future;
   }
@@ -429,7 +426,7 @@ class VMTextWidget extends StatelessWidget {
         initialOptions: option,
         initialFile: "packages/myapp/assets/html/index5.html",
         onWebViewCreated: (controller) {
-          _controller = controller;
+          _setController(controller);
         },
         iosOnWebContentProcessDidTerminate: (controller) {
           _handleTerminated(controller);
