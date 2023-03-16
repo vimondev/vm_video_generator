@@ -79,7 +79,7 @@ Future<RenderedData> clipRender(
     TransitionData? prevTransition,
     TransitionData? nextTransition,
     Function(Statistics)? ffmpegCallback, { isAutoEdit = false }) async {
-  final MediaData mediaData = editedMedia.mediaData;
+  final MediaData mediaData = await scaleImageMedia(editedMedia.mediaData);
   final FrameData? frame = editedMedia.frame;
   final List<EditedStickerData> stickerList = editedMedia.stickers;
   final List<CanvasTextData> canvasTexts = editedMedia.canvasTexts;
