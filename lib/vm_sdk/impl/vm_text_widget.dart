@@ -35,6 +35,10 @@ class VMText {
 }
 
 class VMTextWidget extends StatelessWidget {
+  VMTextWidget({Key? key}) : super(key: key){
+    _controller = CustomWebView().controller;
+  }
+
   InAppWebViewController? _controller;
   String? _currentDirPath;
   String? _currentPreviewPath;

@@ -6,7 +6,9 @@ class CustomWebView extends StatelessWidget {
   static var _callback;
   static var _handleTerminated;
   static String? _initialFile;
+  InAppWebViewController? _controller;
 
+  InAppWebViewController? get controller => _controller;
 
   factory CustomWebView({callback, handleTerminated, initialFile}) {
     _callback = callback;
@@ -15,9 +17,7 @@ class CustomWebView extends StatelessWidget {
     return _instance;
   }
 
-  CustomWebView._internal() {
-
-  }
+  CustomWebView._internal() {}
 
   // const Webview({Key? key, this.callback, this.initialFile}) : super(key: key);
 
@@ -31,25 +31,24 @@ class CustomWebView extends StatelessWidget {
         useShouldInterceptFetchRequest: true,
       ),
       android: AndroidInAppWebViewOptions(
-        useHybridComposition: true,
-        mixedContentMode: AndroidMixedContentMode.MIXED_CONTENT_ALWAYS_ALLOW,
-        supportMultipleWindows: true,
-        useShouldInterceptRequest: true
-      ),
+          useHybridComposition: true,
+          mixedContentMode: AndroidMixedContentMode.MIXED_CONTENT_ALWAYS_ALLOW,
+          supportMultipleWindows: true,
+          useShouldInterceptRequest: true),
     );
 
     return InAppWebView(
-      initialOptions: option,
-          initialFile: _initialFile,
-          onWebViewCreated: (controller) {
-            _callback(controller);
-          },
-          
-          iosOnWebContentProcessDidTerminate: (controller) {
-            _handleTerminated(controller);
-          },
-          onConsoleMessage: (controller, consoleMessage) {
-            print(consoleMessage);
-          });
+        initialOptions: option,
+        initialFile: _initialFile,
+        onWebViewCreated: (controller) {
+          _controller = controller;
+          _callback(controller);
+        },
+        iosOnWebContentProcessDidTerminate: (controller) {
+          _handleTerminated(controller);
+        },
+        onConsoleMessage: (controller, consoleMessage) {
+          print(consoleMessage);
+        });
   }
 }
