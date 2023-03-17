@@ -89,7 +89,7 @@ class _TestWidgetState extends State<TestWidget> {
         print('_currentIndex is $i / ${allTexts.length}');
 
         // await _vmTextWidget.loadText(currentText, initTexts: ["첫번째줄 테스트", "두번째줄 테스트"]);
-        await _vmTextWidget.loadText(currentText, initTexts: ["THIS IS TITLE"]);
+        await _vmTextWidget.loadText(currentText, initTexts: ["THIS IS TITLE"], language: "en");
         // await _vmTextWidget.loadText(currentText, initTexts: ["パスワードを再確認してください。", "パスワードを再確認してください。"]);
         // await _vmTextWidget.loadText(currentText, initTexts: ["Sẵn sàng tiệc chưa?", "Sẵn sàng tiệc chưa?"]);
         // await _vmTextWidget.loadText(currentText, initTexts: ["วิดีโอที่คุณสร้างกำลังรอคุณอยู่", "วิดีโอที่คุณสร้างกำลังรอคุณอยู่"]);

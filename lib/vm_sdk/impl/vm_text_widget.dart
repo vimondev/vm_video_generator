@@ -95,14 +95,14 @@ class VMTextWidget extends StatelessWidget {
 
   List<String> get allSequencePaths => _allSequencePaths;
 
-  Future<void> loadText(String id, {List<String>? initTexts}) async {
+  Future<void> loadText(String id, { List<String>? initTexts, required language }) async {
     _id = id;
 
     if (!_dataMapOneLine.containsKey(id)) {
-      _dataMapOneLine[id] = await loadTextWidgetData(id, 1);
+      _dataMapOneLine[id] = await loadTextWidgetData(id, 1, language);
     }
     if (!_dataMapTwoLine.containsKey(id)) {
-      _dataMapTwoLine[id] = await loadTextWidgetData(id, 2);
+      _dataMapTwoLine[id] = await loadTextWidgetData(id, 2, language);
     }
 
     await setTextValue(initTexts ?? ["THIS IS TITLE!"]);
