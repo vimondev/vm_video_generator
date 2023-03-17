@@ -17,8 +17,11 @@ class Rectangle {
   Rectangle(this._x, this._y, this._width, this._height);
 
   double get x => _x;
+
   double get y => _y;
+
   double get width => _width;
+
   double get height => _height;
 }
 
@@ -30,11 +33,14 @@ class VMText {
   VMText(this._key, this._value, this._boundingBox);
 
   String get key => _key;
+
   String get value => _value;
+
   Rectangle get boundingBox => _boundingBox;
 }
 
 class VMTextWidget extends StatelessWidget {
+
   InAppWebViewController? _controller;
   String? _currentDirPath;
   String? _currentPreviewPath;
@@ -64,20 +70,29 @@ class VMTextWidget extends StatelessWidget {
 
   final BehaviorSubject<String> _bhPreview = BehaviorSubject();
   final BehaviorSubject<String> _bhSequences = BehaviorSubject();
+
   ValueStream<String> get previewStream => _bhPreview.stream;
+
   ValueStream<String> get sequencesStream => _bhSequences.stream;
 
   Function(double progress)? _currentProgressCallback;
 
   double get width => _width;
+
   double get height => _height;
+
   double get frameRate => _frameRate;
+
   int get totalFrameCount => _totalFrameCount;
+
   double get elapsedTime => _elapsedTime;
+
   Map<String, VMText> get textDataMap => _textDataMap;
 
   String? get previewImagePath => _previewImagePath;
+
   String? get allSequencesPath => _allSequencesPath;
+
   List<String> get allSequencePaths => _allSequencePaths;
 
   Future<void> loadText(String id, { List<String>? initTexts, required language }) async {
@@ -90,12 +105,10 @@ class VMTextWidget extends StatelessWidget {
       _dataMapTwoLine[id] = await loadTextWidgetData(id, 2, language);
     }
 
-    await setTextValue(initTexts ?? [ "THIS IS TITLE!" ]);
+    await setTextValue(initTexts ?? ["THIS IS TITLE!"]);
   }
 
-  Future<void> setTextValue(List<String> values,
-      {bool isExtractPreviewImmediate = true}) async {
-
+  Future<void> setTextValue(List<String> values, {bool isExtractPreviewImmediate = true}) async {
     _texts = [];
     _texts.addAll(values);
 
@@ -166,8 +179,7 @@ class VMTextWidget extends StatelessWidget {
 
     // await _reload();
     await _removeAll();
-    _currentDirPath =
-        "${await getAppDirectoryPath()}/${_id}_${DateTime.now().millisecondsSinceEpoch}";
+    _currentDirPath = "${await getAppDirectoryPath()}/${_id}_${DateTime.now().millisecondsSinceEpoch}";
     _currentPreviewPath = "$_currentDirPath/preview";
     _currentSequencePath = "$_currentDirPath/sequences";
     await _createDirectory(_currentDirPath!);
@@ -196,13 +208,12 @@ class VMTextWidget extends StatelessWidget {
 
     await _controller!.evaluateJavascript(
         source:
-            "ExtractPreview({ id: '$_id ${_data.texts.length >= 2 ? "TWO" : "ONE"} LINE', jobId: '', fontFamliyArr: $fontFamilyArr, fontBase64: $fontBase64Arr, json: ${_data.json}, texts: $textArr, letterSpacing: ${_data.letterSpacing} })");
+        "ExtractPreview({ id: '$_id ${_data.texts.length >= 2 ? "TWO" : "ONE"} LINE', jobId: '', fontFamliyArr: $fontFamilyArr, fontBase64: $fontBase64Arr, json: ${_data.json}, texts: $textArr, letterSpacing: ${_data.letterSpacing} })");
 
     return _currentPreviewCompleter!.future;
   }
 
-  Future<void> extractAllSequence(
-      Function(double progress)? progressCallback) async {
+  Future<void> extractAllSequence(Function(double progress)? progressCallback) async {
     TextWidgetData? _data = _getTextWidgetData();
     if (_data == null) return;
 
@@ -212,8 +223,7 @@ class VMTextWidget extends StatelessWidget {
     await _reload();
     await _removeAll();
 
-    _currentDirPath =
-        "${await getAppDirectoryPath()}/${_id}_${DateTime.now().millisecondsSinceEpoch}";
+    _currentDirPath = "${await getAppDirectoryPath()}/${_id}_${DateTime.now().millisecondsSinceEpoch}";
     _currentPreviewPath = "$_currentDirPath/preview";
     _currentSequencePath = "$_currentDirPath/sequences";
     await _createDirectory(_currentDirPath!);
@@ -243,7 +253,7 @@ class VMTextWidget extends StatelessWidget {
 
     await _controller!.evaluateJavascript(
         source:
-            "ExtractAllSequence({ id: '$_id ${_data.texts.length >= 2 ? "TWO" : "ONE"} LINE', jobId: '', fontFamliyArr: $fontFamilyArr, fontBase64: $fontBase64Arr, json: ${_data.json}, texts: $textArr, letterSpacing: ${_data.letterSpacing} })");
+        "ExtractAllSequence({ id: '$_id ${_data.texts.length >= 2 ? "TWO" : "ONE"} LINE', jobId: '', fontFamliyArr: $fontFamilyArr, fontBase64: $fontBase64Arr, json: ${_data.json}, texts: $textArr, letterSpacing: ${_data.letterSpacing} })");
 
     return _currentSequencesCompleter!.future;
   }
@@ -274,8 +284,7 @@ class VMTextWidget extends StatelessWidget {
 
       final preview = args[0]["preview"];
       String previewUrl = "$_currentPreviewPath/preview.png";
-      writeFileFromBase64(previewUrl,
-          preview.toString().replaceAll("data:image/png;base64,", ""));
+      writeFileFromBase64(previewUrl, preview.toString().replaceAll("data:image/png;base64,", ""));
 
       for (int i = 0; i < textData.length; i++) {
         print('key is ${textData[i]['key']}');
@@ -284,10 +293,7 @@ class VMTextWidget extends StatelessWidget {
         _textDataMap[i.toString()] = VMText(
             textData[i]['key'],
             textData[i]['value'],
-            Rectangle(
-                textData[i]['x'].toDouble(),
-                textData[i]['y'].toDouble(),
-                textData[i]['width'].toDouble(),
+            Rectangle(textData[i]['x'].toDouble(), textData[i]['y'].toDouble(), textData[i]['width'].toDouble(),
                 textData[i]['height'].toDouble()));
       }
 
@@ -327,16 +333,14 @@ class VMTextWidget extends StatelessWidget {
   void _handleTransferAllSequencePNGData(args) async {
     try {
       int frameNumber = int.parse(args[0]["frameNumber"].toString());
-      String data =
-          args[0]["data"].toString().replaceAll("data:image/png;base64,", "");
+      String data = args[0]["data"].toString().replaceAll("data:image/png;base64,", "");
 
       final String sequenceFilePath = "$_currentSequencePath/$frameNumber.png";
       _allSequencePathMap[frameNumber] = sequenceFilePath;
       writeFileFromBase64(sequenceFilePath, data);
 
       if (_currentProgressCallback != null) {
-        _currentProgressCallback!(
-            _allSequencePathMap.length / (_totalFrameCount * 1.0));
+        _currentProgressCallback!(_allSequencePathMap.length / (_totalFrameCount * 1.0));
       }
     } catch (e) {
       if (_currentSequencesCompleter != null) {
@@ -390,46 +394,55 @@ class VMTextWidget extends StatelessWidget {
   }
 
   void _setController(InAppWebViewController controller) {
+    controller.addJavaScriptHandler(handlerName: "TransferInit", callback: _handleTransferInit);
+    controller.addJavaScriptHandler(handlerName: "TransferPreviewPNGData", callback: _handleTransferPreviewPNGData);
+    controller.addJavaScriptHandler(handlerName: "TransferAllSequenceStart", callback: _handleTransferAllSequenceStart);
     controller.addJavaScriptHandler(
-        handlerName: "TransferInit", callback: _handleTransferInit);
+        handlerName: "TransferAllSequencePNGData", callback: _handleTransferAllSequencePNGData);
     controller.addJavaScriptHandler(
-        handlerName: "TransferPreviewPNGData",
-        callback: _handleTransferPreviewPNGData);
+        handlerName: "TransferAllSequenceComplete", callback: _handleTransferAllSequenceComplete);
+    controller.addJavaScriptHandler(handlerName: "TransferPreviewFailed", callback: _handleTransferPreviewFailed);
     controller.addJavaScriptHandler(
-        handlerName: "TransferAllSequenceStart",
-        callback: _handleTransferAllSequenceStart);
-    controller.addJavaScriptHandler(
-        handlerName: "TransferAllSequencePNGData",
-        callback: _handleTransferAllSequencePNGData);
-    controller.addJavaScriptHandler(
-        handlerName: "TransferAllSequenceComplete",
-        callback: _handleTransferAllSequenceComplete);
-    controller.addJavaScriptHandler(
-        handlerName: "TransferPreviewFailed",
-        callback: _handleTransferPreviewFailed);
-    controller.addJavaScriptHandler(
-        handlerName: "TransferAllSequenceFailed",
-        callback: _handleTransferAllSequenceFailed);
+        handlerName: "TransferAllSequenceFailed", callback: _handleTransferAllSequenceFailed);
     _controller = controller;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    InAppWebViewGroupOptions option = InAppWebViewGroupOptions(
+      crossPlatform: InAppWebViewOptions(
+        javaScriptEnabled: true,
+        javaScriptCanOpenWindowsAutomatically: true,
+        useShouldOverrideUrlLoading: true,
+        useShouldInterceptFetchRequest: true,
+      ),
+      android: AndroidInAppWebViewOptions(
+          useHybridComposition: true,
+          mixedContentMode: AndroidMixedContentMode.MIXED_CONTENT_ALWAYS_ALLOW,
+          supportMultipleWindows: true,
+          useShouldInterceptRequest: true),
+    );
+    return SizedBox(
       height: 100,
       child: Transform.translate(
-        offset: const Offset(-9999999, -99999),
-        // offset: const Offset(0, 0),
-        child: CustomWebView(
-          callback: _setController,
-          handleTerminated: _handleTerminated,
+          offset: const Offset(-9999999, -99999),
+          // offset: const Offset(0, 0),
+          child: InAppWebView(
+          initialOptions: option,
           initialFile: "packages/myapp/assets/html/index5.html",
-        ),
-      ),
-    );
+          onWebViewCreated: (controller) {
+            _setController(controller);
+          },
+          iosOnWebContentProcessDidTerminate: (controller) {
+            _handleTerminated(controller);
+          },
+          onConsoleMessage: (controller, consoleMessage) {
+            print('VMTextWebView - [$consoleMessage]');
+          }),
+    ));
   }
 
-  void release(){
+  void release() {
     _bhPreview.drain().then((value) => _bhPreview.close());
     _bhSequences.drain().then((value) => _bhSequences.close());
   }
