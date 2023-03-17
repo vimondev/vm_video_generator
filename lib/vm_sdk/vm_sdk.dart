@@ -202,7 +202,7 @@ class VMSDKWidget extends StatelessWidget {
       pickedTextId = pickedText.key;
 
       if (isExportTitle) {
-        await _textWidget.loadText(pickedTextId, initTexts: texts);
+        await _textWidget.loadText(pickedTextId, initTexts: texts, language: language);
 
         await _textWidget.extractAllSequence((progress) {
           if (progressCallback != null) {
@@ -278,6 +278,7 @@ class VMSDKWidget extends StatelessWidget {
 
   Future<VideoGeneratedResult> generateVideoFromJSON(
       String encodedJSON,
+      String language,
       Function(EGenerateStatus status, double progress)?
           progressCallback) async {
     AllEditedData allEditedData = parseJSONToAllEditedData(encodedJSON);
@@ -291,7 +292,7 @@ class VMSDKWidget extends StatelessWidget {
     double totalProgress = 0;
     for (final EditedTextData editedText in texts) {
       await _textWidget.loadText(editedText.id,
-          initTexts: editedText.texts.values.toList());
+          initTexts: editedText.texts.values.toList(), language: language);
       await _textWidget.extractAllSequence((progress) {
         if (progressCallback != null) {
           progressCallback(_currentStatus, (totalProgress + (progress / texts.length)) * _titleExportPercentage);

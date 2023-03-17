@@ -43,6 +43,7 @@ class TestWidget extends StatelessWidget {
     final String encodedJSON = json.encode(exportedJSON);
     final VideoGeneratedResult? result = await _vmsdkWidget.generateVideoFromJSON(
         encodedJSON,
+        "en",
         (status, progress) {
           print(status);
           print(progress);
