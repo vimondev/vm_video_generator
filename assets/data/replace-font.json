@@ -116,11 +116,11 @@
         "ja": "rounded-x-mgenplus-1c-black"
     },
     "CormorantGaramond-Bold": {
-        "ko": "CormorantGaramond-Bold",
+        "ko": "NotoSerifCJKkr-Bold",
         "ja": "rounded-x-mgenplus-1c-bold"
     },
     "CormorantGaramond-Regular": {
-        "ko": "CormorantGaramond-Regular",
+        "ko": "NotoSerifKR-Medium",
         "ja": "rounded-x-mgenplus-1c-light"
     },
     "CWDangamAsac-Bold": {
@@ -395,5 +395,77 @@
     "YesevaOne": {
         "ko": "SANGJU Gyeongcheon Island",
         "ja": "Isemin"
+    },
+    "MonotypeCorsiva": {
+        "ko": "BBTreeC_B",
+        "ja": "rounded-x-mgenplus-1c-bold"
+    },
+    "SpoqaHanSansNeo-Bold": {
+        "ko": "SpoqaHanSansNeo-Bold",
+        "ja": "rounded-x-mgenplus-1c-bold"
+    },
+    "AppleSDGothicNeoEB00": {
+        "ko": "AppleSDGothicNeoEB00",
+        "ja": "rounded-x-mgenplus-1c-bold"
+    },
+    "AppleSDGothicNeoH00": {
+        "ko": "AppleSDGothicNeoH00",
+        "ja": "rounded-x-mgenplus-1c-bold"
+    },
+    "EF_Diary": {
+        "ko": "EF_Diary",
+        "ja": "Togalite-light"
+    },
+    "PuradakGentleGothicR": {
+        "ko": "PuradakGentleGothicR",
+        "ja": "Togalite-bold"
+    },
+    "SuseongDotum-Regular": {
+        "ko": "SuseongDotum-Regular",
+        "ja": "rounded-x-mgenplus-1c-bold"
+    },
+    "YUniverse-B": {
+        "ko": "YUniverse-B",
+        "ja": "IPAGothic"
+    },
+    "Pretendard-ExtraBold": {
+        "ko": "Pretendard-ExtraBold",
+        "ja": "Togalite-bold"
+    },
+    "YdestreetB": {
+        "ko": "YdestreetB",
+        "ja": "rounded-x-mgenplus-1c-bold"
+    },
+    "InfinitySans-CondBold": {
+        "ko": "InfinitySans-CondBold",
+        "ja": "bananaslipplus"
+    },
+    "esamanruBold": {
+        "ko": "esamanruBold",
+        "ja": "rounded-x-mgenplus-1c-black"
+    },
+    "esamanruMedium": {
+        "ko": "esamanruMedium",
+        "ja": "rounded-x-mgenplus-1c-bold"
+    },
+    "Pilseung Gothic": {
+        "ko": "AppleSDGothicNeoH00",
+        "ja": "rounded-x-mgenplus-1c-bold"
+    },
+    "ClimateCrisisKR-1979": {
+        "ko": "ClimateCrisisKR-1979",
+        "ja": "Isemin"
+    },
+    "NotoSerifCJKkr-Bold": {
+        "ko": "NotoSerifCJKkr-Bold",
+        "ja": "Togalite-bold"
+    },
+    "IBMPlexSansKR-Light": {
+        "ko": "IBMPlexSansKR-Light",
+        "ja": "GenJyuuGothicL-Monospace-Regular"
+    },
+    "SF_HambakSnow":{
+        "ko": "SF_HambakSnow",
+        "ja": "Togalite-bold"
     }
 }
