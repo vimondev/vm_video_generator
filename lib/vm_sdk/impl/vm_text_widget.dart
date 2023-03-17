@@ -422,18 +422,24 @@ class VMTextWidget extends StatelessWidget {
           supportMultipleWindows: true,
           useShouldInterceptRequest: true),
     );
-    return InAppWebView(
-        initialOptions: option,
-        initialFile: "packages/myapp/assets/html/index5.html",
-        onWebViewCreated: (controller) {
-          _setController(controller);
-        },
-        iosOnWebContentProcessDidTerminate: (controller) {
-          _handleTerminated(controller);
-        },
-        onConsoleMessage: (controller, consoleMessage) {
-          print('VMTextWebView - [$consoleMessage]');
-        });
+    return SizedBox(
+      height: 100,
+      child: Transform.translate(
+          offset: const Offset(-9999999, -99999),
+          // offset: const Offset(0, 0),
+          child: InAppWebView(
+          initialOptions: option,
+          initialFile: "packages/myapp/assets/html/index5.html",
+          onWebViewCreated: (controller) {
+            _setController(controller);
+          },
+          iosOnWebContentProcessDidTerminate: (controller) {
+            _handleTerminated(controller);
+          },
+          onConsoleMessage: (controller, consoleMessage) {
+            print('VMTextWebView - [$consoleMessage]');
+          }),
+    ));
   }
 
   void release() {
