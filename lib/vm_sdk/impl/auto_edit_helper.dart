@@ -516,8 +516,8 @@ Future<AllEditedData> generateAllEditedData(
         }
       }
 
-      editedMedia.mediaLabel =
-          await _detectMediaLabel(editedMedia, mlkitMap[mediaData]!);
+      editedMedia.mediaLabel = EMediaLabel.background;
+          // await _detectMediaLabel(editedMedia, mlkitMap[mediaData]!);
 
       allEditedData.editedMediaList.add(editedMedia);
       currentMediaIndex++;

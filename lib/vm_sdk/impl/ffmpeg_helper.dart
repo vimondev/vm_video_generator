@@ -79,7 +79,7 @@ Future<RenderedData> clipRender(
     TransitionData? prevTransition,
     TransitionData? nextTransition,
     Function(Statistics)? ffmpegCallback, { isAutoEdit = false }) async {
-  final MediaData mediaData = editedMedia.mediaData;
+  final MediaData mediaData = await scaleImageMedia(editedMedia.mediaData);
   final FrameData? frame = editedMedia.frame;
   final List<EditedStickerData> stickerList = editedMedia.stickers;
   final List<CanvasTextData> canvasTexts = editedMedia.canvasTexts;
@@ -1034,18 +1034,11 @@ Future<MediaData> scaleImageMedia(MediaData mediaData) async {
 
   if (mediaData.type == EMediaType.video) return mediaData;
 
-  int scaledTargetSize = 1920;
-  double imageScaleFactor = 1.0;
+  const int scaleTargetSize = 1440;
+  double imageScaleFactor = (scaleTargetSize * 1.0) / min(mediaData.width, mediaData.height);
 
-  if (mediaData.width <= scaledTargetSize && mediaData.height <= scaledTargetSize) return mediaData;
+  if (imageScaleFactor >= 1) return mediaData;
   inputArguments.addAll(["-i", mediaData.absolutePath]);
-
-  if (mediaData.width >= mediaData.height) {
-    imageScaleFactor = scaledTargetSize / mediaData.width;
-  }
-  else {
-    imageScaleFactor = scaledTargetSize / mediaData.height;
-  }
 
   int scaledWidth = _getEvenNumber((mediaData.width * imageScaleFactor).floor());
   int scaledHeight = _getEvenNumber((mediaData.height * imageScaleFactor).floor());
