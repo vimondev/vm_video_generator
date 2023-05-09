@@ -194,7 +194,7 @@ class VMSDKWidget extends StatelessWidget {
       pickedTextId = pickedText.key;
 
       if (isExportTitle) {
-        await _vmTextHandler.loadText(pickedTextId, initTexts: texts);
+        await _vmTextHandler.loadText(pickedTextId, initTexts: texts, language: language);
 
         await _vmTextHandler.extractAllSequence((progress) {
           if (progressCallback != null) {
@@ -259,7 +259,7 @@ class VMSDKWidget extends StatelessWidget {
   }
 
   Future<VideoGeneratedResult> generateVideoFromJSON(
-      String encodedJSON, Function(EGenerateStatus status, double progress)? progressCallback) async {
+      String encodedJSON, String language, Function(EGenerateStatus status, double progress)? progressCallback) async {
     AllEditedData allEditedData = parseJSONToAllEditedData(encodedJSON);
 
     List<EditedTextData> texts = [];
@@ -270,7 +270,7 @@ class VMSDKWidget extends StatelessWidget {
     }
     double totalProgress = 0;
     for (final EditedTextData editedText in texts) {
-      await _vmTextHandler.loadText(editedText.id, initTexts: editedText.texts.values.toList());
+      await _vmTextHandler.loadText(editedText.id, initTexts: editedText.texts.values.toList(), language: language);
       await _vmTextHandler.extractAllSequence((progress) {
         if (progressCallback != null) {
           progressCallback(_currentStatus, (totalProgress + (progress / texts.length)) * _titleExportPercentage);
@@ -547,18 +547,20 @@ class VMSDKWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Transform.translate(
         offset: const Offset(-9999999, -99999),
-        child:
-            Stack(children: [Container(
-              height: 100,
-              child: Transform.translate(
-                offset: const Offset(-9999999, -99999),
-                // offset: const Offset(0, 0),
-                child: CustomWebView(
-                  callback: _vmTextHandler.setWebViewController,
-                  handleTerminated: _vmTextHandler.handleCallBack,
-                  initialFile: "packages/myapp/assets/html/index5.html",
-                ),
+        child: Stack(children: [
+          Container(
+            height: 100,
+            child: Transform.translate(
+              offset: const Offset(-9999999, -99999),
+              // offset: const Offset(0, 0),
+              child: CustomWebView(
+                callback: _vmTextHandler.setWebViewController,
+                handleTerminated: _vmTextHandler.handleCallBack,
+                initialFile: "packages/myapp/assets/html/index5.html",
               ),
-            ), TextBoxBuilder(controller: _textBoxConfigController, config: _textConfig)]));
+            ),
+          ),
+          TextBoxBuilder(controller: _textBoxConfigController, config: _textConfig)
+        ]));
   }
 }

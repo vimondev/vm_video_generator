@@ -11,7 +11,7 @@ Future<DownloadFontResponse> _downloadFont(String fontFamily, String fontFileNam
   return downloadFont(fontFamily);
 }
 
-Future<TextWidgetData?> loadTextWidgetData(String id, int lineCount) async {
+Future<TextWidgetData?> loadTextWidgetData(String id, int lineCount, String language) async {
   TextData? textData = ResourceManager.getInstance().getTextData(id);
   if (textData == null) return null;
 
@@ -27,21 +27,7 @@ Future<TextWidgetData?> loadTextWidgetData(String id, int lineCount) async {
 
   String json = await loadResourceString("raw/lottie-jsons/$filename");
 
-  String locale = Platform.localeName;
-  if (locale.contains("_")) {
-    locale = locale.split("_")[0];
-  }
-  
-  print(locale);
-
-  switch (locale) {
-    case "vi":
-    case "es":
-      locale = "th";
-      break;
-
-    default: break;
-  }
+  String locale = language;
 
   for (int i=0; i<fontFamily.length; i++) {
     String replaceFontfamily = ResourceManager.getInstance().getReplaceFont(fontFamily[i], locale);
