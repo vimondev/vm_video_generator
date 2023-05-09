@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:myapp/vm_sdk/impl/vm_text_handler.dart';
 import 'package:myapp/vm_sdk/impl/vm_text_widget.dart';
+import 'package:myapp/vm_sdk/widgets/customwebview.dart';
 import 'package:path/path.dart';
 import 'vm_sdk/impl/global_helper.dart';
 import 'vm_sdk/impl/resource_manager.dart';
@@ -18,7 +20,7 @@ class TestWidget extends StatefulWidget {
 }
 
 class _TestWidgetState extends State<TestWidget> {
-  VMTextWidget _vmTextWidget = VMTextWidget();
+  final VMTextHandler _handler = VMTextHandler();
 
   List<String> imageList = [];
   String _currentText = "";
@@ -31,9 +33,9 @@ class _TestWidgetState extends State<TestWidget> {
   final FFMpegManager _ffmpegManager = FFMpegManager();
 
   void updateTextCallback(int index, String text) async {
-    // await _vmTextWidget.setTextValue(index, text);
+    // await _handler.setTextValue(index, text);
 
-    String? preview = _vmTextWidget.previewImagePath;
+    String? preview = _handler.previewImagePath;
     setState(() {
       if (preview != null) imageList = [preview];
     });
@@ -64,9 +66,9 @@ class _TestWidgetState extends State<TestWidget> {
       // print('text is $currentText');
       // print('_currentIndex is $_currentIndex');
 
-      // await _vmTextWidget.loadText(currentText);
+      // await _handler.loadText(currentText);
 
-      // String? preview = _vmTextWidget.previewImagePath;
+      // String? preview = _handler.previewImagePath;
       // setState(() {
       //   if (preview != null) imageList = [preview];
       // });
@@ -75,8 +77,7 @@ class _TestWidgetState extends State<TestWidget> {
 
       List<Map> list = [];
 
-      Map excepts = {
-      };
+      Map excepts = {};
 
       for (int i = 0; i < allTexts.length; i++) {
         DateTime now = DateTime.now();
@@ -88,35 +89,35 @@ class _TestWidgetState extends State<TestWidget> {
         print('text is $currentText');
         print('_currentIndex is $i / ${allTexts.length}');
 
-        // await _vmTextWidget.loadText(currentText, initTexts: ["첫번째줄 테스트", "두번째줄 테스트"]);
-        await _vmTextWidget.loadText(currentText, initTexts: ["THIS IS TITLE"], language: "en");
-        // await _vmTextWidget.loadText(currentText, initTexts: ["パスワードを再確認してください。", "パスワードを再確認してください。"]);
-        // await _vmTextWidget.loadText(currentText, initTexts: ["Sẵn sàng tiệc chưa?", "Sẵn sàng tiệc chưa?"]);
-        // await _vmTextWidget.loadText(currentText, initTexts: ["วิดีโอที่คุณสร้างกำลังรอคุณอยู่", "วิดีโอที่คุณสร้างกำลังรอคุณอยู่"]);
+        // await _handler.loadText(currentText, initTexts: ["첫번째줄 테스트", "두번째줄 테스트"]);
+        await _handler.loadText(currentText, initTexts: ["THIS IS TITLE"], language: "en");
+        // await _handler.loadText(currentText, initTexts: ["パスワードを再確認してください。", "パスワードを再確認してください。"]);
+        // await _handler.loadText(currentText, initTexts: ["Sẵn sàng tiệc chưa?", "Sẵn sàng tiệc chưa?"]);
+        // await _handler.loadText(currentText, initTexts: ["วิดีโอที่คุณสร้างกำลังรอคุณอยู่", "วิดีโอที่คุณสร้างกำลังรอคุณอยู่"]);
 
-        // await _vmTextWidget.loadText(currentText, initTexts: ["THIS IS TITLE THIS IS TITLE THIS IS TITLE THIS IS TITLE", "THIS IS SUBTITLE THIS IS SUBTITLE THIS IS SUBTITLE THIS IS SUBTITLE"]);
-        // await _vmTextWidget.loadText(currentText, initTexts: ["THIS IS SUBTITLE THIS IS SUBTITLE THIS IS SUBTITLE THIS IS SUBTITLE"]);
+        // await _handler.loadText(currentText, initTexts: ["THIS IS TITLE THIS IS TITLE THIS IS TITLE THIS IS TITLE", "THIS IS SUBTITLE THIS IS SUBTITLE THIS IS SUBTITLE THIS IS SUBTITLE"]);
+        // await _handler.loadText(currentText, initTexts: ["THIS IS SUBTITLE THIS IS SUBTITLE THIS IS SUBTITLE THIS IS SUBTITLE"]);
 
-        await _vmTextWidget.extractAllSequence((progress) => {});
+        await _handler.extractAllSequence((progress) => {});
 
         final String appDirPath = await getAppDirectoryPath();
         final String webmPath = "$appDirPath/webm";
         Directory dir = Directory(webmPath);
         await dir.create(recursive: true);
 
-        String? preview = _vmTextWidget.previewImagePath;
+        String? preview = _handler.previewImagePath;
 
-        int width = (_vmTextWidget.width).floor();
-        int height = (_vmTextWidget.height).floor();
+        int width = (_handler.currentExportData.width).floor();
+        int height = (_handler.currentExportData.height).floor();
 
         width -= width % 2;
         height -= height % 2;
 
         await _ffmpegManager.execute([
           "-framerate",
-          _vmTextWidget.frameRate.toString(),
+          _handler.currentExportData.frameRate.toString(),
           "-i",
-          "${_vmTextWidget.allSequencesPath!}/%d.png",
+          "${_handler.allSequencesPath!}/%d.png",
           "-vf",
           "scale=$width:$height",
           "-c:v",
@@ -134,13 +135,13 @@ class _TestWidgetState extends State<TestWidget> {
           "-y"
         ], (p0) => null);
 
-        File thumbnailFile = File(_vmTextWidget.previewImagePath!);
+        File thumbnailFile = File(_handler.previewImagePath!);
         await thumbnailFile.copy("$webmPath/${currentTextData.group}_$currentText.png");
 
         print(webmPath);
         print(currentText);
 
-        // if (_vmTextWidget.elapsedTime >= 1000) {
+        // if (_handler.elapsedTime >= 1000) {
         //   print("heavy!");
         //   print("");
         // }
@@ -164,8 +165,6 @@ class _TestWidgetState extends State<TestWidget> {
   }
 
   List<Widget> RectangleBoxList(isPreview, index) {
-    VMTextWidget textWidget = _vmTextWidget;
-
     List<Widget> list = [];
 
     list.add(Container(
@@ -177,14 +176,14 @@ class _TestWidgetState extends State<TestWidget> {
     ));
 
     if (isPreview) {
-      final textList = _vmTextWidget.textDataMap.values.toList();
-      for (int i=0; i<textList.length; i++) {
+      final textList = _handler.currentExportData.textDataMap.values.toList();
+      for (int i = 0; i < textList.length; i++) {
         final VMText vmText = textList[i];
         list.add(RectangleBox(
           index: i,
           mediaWidth: MediaQuery.of(this.context).size.width,
-          width: _vmTextWidget.width,
-          height: _vmTextWidget.height,
+          width: _handler.currentExportData.width,
+          height: _handler.currentExportData.height,
           vmText: vmText,
           updateTextCallback: updateTextCallback,
         ));
@@ -216,14 +215,24 @@ class _TestWidgetState extends State<TestWidget> {
                   );
                 },
               ),
-              _vmTextWidget,
+              Container(
+                height: 100,
+                child: Transform.translate(
+                  offset: const Offset(-9999999, -99999),
+                  // offset: const Offset(0, 0),
+                  child: CustomWebView(
+                    callback: _handler.setWebViewController,
+                    handleTerminated: _handler.handleCallBack,
+                    initialFile: "packages/myapp/assets/html/index5.html",
+                  ),
+                ),
+              ),
             ],
           ),
         ),
       ),
       backgroundColor: Colors.grey,
-      floatingActionButton: FloatingActionButton(
-          onPressed: _run, tooltip: 'Run', child: const Icon(Icons.play_arrow)),
+      floatingActionButton: FloatingActionButton(onPressed: _run, tooltip: 'Run', child: const Icon(Icons.play_arrow)),
     );
   }
 }
@@ -310,9 +319,7 @@ class _RectangleBoxState extends State<RectangleBox> {
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           Padding(
-                            padding: EdgeInsets.only(
-                                bottom:
-                                    MediaQuery.of(context).viewInsets.bottom),
+                            padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
