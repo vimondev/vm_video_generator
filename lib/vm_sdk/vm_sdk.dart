@@ -2,8 +2,10 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:myapp/vm_sdk/impl/vm_text_handler.dart';
 import 'package:myapp/vm_sdk/text_box/text/config.dart';
 import 'package:myapp/vm_sdk/text_box/text_box_config_controller.dart';
+import 'package:myapp/vm_sdk/widgets/customwebview.dart';
 import 'package:tuple/tuple.dart';
 
 import 'impl/convert_helper.dart';
@@ -24,12 +26,10 @@ const double _titleExportPercentage = 1 / 3.0;
 class VMSDKWidget extends StatelessWidget {
   VMSDKWidget({Key? key}) : super(key: key);
 
-  final VMTextWidget _textWidget = VMTextWidget();
+  final VMTextHandler _vmTextHandler = VMTextHandler();
 
-  final TextBoxConfigController _textBoxConfigController = TextBoxConfigController(
-    "label",
-    padding: const EdgeInsets.all(10)
-  );
+  final TextBoxConfigController _textBoxConfigController =
+      TextBoxConfigController("label", padding: const EdgeInsets.all(10));
   CanvasTextConfig _textConfig = CanvasTextConfig(text: "");
 
   bool _isInitialized = false;
@@ -65,14 +65,9 @@ class VMSDKWidget extends StatelessWidget {
   // Generate the video by entering the user-specified photo/video list and music style.
   // You can check the progress via progress callback.
   // In the current version, only styleA works.
-  Future<VideoGeneratedResult> generateVideo(
-      List<MediaData> mediaList,
-      EMusicStyle? style,
-      bool isAutoEdit,
-      List<String> texts,
-      String language,
-      Function(EGenerateStatus status, double progress)?
-          progressCallback, { isExportTitle = true, isRunFFmpeg = true }) async {
+  Future<VideoGeneratedResult> generateVideo(List<MediaData> mediaList, EMusicStyle? style, bool isAutoEdit,
+      List<String> texts, String language, Function(EGenerateStatus status, double progress)? progressCallback,
+      {isExportTitle = true, isRunFFmpeg = true}) async {
     DateTime now = DateTime.now();
     _currentStatus = EGenerateStatus.titleExport;
 
@@ -81,16 +76,15 @@ class VMSDKWidget extends StatelessWidget {
 
     List<TemplateData> randomSortedTemplateList = [];
     while (templateList.isNotEmpty) {
-      int randIdx =
-          (Random()).nextInt(templateList.length) % templateList.length;
+      int randIdx = (Random()).nextInt(templateList.length) % templateList.length;
       randomSortedTemplateList.add(templateList[randIdx]);
       templateList.removeAt(randIdx);
     }
 
     mediaList = await _filterNotExistsMedia(mediaList);
 
-    final AllEditedData allEditedData = await generateAllEditedData(
-        mediaList, style, randomSortedTemplateList, isAutoEdit, isRunFFmpeg: isRunFFmpeg);
+    final AllEditedData allEditedData =
+        await generateAllEditedData(mediaList, style, randomSortedTemplateList, isAutoEdit, isRunFFmpeg: isRunFFmpeg);
 
     Resolution resolution = allEditedData.resolution;
     final int maxTextWidth = (resolution.width * 0.9).floor();
@@ -99,8 +93,7 @@ class VMSDKWidget extends StatelessWidget {
     bool isUseCanvasText = false;
     if (texts.length >= 3) {
       isUseCanvasText = true;
-    }
-    else {
+    } else {
       for (final text in texts) {
         if (text.hasEmoji() || text.hasSpecialCharacter()) {
           isUseCanvasText = true;
@@ -140,8 +133,7 @@ class VMSDKWidget extends StatelessWidget {
 
       try {
         pngPath = await _textBoxConfigController.renderImageAndSave().timeout(const Duration(seconds: 5));
-      }
-      catch (e) {
+      } catch (e) {
         print(e);
         if (++tryCount >= 6) rethrow;
       }
@@ -154,7 +146,7 @@ class VMSDKWidget extends StatelessWidget {
         // wait 3~5 + 0~1 seconbd
         double totalFakeDelayTimeMs = (3.0 + Random().nextInt(3) + Random().nextDouble()) * 1000;
         final Duration fakeDelayDuration = Duration(milliseconds: (totalFakeDelayTimeMs / 250).floor());
-        for (int i=0; i<250; i++) {
+        for (int i = 0; i < 250; i++) {
           double fakeProgress = i / 250.0;
           if (progressCallback != null) {
             progressCallback(_currentStatus, fakeProgress * _titleExportPercentage);
@@ -192,9 +184,9 @@ class VMSDKWidget extends StatelessWidget {
       }
 
       allEditedData.editedMediaList[0].canvasTexts.add(canvasTextData);
-    }
-    else {
-      List<TextData> textDatas = ResourceManager.getInstance().getTextDataList(lineCount: texts.length, speed: allEditedData.speed);
+    } else {
+      List<TextData> textDatas =
+          ResourceManager.getInstance().getTextDataList(lineCount: texts.length, speed: allEditedData.speed);
       if (textDatas.isEmpty) {
         textDatas = ResourceManager.getInstance().getTextDataList(lineCount: texts.length);
       }
@@ -202,9 +194,9 @@ class VMSDKWidget extends StatelessWidget {
       pickedTextId = pickedText.key;
 
       if (isExportTitle) {
-        await _textWidget.loadText(pickedTextId, initTexts: texts);
+        await _vmTextHandler.loadText(pickedTextId, initTexts: texts);
 
-        await _textWidget.extractAllSequence((progress) {
+        await _vmTextHandler.extractAllSequence((progress) {
           if (progressCallback != null) {
             progressCallback(_currentStatus, progress * _titleExportPercentage);
           }
@@ -215,22 +207,14 @@ class VMSDKWidget extends StatelessWidget {
         }
       }
 
-      TextExportData exportedText = TextExportData(
-          pickedTextId,
-          _textWidget.width,
-          _textWidget.height,
-          _textWidget.frameRate,
-          _textWidget.totalFrameCount,
-          _textWidget.previewImagePath ?? "",
-          _textWidget.allSequencesPath ?? "",
-          _textWidget.textDataMap);
+      TextExportData exportedText = _vmTextHandler.currentExportData.copyWith(id: pickedTextId);
 
       EditedTextData editedTextData = EditedTextData(
         exportedText.id,
         0,
         0,
-        _textWidget.width * 1.2,
-        _textWidget.height * 1.2,
+        _vmTextHandler.currentExportData.width * 1.2,
+        _vmTextHandler.currentExportData.height * 1.2,
       );
       editedTextData.textExportData = exportedText;
 
@@ -260,10 +244,8 @@ class VMSDKWidget extends StatelessWidget {
     }
 
     final VideoGeneratedResult result = await _runFFmpeg(
-        allEditedData.editedMediaList,
-        allEditedData.musicList,
-        allEditedData.ratio,
-        progressCallback, isAutoEdit: true, isRunFFmpeg: isRunFFmpeg);
+        allEditedData.editedMediaList, allEditedData.musicList, allEditedData.ratio, progressCallback,
+        isAutoEdit: true, isRunFFmpeg: isRunFFmpeg);
 
     result.musicStyle = allEditedData.style;
     result.editedMediaList.addAll(allEditedData.editedMediaList);
@@ -277,9 +259,7 @@ class VMSDKWidget extends StatelessWidget {
   }
 
   Future<VideoGeneratedResult> generateVideoFromJSON(
-      String encodedJSON,
-      Function(EGenerateStatus status, double progress)?
-          progressCallback) async {
+      String encodedJSON, Function(EGenerateStatus status, double progress)? progressCallback) async {
     AllEditedData allEditedData = parseJSONToAllEditedData(encodedJSON);
 
     List<EditedTextData> texts = [];
@@ -290,9 +270,8 @@ class VMSDKWidget extends StatelessWidget {
     }
     double totalProgress = 0;
     for (final EditedTextData editedText in texts) {
-      await _textWidget.loadText(editedText.id,
-          initTexts: editedText.texts.values.toList());
-      await _textWidget.extractAllSequence((progress) {
+      await _vmTextHandler.loadText(editedText.id, initTexts: editedText.texts.values.toList());
+      await _vmTextHandler.extractAllSequence((progress) {
         if (progressCallback != null) {
           progressCallback(_currentStatus, (totalProgress + (progress / texts.length)) * _titleExportPercentage);
         }
@@ -300,21 +279,18 @@ class VMSDKWidget extends StatelessWidget {
       totalProgress = min(totalProgress + (1.0 / texts.length), 1.0);
 
       editedText.textExportData = TextExportData(
-          editedText.id,
-          _textWidget.width,
-          _textWidget.height,
-          _textWidget.frameRate,
-          _textWidget.totalFrameCount,
-          _textWidget.previewImagePath!,
-          _textWidget.allSequencesPath!,
-          _textWidget.textDataMap);
+          id: editedText.id,
+          width: _vmTextHandler.currentExportData.width,
+          height: _vmTextHandler.currentExportData.height,
+          frameRate: _vmTextHandler.currentExportData.frameRate,
+          totalFrameCount: _vmTextHandler.currentExportData.totalFrameCount,
+          previewImagePath: _vmTextHandler.previewImagePath!,
+          allSequencesPath: _vmTextHandler.allSequencesPath!,
+          textDataMap: _vmTextHandler.currentExportData.textDataMap);
     }
 
-    final VideoGeneratedResult result = await _runFFmpeg(
-        allEditedData.editedMediaList,
-        allEditedData.musicList,
-        allEditedData.ratio,
-        progressCallback);
+    final VideoGeneratedResult result =
+        await _runFFmpeg(allEditedData.editedMediaList, allEditedData.musicList, allEditedData.ratio, progressCallback);
 
     return result;
   }
@@ -335,6 +311,7 @@ class VMSDKWidget extends StatelessWidget {
   }
 
   int _currentThumbnailExtractCount = 0;
+
   Future<void> _extractAndMapThumbnail(EditedMedia editedMedia) async {
     while (_currentThumbnailExtractCount >= 5) {
       await Future.delayed(const Duration(milliseconds: 100));
@@ -342,19 +319,15 @@ class VMSDKWidget extends StatelessWidget {
     _currentThumbnailExtractCount++;
     try {
       editedMedia.thumbnailPath = await extractThumbnail(editedMedia) ?? "";
-    }
-    catch (e) {
+    } catch (e) {
       print(e);
     }
     _currentThumbnailExtractCount--;
   }
 
-  Future<VideoGeneratedResult> _runFFmpeg(
-      List<EditedMedia> editedMediaList,
-      List<MusicData> musicList,
-      ERatio ratio,
-      Function(EGenerateStatus status, double progress)?
-          progressCallback, { isAutoEdit = false, isRunFFmpeg = true }) async {
+  Future<VideoGeneratedResult> _runFFmpeg(List<EditedMedia> editedMediaList, List<MusicData> musicList, ERatio ratio,
+      Function(EGenerateStatus status, double progress)? progressCallback,
+      {isAutoEdit = false, isRunFFmpeg = true}) async {
     try {
       final List<SpotInfo> spotInfoList = [];
       final List<String> thumbnailList = [];
@@ -363,8 +336,7 @@ class VMSDKWidget extends StatelessWidget {
 
       double currentDuration = 0;
       for (int i = 0; i < editedMediaList.length; i++) {
-        spotInfoList.add(
-            SpotInfo(currentDuration, editedMediaList[i].mediaData.gpsString));
+        spotInfoList.add(SpotInfo(currentDuration, editedMediaList[i].mediaData.gpsString));
         currentDuration += editedMediaList[i].duration;
       }
 
@@ -379,8 +351,7 @@ class VMSDKWidget extends StatelessWidget {
         //   thumbnailList.add(editedMediaList[i].thumbnailPath!);
         // }
 
-        final VideoGeneratedResult result = VideoGeneratedResult(
-          "", spotInfoList, thumbnailList);
+        final VideoGeneratedResult result = VideoGeneratedResult("", spotInfoList, thumbnailList);
 
         result.editedMediaList.addAll(editedMediaList);
         result.musicList.addAll(musicList);
@@ -388,8 +359,7 @@ class VMSDKWidget extends StatelessWidget {
         return result;
       }
 
-      await ResourceManager.getInstance()
-          .loadResourceFromAssets(editedMediaList, ratio);
+      await ResourceManager.getInstance().loadResourceFromAssets(editedMediaList, ratio);
 
       _currentStatus = EGenerateStatus.encoding;
       _currentRenderedFrame = 0;
@@ -400,18 +370,15 @@ class VMSDKWidget extends StatelessWidget {
       int videoFramerate = getFramerate();
       for (int i = 0; i < editedMediaList.length; i++) {
         final EditedMedia editedMedia = editedMediaList[i];
-        double duration =
-            normalizeTime(editedMedia.duration + editedMedia.xfadeDuration);
+        double duration = normalizeTime(editedMedia.duration + editedMedia.xfadeDuration);
         _allFrame += (duration * videoFramerate).floor();
 
         if (i < editedMediaList.length - 1) {
           TransitionData? transition = editedMedia.transition;
           if (transition != null && transition.type == ETransitionType.xfade) {
             final EditedMedia nextMedia = editedMediaList[i + 1];
-            double duration = normalizeTime(editedMedia.duration +
-                nextMedia.duration -
-                editedMedia.xfadeDuration -
-                0.01);
+            double duration =
+                normalizeTime(editedMedia.duration + nextMedia.duration - editedMedia.xfadeDuration - 0.01);
             _allFrame += (duration * videoFramerate).floor();
           }
         }
@@ -421,23 +388,15 @@ class VMSDKWidget extends StatelessWidget {
         _currentTimer!.cancel();
       }
 
-      _currentTimer =
-          Timer.periodic(const Duration(milliseconds: 250), (timer) {
+      _currentTimer = Timer.periodic(const Duration(milliseconds: 250), (timer) {
         _currentTimer = timer;
         if (progressCallback != null) {
-          if (_currentRenderedFrame + _currentRenderedFrameInCallback >
-              _maxRenderedFrame) {
-            _maxRenderedFrame =
-                _currentRenderedFrame + _currentRenderedFrameInCallback;
+          if (_currentRenderedFrame + _currentRenderedFrameInCallback > _maxRenderedFrame) {
+            _maxRenderedFrame = _currentRenderedFrame + _currentRenderedFrameInCallback;
           }
 
-          progressCallback(
-              _currentStatus,
-              min(
-                  1.0,
-                  _titleExportPercentage +
-                      (_maxRenderedFrame / _allFrame) *
-                          (1 - _titleExportPercentage)));
+          progressCallback(_currentStatus,
+              min(1.0, _titleExportPercentage + (_maxRenderedFrame / _allFrame) * (1 - _titleExportPercentage)));
         }
       });
 
@@ -457,18 +416,13 @@ class VMSDKWidget extends StatelessWidget {
           nextTransition = editedMediaList[i].transition;
         }
 
-        final RenderedData clipData = await clipRender(
-            editedMedia,
-            i,
-            prevTransition,
-            nextTransition,
-            (statistics) => _currentRenderedFrameInCallback =
-                statistics.getVideoFrameNumber(), isAutoEdit: isAutoEdit);
+        final RenderedData clipData = await clipRender(editedMedia, i, prevTransition, nextTransition,
+            (statistics) => _currentRenderedFrameInCallback = statistics.getVideoFrameNumber(),
+            isAutoEdit: isAutoEdit);
 
         _currentRenderedFrameInCallback = 0;
 
-        double duration =
-            normalizeTime(editedMedia.duration + editedMedia.xfadeDuration);
+        double duration = normalizeTime(editedMedia.duration + editedMedia.xfadeDuration);
         _currentRenderedFrame += (duration * videoFramerate).floor();
 
         clipDataList.add(clipData);
@@ -499,14 +453,11 @@ class VMSDKWidget extends StatelessWidget {
               i,
               (xfadeTransition as XFadeTransitionData).filterName,
               editedMedia.xfadeDuration,
-              (statistics) => _currentRenderedFrameInCallback =
-                  statistics.getVideoFrameNumber());
+              (statistics) => _currentRenderedFrameInCallback = statistics.getVideoFrameNumber());
 
           _currentRenderedFrameInCallback = 0;
-          double duration = normalizeTime(curRendered.duration +
-              nextRendered.duration -
-              editedMedia.xfadeDuration -
-              0.01);
+          double duration =
+              normalizeTime(curRendered.duration + nextRendered.duration - editedMedia.xfadeDuration - 0.01);
           _currentRenderedFrame += (duration * videoFramerate).floor();
 
           xfadeAppliedList.add(xfadeApplied);
@@ -523,11 +474,10 @@ class VMSDKWidget extends StatelessWidget {
         for (int i = xfadeAppliedList.length - 1; i >= 0; i--) {
           RenderedData lastClip = xfadeAppliedList.removeLast();
           fadeOutClips.add(lastClip);
-          
+
           curDuration += lastClip.duration;
           if (curDuration >= 2) {
-            final RenderedData fadeOutApplied =
-                await applyFadeOut(fadeOutClips.reversed.toList());
+            final RenderedData fadeOutApplied = await applyFadeOut(fadeOutClips.reversed.toList());
 
             xfadeAppliedList.add(fadeOutApplied);
             break;
@@ -566,8 +516,7 @@ class VMSDKWidget extends StatelessWidget {
         progressCallback(_currentStatus, 1);
       }
 
-      final VideoGeneratedResult result = VideoGeneratedResult(
-          resultClip.absolutePath, spotInfoList, thumbnailList);
+      final VideoGeneratedResult result = VideoGeneratedResult(resultClip.absolutePath, spotInfoList, thumbnailList);
 
       result.editedMediaList.addAll(editedMediaList);
       result.musicList.addAll(musicList);
@@ -598,9 +547,18 @@ class VMSDKWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Transform.translate(
         offset: const Offset(-9999999, -99999),
-        child: Stack(children: [
-          _textWidget,
-          TextBoxBuilder(controller: _textBoxConfigController, config: _textConfig)
-        ]));
+        child:
+            Stack(children: [Container(
+              height: 100,
+              child: Transform.translate(
+                offset: const Offset(-9999999, -99999),
+                // offset: const Offset(0, 0),
+                child: CustomWebView(
+                  callback: _vmTextHandler.setWebViewController,
+                  handleTerminated: _vmTextHandler.handleCallBack,
+                  initialFile: "packages/myapp/assets/html/index5.html",
+                ),
+              ),
+            ), TextBoxBuilder(controller: _textBoxConfigController, config: _textConfig)]));
   }
 }
