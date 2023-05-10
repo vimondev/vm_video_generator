@@ -821,8 +821,6 @@ Future<String?> extractThumbnail(EditedMedia editedMedia) async {
   if (mediaData.type == EMediaType.video) {
     inputArguments.addAll(["-ss", editedMedia.startTime.toString()]);
   }
-  // filterStrings.add(
-  //   "${_getTransposeFilter(mediaData.orientation)}scale=${(mediaData.width * editedMedia.zoomX).floor()}:${(mediaData.height * editedMedia.zoomY).floor()},crop=${_resolution.width}:${_resolution.height}:${editedMedia.translateX}:${editedMedia.translateY},scale=${(_scaledVideoWidth / 2).floor()}:${(_scaledVideoHeight / 2).floor()},setdar=dar=${_scaledVideoWidth / _scaledVideoHeight}");
 
   int cropLeft = max(0, (mediaData.width * editedMedia.cropLeft).floor());
   int cropRight = min(mediaData.width, (mediaData.width * editedMedia.cropRight).floor());
