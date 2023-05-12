@@ -36,9 +36,11 @@ class VMSDKWidget extends StatefulWidget {
 class _VMSDKWidgetState extends State<VMSDKWidget> {
   final VMSDKController controller = VMSDKController();
 
-  _VMSDKWidgetState() {
+  @override
+  void initState() {
     controller.initialize();
     widget.onControllerCreated(controller);
+    super.initState();
   }
 
   @override

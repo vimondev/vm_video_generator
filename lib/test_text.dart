@@ -199,28 +199,26 @@ class _TestWidgetState extends State<TestWidget> {
         title: const Text("VM SDK TEST"),
       ),
       resizeToAvoidBottomInset: false,
-      body: Container(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Text(_currentText),
-              ListView.builder(
-                itemCount: imageList.length,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (BuildContext context, int index) {
-                  bool isPreview = imageList.length == 1;
-                  return Stack(
-                    children: RectangleBoxList(isPreview, index),
-                  );
-                },
-              ),
-              VMTextWebView(
-                onSetWebViewController: _handler.setWebViewController,
-                handleTerminated: _handler.handleTerminated,
-              ),
-            ],
-          ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Text(_currentText),
+            ListView.builder(
+              itemCount: imageList.length,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (BuildContext context, int index) {
+                bool isPreview = imageList.length == 1;
+                return Stack(
+                  children: RectangleBoxList(isPreview, index),
+                );
+              },
+            ),
+            VMTextWebView(
+              onSetWebViewController: _handler.setWebViewController,
+              handleTerminated: _handler.handleTerminated,
+            ),
+          ],
         ),
       ),
       backgroundColor: Colors.grey,
