@@ -215,17 +215,9 @@ class _TestWidgetState extends State<TestWidget> {
                   );
                 },
               ),
-              Container(
-                height: 100,
-                child: Transform.translate(
-                  offset: const Offset(-9999999, -99999),
-                  // offset: const Offset(0, 0),
-                  child: CustomWebView(
-                    callback: _handler.setWebViewController,
-                    handleTerminated: _handler.handleCallBack,
-                    initialFile: "packages/myapp/assets/html/index5.html",
-                  ),
-                ),
+              VMTextWebView(
+                onSetWebViewController: _handler.setWebViewController,
+                handleTerminated: _handler.handleTerminated,
               ),
             ],
           ),

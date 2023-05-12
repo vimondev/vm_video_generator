@@ -39,3 +39,31 @@ class VMText {
   Rectangle get boundingBox => _boundingBox;
 }
 
+class VMTextWebView extends StatefulWidget {
+  final Function(InAppWebViewController controller) onSetWebViewController;
+  final Function() handleTerminated;
+
+  const VMTextWebView({Key? key, required this.onSetWebViewController, required this.handleTerminated})
+      : super(key: key);
+
+  @override
+  State<VMTextWebView> createState() => _VMTextWebViewState();
+}
+
+class _VMTextWebViewState extends State<VMTextWebView> {
+  @override
+  Widget build(BuildContext context) {
+    return Visibility(
+      visible: false,
+      maintainState: true,
+      child: SizedBox(
+        height: 100,
+        child: CustomWebView(
+          callback: widget.onSetWebViewController,
+          handleTerminated: widget.handleTerminated,
+          initialFile: "packages/myapp/assets/html/index5.html",
+        ),
+      ),
+    );
+  }
+}
