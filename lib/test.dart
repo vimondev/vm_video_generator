@@ -10,11 +10,11 @@ import 'package:flutter/services.dart' show rootBundle;
 class TestWidget extends StatelessWidget {
   TestWidget({Key? key}) : super(key: key);
 
-  final VMSDKWidget _vmsdkWidget = VMSDKWidget();
+  late final VMSDKController _controller;
 
   void _run() async {
-    if (!_vmsdkWidget.isInitialized) {
-      await _vmsdkWidget.initialize();
+    if (!_controller.isInitialized) {
+      await _controller.initialize();
     }
 
     String testSetName = "oriented";
@@ -53,7 +53,7 @@ class TestWidget extends StatelessWidget {
     for (int i = 0; i < EMusicStyle.values.length; i++) {
       EMusicStyle style = EMusicStyle.energetic; //EMusicStyle.values[i % EMusicStyle.values.length];
 
-      VideoGeneratedResult result = await _vmsdkWidget.generateVideo(
+      VideoGeneratedResult result = await _controller.generateVideo(
           mediaList,
           style,
           false,
@@ -98,7 +98,11 @@ class TestWidget extends StatelessWidget {
       appBar: AppBar(
         title: const Text("VM SDK TEST"),
       ),
-      body: _vmsdkWidget,
+      body: VMSDKWidget(
+          onWebViewControllerCreated: (controller) {},
+          onControllerCreated: (controller) {
+            _controller = controller;
+          }),
       floatingActionButton: FloatingActionButton(onPressed: _run, tooltip: 'Run', child: const Icon(Icons.play_arrow)),
     );
   }

@@ -11,11 +11,11 @@ import 'package:flutter/services.dart' show rootBundle;
 class TestWidget extends StatelessWidget {
   TestWidget({Key? key}) : super(key: key);
 
-  final VMSDKWidget _vmsdkWidget = VMSDKWidget();
+  late final VMSDKController _controller;
 
   void _run() async {
-    if (!_vmsdkWidget.isInitialized) {
-      await _vmsdkWidget.initialize();
+    if (!_controller.isInitialized) {
+      await _controller.initialize();
     }
 
     final exportedJSON = json.decode(await rootBundle.loadString("assets/phase2-exported-set1.json"));
@@ -38,8 +38,7 @@ class TestWidget extends StatelessWidget {
     }
 
     final String encodedJSON = json.encode(exportedJSON);
-    final VideoGeneratedResult? result =
-        await _vmsdkWidget.generateVideoFromJSON(encodedJSON, "en", (status, progress) {
+    final VideoGeneratedResult? result = await _controller.generateVideoFromJSON(encodedJSON, "en", (status, progress) {
       print(status);
       print(progress);
     });
@@ -55,7 +54,11 @@ class TestWidget extends StatelessWidget {
       appBar: AppBar(
         title: const Text("VM SDK TEST"),
       ),
-      body: _vmsdkWidget,
+      body: VMSDKWidget(
+          onWebViewControllerCreated: (controller) {},
+          onControllerCreated: (controller) {
+            _controller = controller;
+          }),
       floatingActionButton: FloatingActionButton(onPressed: _run, tooltip: 'Run', child: const Icon(Icons.play_arrow)),
     );
   }
