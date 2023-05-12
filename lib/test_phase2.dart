@@ -18,36 +18,31 @@ class TestWidget extends StatelessWidget {
       await _vmsdkWidget.initialize();
     }
 
-    final exportedJSON = json.decode(
-        await rootBundle.loadString("assets/phase2-exported-set1.json"));
+    final exportedJSON = json.decode(await rootBundle.loadString("assets/phase2-exported-set1.json"));
 
     List slides = exportedJSON["timeline"]["slides"];
     List bgm = exportedJSON["timeline"]["bgm"];
 
-    for (int i=0; i<slides.length; i++) {
+    for (int i = 0; i < slides.length; i++) {
       final String filename = basename(slides[i]["localPath"]);
 
-      final writedFile =
-          await copyAssetToLocalDirectory("_test/set1/$filename");
+      final writedFile = await copyAssetToLocalDirectory("_test/set1/$filename");
       slides[i]["localPath"] = writedFile.path;
     }
 
-    for (int i=0; i<bgm.length; i++) {
+    for (int i = 0; i < bgm.length; i++) {
       final String filename = basename(bgm[i]["sourcePath"]);
 
-      final writedFile =
-          await copyAssetToLocalDirectory("raw/audio/$filename");
+      final writedFile = await copyAssetToLocalDirectory("raw/audio/$filename");
       bgm[i]["sourcePath"] = writedFile.path;
     }
 
     final String encodedJSON = json.encode(exportedJSON);
-    final VideoGeneratedResult? result = await _vmsdkWidget.generateVideoFromJSON(
-        encodedJSON,
-        "en",
-        (status, progress) {
-          print(status);
-          print(progress);
-        });
+    final VideoGeneratedResult? result =
+        await _vmsdkWidget.generateVideoFromJSON(encodedJSON, "en", (status, progress) {
+      print(status);
+      print(progress);
+    });
 
     if (result != null) {
       await GallerySaver.saveVideo(result.generatedVideoPath);
@@ -61,8 +56,7 @@ class TestWidget extends StatelessWidget {
         title: const Text("VM SDK TEST"),
       ),
       body: _vmsdkWidget,
-      floatingActionButton: FloatingActionButton(
-          onPressed: _run, tooltip: 'Run', child: const Icon(Icons.play_arrow)),
+      floatingActionButton: FloatingActionButton(onPressed: _run, tooltip: 'Run', child: const Icon(Icons.play_arrow)),
     );
   }
 }
