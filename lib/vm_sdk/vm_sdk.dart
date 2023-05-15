@@ -39,7 +39,6 @@ class _VMSDKWidgetState extends State<VMSDKWidget> {
   @override
   void initState() {
     controller.initialize();
-    controller.vmTextHandler.i
     widget.onControllerCreated(controller);
     super.initState();
   }
