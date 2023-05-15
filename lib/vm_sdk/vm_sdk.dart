@@ -39,6 +39,7 @@ class _VMSDKWidgetState extends State<VMSDKWidget> {
   @override
   void initState() {
     controller.initialize();
+    controller.vmTextHandler.i
     widget.onControllerCreated(controller);
     super.initState();
   }
@@ -55,7 +56,7 @@ class _VMSDKWidgetState extends State<VMSDKWidget> {
               // offset: const Offset(0, 0),
               child: CustomWebView(
                 callback: (controller) {
-                  controller.vmTextHandler.setWebViewController(controller);
+                  this.controller.vmTextHandler.setWebViewController(controller);
                   widget.onWebViewControllerCreated(controller);
                 },
                 handleTerminated: controller.vmTextHandler.handleCallBack,
