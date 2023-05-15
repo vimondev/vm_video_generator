@@ -58,7 +58,7 @@ class _VMSDKWidgetState extends State<VMSDKWidget> {
                   this.controller.vmTextHandler.setWebViewController(controller);
                   widget.onWebViewControllerCreated(controller);
                 },
-                handleTerminated: controller.vmTextHandler.handleCallBack,
+                handleTerminated: controller.vmTextHandler.handleTerminated,
                 initialFile: "packages/myapp/assets/html/index5.html",
               ),
             ),
