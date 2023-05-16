@@ -5,6 +5,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:myapp/vm_sdk/impl/text_helper.dart';
 import 'package:myapp/vm_sdk/impl/vm_text_widget.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:tuple/tuple.dart';
 
 import '../types/text.dart';
 import 'global_helper.dart';
@@ -16,21 +17,18 @@ class VMTextHandler {
   String? _currentSequencePath;
 
   double _elapsedTime = 0;
-
-  String? _previewImagePath;
-  String? _allSequencesPath;
   Map<int, String> _allSequencePathMap = {};
-  List<String> _allSequencePaths = [];
   final Map<String, TextWidgetData?> _dataMapOneLine = {};
   final Map<String, TextWidgetData?> _dataMapTwoLine = {};
 
   List<String> _texts = [];
-
+  List<String> _allSequencePaths = [];
   Completer<void>? _reloadCompleter;
   Completer<void>? _currentPreviewCompleter;
   Completer<void>? _currentSequencesCompleter;
 
-  final BehaviorSubject<String> _bhPreview = BehaviorSubject();
+  ///preview image <id, path>
+  final BehaviorSubject<Tuple2<String, String>> _bhPreview = BehaviorSubject();
   final BehaviorSubject<String> _bhSequences = BehaviorSubject();
   final BehaviorSubject<TextExportData> _bhTextData =
       BehaviorSubject.seeded(TextExportData(id: '', width: 0, height: 0, totalFrameCount: 0, frameRate: 0));
@@ -47,7 +45,7 @@ class VMTextHandler {
     handleCallBack(controller);
   }
 
-  ValueStream<String> get previewStream => _bhPreview.stream;
+  ValueStream<Tuple2<String, String>> get previewStream => _bhPreview.stream;
 
   ValueStream<String> get sequencesStream => _bhSequences.stream;
 
@@ -55,9 +53,9 @@ class VMTextHandler {
 
   double get elapsedTime => _elapsedTime;
 
-  String? get previewImagePath => _previewImagePath;
+  String? get previewImagePath => currentExportData.previewImagePath;
 
-  String? get allSequencesPath => _allSequencesPath;
+  String? get allSequencesPath => currentExportData.allSequencesPath;
 
   List<String> get allSequencePaths => _allSequencePaths;
 
@@ -105,7 +103,7 @@ class VMTextHandler {
     //     await currentDir.delete(recursive: true);
     //   }
     // }
-    _export(currentExportData.copyWith(width: 0, height: 0, textDataMap: {}, totalFrameCount: 0, frameRate: 0));
+    _export(currentExportData.copyWith(width: 0, height: 0, textDataMap: {}, totalFrameCount: 0, frameRate: 0, allSequencesPath: null, previewImagePath: null));
     _allSequencePaths = [];
   }
 
@@ -256,14 +254,13 @@ class VMTextHandler {
                 textData[i]['height'].toDouble()));
       }
 
-      _export(currentExportData.copyWith(textDataMap: textDataMap));
+      _export(currentExportData.copyWith(textDataMap: textDataMap, previewImagePath: previewUrl));
 
-      _previewImagePath = previewUrl;
       _printAllData();
 
       if (_currentPreviewCompleter != null) {
         _currentPreviewCompleter!.complete();
-        _bhPreview.add(_previewImagePath!);
+        _bhPreview.add(Tuple2(currentExportData.id, currentExportData.previewImagePath!));
       }
     } catch (e) {
       if (_currentPreviewCompleter != null) {
@@ -320,7 +317,7 @@ class VMTextHandler {
         _allSequencePaths.add(_allSequencePathMap[frameNumber]!);
       }
 
-      _allSequencesPath = _currentSequencePath;
+      _export(currentExportData.copyWith(allSequencesPath: _currentSequencePath));
       _printAllData();
 
       if (_currentProgressCallback != null) {
@@ -329,7 +326,7 @@ class VMTextHandler {
 
       if (_currentSequencesCompleter != null) {
         _currentSequencesCompleter!.complete();
-        _bhSequences.add(_allSequencesPath!);
+        _bhSequences.add(currentExportData.allSequencesPath!);
       }
     } catch (e) {
       if (_currentSequencesCompleter != null) {
