@@ -556,7 +556,13 @@ class VMSDKWidget extends StatelessWidget {
       final RenderedData mergedClip = await mergeAllClips(xfadeAppliedList);
       final RenderedData resultClip = await applyMusics(mergedClip, regeneratedMusicList);
 
-      print(DateTime.now().difference(now).inSeconds);
+      print("elapsed time for rendering : ${DateTime.now().difference(now).inMilliseconds / 1000}s");
+      
+      File resultFile = File(resultClip.absolutePath);
+      if (await resultFile.exists()) {
+        double fileSizeInMegaBytes = ((await resultFile.length()) * 1.0) / 1024 / 1024;
+        print("resultFile : ${(fileSizeInMegaBytes * 100).floor() / 100}MB");
+      }
 
       if (_currentTimer != null) {
         _currentTimer!.cancel();

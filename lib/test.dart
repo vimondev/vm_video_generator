@@ -17,7 +17,7 @@ class TestWidget extends StatelessWidget {
       await _vmsdkWidget.initialize();
     }
 
-    String testSetName = "oriented";
+    String testSetName = "set1_1080p";
 
     final filelist = json.decode(
         await rootBundle.loadString("assets/_test/mediajson-joined/$testSetName.json"));

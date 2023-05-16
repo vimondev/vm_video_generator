@@ -9,27 +9,26 @@ class FFMpegManager {
   FFmpegKit ffmpegIns = FFmpegKit();
   FFmpegKitConfig ffmpegConfig = FFmpegKitConfig();
 
-  String log = "";
-
-  Future<void> execute(
+  Future<FFmpegSession> execute(
       List<String> args, Function(Statistics)? callback) async {
     
     if (callback != null) {
       FFmpegKitConfig.enableStatisticsCallback((statistics) => callback(statistics));
     }
 
-    log = "";
     FFmpegKitConfig.enableLogCallback((log) {
-      this.log += log.getMessage();
       print(log.getMessage());
     });
 
     final FFmpegSession session = await FFmpegKit.executeWithArguments(args);
     final ReturnCode? returnCode = await session.getReturnCode();
 
+    final log = await session.getAllLogsAsString();
     if (returnCode == null || !returnCode.isValueSuccess()) {
       throw Exception("FFMPEG EXECUTE FAILED!\nLOG : $log");
     }
+
+    return session;
   }
 
   Future<void> cancel() async {
