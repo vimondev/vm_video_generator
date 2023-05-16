@@ -48,7 +48,10 @@ class TextExportData {
           width: width ?? this.width,
           height: height ?? this.height,
           frameRate: frameRate ?? this.frameRate,
-          totalFrameCount: totalFrameCount ?? this.totalFrameCount);
+          totalFrameCount: totalFrameCount ?? this.totalFrameCount,
+          allSequencesPath: allSequencesPath ?? this.allSequencesPath,
+          textDataMap: textDataMap ?? this.textDataMap,
+          previewImagePath: previewImagePath ?? this.previewImagePath);
 
   @override
   String toString() {
