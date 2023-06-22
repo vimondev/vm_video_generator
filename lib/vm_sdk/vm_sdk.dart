@@ -518,7 +518,7 @@ class VMSDKWidget extends StatelessWidget {
         }
       }
 
-      if (totalDuration >= 10) {
+      if (isAutoEdit && editedMediaList.length > 1 && totalDuration >= 10) {
         double curDuration = 0;
         List<RenderedData> fadeOutClips = [];
         for (int i = xfadeAppliedList.length - 1; i >= 0; i--) {
