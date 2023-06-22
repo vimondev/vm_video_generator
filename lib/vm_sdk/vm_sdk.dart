@@ -464,7 +464,7 @@ class VMSDKWidget extends StatelessWidget {
             prevTransition,
             nextTransition,
             (statistics) => _currentRenderedFrameInCallback =
-                statistics.getVideoFrameNumber(), isAutoEdit: isAutoEdit);
+                statistics.getVideoFrameNumber(), isOnlyOneClip: editedMediaList.length == 1);
 
         _currentRenderedFrameInCallback = 0;
 
