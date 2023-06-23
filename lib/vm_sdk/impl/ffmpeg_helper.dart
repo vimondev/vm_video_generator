@@ -234,7 +234,7 @@ Future<RenderedData> clipRender(
 
     String overlayTimeFilter = "";
     if (isOnlyOneClip) {
-      overlayTimeFilter = "enable='between(t\\,0,${min(5, editedMedia.duration)})':";
+      // overlayTimeFilter = "enable='between(t\\,0,${min(5, editedMedia.duration)})':";
     }
 
     filterStrings.add(
