@@ -30,9 +30,11 @@ class CanvasTextConfig extends BaseTextConfig {
   final bool isDisableShadow;
   final bool isDisableBackground;
   final TextBoxWrapType textBoxWrapType;
+  final bool revertAlign;
 
   CanvasTextConfig(
       {required String text,
+      this.revertAlign = false,
       this.textAlign = TextAlign.center,
       this.fillColor = Colors.black,
       this.textColor = Colors.white,
@@ -124,9 +126,15 @@ class CanvasTextConfig extends BaseTextConfig {
     }
     return CanvasTextConfig(
         text: map['text'] ?? '',
-        fillColor: map['fillColor'] != null && map['fillColor'] is int ? Color(map['fillColor']) : Colors.transparent,
-        textColor: map['textColor'] != null && map['textColor'] is int ? Color(map['textColor']) : Colors.black,
-        borderColor: map['borderColor'] != null && map['borderColor'] is int ? Color(map['borderColor']) : Colors.black,
+        fillColor: map['fillColor'] != null && map['fillColor'] is int
+            ? Color(map['fillColor'])
+            : Colors.transparent,
+        textColor: map['textColor'] != null && map['textColor'] is int
+            ? Color(map['textColor'])
+            : Colors.black,
+        borderColor: map['borderColor'] != null && map['borderColor'] is int
+            ? Color(map['borderColor'])
+            : Colors.black,
         borderWidth: parseDouble(map['borderWidth']) ?? 1.0,
         contentPadding: parseDouble(map['contentPadding']) ?? 5.0,
         fontSize: parseDouble(map['fontSize']) ?? 20.0,
@@ -134,7 +142,9 @@ class CanvasTextConfig extends BaseTextConfig {
         font: map['font']?['fontFamily'] != null && map['font']?['url'] != null
             ? NetworkFont(map['font']?['fontFamily'], url: map['font']?['url'])
             : null,
-        borderShadow: map['borderShadow'] != null && map['borderShadow'] is int ? Color(map['borderShadow']) : null,
+        borderShadow: map['borderShadow'] != null && map['borderShadow'] is int
+            ? Color(map['borderShadow'])
+            : null,
         textDecoration: textDecoration,
         shadowRadius: parseDouble(map['shadowRadius']) ?? 0.0,
         textHeight: parseDouble(map['textHeight']) ?? 1.0,
@@ -143,10 +153,12 @@ class CanvasTextConfig extends BaseTextConfig {
         letterSpacing: parseDouble(map['letterSpacing']) ?? 2.0,
         shadowDistance: parseDouble(map['shadowDistance']) ?? 1.0,
         shadowAngle: parseDouble(map['shadowAngle']) ?? 0.0,
-        textShadow:
-            map['textShadow'] != null && map['textShadow'] is int ? Color(map['textShadow']) : Colors.transparent,
-        outlineColor:
-            map['outlineColor'] != null && map['outlineColor'] is int ? Color(map['outlineColor']) : Colors.black,
+        textShadow: map['textShadow'] != null && map['textShadow'] is int
+            ? Color(map['textShadow'])
+            : Colors.transparent,
+        outlineColor: map['outlineColor'] != null && map['outlineColor'] is int
+            ? Color(map['outlineColor'])
+            : Colors.black,
         outlineWidth: parseDouble(map['outlineWidth']) ?? 0.0,
         isDisableOutline: map['isDisableOutline'] ?? false,
         isDisableShadow: map['isDisableShadow'] ?? false,
@@ -271,8 +283,8 @@ class CanvasTextConfig extends BaseTextConfig {
   }
 }
 
-double? parseDouble(num? num){
-  if(num != null){
+double? parseDouble(num? num) {
+  if (num != null) {
     return num.toDouble();
   } else {
     return null;
