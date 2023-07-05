@@ -217,7 +217,6 @@ class TextBoxPainter {
     if(config.revertAlign){
       offset = revertOffset(offset!);
     }
-
     if(config.revertAlign)  {
       String text = painter.text!.toPlainText();
       List<String> texts = text.split('').toList();
