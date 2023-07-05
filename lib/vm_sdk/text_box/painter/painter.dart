@@ -224,7 +224,8 @@ class TextBoxPainter {
       for (int i = 0; i < texts.length; i++) {
         String text = texts[i];
         final charPainter = TextPainter(text: TextSpan(text: text, style: painter.text!.style), textDirection: painter.textDirection, textAlign: painter.textAlign);
-        charPainter.paint(canvas, Offset(offset!.dx, offset.dy + (config.letterSpacing * config.fontSize * i)));
+        charPainter.layout(minWidth: 40);
+        charPainter.paint(canvas, Offset(offset!.dx, offset.dy + ((config.letterSpacing + 0.8) * config.fontSize * i)));
       }
     } else {
       painter.paint(canvas, offset!);
