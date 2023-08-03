@@ -1,8 +1,10 @@
 import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:myapp/vm_sdk/text_box/helper/text_box_wrap_type.dart';
 import 'package:network_font/network_font.dart';
+
 import '../helper/emoji_text_span.dart';
+import '../helper/text_box_wrap_type.dart';
 import '../text/config.dart';
 
 class TextBoxPainter {
@@ -113,12 +115,18 @@ class TextBoxPainter {
         final maxY = ((mtl.characters.length) * oneLineSize) +
             basePadding * 2 +
             (sidePadding * 2);
-        _path = _path.transform(Matrix4.rotationX(pi).storage);
-        _path = _path.transform(Matrix4.translationValues(0, maxY, 0).storage);
+
         if (config.revertAlign) {
+          _path = _path.transform(Matrix4.rotationX(pi).storage);
+          _path =
+              _path.transform(Matrix4.translationValues(0, maxY, 0).storage);
           drawHalfCenterRevert(
               _path, textPainters, basePadding, fullPadding, maxTextWidth);
         } else {
+          _path = _path.transform(Matrix4.rotationY(pi).storage);
+          _path = _path.transform(Matrix4.translationValues(
+              maxTextWidth + fullPadding + sidePadding * 2, 0, 0)
+              .storage);
           drawHalfCenter(
               _path, textPainters, basePadding, fullPadding, maxTextWidth);
         }
@@ -803,4 +811,3 @@ class TextBoxPainter {
     }
   }
 }
-
