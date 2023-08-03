@@ -163,6 +163,7 @@ class CanvasTextConfig extends BaseTextConfig {
         isDisableOutline: map['isDisableOutline'] ?? false,
         isDisableShadow: map['isDisableShadow'] ?? false,
         textBoxWrapType: textBoxWrapType,
+        revertAlign: map['revertAlign'] ?? false,
         isDisableBackground: map['isDisableBackground'] ?? false);
   }
 
@@ -181,33 +182,33 @@ class CanvasTextConfig extends BaseTextConfig {
     }
   }
 
-  CanvasTextConfig copyWith({
-    String? text,
-    Color? fillColor,
-    Color? textColor,
-    Color? borderColor,
-    double? borderWidth,
-    TextAlign? textAlign,
-    Color? outlineColor,
-    double? outlineWidth,
-    TextDecoration? textDecoration,
-    NetworkFont? font,
-    double? fontSize,
-    double? borderRadius,
-    double? contentPadding,
-    double? shadowRadius,
-    Color? textShadow,
-    FontWeight? fontWeight,
-    Color? borderShadow,
-    double? textHeight,
-    double? letterSpacing,
-    double? shadowDistance,
-    double? shadowAngle,
-    bool? isDisableOutline,
-    bool? isDisableShadow,
-    bool? isDisableBackground,
-    TextBoxWrapType? textBoxWrapType,
-  }) {
+  CanvasTextConfig copyWith(
+      {String? text,
+      Color? fillColor,
+      Color? textColor,
+      Color? borderColor,
+      double? borderWidth,
+      TextAlign? textAlign,
+      Color? outlineColor,
+      double? outlineWidth,
+      TextDecoration? textDecoration,
+      NetworkFont? font,
+      double? fontSize,
+      double? borderRadius,
+      double? contentPadding,
+      double? shadowRadius,
+      Color? textShadow,
+      FontWeight? fontWeight,
+      Color? borderShadow,
+      double? textHeight,
+      double? letterSpacing,
+      double? shadowDistance,
+      double? shadowAngle,
+      bool? isDisableOutline,
+      bool? isDisableShadow,
+      bool? isDisableBackground,
+      TextBoxWrapType? textBoxWrapType,
+      bool? revertAlign}) {
     return CanvasTextConfig(
         text: text ?? this.text,
         borderShadow: borderShadow ?? this.borderShadow,
@@ -233,6 +234,7 @@ class CanvasTextConfig extends BaseTextConfig {
         textBoxWrapType: textBoxWrapType ?? this.textBoxWrapType,
         isDisableOutline: isDisableOutline ?? this.isDisableOutline,
         isDisableShadow: isDisableShadow ?? this.isDisableShadow,
+        revertAlign: revertAlign ?? this.revertAlign,
         isDisableBackground: isDisableBackground ?? this.isDisableBackground);
   }
 
@@ -278,7 +280,8 @@ class CanvasTextConfig extends BaseTextConfig {
       'textBoxWrapType': textBoxWrapType.name,
       'isDisableOutline': isDisableOutline,
       'isDisableShadow': isDisableShadow,
-      'isDisableBackground': isDisableBackground
+      'isDisableBackground': isDisableBackground,
+      'revertAlign': revertAlign
     };
   }
 }
