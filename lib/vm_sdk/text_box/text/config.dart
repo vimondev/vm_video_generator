@@ -34,7 +34,7 @@ class CanvasTextConfig extends BaseTextConfig {
 
   CanvasTextConfig(
       {required String text,
-      this.revertAlign = true,
+      this.revertAlign = false,
       this.textAlign = TextAlign.center,
       this.fillColor = Colors.black,
       this.textColor = Colors.white,

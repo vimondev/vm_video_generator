@@ -21,38 +21,39 @@ class TextBoxPainter {
     return style.merge(const TextStyle(fontFamily: 'Roboto'));
   }
 
-  TextStyle get foreGroundStl =>
-      _mergeStyleWithFont(TextStyle(
-        color: config.textColor,
-        fontWeight: FontWeight.w600,
-        fontSize: config.fontSize,
-        letterSpacing: config.letterSpacing,
-        height: config.textHeight + (config.borderWidth / config.fontSize),
-      ));
+  TextStyle get foreGroundStl => _mergeStyleWithFont(TextStyle(
+    color: config.textColor,
+    fontWeight: FontWeight.w600,
+    fontSize: config.fontSize,
+    letterSpacing: config.letterSpacing,
+    height: config.textHeight + (config.borderWidth / config.fontSize),
+  ));
 
-  TextStyle get outLineStl =>
-      _mergeStyleWithFont(TextStyle(
-        fontWeight: FontWeight.w600,
-        fontSize: config.fontSize,
-        letterSpacing: config.letterSpacing,
-        height: config.textHeight + (config.borderWidth / config.fontSize),
-        foreground: Paint()
-          ..color = config.outlineColor != null && config.outlineWidth > 0 ? config.outlineColor! : Colors.transparent
-          ..strokeWidth = config.outlineWidth
-          ..strokeJoin = StrokeJoin.round
-          ..strokeCap = StrokeCap.round
-          ..style = PaintingStyle.stroke,
-        shadows: config.shadowRadius > 0.0
-            ? [
-          Shadow(
-            blurRadius: config.shadowRadius,
-            offset: Offset(cos(config.shadowAngle * pi * 2) * config.shadowDistance,
-                sin(config.shadowAngle * pi * 2) * config.shadowDistance),
-            color: config.textShadow,
-          )
-        ]
-            : null,
-      ));
+  TextStyle get outLineStl => _mergeStyleWithFont(TextStyle(
+    fontWeight: FontWeight.w600,
+    fontSize: config.fontSize,
+    letterSpacing: config.letterSpacing,
+    height: config.textHeight + (config.borderWidth / config.fontSize),
+    foreground: Paint()
+      ..color = config.outlineColor != null && config.outlineWidth > 0
+          ? config.outlineColor!
+          : Colors.transparent
+      ..strokeWidth = config.outlineWidth
+      ..strokeJoin = StrokeJoin.round
+      ..strokeCap = StrokeCap.round
+      ..style = PaintingStyle.stroke,
+    shadows: config.shadowRadius > 0.0
+        ? [
+      Shadow(
+        blurRadius: config.shadowRadius,
+        offset: Offset(
+            cos(config.shadowAngle * pi * 2) * config.shadowDistance,
+            sin(config.shadowAngle * pi * 2) * config.shadowDistance),
+        color: config.textShadow,
+      )
+    ]
+        : null,
+  ));
 
   Rect paint(Canvas canvas, Size size) {
     return drawTextDynamically(canvas, config.text);
@@ -71,6 +72,7 @@ class TextBoxPainter {
     double basePadding = (config.textHeight - 1.0) * config.fontSize;
     double fullPadding = basePadding * 2;
     double maxTextWidth = 0;
+    int maxTextLength = 0;
     List<TextPainter> textPainters = [];
     for (int i = 0; i < texts.length; i++) {
       String str = texts[i];
@@ -90,46 +92,72 @@ class TextBoxPainter {
       if (foregroundTextPainter.width > maxTextWidth) {
         maxTextWidth = foregroundTextPainter.width;
       }
+      if (foregroundTextPainter.text!.toPlainText().length > maxTextLength) {
+        maxTextLength = foregroundTextPainter.text!.toPlainText().length;
+      }
       textPainters.add(foregroundTextPainter);
     }
 
     Path _path = Path();
     if (config.textBoxWrapType == TextBoxWrapType.wrapLine) {
       if (config.textAlign == TextAlign.center) {
-        drawHalfCenter(_path, textPainters, basePadding, fullPadding, maxTextWidth);
-        _path = _path.transform(Matrix4
-            .rotationY(pi)
-            .storage);
-        _path = _path.transform(
-            Matrix4
-                .translationValues(maxTextWidth + fullPadding + config.borderWidth + sidePadding * 2, 0, 0)
-                .storage);
-        drawHalfCenter(_path, textPainters, basePadding, fullPadding, maxTextWidth);
+        if (config.revertAlign) {
+          drawHalfCenterRevert(
+              _path, textPainters, basePadding, fullPadding, maxTextWidth);
+        } else {
+          drawHalfCenter(
+              _path, textPainters, basePadding, fullPadding, maxTextWidth);
+        }
+        final mtl = maxTextLengthFunc(config.text);
+        final oneLineSize = (config.letterSpacing + 1) * config.fontSize;
+        final maxY = ((mtl.characters.length) * oneLineSize) +
+            basePadding * 2 +
+            (sidePadding * 2);
+        _path = _path.transform(Matrix4.rotationX(pi).storage);
+        _path = _path.transform(Matrix4.translationValues(0, maxY, 0).storage);
+        if (config.revertAlign) {
+          drawHalfCenterRevert(
+              _path, textPainters, basePadding, fullPadding, maxTextWidth);
+        } else {
+          drawHalfCenter(
+              _path, textPainters, basePadding, fullPadding, maxTextWidth);
+        }
       } else {
-        if(config.revertAlign){
+        if (config.revertAlign) {
           drawStartRevert(_path, textPainters, basePadding, fullPadding);
         } else {
           drawStart(_path, textPainters, basePadding, fullPadding);
         }
 
         if (config.textAlign == TextAlign.end) {
-          _path = _path.transform(Matrix4
-              .rotationY(pi)
-              .storage);
-          _path =
-              _path.transform(Matrix4
-                  .translationValues(maxTextWidth + fullPadding + sidePadding * 2, 0, 0)
-                  .storage);
+          num range = maxTextWidth;
+          if (config.revertAlign) {
+            range = maxTextLengthFunc(config.text).characters.length *
+                (1 + (config.letterSpacing)) *
+                (config.fontSize);
+            _path = _path.transform(Matrix4.rotationX(pi).storage);
+            _path = _path.transform(Matrix4.translationValues(
+                0,
+                _path.getBounds().height +
+                    (config.borderRadius * 2 + sidePadding),
+                0)
+                .storage);
+            // _path = _path.transform(
+            //     Matrix4.translationValues(0, range.toDouble(), 0).storage);
+          } else {
+            _path = _path.transform(Matrix4.rotationY(pi).storage);
+            _path = _path.transform(Matrix4.translationValues(
+                range + fullPadding + sidePadding * 2, 0, 0)
+                .storage);
+          }
         }
       }
-      canvas.drawPath(_path, Paint()
-        ..color = config.fillColor);
-      rect = Rect.fromLTWH(0, 0, _path
-          .getBounds()
-          .width + (sidePadding * 2) + boxPadding.left,
-          _path
-              .getBounds()
-              .height + boxPadding.bottom + boxPadding.top);
+      canvas.drawPath(_path, Paint()..color = config.fillColor);
+      rect = Rect.fromLTWH(
+          0,
+          0,
+          _path.getBounds().width + (sidePadding * 2) + boxPadding.left,
+          _path.getBounds().height + boxPadding.bottom + boxPadding.top);
       for (int i = 0; i < textPainters.length; i++) {
         var painter = textPainters[i];
         String str = texts[i];
@@ -145,9 +173,11 @@ class TextBoxPainter {
         primaryTextPainter.layout(
           minWidth: 40,
         );
-        drawTextPainter(canvas, primaryTextPainter, basePadding, maxTextWidth, i, textPainters.length);
+        drawTextPainter(canvas, primaryTextPainter, basePadding, maxTextWidth,
+            i, textPainters.length);
         //}
-        drawTextPainter(canvas, painter, basePadding, maxTextWidth, i, textPainters.length);
+        drawTextPainter(
+            canvas, painter, basePadding, maxTextWidth, i, textPainters.length);
       }
 
       ///UNCOMMENT IF YOU WANT BORDER WIDTH BACK
@@ -163,14 +193,23 @@ class TextBoxPainter {
         final tHeight = textPainters[0].height + basePadding;
         _path.moveTo(radius + edge, edge);
         _path.lineTo(maxTextWidth + fullPadding - radius, edge);
-        _path.arcToPoint(Offset(maxTextWidth + fullPadding, edge + radius), radius: rad, clockwise: true);
-        _path.lineTo(maxTextWidth + fullPadding, edge + (tHeight * textPainters.length) - radius);
-        _path.arcToPoint(Offset(maxTextWidth + fullPadding - radius, edge + (tHeight * textPainters.length)),
+        _path.arcToPoint(Offset(maxTextWidth + fullPadding, edge + radius),
             radius: rad, clockwise: true);
+        _path.lineTo(maxTextWidth + fullPadding,
+            edge + (tHeight * textPainters.length) - radius);
+        _path.arcToPoint(
+            Offset(maxTextWidth + fullPadding - radius,
+                edge + (tHeight * textPainters.length)),
+            radius: rad,
+            clockwise: true);
         _path.lineTo(edge + radius, edge + (tHeight * textPainters.length));
-        _path.arcToPoint(Offset(edge, edge + (tHeight * textPainters.length) - radius), radius: rad, clockwise: true);
+        _path.arcToPoint(
+            Offset(edge, edge + (tHeight * textPainters.length) - radius),
+            radius: rad,
+            clockwise: true);
         _path.lineTo(edge, edge + radius);
-        _path.arcToPoint(Offset(radius + edge, edge), radius: rad, clockwise: true);
+        _path.arcToPoint(Offset(radius + edge, edge),
+            radius: rad, clockwise: true);
         canvas.drawPath(
             _path,
             Paint()
@@ -179,7 +218,9 @@ class TextBoxPainter {
       }
       for (int i = 0; i < textPainters.length; i++) {
         var painter = textPainters[i];
-        if (config.outlineColor != null && config.outlineColor != Colors.transparent && config.outlineWidth > 0) {
+        if (config.outlineColor != null &&
+            config.outlineColor != Colors.transparent &&
+            config.outlineWidth > 0) {
           String str = texts[i];
           final primaryTextSpan = TextSpan(
             text: str,
@@ -193,17 +234,26 @@ class TextBoxPainter {
           primaryTextPainter.layout(
             minWidth: 40,
           );
-          drawTextPainter(canvas, primaryTextPainter, basePadding, maxTextWidth, i, textPainters.length);
+          drawTextPainter(canvas, primaryTextPainter, basePadding, maxTextWidth,
+              i, textPainters.length);
         }
-        drawTextPainter(canvas, painter, basePadding, maxTextWidth, i, textPainters.length);
+        drawTextPainter(
+            canvas, painter, basePadding, maxTextWidth, i, textPainters.length);
       }
-      rect = Rect.fromLTWH(0, 0, _path
-          .getBounds()
-          .width + (sidePadding * 2) + boxPadding.left + boxPadding.right,
-          _path
-              .getBounds()
-              .height + boxPadding.bottom);
+      rect = Rect.fromLTWH(
+          0,
+          0,
+          _path.getBounds().width +
+              (sidePadding * 2) +
+              boxPadding.left +
+              boxPadding.right,
+          _path.getBounds().height + boxPadding.bottom);
     }
+    // canvas.drawRect(
+    //     rect,
+    //     Paint()
+    //       ..color = Colors.red.withOpacity(0.2)
+    //       ..style = PaintingStyle.fill);
     return rect;
   }
 
@@ -211,8 +261,12 @@ class TextBoxPainter {
     return Offset(offset.dy, offset.dx);
   }
 
-  void drawTextPainter(Canvas canvas, TextPainter painter, double basePadding, double maxTextWidth, int i, length) {
-    double lineHeight = config.fontSize + basePadding;
+  void drawTextPainter(Canvas canvas, TextPainter painter, double basePadding,
+      double maxTextWidth, int i, length) {
+    double lineHeight = (config.fontSize * config.textHeight) + basePadding;
+    final test = config.textHeight * config.fontSize +
+        ((config.letterSpacing + 1) * config.fontSize);
+
     Offset? offset;
     if (config.textAlign == TextAlign.start) {
       offset = Offset(
@@ -222,7 +276,9 @@ class TextBoxPainter {
               (config.borderWidth / length) +
               sidePadding);
     } else if (config.textAlign == TextAlign.center) {
-      double gapByCenterW = maxTextWidth == painter.width ? 0 : (maxTextWidth - painter.width) / 2;
+      double gapByCenterW = maxTextWidth == painter.width
+          ? 0
+          : (maxTextWidth - painter.width) / 2;
       offset = Offset(
           basePadding + gapByCenterW + config.borderWidth + sidePadding,
           (lineHeight + basePadding + config.borderWidth) * i +
@@ -237,27 +293,90 @@ class TextBoxPainter {
               (config.borderWidth / length) +
               sidePadding);
     }
+
+    final oneLineHeight = (config.textHeight) * config.fontSize + basePadding;
     if (config.revertAlign) {
-      offset = revertOffset(offset!);
+      final mtl = maxTextLengthFunc(config.text);
+      final basePadding = (config.letterSpacing * config.fontSize / 2);
+      final oneLineSize = (config.letterSpacing + 1) * config.fontSize;
+      if (config.textAlign == TextAlign.end) {
+        offset = Offset(oneLineHeight * i + sidePadding + config.borderWidth,
+            ((mtl.characters.length) * oneLineSize) + basePadding);
+      } else if (config.textAlign == TextAlign.start) {
+        offset = Offset(oneLineHeight * i + sidePadding + config.borderWidth,
+            basePadding + (oneLineSize + config.fontSize));
+      } else {
+        final maxY = ((mtl.characters.length) * oneLineSize) + basePadding;
+        final contentSize =
+            painter.text!.toPlainText().characters.length * oneLineSize +
+                basePadding;
+        offset = Offset(
+            oneLineHeight * i + sidePadding + config.borderWidth,
+            ((maxY - contentSize) / 2) +
+                basePadding +
+                (oneLineSize + config.fontSize));
+      }
     }
     if (config.revertAlign) {
-      String text = painter.text!.toPlainText();
-      List<String> texts = text.split('').toList();
+      String text = '';
+
+      text = painter.text!.toPlainText();
+      List<String> texts = text.characters.toList().reversed.toList();
+      if (config.textAlign != TextAlign.end) {
+        texts = texts.reversed.toList();
+      }
 
       for (int i = 0; i < texts.length; i++) {
         String text = texts[i];
-        final charPainter = TextPainter(text: TextSpan(text: text, style: painter.text!.style),
+        final charPainter = TextPainter(
+            text: TextSpan(
+              text: text,
+              style: painter.text!.style,
+            ),
             textDirection: painter.textDirection,
-            textAlign: painter.textAlign);
-        charPainter.layout(minWidth: 40);
-        charPainter.paint(canvas, Offset(offset!.dx, offset.dy + ((config.letterSpacing + 0.8) * config.fontSize * i)));
+            textAlign: config.textAlign);
+        charPainter.layout();
+        final gap = (oneLineHeight - charPainter.size.width) / 2;
+        charPainter.layout(minWidth: 1);
+        if (config.textAlign == TextAlign.end) {
+          charPainter.paint(
+              canvas,
+              Offset(
+                  offset!.dx + gap,
+                  sidePadding +
+                      offset.dy -
+                      ((((1 + config.letterSpacing) * config.fontSize) *
+                          (i + 1)) +
+                          config.borderWidth)));
+        } else {
+          charPainter.paint(
+              canvas,
+              Offset(
+                  offset!.dx + gap,
+                  offset.dy +
+                      ((1 + config.letterSpacing) * config.fontSize * (i - 1) -
+                          sidePadding -
+                          config.borderWidth)));
+        }
       }
     } else {
       painter.paint(canvas, offset!);
     }
   }
 
-  void drawStart(Path _path, List<TextPainter> textPainters, double basePadding, double fullPadding) {
+  String maxTextLengthFunc(String text) {
+    final texts = text.split('\n');
+    String longestText = '';
+    texts.forEach((element) {
+      if (element.length > longestText.characters.length) {
+        longestText = element;
+      }
+    });
+    return longestText;
+  }
+
+  void drawStart(Path _path, List<TextPainter> textPainters, double basePadding,
+      double fullPadding) {
     for (int i = 0; i < textPainters.length; i++) {
       TextPainter? previous = i > 0 ? textPainters[i - 1] : null;
       final painter = textPainters[i];
@@ -266,10 +385,12 @@ class TextBoxPainter {
       final radius = config.borderRadius;
       final rad = Radius.circular(radius);
       final edge = config.borderWidth;
-      final heightByLines = (i == 0 ? edge : edge + (textH + basePadding) * i) + sidePadding;
+      final heightByLines =
+          (i == 0 ? edge : edge + (textH + basePadding) * i) + sidePadding;
       final heightByNextLine = (textH + basePadding) * (i + 1) + sidePadding;
 
-      TextPainter? next = (i + 1) < textPainters.length ? textPainters[i + 1] : null;
+      TextPainter? next =
+      (i + 1) < textPainters.length ? textPainters[i + 1] : null;
       double? nextWidth = next?.width;
       final first = i == 0;
       final last = (i + 1) == textPainters.length;
@@ -279,8 +400,10 @@ class TextBoxPainter {
       }
       if (previous == null) {
         _path.lineTo(textW + fullPadding - radius + sidePadding, heightByLines);
-        _path.arcToPoint(Offset(textW + fullPadding + sidePadding, heightByLines + radius),
-            radius: rad, clockwise: true);
+        _path.arcToPoint(
+            Offset(textW + fullPadding + sidePadding, heightByLines + radius),
+            radius: rad,
+            clockwise: true);
       } else {
         //_path.lineTo(textW + (basePadding * 2) - radius, heightByLines);
         //_path.arcToPoint(Offset(textW + basePadding, heightByLines + radius), radius: rad, clockwise: true);
@@ -292,60 +415,91 @@ class TextBoxPainter {
           if (gap < (radius * 2)) {
             radT = gap / 2;
           }
-          _path.lineTo(textW + fullPadding + sidePadding, heightByNextLine - radT);
+          _path.lineTo(
+              textW + fullPadding + sidePadding, heightByNextLine - radT);
 
-          _path.arcToPoint(Offset(textW + fullPadding + radT + sidePadding, heightByNextLine),
-              radius: Radius.circular(radT), clockwise: false);
-          _path.lineTo(nextWidth + fullPadding - radT + sidePadding, heightByNextLine);
-          _path.arcToPoint(Offset(nextWidth + fullPadding + sidePadding, heightByNextLine + radT),
-              radius: Radius.circular(radT), clockwise: nextWidth > textW);
+          _path.arcToPoint(
+              Offset(
+                  textW + fullPadding + radT + sidePadding, heightByNextLine),
+              radius: Radius.circular(radT),
+              clockwise: false);
+          _path.lineTo(
+              nextWidth + fullPadding - radT + sidePadding, heightByNextLine);
+          _path.arcToPoint(
+              Offset(nextWidth + fullPadding + sidePadding,
+                  heightByNextLine + radT),
+              radius: Radius.circular(radT),
+              clockwise: nextWidth > textW);
         } else {
           final gap = (painter.width - next.width) / 2;
           double radT = radius;
           if (gap < (radius * 2)) {
             radT = min(radius, gap);
           }
-          _path.lineTo(textW + fullPadding + sidePadding, heightByNextLine - radT);
+          _path.lineTo(
+              textW + fullPadding + sidePadding, heightByNextLine - radT);
           //_path.lineTo(textW + basePadding, heightByNextLine);
-          _path.arcToPoint(Offset(textW + fullPadding - radT + sidePadding, heightByNextLine),
-              radius: Radius.circular(radT), clockwise: true);
-          _path.lineTo(nextWidth + fullPadding + radT + sidePadding, heightByNextLine);
-          _path.arcToPoint(Offset(nextWidth + fullPadding + sidePadding, heightByNextLine + radT),
-              radius: Radius.circular(radT), clockwise: false);
+          _path.arcToPoint(
+              Offset(
+                  textW + fullPadding - radT + sidePadding, heightByNextLine),
+              radius: Radius.circular(radT),
+              clockwise: true);
+          _path.lineTo(
+              nextWidth + fullPadding + radT + sidePadding, heightByNextLine);
+          _path.arcToPoint(
+              Offset(nextWidth + fullPadding + sidePadding,
+                  heightByNextLine + radT),
+              radius: Radius.circular(radT),
+              clockwise: false);
         }
         //_path.arcToPoint(Offset(nextWidth + fullPadding, heightByNextLine + radius), radius: rad, clockwise: closeWise);
         //_path.quadraticBezierTo(textW + fullPadding, heightByLines - radius, next.width + fullPadding, heightByLines);
       } else {
-        _path.lineTo(textW + fullPadding + sidePadding, heightByNextLine - radius);
+        _path.lineTo(
+            textW + fullPadding + sidePadding, heightByNextLine - radius);
 
         final nextX = textW + fullPadding - radius + sidePadding;
-        _path.arcToPoint(Offset(nextX, heightByNextLine), radius: rad, clockwise: true);
+        _path.arcToPoint(Offset(nextX, heightByNextLine),
+            radius: rad, clockwise: true);
       }
 
       if (last) {
         _path.lineTo(radius + edge + sidePadding, heightByNextLine);
-        _path.arcToPoint(Offset(edge + sidePadding, heightByNextLine - radius), radius: rad, clockwise: true);
+        _path.arcToPoint(Offset(edge + sidePadding, heightByNextLine - radius),
+            radius: rad, clockwise: true);
         _path.lineTo(edge + sidePadding, radius + edge + sidePadding);
-        _path.arcToPoint(Offset(radius + edge + sidePadding, edge + sidePadding), radius: rad, clockwise: true);
+        _path.arcToPoint(
+            Offset(radius + edge + sidePadding, edge + sidePadding),
+            radius: rad,
+            clockwise: true);
         _path.close();
       }
     }
   }
 
-  void drawStartRevert(Path _path, List<TextPainter> textPainters, double basePadding, double fullPadding) {
+  void drawStartRevert(Path _path, List<TextPainter> textPainters,
+      double basePadding, double fullPadding) {
     for (int i = 0; i < textPainters.length; i++) {
       TextPainter? previous = i > 0 ? textPainters[i - 1] : null;
       final painter = textPainters[i];
-      final textW = painter.width;
-      final textH = painter.height;
+      int charLength = painter.text!.toPlainText().characters.length;
+      final textW = charLength * ((config.letterSpacing + 1) * config.fontSize);
+      final textH = config.textHeight * config.fontSize;
       final radius = config.borderRadius;
       final rad = Radius.circular(radius);
       final edge = config.borderWidth;
-      final heightByLines = (i == 0 ? edge : edge + (textH + basePadding) * i) + sidePadding;
+      final heightByLines =
+          (i == 0 ? edge : edge + (textH + basePadding) * i) + sidePadding;
       final heightByNextLine = (textH + basePadding) * (i + 1) + sidePadding;
-
-      TextPainter? next = (i + 1) < textPainters.length ? textPainters[i + 1] : null;
-      double? nextWidth = next?.width;
+      TextPainter? next =
+      (i + 1) < textPainters.length ? textPainters[i + 1] : null;
+      int? nextCharLength =
+      next != null ? next.text!.toPlainText().characters.length : null;
+      double? nextHeight =
+      nextCharLength != null ? config.textHeight * config.fontSize : null;
+      double? nextWidth = nextCharLength != null
+          ? ((config.letterSpacing + 1) * config.fontSize) * nextCharLength
+          : null;
       final first = i == 0;
       final last = (i + 1) == textPainters.length;
       final minLeft = edge + sidePadding;
@@ -354,8 +508,10 @@ class TextBoxPainter {
       }
       if (previous == null) {
         _path.lineTo(heightByLines, textW + fullPadding - radius + sidePadding);
-        _path.arcToPoint(Offset(heightByLines + radius, textW + fullPadding + sidePadding),
-            radius: rad, clockwise: true);
+        _path.arcToPoint(
+            Offset(heightByLines + radius, textW + fullPadding + sidePadding),
+            radius: rad,
+            clockwise: false);
       } else {
         //_path.lineTo(textW + (basePadding * 2) - radius, heightByLines);
         //_path.arcToPoint(Offset(textW + basePadding, heightByLines + radius), radius: rad, clockwise: true);
@@ -367,53 +523,192 @@ class TextBoxPainter {
           if (gap < (radius * 2)) {
             radT = gap / 2;
           }
-          _path.lineTo(heightByNextLine - radT, textW + fullPadding + sidePadding);
+          _path.lineTo(
+              heightByNextLine - radT, textW + fullPadding + sidePadding);
 
-          _path.arcToPoint(Offset(heightByNextLine, textW + fullPadding + radT + sidePadding),
-              radius: Radius.circular(radT), clockwise: true);
-          _path.lineTo(heightByNextLine, nextWidth + fullPadding - radT + sidePadding);
-          _path.arcToPoint(Offset(heightByNextLine + radT, nextWidth + fullPadding + sidePadding),
-              radius: Radius.circular(radT), clockwise: nextWidth < textW);
+          _path.arcToPoint(
+              Offset(
+                  heightByNextLine, textW + fullPadding + radT + sidePadding),
+              radius: Radius.circular(radT),
+              clockwise: true);
+          _path.lineTo(
+              heightByNextLine, nextWidth + fullPadding - radT + sidePadding);
+          _path.arcToPoint(
+              Offset(heightByNextLine + radT,
+                  nextWidth + fullPadding + sidePadding),
+              radius: Radius.circular(radT),
+              clockwise: nextWidth < textW);
         } else {
-          final gap = (painter.width - next.width) / 2;
+          final gap = (textW - nextWidth) / 2;
           double radT = radius;
           if (gap < (radius * 2)) {
             radT = min(radius, gap);
           }
-          _path.lineTo(heightByNextLine - radT, textW + fullPadding + sidePadding);
+          _path.lineTo(
+              heightByNextLine - radT, textW + fullPadding + sidePadding);
           //_path.lineTo(textW + basePadding, heightByNextLine);
-          _path.arcToPoint(Offset(heightByNextLine, textW + fullPadding - radT + sidePadding),
-              radius: Radius.circular(radT), clockwise: false);
-          _path.lineTo(heightByNextLine, nextWidth + fullPadding + radT + sidePadding);
-          _path.arcToPoint(Offset(heightByNextLine + radT, nextWidth + fullPadding + sidePadding),
-              radius: Radius.circular(radT), clockwise: true);
+          _path.arcToPoint(
+              Offset(
+                  heightByNextLine, textW + fullPadding - radT + sidePadding),
+              radius: Radius.circular(radT),
+              clockwise: false);
+          _path.lineTo(
+              heightByNextLine, nextWidth + fullPadding + radT + sidePadding);
+          _path.arcToPoint(
+              Offset(heightByNextLine + radT,
+                  nextWidth + fullPadding + sidePadding),
+              radius: Radius.circular(radT),
+              clockwise: true);
         }
         //_path.arcToPoint(Offset(nextWidth + fullPadding, heightByNextLine + radius), radius: rad, clockwise: closeWise);
         //_path.quadraticBezierTo(textW + fullPadding, heightByLines - radius, next.width + fullPadding, heightByLines);
       } else {
-        _path.lineTo(heightByNextLine - radius, textW + fullPadding + sidePadding);
+        _path.lineTo(
+            heightByNextLine - radius, textW + fullPadding + sidePadding);
 
         final nextX = textW + fullPadding - radius + sidePadding;
-        _path.arcToPoint(Offset(heightByNextLine, nextX), radius: rad, clockwise: true);
+        _path.arcToPoint(Offset(heightByNextLine, nextX),
+            radius: rad, clockwise: false);
       }
 
       if (last) {
-        _path.lineTo(heightByNextLine, radius + edge + sidePadding,);
-        _path.arcToPoint(Offset(heightByNextLine - radius, edge + sidePadding), radius: rad, clockwise: false);
+        _path.lineTo(
+          heightByNextLine,
+          radius + edge + sidePadding,
+        );
+        _path.arcToPoint(Offset(heightByNextLine - radius, edge + sidePadding),
+            radius: rad, clockwise: false);
         _path.lineTo(radius + edge + sidePadding, edge + sidePadding);
-        _path.arcToPoint(Offset(edge + sidePadding, radius + edge + sidePadding,), radius: rad, clockwise: false);
+        _path.arcToPoint(
+            Offset(
+              edge + sidePadding,
+              radius + edge + sidePadding,
+            ),
+            radius: rad,
+            clockwise: false);
         _path.close();
       }
     }
   }
 
-  void drawHalfCenter(Path _path, List<TextPainter> textPainters, double basePadding, double fullPadding,
-      double maxTextWidth) {
+  void drawHalfCenterRevert(Path _path, List<TextPainter> textPainters,
+      double basePadding, double fullPadding, double maxTextWidth) {
+    for (int i = 0; i < textPainters.length; i++) {
+      TextPainter? previous = i > 0 ? textPainters[i - 1] : null;
+      final painter = textPainters[i];
+      int charLength = painter.text!.toPlainText().characters.length;
+      final textW = charLength * ((config.letterSpacing + 1) * config.fontSize);
+      final textH = config.textHeight * config.fontSize;
+      final radius = config.borderRadius;
+      final rad = Radius.circular(radius);
+      final edge = config.borderWidth;
+      final heightByLines =
+          (i == 0 ? edge : edge + (textH + basePadding) * i) + sidePadding;
+      final heightByNextLine = (textH + basePadding) * (i + 1) + sidePadding;
+      TextPainter? next =
+      (i + 1) < textPainters.length ? textPainters[i + 1] : null;
+      int? nextCharLength =
+      next != null ? next.text!.toPlainText().characters.length : null;
+      double? nextHeight =
+      nextCharLength != null ? config.textHeight * config.fontSize : null;
+      double? nextWidth = nextCharLength != null
+          ? ((config.letterSpacing + 1) * config.fontSize) * nextCharLength
+          : null;
+      double maxWidth = maxTextLengthFunc(config.text).characters.length *
+          ((config.letterSpacing + 1) * config.fontSize);
+      double half = maxWidth / 2;
+      final first = i == 0;
+      final last = (i + 1) == textPainters.length;
+      final minLeft = edge + sidePadding;
+      if (first) {
+        _path.moveTo(heightByLines, minLeft + half);
+      }
+      if (previous == null) {
+        _path.lineTo(heightByLines,
+            textW / 2 + fullPadding - radius + sidePadding + half);
+        _path.arcToPoint(
+            Offset(heightByLines + radius,
+                textW / 2 + fullPadding + sidePadding + half),
+            radius: rad,
+            clockwise: false);
+      } else {
+        //_path.lineTo(textW + (basePadding * 2) - radius, heightByLines);
+        //_path.arcToPoint(Offset(textW + basePadding, heightByLines + radius), radius: rad, clockwise: true);
+      }
+      if (next != null) {
+        if (nextWidth! > textW) {
+          final gap = nextWidth - textW;
+          double radT = radius;
+          if (gap < (radius * 2)) {
+            radT = gap / 2;
+          }
+          _path.lineTo(heightByNextLine - radT,
+              textW / 2 + fullPadding + sidePadding + half);
+
+          _path.arcToPoint(
+              Offset(heightByNextLine,
+                  textW / 2 + fullPadding + radT + sidePadding + half),
+              radius: Radius.circular(radT),
+              clockwise: true);
+          _path.lineTo(heightByNextLine,
+              nextWidth / 2 + fullPadding - radT + sidePadding + half);
+          _path.arcToPoint(
+              Offset(heightByNextLine + radT,
+                  nextWidth / 2 + fullPadding + sidePadding + half),
+              radius: Radius.circular(radT),
+              clockwise: nextWidth < textW);
+        } else {
+          final gap = (textW - nextWidth) / 2;
+          double radT = radius;
+          if (gap < (radius * 2)) {
+            radT = min(radius, gap);
+          }
+          _path.lineTo(heightByNextLine - radT,
+              textW / 2 + fullPadding + sidePadding + half);
+          //_path.lineTo(textW + basePadding, heightByNextLine);
+          _path.arcToPoint(
+              Offset(heightByNextLine,
+                  textW / 2 + fullPadding - radT + sidePadding + half),
+              radius: Radius.circular(radT),
+              clockwise: false);
+          _path.lineTo(heightByNextLine,
+              nextWidth / 2 + fullPadding + radT + sidePadding + half);
+          _path.arcToPoint(
+              Offset(heightByNextLine + radT,
+                  nextWidth / 2 + fullPadding + sidePadding + half),
+              radius: Radius.circular(radT),
+              clockwise: true);
+        }
+        //_path.arcToPoint(Offset(nextWidth + fullPadding, heightByNextLine + radius), radius: rad, clockwise: closeWise);
+        //_path.quadraticBezierTo(textW + fullPadding, heightByLines - radius, next.width + fullPadding, heightByLines);
+      } else {
+        _path.lineTo(heightByNextLine - radius,
+            textW / 2 + fullPadding + sidePadding + half);
+
+        final nextX = textW / 2 + fullPadding - radius + sidePadding + half;
+        _path.arcToPoint(Offset(heightByNextLine, nextX),
+            radius: rad, clockwise: false);
+      }
+
+      if (last) {
+        _path.lineTo(heightByNextLine, half + basePadding + sidePadding);
+
+        _path.lineTo(edge + sidePadding, half + basePadding + sidePadding);
+
+        _path.close();
+      }
+    }
+  }
+
+  void drawHalfCenter(Path _path, List<TextPainter> textPainters,
+      double basePadding, double fullPadding, double maxTextWidth) {
     for (int i = 0; i < textPainters.length; i++) {
       TextPainter? previous = i > 0 ? textPainters[i - 1] : null;
       final painter = textPainters[i];
       final edge = config.borderWidth;
-      double gapByCenterW = maxTextWidth == painter.width ? 0 : (maxTextWidth - painter.width) / 2;
+      double gapByCenterW = maxTextWidth == painter.width
+          ? 0
+          : (maxTextWidth - painter.width) / 2;
       final textW = gapByCenterW + painter.width;
       final textH = painter.height;
       final radius = config.borderRadius;
@@ -421,21 +716,28 @@ class TextBoxPainter {
       final heightByLines = (textH + basePadding) * i + sidePadding;
       final heightByNextLine = (textH + basePadding) * (i + 1) + sidePadding;
 
-      TextPainter? next = (i + 1) < textPainters.length ? textPainters[i + 1] : null;
+      TextPainter? next =
+      (i + 1) < textPainters.length ? textPainters[i + 1] : null;
       double? nextWidth;
       if (next != null) {
-        final gapByNextCenterW = maxTextWidth == next.width ? 0 : (maxTextWidth - next.width) / 2;
+        final gapByNextCenterW =
+        maxTextWidth == next.width ? 0 : (maxTextWidth - next.width) / 2;
         nextWidth = gapByNextCenterW + next.width;
       }
       final first = i == 0;
       final last = (i + 1) == textPainters.length;
       if (first) {
-        _path.moveTo(gapByCenterW + (painter.width / 2) + basePadding + sidePadding, heightByLines + edge);
+        _path.moveTo(
+            gapByCenterW + (painter.width / 2) + basePadding + sidePadding,
+            heightByLines + edge);
       }
       if (previous == null) {
-        _path.lineTo(textW + fullPadding - radius + sidePadding, heightByLines + edge);
-        _path.arcToPoint(Offset(textW + fullPadding + sidePadding, heightByLines + radius),
-            radius: rad, clockwise: true);
+        _path.lineTo(
+            textW + fullPadding - radius + sidePadding, heightByLines + edge);
+        _path.arcToPoint(
+            Offset(textW + fullPadding + sidePadding, heightByLines + radius),
+            radius: rad,
+            clockwise: true);
       } else {
         //_path.lineTo(textW + (basePadding * 2) - radius, heightByLines);
         //_path.arcToPoint(Offset(textW + basePadding, heightByLines + radius), radius: rad, clockwise: true);
@@ -447,37 +749,58 @@ class TextBoxPainter {
           if (gap < (radius * 2)) {
             radT = gap / 2;
           }
-          _path.lineTo(textW + fullPadding + sidePadding, heightByNextLine - radT);
+          _path.lineTo(
+              textW + fullPadding + sidePadding, heightByNextLine - radT);
 
-          _path.arcToPoint(Offset(textW + fullPadding + radT + sidePadding, heightByNextLine),
-              radius: Radius.circular(radT), clockwise: false);
-          _path.lineTo(nextWidth + fullPadding - radT + sidePadding, heightByNextLine);
-          _path.arcToPoint(Offset(nextWidth + fullPadding + sidePadding, heightByNextLine + radT),
-              radius: Radius.circular(radT), clockwise: nextWidth > textW);
+          _path.arcToPoint(
+              Offset(
+                  textW + fullPadding + radT + sidePadding, heightByNextLine),
+              radius: Radius.circular(radT),
+              clockwise: false);
+          _path.lineTo(
+              nextWidth + fullPadding - radT + sidePadding, heightByNextLine);
+          _path.arcToPoint(
+              Offset(nextWidth + fullPadding + sidePadding,
+                  heightByNextLine + radT),
+              radius: Radius.circular(radT),
+              clockwise: nextWidth > textW);
         } else {
           final gap = (painter.width - next.width) / 2;
           double radT = radius;
           if (gap < (radius * 2)) {
             radT = min(radius, gap);
           }
-          _path.lineTo(textW + fullPadding + sidePadding, heightByNextLine - radT);
-          _path.arcToPoint(Offset(textW + fullPadding - radT + sidePadding, heightByNextLine),
-              radius: Radius.circular(radT), clockwise: true);
-          _path.lineTo(nextWidth + fullPadding + radT + sidePadding, heightByNextLine);
-          _path.arcToPoint(Offset(nextWidth + fullPadding + sidePadding, heightByNextLine + radT),
-              radius: Radius.circular(radT), clockwise: false);
+          _path.lineTo(
+              textW + fullPadding + sidePadding, heightByNextLine - radT);
+          _path.arcToPoint(
+              Offset(
+                  textW + fullPadding - radT + sidePadding, heightByNextLine),
+              radius: Radius.circular(radT),
+              clockwise: true);
+          _path.lineTo(
+              nextWidth + fullPadding + radT + sidePadding, heightByNextLine);
+          _path.arcToPoint(
+              Offset(nextWidth + fullPadding + sidePadding,
+                  heightByNextLine + radT),
+              radius: Radius.circular(radT),
+              clockwise: false);
         }
       } else {
-        _path.lineTo(textW + fullPadding + sidePadding, heightByNextLine - radius);
+        _path.lineTo(
+            textW + fullPadding + sidePadding, heightByNextLine - radius);
 
         final nextX = textW + fullPadding - radius + sidePadding;
-        _path.arcToPoint(Offset(nextX, heightByNextLine), radius: rad, clockwise: true);
+        _path.arcToPoint(Offset(nextX, heightByNextLine),
+            radius: rad, clockwise: true);
       }
 
       if (last) {
-        _path.lineTo(gapByCenterW + (painter.width / 2) + basePadding + sidePadding, heightByNextLine);
+        _path.lineTo(
+            gapByCenterW + (painter.width / 2) + basePadding + sidePadding,
+            heightByNextLine);
         //_path.arcToPoint(Offset(edge + sidePadding, heightByNextLine - radius), radius: rad, clockwise: true);
       }
     }
   }
 }
+
