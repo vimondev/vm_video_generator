@@ -190,7 +190,7 @@ class TextBoxPainter {
             : ((mtl.characters.length) * oneLineSize) + sidePadding + basePadding;
         final maxX = !config.revertAlign
             ? (maxTextWidth + sidePadding) + basePadding * 2
-            : ((config.textHeight * config.fontSize) + basePadding) * (mtl.length - 1) + sidePadding;
+            : ((config.textHeight * config.fontSize) + basePadding) * (textPainters.length) + sidePadding;
         _path.moveTo(radius + edge, edge);
         _path.lineTo(maxX - radius, edge);
         _path.arcToPoint(Offset(maxX, edge + radius), radius: rad, clockwise: true);
