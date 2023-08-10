@@ -583,14 +583,14 @@ Future<AllEditedData> generateAllEditedData(
   // TO DO : Load from Template Data
   final List<XFadeTransitionData> originXfadeTransitionList =
           ResourceManager.getInstance().getAllXFadeTransitions(speed: speed);
-  final List<OverlayTransitionData>
-      originOverlayTransitionList = ResourceManager.getInstance().getAllOverlayTransitions(speed: speed);
+  // final List<OverlayTransitionData>
+  //     originOverlayTransitionList = ResourceManager.getInstance().getAllOverlayTransitions(speed: speed);
 
   final List<XFadeTransitionData> curXfadeTransitionList = [];
-  final List<OverlayTransitionData> curRecommendedOverlayTransitionList = [], curOtherOverlayTransitionList = [];
+  // final List<OverlayTransitionData> curRecommendedOverlayTransitionList = [], curOtherOverlayTransitionList = [];
   curXfadeTransitionList.addAll(originXfadeTransitionList);
-  curRecommendedOverlayTransitionList.addAll(originOverlayTransitionList.where((element) => element.isRecommend).toList());
-  curOtherOverlayTransitionList.addAll(originOverlayTransitionList.where((element) => !element.isRecommend).toList());
+  // curRecommendedOverlayTransitionList.addAll(originOverlayTransitionList.where((element) => element.isRecommend).toList());
+  // curOtherOverlayTransitionList.addAll(originOverlayTransitionList.where((element) => !element.isRecommend).toList());
 
   int lastTransitionInsertedIndex = 0;
   int clipCount = 3 + (Random()).nextInt(2);
@@ -617,9 +617,10 @@ Future<AllEditedData> generateAllEditedData(
       }
 
       if (isPassedBoundary) {
-        currentTransitionType = (Random()).nextDouble() >= 0.3
-            ? ETransitionType.xfade
-            : ETransitionType.overlay;
+        // currentTransitionType = (Random()).nextDouble() >= 0.3
+        //     ? ETransitionType.xfade
+        //     : ETransitionType.overlay;
+        currentTransitionType = ETransitionType.xfade;
       } //
       else {
         continue;
@@ -649,35 +650,35 @@ Future<AllEditedData> generateAllEditedData(
           curXfadeTransitionList.addAll(originXfadeTransitionList);
         }
       } //
-      else if (currentTransitionType == ETransitionType.overlay) {
-        List<OverlayTransitionData> curOverlayTransitionList;
-        if (Random().nextDouble() >= 0.4 && curRecommendedOverlayTransitionList.isNotEmpty) {
-          curOverlayTransitionList = curRecommendedOverlayTransitionList;
-        }
-        else {
-          if (curRecommendedOverlayTransitionList.isEmpty && curOtherOverlayTransitionList.isEmpty) {
-            curRecommendedOverlayTransitionList.addAll(originOverlayTransitionList.where((element) => element.isRecommend).toList());
-            curOtherOverlayTransitionList.addAll(originOverlayTransitionList.where((element) => !element.isRecommend).toList());
-          }
-          curOverlayTransitionList = curOtherOverlayTransitionList;
-        }
+      // else if (currentTransitionType == ETransitionType.overlay) {
+      //   List<OverlayTransitionData> curOverlayTransitionList;
+      //   if (Random().nextDouble() >= 0.4 && curRecommendedOverlayTransitionList.isNotEmpty) {
+      //     curOverlayTransitionList = curRecommendedOverlayTransitionList;
+      //   }
+      //   else {
+      //     if (curRecommendedOverlayTransitionList.isEmpty && curOtherOverlayTransitionList.isEmpty) {
+      //       curRecommendedOverlayTransitionList.addAll(originOverlayTransitionList.where((element) => element.isRecommend).toList());
+      //       curOtherOverlayTransitionList.addAll(originOverlayTransitionList.where((element) => !element.isRecommend).toList());
+      //     }
+      //     curOverlayTransitionList = curOtherOverlayTransitionList;
+      //   }
 
-        int randIdx = (Random()).nextInt(curOverlayTransitionList.length) %
-            curOverlayTransitionList.length;
-        editedMedia.transition = curOverlayTransitionList[randIdx];
+      //   int randIdx = (Random()).nextInt(curOverlayTransitionList.length) %
+      //       curOverlayTransitionList.length;
+      //   editedMedia.transition = curOverlayTransitionList[randIdx];
 
-        if (editedMedia.transition != null) {
-          final OverlayTransitionData overlayTransitionData =
-              editedMedia.transition as OverlayTransitionData;
-          if (overlayTransitionData.fileMap[ratio]!.duration >=
-              editedMedia.duration) {
-            editedMedia.transition = null;
-            continue;
-          }
-        }
+      //   if (editedMedia.transition != null) {
+      //     final OverlayTransitionData overlayTransitionData =
+      //         editedMedia.transition as OverlayTransitionData;
+      //     if (overlayTransitionData.fileMap[ratio]!.duration >=
+      //         editedMedia.duration) {
+      //       editedMedia.transition = null;
+      //       continue;
+      //     }
+      //   }
 
-        curOverlayTransitionList.removeAt(randIdx);
-      }
+      //   curOverlayTransitionList.removeAt(randIdx);
+      // }
 
       lastTransitionInsertedIndex = i;
       clipCount = 3 + (Random()).nextInt(2);
@@ -691,119 +692,119 @@ Future<AllEditedData> generateAllEditedData(
 
   // TO DO : Load from Template Data
 
-  final Map<EMediaLabel, List<FrameData>> originFrameMap = ResourceManager.getInstance().getFrameDataMap(speed: speed),
-      curRecommendedFrameMap = {}, curOtherFrameMap = {};
-  final Map<EMediaLabel, List<StickerData>> originStickerMap = ResourceManager.getInstance().getStickerDataMap(speed: speed),
-      curStickerMap = {};
+  // final Map<EMediaLabel, List<FrameData>> originFrameMap = ResourceManager.getInstance().getFrameDataMap(speed: speed),
+  //     curRecommendedFrameMap = {}, curOtherFrameMap = {};
+  // final Map<EMediaLabel, List<StickerData>> originStickerMap = ResourceManager.getInstance().getStickerDataMap(speed: speed),
+  //     curStickerMap = {};
 
-  for (final key in originFrameMap.keys) {
-    curRecommendedFrameMap[key] = [];
-    curOtherFrameMap[key] = [];
+  // for (final key in originFrameMap.keys) {
+  //   curRecommendedFrameMap[key] = [];
+  //   curOtherFrameMap[key] = [];
     
-    curRecommendedFrameMap[key]!.addAll(originFrameMap[key]!.where((frame) => frame.isRecommend).toList());
-    curOtherFrameMap[key]!.addAll(originFrameMap[key]!.where((frame) => !frame.isRecommend).toList());
-  }
+  //   curRecommendedFrameMap[key]!.addAll(originFrameMap[key]!.where((frame) => frame.isRecommend).toList());
+  //   curOtherFrameMap[key]!.addAll(originFrameMap[key]!.where((frame) => !frame.isRecommend).toList());
+  // }
 
-  for (final key in originStickerMap.keys) {
-    curStickerMap[key] = [];
-    curStickerMap[key]!.addAll(originStickerMap[key]!);
-  }
+  // for (final key in originStickerMap.keys) {
+  //   curStickerMap[key] = [];
+  //   curStickerMap[key]!.addAll(originStickerMap[key]!);
+  // }
 
-  int lastFrameInsertedIndex = 0;
-  clipCount = 2 + (Random()).nextInt(1);
+  // int lastFrameInsertedIndex = 0;
+  // clipCount = 2 + (Random()).nextInt(1);
 
-  // EXCEPT FIRST MEDIA
-  for (int i = 1; i < allEditedData.editedMediaList.length; i++) {
-    final EditedMedia editedMedia = allEditedData.editedMediaList[i];
+  // // EXCEPT FIRST MEDIA
+  // for (int i = 1; i < allEditedData.editedMediaList.length; i++) {
+  //   final EditedMedia editedMedia = allEditedData.editedMediaList[i];
 
-    if (editedMedia.duration < 2.5) {
-      continue;
-    }
+  //   if (editedMedia.duration < 2.5) {
+  //     continue;
+  //   }
 
-    final int diff = i - lastFrameInsertedIndex;
+  //   final int diff = i - lastFrameInsertedIndex;
 
-    EMediaLabel mediaLabel = editedMedia.mediaLabel;
-    switch (mediaLabel) {
-      case EMediaLabel.background:
-      case EMediaLabel.action:
-        {
-          if (diff >= clipCount) {
-            mediaLabel = EMediaLabel.background;
-            if (!originFrameMap.containsKey(mediaLabel)) continue;
+  //   EMediaLabel mediaLabel = editedMedia.mediaLabel;
+  //   switch (mediaLabel) {
+  //     case EMediaLabel.background:
+  //     case EMediaLabel.action:
+  //       {
+  //         if (diff >= clipCount) {
+  //           mediaLabel = EMediaLabel.background;
+  //           if (!originFrameMap.containsKey(mediaLabel)) continue;
 
-            List<FrameData> curFrameList;
-            if (Random().nextDouble() >= 0.4 && curRecommendedFrameMap[mediaLabel]!.isNotEmpty) {
-              curFrameList = curRecommendedFrameMap[mediaLabel]!;
-            }
-            else {
-              if (curRecommendedFrameMap[mediaLabel]!.isEmpty && curOtherFrameMap[mediaLabel]!.isEmpty) {
-                curRecommendedFrameMap[mediaLabel]!.addAll(originFrameMap[mediaLabel]!.where((frame) => frame.isRecommend).toList());
-                curOtherFrameMap[mediaLabel]!.addAll(originFrameMap[mediaLabel]!.where((frame) => !frame.isRecommend).toList());
-              }
-              curFrameList = curOtherFrameMap[mediaLabel]!;
-            }
+  //           List<FrameData> curFrameList;
+  //           if (Random().nextDouble() >= 0.4 && curRecommendedFrameMap[mediaLabel]!.isNotEmpty) {
+  //             curFrameList = curRecommendedFrameMap[mediaLabel]!;
+  //           }
+  //           else {
+  //             if (curRecommendedFrameMap[mediaLabel]!.isEmpty && curOtherFrameMap[mediaLabel]!.isEmpty) {
+  //               curRecommendedFrameMap[mediaLabel]!.addAll(originFrameMap[mediaLabel]!.where((frame) => frame.isRecommend).toList());
+  //               curOtherFrameMap[mediaLabel]!.addAll(originFrameMap[mediaLabel]!.where((frame) => !frame.isRecommend).toList());
+  //             }
+  //             curFrameList = curOtherFrameMap[mediaLabel]!;
+  //           }
 
-            int randIdx =
-                (Random()).nextInt(curFrameList.length) % curFrameList.length;
-            editedMedia.frame = curFrameList[randIdx];
-            curFrameList.removeAt(randIdx);
+  //           int randIdx =
+  //               (Random()).nextInt(curFrameList.length) % curFrameList.length;
+  //           editedMedia.frame = curFrameList[randIdx];
+  //           curFrameList.removeAt(randIdx);
 
-            lastFrameInsertedIndex = i;
-            clipCount = 4 + (Random()).nextInt(1);
-          }
-        }
-        break;
+  //           lastFrameInsertedIndex = i;
+  //           clipCount = 4 + (Random()).nextInt(1);
+  //         }
+  //       }
+  //       break;
 
-      case EMediaLabel.person:
-      case EMediaLabel.food:
-      case EMediaLabel.animal:
-      //   {
-      //     // 80% 확률로 스티커 삽입
-      //     if ((Random()).nextDouble() >= 0.8) continue;
-      //     if (!curStickerMap.containsKey(mediaLabel)) continue;
+  //     case EMediaLabel.person:
+  //     case EMediaLabel.food:
+  //     case EMediaLabel.animal:
+  //     //   {
+  //     //     // 80% 확률로 스티커 삽입
+  //     //     if ((Random()).nextDouble() >= 0.8) continue;
+  //     //     if (!curStickerMap.containsKey(mediaLabel)) continue;
 
-      //     List<StickerData> curStickerList = curStickerMap[mediaLabel]!;
-      //     int randIdx =
-      //         (Random()).nextInt(curStickerList.length) % curStickerList.length;
+  //     //     List<StickerData> curStickerList = curStickerMap[mediaLabel]!;
+  //     //     int randIdx =
+  //     //         (Random()).nextInt(curStickerList.length) % curStickerList.length;
 
-      //     final StickerData? stickerData = curStickerList[randIdx];
+  //     //     final StickerData? stickerData = curStickerList[randIdx];
 
-      //     if (stickerData != null) {
-      //       final EditedStickerData editedStickerData =
-      //           EditedStickerData(stickerData);
+  //     //     if (stickerData != null) {
+  //     //       final EditedStickerData editedStickerData =
+  //     //           EditedStickerData(stickerData);
 
-      //       final double stickerWidth =
-      //           editedStickerData.fileinfo!.width * editedStickerData.scale;
-      //       final double stickerHeight =
-      //           editedStickerData.fileinfo!.height * editedStickerData.scale;
+  //     //       final double stickerWidth =
+  //     //           editedStickerData.fileinfo!.width * editedStickerData.scale;
+  //     //       final double stickerHeight =
+  //     //           editedStickerData.fileinfo!.height * editedStickerData.scale;
 
-      //       final double radian = Random().nextDouble() * pi * 2;
-      //       final double distance =
-      //           (videoWidth > videoHeight ? videoHeight / 4 : videoWidth / 4);
+  //     //       final double radian = Random().nextDouble() * pi * 2;
+  //     //       final double distance =
+  //     //           (videoWidth > videoHeight ? videoHeight / 4 : videoWidth / 4);
 
-      //       editedStickerData.x = (videoWidth / 2) +
-      //           (cos(radian) * distance) -
-      //           (stickerWidth / 2);
-      //       editedStickerData.y = (videoHeight / 2) +
-      //           (sin(radian) * distance) -
-      //           (stickerHeight / 2);
+  //     //       editedStickerData.x = (videoWidth / 2) +
+  //     //           (cos(radian) * distance) -
+  //     //           (stickerWidth / 2);
+  //     //       editedStickerData.y = (videoHeight / 2) +
+  //     //           (sin(radian) * distance) -
+  //     //           (stickerHeight / 2);
 
-      //       editedMedia.stickers.add(editedStickerData);
+  //     //       editedMedia.stickers.add(editedStickerData);
 
-      //       curStickerList.removeAt(randIdx);
-      //       if (curStickerList.isEmpty) {
-      //         curStickerList.addAll(originStickerMap[mediaLabel]!);
-      //       }
-      //     }
-      //   }
-        break;
+  //     //       curStickerList.removeAt(randIdx);
+  //     //       if (curStickerList.isEmpty) {
+  //     //         curStickerList.addAll(originStickerMap[mediaLabel]!);
+  //     //       }
+  //     //     }
+  //     //   }
+  //       break;
 
-      case EMediaLabel.object:
-      default:
-        mediaLabel = EMediaLabel.none;
-        continue;
-    }
-  }
+  //     case EMediaLabel.object:
+  //     default:
+  //       mediaLabel = EMediaLabel.none;
+  //       continue;
+  //   }
+  // }
 
   print("--------------------------------------");
   print("--------------------------------------");

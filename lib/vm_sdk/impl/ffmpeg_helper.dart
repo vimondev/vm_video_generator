@@ -56,7 +56,7 @@ Future<RenderedData> clipRender(
     int clipIdx,
     TransitionData? prevTransition,
     TransitionData? nextTransition,
-    Function(Statistics)? ffmpegCallback, { isAutoEdit = false }) async {
+    Function(Statistics)? ffmpegCallback, { isOnlyOneClip = false }) async {
   final MediaData mediaData = await scaleImageMedia(editedMedia.mediaData);
   final FrameData? frame = editedMedia.frame;
   final List<EditedStickerData> stickerList = editedMedia.stickers;
@@ -233,8 +233,8 @@ Future<RenderedData> clipRender(
     ]);
 
     String overlayTimeFilter = "";
-    if (isAutoEdit) {
-      overlayTimeFilter = "enable='between(t\\,0,${min(5, editedMedia.duration)})':";
+    if (isOnlyOneClip) {
+      // overlayTimeFilter = "enable='between(t\\,0,${min(5, editedMedia.duration)})':";
     }
 
     filterStrings.add(
@@ -278,7 +278,7 @@ Future<RenderedData> clipRender(
       ]);
 
       String overlayTimeFilter = "";
-      if (isAutoEdit) {
+      if (isOnlyOneClip) {
         overlayTimeFilter = "enable='between(t\\,0,${min(5, editedMedia.duration)})':";
       }
 
