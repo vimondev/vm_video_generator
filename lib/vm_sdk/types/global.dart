@@ -122,11 +122,15 @@ class EditedMedia {
   double cropBottom = 1;
   double angle = 0;
 
+  bool vflip = false;
+  bool hflip = false;
+
   double volume = 1;
   double playbackSpeed = 1;
 
   FrameData? frame;
   List<EditedStickerData> stickers = [];
+  List<GiphyStickerData> giphyStickers = [];
   List<CanvasTextData> canvasTexts = [];
   TransitionData? transition;
   List<EditedTextData> editedTexts = [];

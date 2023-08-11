@@ -29,13 +29,12 @@ class RenderedData {
 final FFMpegManager _ffmpegManager = FFMpegManager();
 
 String _getTransposeFilter(int orientation) {
-  // switch (orientation) {
-  //   case 90: return "transpose=1,";
-  //   case 180: return "transpose=2,transpose=2,";
-  //   case 270: return "transpose=2,";
-  //   default: return "";
-  // }
-  return "";
+  switch (orientation) {
+    case 90: return "transpose=1,";
+    case 180: return "transpose=2,transpose=2,";
+    case 270: return "transpose=2,";
+    default: return "";
+  }
 }
 
 int _getEvenNumber(int num) {
@@ -60,6 +59,7 @@ Future<RenderedData> clipRender(
   final MediaData mediaData = await scaleImageMedia(editedMedia.mediaData);
   final FrameData? frame = editedMedia.frame;
   final List<EditedStickerData> stickerList = editedMedia.stickers;
+  final List<GiphyStickerData> giphyStickerList = editedMedia.giphyStickers;
   final List<CanvasTextData> canvasTexts = editedMedia.canvasTexts;
   final List<EditedTextData> textList = editedMedia.editedTexts;
 
@@ -133,9 +133,11 @@ Future<RenderedData> clipRender(
 
   int cropWidth = cropRight - cropLeft;
   int cropHeight = cropBottom - cropTop;
+
+  String flipFilter = "${editedMedia.vflip ? "vflip," : ""}${editedMedia.hflip ? "hflip," : ""}";
   
   filterStrings.add(
-      "[0:v]fps=$_framerate,$trimFilter${_getTransposeFilter(mediaData.orientation)}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,scale=${_resolution.width}:${_resolution.height},setdar=dar=${_resolution.width / _resolution.height}[vid];");
+      "[0:v]fps=$_framerate,$trimFilter$flipFilter${_getTransposeFilter(editedMedia.angle.round())}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,scale=${_resolution.width}:${_resolution.height},setdar=dar=${_resolution.width / _resolution.height}[vid];");
   videoOutputMapVariable = "[vid]";
   inputFileCount++;
 
@@ -207,6 +209,41 @@ Future<RenderedData> clipRender(
         "$videoOutputMapVariable${stickerRotatedMapVariable}overlay=${sticker.x}-(((${sticker.width}*cos($rotateForCal)+${sticker.height}*sin($rotateForCal))-${sticker.width})/2):${sticker.y}-(((${sticker.width}*sin($rotateForCal)+${sticker.height}*cos($rotateForCal))-${sticker.height})/2)$stickerMergedMapVariable;");
 
     videoOutputMapVariable = stickerMergedMapVariable;
+  }
+
+  ///////////////////////
+  // ADD GIPHY STICKER //
+  ///////////////////////
+
+  for (int i = 0; i < giphyStickerList.length; i++) {
+    final GiphyStickerData giphySticker = giphyStickerList[i];
+
+    final String giphyStickerScaledMapVariable = "[giphy_sticker_scaled$i]";
+    final String giphyStickerRotatedMapVariable = "[giphy_sticker_rotated$i]";
+    final String giphyStickerMergedMapVariable = "[giphy_sticker_merged$i]";
+
+    double rotate = giphySticker.rotate;
+    if (rotate < 0) rotate = pi + (pi + rotate);
+
+    double rotateForCal = rotate;
+    if (rotateForCal > pi) rotateForCal -= pi;
+    if (rotateForCal > pi / 2) rotateForCal = (pi / 2) - (rotateForCal - (pi / 2));
+
+    inputArguments.addAll([
+      "-stream_loop",
+      "-1",
+      "-i",
+      giphySticker.gifPath
+    ]);
+
+    filterStrings.add(
+        "[${inputFileCount++}:v]scale=${giphySticker.width}:-1$giphyStickerScaledMapVariable;");
+    filterStrings.add(
+        "${giphyStickerScaledMapVariable}rotate=$rotate:c=none:ow=rotw($rotate):oh=roth($rotate)$giphyStickerRotatedMapVariable;");
+    filterStrings.add(
+        "$videoOutputMapVariable${giphyStickerRotatedMapVariable}overlay=x=${giphySticker.x}-(((${giphySticker.width}*cos($rotateForCal)+${giphySticker.height}*sin($rotateForCal))-${giphySticker.width})/2):y=${giphySticker.y}-(((${giphySticker.width}*sin($rotateForCal)+${giphySticker.height}*cos($rotateForCal))-${giphySticker.height})/2):shortest=1$giphyStickerMergedMapVariable;");
+
+    videoOutputMapVariable = giphyStickerMergedMapVariable;
   }
 
   /////////////////////
@@ -830,8 +867,10 @@ Future<String?> extractThumbnail(EditedMedia editedMedia) async {
   int cropWidth = cropRight - cropLeft;
   int cropHeight = cropBottom - cropTop;
 
+  String flipFilter = "${editedMedia.vflip ? "vflip," : ""}${editedMedia.hflip ? "hflip," : ""}";
+
   filterStrings.add(
-      "${_getTransposeFilter(mediaData.orientation)}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,scale=${(_scaledVideoWidth / 2).floor()}:${(_scaledVideoHeight / 2).floor()},setdar=dar=${_scaledVideoWidth / _scaledVideoHeight}");
+      "$flipFilter${_getTransposeFilter(editedMedia.angle.round())}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,scale=${(_scaledVideoWidth / 2).floor()}:${(_scaledVideoHeight / 2).floor()},setdar=dar=${_scaledVideoWidth / _scaledVideoHeight}");
 
   String filterComplexStr = "";
   for (final String filterStr in filterStrings) {
@@ -866,7 +905,7 @@ Future<MediaData> scaleImageMedia(MediaData mediaData) async {
   int scaledHeight = _getEvenNumber((mediaData.height * imageScaleFactor).floor());
 
   filterStrings.add(
-      "${_getTransposeFilter(mediaData.orientation)}scale=$scaledWidth:$scaledHeight,setdar=dar=${scaledWidth / scaledHeight}");
+      "scale=$scaledWidth:$scaledHeight,setdar=dar=${scaledWidth / scaledHeight}");
 
   String filterComplexStr = "";
   for (final String filterStr in filterStrings) {

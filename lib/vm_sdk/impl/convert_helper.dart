@@ -21,6 +21,8 @@ String parseAllEditedDataToJSON(AllEditedData allEditedData) {
     EditedMedia editedMedia = allEditedData.editedMediaList[i];
     FrameData? frameData = editedMedia.frame;
     List<EditedStickerData> stickerDataList = editedMedia.stickers;
+    List<GiphyStickerData> giphyStickerDataList = editedMedia.giphyStickers;
+    List<CanvasTextData> canvasTextList = editedMedia.canvasTexts;
     TransitionData? transitionData = editedMedia.transition;
     List<EditedTextData> textList = editedMedia.editedTexts;
 
@@ -46,7 +48,8 @@ String parseAllEditedDataToJSON(AllEditedData allEditedData) {
       // "translateY": editedMedia.translateY,
       "volume": 1,
       "playbackSpeed": 1,
-      "flip": null,
+      "vflip": editedMedia.vflip,
+      "hflip": editedMedia.hflip,
       "rect": {
         "l": editedMedia.cropLeft,
         "t": editedMedia.cropTop,
@@ -109,6 +112,31 @@ String parseAllEditedDataToJSON(AllEditedData allEditedData) {
       }
     }
 
+    for (int j = 0; j < canvasTextList.length; j++) {
+      final CanvasTextData canvasTextData = canvasTextList[j];
+      overlays.add({
+        "id": uuid.v4(),
+        "type": "CANVAS",
+        "rect": {
+          "x": canvasTextData.x,
+          "y": canvasTextData.y,
+          "width": canvasTextData.width,
+          "height": canvasTextData.height
+        },
+        "stickerData": {
+          "localData": {
+            "id": uuid.v4(),
+            "type": "CANVAS",
+            "filePath": canvasTextData.imagePath
+          },
+          "payload": null
+        },
+        "scale": 1,
+        "angle": 0,
+        "slideKey": slideKey
+      });
+    }
+
     for (int j = 0; j < stickerDataList.length; j++) {
       final EditedStickerData stickerData = stickerDataList[j];
       overlays.add({
@@ -133,6 +161,31 @@ String parseAllEditedDataToJSON(AllEditedData allEditedData) {
         "slideKey": slideKey
       });
     }
+
+    // for (int j = 0; j < giphyStickerDataList.length; j++) {
+    //   final GiphyStickerData giphyStickerData = giphyStickerDataList[j];
+    //   overlays.add({
+    //     "id": uuid.v4(),
+    //     "type": "GIPHY_STICKER",
+    //     "rect": {
+    //       "x": giphyStickerData.x,
+    //       "y": giphyStickerData.y,
+    //       "width": giphyStickerData.width,
+    //       "height": giphyStickerData.height
+    //     },
+    //     "stickerData": {
+    //       "localData": {
+    //         "id": uuid.v4(),
+    //         "type": "GIPHY_STICKER",
+    //         "filePath": giphyStickerData.gifPath
+    //       },
+    //       "payload": null
+    //     },
+    //     "scale": 1,
+    //     "angle": 0,
+    //     "slideKey": slideKey
+    //   });
+    // }
 
     if (frameData != null) {
       frames.add({
@@ -260,6 +313,8 @@ AllEditedData parseJSONToAllEditedData(String encodedJSON) {
     editedMedia.angle = slide["angle"] * 1.0;
     editedMedia.volume = slide["volume"] * 1.0;
     editedMedia.playbackSpeed = slide["playbackSpeed"] * 1.0;
+    editedMedia.vflip = slide["vflip"] ?? false;
+    editedMedia.hflip = slide["hflip"] ?? false;
 
     bool isNeedRecalculateCrop = false;
     if (slide["rect"] != null) {
@@ -346,6 +401,19 @@ AllEditedData parseJSONToAllEditedData(String encodedJSON) {
 
           editedMedia.stickers.add(editedStickerData);
         }
+      } //
+      else if (overlay["type"] == "GIPHY_STICKER") {
+        final String gifPath = overlay["stickerData"]["localData"]["filePath"];
+        final GiphyStickerData giphyStickerData = GiphyStickerData();
+
+        giphyStickerData.gifPath = gifPath;
+        giphyStickerData.width = (overlay["rect"]["width"] * 1.0).floor();
+        giphyStickerData.height = (overlay["rect"]["height"] * 1.0).floor();
+        giphyStickerData.x = overlay["rect"]["x"] * allEditedData.resolution.width * 1.0;
+        giphyStickerData.y = overlay["rect"]["y"] * allEditedData.resolution.height * 1.0;
+        giphyStickerData.rotate = overlay["angle"] * 1.0;
+
+        editedMedia.giphyStickers.add(giphyStickerData);
       } //
       else if (overlay["type"] == "CANVAS") {
         final String imagePath = overlay["stickerData"]["localData"]["filePath"];
