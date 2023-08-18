@@ -403,10 +403,13 @@ AllEditedData parseJSONToAllEditedData(String encodedJSON) {
         }
       } //
       else if (overlay["type"] == "GIPHY_STICKER") {
-        final String gifPath = overlay["stickerData"]["localData"]["filePath"];
+        final String? url = overlay["stickerData"]?["resource"]?["images"]?["original"]?["url"];
+        if (url == null) continue;
+
         final GiphyStickerData giphyStickerData = GiphyStickerData();
 
-        giphyStickerData.gifPath = gifPath;
+        giphyStickerData.url = url;
+        giphyStickerData.gifId = overlay["stickerData"]?["resource"]?["id"] ?? Uuid().v4();
         giphyStickerData.width = (overlay["rect"]["width"] * 1.0).floor();
         giphyStickerData.height = (overlay["rect"]["height"] * 1.0).floor();
         giphyStickerData.x = overlay["rect"]["x"] * allEditedData.resolution.width * 1.0;

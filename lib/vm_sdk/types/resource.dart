@@ -135,6 +135,8 @@ class EditedStickerData extends StickerData {
 
 class GiphyStickerData {
   String gifPath = "";
+  String url = "";
+  String gifId = "";
   int width = 0;
   int height = 0;
   double x = 0;

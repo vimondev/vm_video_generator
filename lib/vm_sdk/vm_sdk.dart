@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:myapp/vm_sdk/impl/resource_fetch_helper.dart';
 import 'package:myapp/vm_sdk/text_box/text/config.dart';
 import 'package:myapp/vm_sdk/text_box/text_box_config_controller.dart';
 import 'package:tuple/tuple.dart';
@@ -391,6 +392,29 @@ class VMSDKWidget extends StatelessWidget {
 
       await ResourceManager.getInstance()
           .loadResourceFromAssets(editedMediaList, ratio);
+
+      Map<String, List<GiphyStickerData>> giphyMap = {};
+      for (int i = 0; i < editedMediaList.length; i++) {
+        final giphyStickers = editedMediaList[i].giphyStickers;
+
+        for (int j=0; j<giphyStickers.length; j++) {
+          String id = giphyStickers[j].gifId;
+
+          if (!giphyMap.containsKey(id)) {
+            giphyMap[id] = [];
+          }
+          giphyMap[id]!.add(giphyStickers[j]);
+        }
+      }
+
+      await Future.wait(giphyMap.keys.map((id) async {
+        GiphyStickerData giphyStickerData = giphyMap[id]!.first;
+        DownloadResourceResponse response = await downloadResource("${giphyStickerData.gifId}.gif", giphyStickerData.url);
+
+        for (int i=0; i<giphyMap[id]!.length; i++) {
+          giphyMap[id]![i].gifPath = response.file.path;
+        }
+      }));
 
       _currentStatus = EGenerateStatus.encoding;
       _currentRenderedFrame = 0;
