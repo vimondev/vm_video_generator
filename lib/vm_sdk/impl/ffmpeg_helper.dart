@@ -230,8 +230,8 @@ Future<RenderedData> clipRender(
     if (rotateForCal > pi / 2) rotateForCal = (pi / 2) - (rotateForCal - (pi / 2));
 
     inputArguments.addAll([
-      "-stream_loop",
-      "-1",
+      "-ignore_loop",
+      "0",
       "-i",
       giphySticker.gifPath
     ]);
@@ -407,6 +407,8 @@ Future<RenderedData> clipRender(
     videoOutputMapVariable,
     "-map",
     audioOutputMapVariable,
+    "-frames",
+    (_framerate * duration).round().toString(),
     "-c:v",
     "libx264",
     "-preset",
