@@ -135,9 +135,35 @@ Future<RenderedData> clipRender(
   int cropHeight = cropBottom - cropTop;
 
   String flipFilter = "${editedMedia.vflip ? "vflip," : ""}${editedMedia.hflip ? "hflip," : ""}";
-  
-  filterStrings.add(
-      "[0:v]fps=$_framerate,$trimFilter$flipFilter${_getTransposeFilter(editedMedia.angle.round())}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,scale=${_resolution.width}:${_resolution.height},setdar=dar=${_resolution.width / _resolution.height}[vid];");
+  if(editedMedia.angle.round() == 270 || editedMedia.angle.round() == 90) {
+    int rotatedMediaWidth = mediaData.height;
+    int rotatedMediaHeight = mediaData.width;
+
+    double scale = _resolution.height / rotatedMediaHeight;
+    int transposedWidth = (rotatedMediaWidth * scale).floor();
+    int transposedHeight = (rotatedMediaHeight * scale).floor();
+
+    int newCropLeft = (transposedWidth * editedMedia.cropLeft).floor();
+    int newCropTop = (transposedHeight * editedMedia.cropTop).floor();
+    int newCropWidth = (transposedWidth * (editedMedia.cropRight - editedMedia.cropLeft)).floor();
+    int newCropHeight = (transposedHeight * (editedMedia.cropBottom - editedMedia.cropTop)).floor();
+    // print('HAHA '
+    //     '\n\n\n'
+    //     '\n rotatedMediaWidth: $rotatedMediaWidth'
+    //     '\n rotatedMediaHeight: $rotatedMediaHeight'
+    //     '\n transposedWidth: $transposedWidth'
+    //     '\n transposedHeight: $transposedHeight'
+    //     '\n crop($newCropLeft, $newCropTop, $newCropWidth, $newCropHeight)'
+    //     '\n\n\n');
+    /// 
+    /// FIX-ROTATE_ZOOM
+    /// 
+    filterStrings.add(
+        "[0:v]fps=$_framerate,$trimFilter$flipFilter${_getTransposeFilter(editedMedia.angle.round())}scale=-1:${_resolution.height},crop=$newCropWidth:$newCropHeight:$newCropLeft:$newCropTop,scale=${_resolution.width}:${_resolution.height},setdar=dar=${_resolution.width / _resolution.height}[vid];");
+  } else {
+    filterStrings.add(
+        "[0:v]fps=$_framerate,$trimFilter$flipFilter${_getTransposeFilter(editedMedia.angle.round())}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,scale=${_resolution.width}:${_resolution.height},setdar=dar=${_resolution.width / _resolution.height}[vid];");
+  }
   videoOutputMapVariable = "[vid]";
   inputFileCount++;
 
@@ -870,9 +896,36 @@ Future<String?> extractThumbnail(EditedMedia editedMedia) async {
   int cropHeight = cropBottom - cropTop;
 
   String flipFilter = "${editedMedia.vflip ? "vflip," : ""}${editedMedia.hflip ? "hflip," : ""}";
+  if(editedMedia.angle.round() == 270 || editedMedia.angle.round() == 90) {
+    int rotatedMediaWidth = mediaData.height;
+    int rotatedMediaHeight = mediaData.width;
 
-  filterStrings.add(
-      "$flipFilter${_getTransposeFilter(editedMedia.angle.round())}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,scale=${(_scaledVideoWidth / 2).floor()}:${(_scaledVideoHeight / 2).floor()},setdar=dar=${_scaledVideoWidth / _scaledVideoHeight}");
+    double scale = _scaledVideoHeight / rotatedMediaHeight;
+    int transposedWidth = (rotatedMediaWidth * scale).floor();
+    int transposedHeight = (rotatedMediaHeight * scale).floor();
+
+    int newCropLeft = (transposedWidth * editedMedia.cropLeft).floor();
+    int newCropTop = (transposedHeight * editedMedia.cropTop).floor();
+    int newCropWidth = (transposedWidth * (editedMedia.cropRight - editedMedia.cropLeft)).floor();
+    int newCropHeight = (transposedHeight * (editedMedia.cropBottom - editedMedia.cropTop)).floor();
+    // print('HAHA '
+    //     '\n\n\n'
+    //     '\n rotatedMediaWidth: $rotatedMediaWidth'
+    //     '\n rotatedMediaHeight: $rotatedMediaHeight'
+    //     '\n transposedWidth: $transposedWidth'
+    //     '\n transposedHeight: $transposedHeight'
+    //     '\n crop($newCropLeft, $newCropTop, $newCropWidth, $newCropHeight)'
+    //     '\n\n\n');
+    /// 
+    /// FIX-ROTATE_ZOOM
+    /// 
+    filterStrings.add(
+        "$flipFilter${_getTransposeFilter(editedMedia.angle.round())}scale=-1:${_scaledVideoHeight},crop=$newCropWidth:$newCropHeight:$newCropLeft:$newCropTop,scale=${(_scaledVideoWidth / 2).floor()}:${(_scaledVideoHeight / 2).floor()},setdar=dar=${_scaledVideoWidth / _scaledVideoHeight}");
+  } else {
+    filterStrings.add(
+        "$flipFilter${_getTransposeFilter(editedMedia.angle.round())}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,scale=${(_scaledVideoWidth / 2).floor()}:${(_scaledVideoHeight / 2).floor()},setdar=dar=${_scaledVideoWidth / _scaledVideoHeight}");
+  }
+
 
   String filterComplexStr = "";
   for (final String filterStr in filterStrings) {
