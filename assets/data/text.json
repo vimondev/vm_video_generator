@@ -1131,6 +1131,27 @@
         "lineCount": 2,
         "letterSpacing": 1.5
     },
+    "Title_ES005": {
+        "enable": true,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_ES006": {
+        "enable": true,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_ES007": {
+        "enable": true,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
     "Title_JH010": {
         "enable": true,
         "group": "b_megazine_04",
@@ -1162,6 +1183,27 @@
         "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 2
+    },
+    "Title_JH014": {
+        "enable": true,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_JH015": {
+        "enable": true,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_JH016": {
+        "enable": true,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
     },
     "Title_SW037": {
         "enable": false,
@@ -1201,6 +1243,55 @@
         "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 2
+    },
+    "Title_SW042": {
+        "enable": true,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_SW043": {
+        "enable": true,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_SW044": {
+        "enable": true,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_SW045": {
+        "enable": true,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_YE001": {
+        "enable": true,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_YE002": {
+        "enable": true,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_YE003": {
+        "enable": true,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
     },
     "Title_YJ033": {
         "enable": true,
