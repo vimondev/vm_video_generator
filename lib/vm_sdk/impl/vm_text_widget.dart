@@ -52,7 +52,6 @@ class VMTextWidget extends StatelessWidget {
   double _frameRate = 0;
   int _totalFrameCount = 0;
   double _elapsedTime = 0;
-  Map<String, VMText> _textDataMap = {};
 
   String? _previewImagePath;
   String? _allSequencesPath;
@@ -86,8 +85,6 @@ class VMTextWidget extends StatelessWidget {
   int get totalFrameCount => _totalFrameCount;
 
   double get elapsedTime => _elapsedTime;
-
-  Map<String, VMText> get textDataMap => _textDataMap;
 
   String? get previewImagePath => _previewImagePath;
 
@@ -124,7 +121,6 @@ class VMTextWidget extends StatelessWidget {
     print("_height : $_height ");
     print("_frameRate : $_frameRate ");
     print("_totalFrameCount : $_totalFrameCount ");
-    print("_textDataMap : $_textDataMap");
     print("_allSequences : $_allSequencePaths");
   }
 
@@ -151,7 +147,6 @@ class VMTextWidget extends StatelessWidget {
     _height = 0;
     _frameRate = 0;
     _totalFrameCount = 0;
-    _textDataMap = {};
     _allSequencePaths = [];
   }
 
@@ -276,26 +271,13 @@ class VMTextWidget extends StatelessWidget {
     try {
       _width = args[0]["width"].toDouble();
       _height = args[0]["height"].toDouble();
-      List textData = args[0]["textData"];
       _frameRate = args[0]["frameRate"].toDouble();
       _elapsedTime = args[0]["elapsedTime"].toDouble();
-      _textDataMap.clear();
       _allSequencePaths.clear();
 
       final preview = args[0]["preview"];
       String previewUrl = "$_currentPreviewPath/preview.png";
       writeFileFromBase64(previewUrl, preview.toString().replaceAll("data:image/png;base64,", ""));
-
-      for (int i = 0; i < textData.length; i++) {
-        print('key is ${textData[i]['key']}');
-        print('value is ${textData[i]['value']}');
-
-        _textDataMap[i.toString()] = VMText(
-            textData[i]['key'],
-            textData[i]['value'],
-            Rectangle(textData[i]['x'].toDouble(), textData[i]['y'].toDouble(), textData[i]['width'].toDouble(),
-                textData[i]['height'].toDouble()));
-      }
 
       _previewImagePath = previewUrl;
       _printAllData();

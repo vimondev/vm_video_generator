@@ -222,8 +222,7 @@ class VMSDKWidget extends StatelessWidget {
           _textWidget.frameRate,
           _textWidget.totalFrameCount,
           _textWidget.previewImagePath ?? "",
-          _textWidget.allSequencesPath ?? "",
-          _textWidget.textDataMap);
+          _textWidget.allSequencesPath ?? "");
 
       EditedTextData editedTextData = EditedTextData(
         exportedText.id,
@@ -307,8 +306,7 @@ class VMSDKWidget extends StatelessWidget {
           _textWidget.frameRate,
           _textWidget.totalFrameCount,
           _textWidget.previewImagePath!,
-          _textWidget.allSequencesPath!,
-          _textWidget.textDataMap);
+          _textWidget.allSequencesPath!);
     }
 
     final VideoGeneratedResult result = await _runFFmpeg(
