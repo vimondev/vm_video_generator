@@ -47,10 +47,7 @@
         "enable": true,
         "group": "color_01",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -58,10 +55,7 @@
         "enable": true,
         "group": "color_02",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -142,10 +136,7 @@
         "enable": true,
         "group": "qute_01",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -160,10 +151,7 @@
         "enable": true,
         "group": "color_03",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -185,10 +173,7 @@
         "enable": true,
         "group": "qute_02",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -203,10 +188,7 @@
         "enable": true,
         "group": "color_04",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -214,10 +196,7 @@
         "enable": true,
         "group": "qute_03",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -313,10 +292,7 @@
         "enable": true,
         "group": "qute_04",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -338,10 +314,7 @@
         "enable": true,
         "group": "pinky_01",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -435,10 +408,7 @@
         "enable": true,
         "group": "qute_05",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -573,10 +543,7 @@
         "enable": true,
         "group": "qute_07",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -598,10 +565,7 @@
         "enable": true,
         "group": "color_05",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -616,10 +580,7 @@
         "enable": true,
         "group": "pinky_02",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -634,10 +595,7 @@
         "enable": true,
         "group": "qute_08",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -659,10 +617,7 @@
         "enable": true,
         "group": "color_06",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -670,10 +625,7 @@
         "enable": true,
         "group": "pinky_03",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -703,10 +655,7 @@
         "enable": true,
         "group": "color_07",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -721,10 +670,7 @@
         "enable": true,
         "group": "pinky_04",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -732,10 +678,7 @@
         "enable": true,
         "group": "color_08",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -757,10 +700,7 @@
         "enable": true,
         "group": "pinky_05",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -804,10 +744,7 @@
         "enable": true,
         "group": "qute_09",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -822,10 +759,7 @@
         "enable": true,
         "group": "color_09",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -841,10 +775,7 @@
         "enable": true,
         "group": "color_10",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -852,10 +783,7 @@
         "enable": true,
         "group": "pinky_06",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -884,10 +812,7 @@
         "enable": true,
         "group": "pinky_07",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -1006,10 +931,7 @@
         "enable": true,
         "group": "color_10",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -1047,10 +969,7 @@
         "enable": true,
         "group": "pinky_08",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -1080,10 +999,7 @@
         "enable": true,
         "group": "pinky_09",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -1091,10 +1007,7 @@
         "enable": true,
         "group": "pinky_10",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -1124,10 +1037,7 @@
         "enable": true,
         "group": "color_10",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -1142,10 +1052,7 @@
         "enable": true,
         "group": "qute_10",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -1153,10 +1060,7 @@
         "enable": true,
         "group": "pinky_11",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -1164,10 +1068,7 @@
         "enable": true,
         "group": "qute_11",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -1197,10 +1098,7 @@
         "enable": true,
         "group": "qute_12",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
