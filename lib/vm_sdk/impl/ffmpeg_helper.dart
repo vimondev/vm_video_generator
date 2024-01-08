@@ -17,7 +17,8 @@ ERatio _ratio = ERatio.ratio11;
 
 double _scaleFactor = 2 / 3.0;
 double _minDurationFactor = 1 / _framerate;
-const int _fadeDuration = 3;
+// const int _fadeDuration = 3;
+const int _fadeDuration = 0;
 
 class RenderedData {
   String absolutePath;

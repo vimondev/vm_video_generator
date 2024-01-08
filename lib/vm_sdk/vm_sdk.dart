@@ -518,23 +518,23 @@ class VMSDKWidget extends StatelessWidget {
         }
       }
 
-      if (isAutoEdit && editedMediaList.length > 1 && totalDuration >= 10) {
-        double curDuration = 0;
-        List<RenderedData> fadeOutClips = [];
-        for (int i = xfadeAppliedList.length - 1; i >= 0; i--) {
-          RenderedData lastClip = xfadeAppliedList.removeLast();
-          fadeOutClips.add(lastClip);
+      // if (isAutoEdit && editedMediaList.length > 1 && totalDuration >= 10) {
+      //   double curDuration = 0;
+      //   List<RenderedData> fadeOutClips = [];
+      //   for (int i = xfadeAppliedList.length - 1; i >= 0; i--) {
+      //     RenderedData lastClip = xfadeAppliedList.removeLast();
+      //     fadeOutClips.add(lastClip);
           
-          curDuration += lastClip.duration;
-          if (curDuration >= 2) {
-            final RenderedData fadeOutApplied =
-                await applyFadeOut(fadeOutClips.reversed.toList());
+      //     curDuration += lastClip.duration;
+      //     if (curDuration >= 2) {
+      //       final RenderedData fadeOutApplied =
+      //           await applyFadeOut(fadeOutClips.reversed.toList());
 
-            xfadeAppliedList.add(fadeOutApplied);
-            break;
-          }
-        }
-      }
+      //       xfadeAppliedList.add(fadeOutApplied);
+      //       break;
+      //     }
+      //   }
+      // }
 
       _currentStatus = EGenerateStatus.finishing;
       _currentRenderedFrame = _allFrame;
