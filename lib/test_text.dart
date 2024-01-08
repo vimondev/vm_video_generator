@@ -23,9 +23,6 @@ class _TestWidgetState extends State<TestWidget> {
   List<String> imageList = [];
   String _currentText = "";
 
-  int _currentIndex = 0;
-  bool _isRunning = false;
-
   bool _isInitialized = false;
 
   final FFMpegManager _ffmpegManager = FFMpegManager();
@@ -50,7 +47,7 @@ class _TestWidgetState extends State<TestWidget> {
         imageList = [];
       });
 
-      final List<TextData> allTexts = ResourceManager.getInstance().getTextDataList(autoEditOnly: true, lineCount: 2);
+      final List<TextData> allTexts = ResourceManager.getInstance().getTextDataList(autoEditOnly: false, lineCount: 2);
       allTexts.sort((a, b) {
         final aValue = "${a.group}_${a.key}";
         final bValue = "${b.group}_${b.key}";
@@ -58,24 +55,20 @@ class _TestWidgetState extends State<TestWidget> {
         return aValue.compareTo(bValue);
       });
 
-      // final String currentText =
-      //     allTexts[(_currentIndex) % allTexts.length];
-
-      // print('text is $currentText');
-      // print('_currentIndex is $_currentIndex');
-
-      // await _vmTextWidget.loadText(currentText);
-
-      // String? preview = _vmTextWidget.previewImagePath;
-      // setState(() {
-      //   if (preview != null) imageList = [preview];
-      // });
-
-      // _currentIndex++;
-
-      List<Map> list = [];
-
-      Map excepts = {
+      Map filteredText = {
+        // "Title_ES005": true,
+        // "Title_ES006": true,
+        // "Title_ES007": true,
+        // "Title_JH014": true,
+        // "Title_JH015": true,
+        // "Title_JH016": true,
+        // "Title_SW042": true,
+        // "Title_SW043": true,
+        // "Title_SW044": true,
+        // "Title_SW045": true,
+        // "Title_YE001": true,
+        // "Title_YE002": true,
+        // "Title_YE003": true,
       };
 
       for (int i = 0; i < allTexts.length; i++) {
@@ -83,20 +76,19 @@ class _TestWidgetState extends State<TestWidget> {
 
         final TextData currentTextData = allTexts[i];
         final String currentText = currentTextData.key;
-        if (excepts.containsKey(currentText)) continue;
+        // if (!filteredText.containsKey(currentText)) continue;
 
         print('text is $currentText');
         print('_currentIndex is $i / ${allTexts.length}');
 
         // await _vmTextWidget.loadText(currentText, initTexts: ["첫번째줄 테스트", "두번째줄 테스트"]);
-        await _vmTextWidget.loadText(currentText, initTexts: ["THIS IS TITLE"], language: "en");
+        // await _vmTextWidget.loadText(currentText, initTexts: ["THIS IS TITLE"], language: "en");
         // await _vmTextWidget.loadText(currentText, initTexts: ["パスワードを再確認してください。", "パスワードを再確認してください。"]);
         // await _vmTextWidget.loadText(currentText, initTexts: ["Sẵn sàng tiệc chưa?", "Sẵn sàng tiệc chưa?"]);
         // await _vmTextWidget.loadText(currentText, initTexts: ["วิดีโอที่คุณสร้างกำลังรอคุณอยู่", "วิดีโอที่คุณสร้างกำลังรอคุณอยู่"]);
 
-        // await _vmTextWidget.loadText(currentText, initTexts: ["THIS IS TITLE THIS IS TITLE THIS IS TITLE THIS IS TITLE", "THIS IS SUBTITLE THIS IS SUBTITLE THIS IS SUBTITLE THIS IS SUBTITLE"]);
-        // await _vmTextWidget.loadText(currentText, initTexts: ["THIS IS SUBTITLE THIS IS SUBTITLE THIS IS SUBTITLE THIS IS SUBTITLE"]);
-
+        await _vmTextWidget.loadText(currentText, initTexts: ["THIS IS TITLE", "THIS IS SUBTITLE"], language: "ko");
+        // await _vmTextWidget.loadText(currentText, initTexts: ["첫번째줄 테스트", "두번째줄 테스트"], language: "ko");
         await _vmTextWidget.extractAllSequence((progress) => {});
 
         final String appDirPath = await getAppDirectoryPath();
@@ -106,8 +98,8 @@ class _TestWidgetState extends State<TestWidget> {
 
         String? preview = _vmTextWidget.previewImagePath;
 
-        int width = (_vmTextWidget.width).floor();
-        int height = (_vmTextWidget.height).floor();
+        int width = (_vmTextWidget.width / 2).floor();
+        int height = (_vmTextWidget.height / 2).floor();
 
         width -= width % 2;
         height -= height % 2;
@@ -119,11 +111,13 @@ class _TestWidgetState extends State<TestWidget> {
           "${_vmTextWidget.allSequencesPath!}/%d.png",
           "-vf",
           "scale=$width:$height",
+
           "-c:v",
           "libvpx-vp9",
           "-pix_fmt",
           "yuva420p",
           "$webmPath/${currentTextData.group}_$currentText.webm",
+
           // "-c:v",
           // "libx264",
           // "-preset",
@@ -131,6 +125,7 @@ class _TestWidgetState extends State<TestWidget> {
           // "-pix_fmt",
           // "yuv420p",
           // "$webmPath/${currentTextData.group}_$currentText.mp4",
+
           "-y"
         ], (p0) => null);
 
@@ -139,11 +134,6 @@ class _TestWidgetState extends State<TestWidget> {
 
         print(webmPath);
         print(currentText);
-
-        // if (_vmTextWidget.elapsedTime >= 1000) {
-        //   print("heavy!");
-        //   print("");
-        // }
 
         await Future.delayed(const Duration(milliseconds: 1000));
 
@@ -155,26 +145,21 @@ class _TestWidgetState extends State<TestWidget> {
         print("");
       }
 
-      print("");
+      print("done!");
     } catch (e) {
       print(e);
-    } finally {
-      // _isRunning = false;
     }
   }
 
-  List<Widget> RectangleBoxList(isPreview, index) {
-    VMTextWidget textWidget = _vmTextWidget;
-
+  List<Widget> rectangleBoxList(isPreview, index) {
     List<Widget> list = [];
 
-    list.add(Container(
-      child: Image.file(
+    list.add(Image.file(
         File(imageList[index]),
         width: MediaQuery.of(this.context).size.width,
         fit: BoxFit.fitWidth,
       ),
-    ));
+    );
 
     if (isPreview) {
       final textList = _vmTextWidget.textDataMap.values.toList();
@@ -212,7 +197,7 @@ class _TestWidgetState extends State<TestWidget> {
                 itemBuilder: (BuildContext context, int index) {
                   bool isPreview = imageList.length == 1;
                   return Stack(
-                    children: RectangleBoxList(isPreview, index),
+                    children: rectangleBoxList(isPreview, index),
                   );
                 },
               ),
