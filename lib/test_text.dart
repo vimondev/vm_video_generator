@@ -45,19 +45,68 @@ class _TestWidgetState extends State<TestWidget> {
       });
 
       Map filteredText = {
-        // "Title_ES005": true,
-        // "Title_ES006": true,
-        // "Title_ES007": true,
-        // "Title_JH014": true,
-        // "Title_JH015": true,
-        // "Title_JH016": true,
-        // "Title_SW042": true,
-        // "Title_SW043": true,
-        // "Title_SW044": true,
-        // "Title_SW045": true,
-        // "Title_YE001": true,
-        // "Title_YE002": true,
-        // "Title_YE003": true,
+        "Title_DA003": true,
+        "Title_DA005": true,
+        "Title_DA018": true,
+        "Title_DA023": true,
+        "Title_DA024": true,
+        "Title_DA029": true,
+        "Title_ES002": true,
+        "Title_ES003": true,
+        "Title_ES005": true,
+        "Title_ES006": true,
+        "Title_ES007": true,
+        "Title_HJ003": true,
+        "Title_HJ006": true,
+        "Title_HJ007": true,
+        "Title_HJ008": true,
+        "Title_HJ010": true,
+        "Title_HJ014": true,
+        "Title_HJ020": true,
+        "Title_HJ021": true,
+        "Title_JH001": true,
+        "Title_JH005": true,
+        "Title_JH009": true,
+        "Title_JH010": true,
+        "Title_JH013": true,
+        "Title_JH014": true,
+        "Title_JH015": true,
+        "Title_JH016": true,
+        "Title_ON008": true,
+        "Title_SW006": true,
+        "Title_SW013": true,
+        "Title_SW014": true,
+        "Title_SW029": true,
+        "Title_SW034": true,
+        "Title_SW036": true,
+        "Title_SW038": true,
+        "Title_SW042": true,
+        "Title_SW045": true,
+        "Title_YE001": true,
+        "Title_YE002": true,
+        "Title_YE003": true,
+        "Title_YJ001": true,
+        "Title_YJ002": true,
+        "Title_YJ003": true,
+        "Title_YJ007": true,
+        "Title_YJ011": true,
+        "Title_YJ014": true,
+        "Title_YJ019": true,
+        "Title_YJ026": true,
+        "Title_YJ027": true,
+        "Title_YJ028": true,
+        "Title_YJ029": true,
+        "Title_YJ030": true,
+        "Title_YJ031": true,
+        "Title_YJ032": true,
+        "Title_YJ033": true,
+        "Title_YJ034": true,
+        "Title_YJ035": true,
+        "Title_YJ036": true,
+        "Title_YJ037": true,
+        "Title_YJ038": true,
+        "Title_YJ039": true,
+        "Title_YJ040": true,
       };
 
       for (int i = 0; i < allTexts.length; i++) {
@@ -65,19 +114,15 @@ class _TestWidgetState extends State<TestWidget> {
 
         final TextData currentTextData = allTexts[i];
         final String currentText = currentTextData.key;
-        // if (!filteredText.containsKey(currentText)) continue;
+        if (!filteredText.containsKey(currentText)) continue;
 
         print('text is $currentText');
         print('_currentIndex is $i / ${allTexts.length}');
 
-        // await _vmTextWidget.loadText(currentText, initTexts: ["첫번째줄 테스트", "두번째줄 테스트"]);
-        // await _vmTextWidget.loadText(currentText, initTexts: ["THIS IS TITLE"], language: "en");
-        // await _vmTextWidget.loadText(currentText, initTexts: ["パスワードを再確認してください。", "パスワードを再確認してください。"]);
-        // await _vmTextWidget.loadText(currentText, initTexts: ["Sẵn sàng tiệc chưa?", "Sẵn sàng tiệc chưa?"]);
-        // await _vmTextWidget.loadText(currentText, initTexts: ["วิดีโอที่คุณสร้างกำลังรอคุณอยู่", "วิดีโอที่คุณสร้างกำลังรอคุณอยู่"]);
-
         await _vmTextWidget.loadText(currentText, initTexts: ["THIS IS TITLE", "THIS IS SUBTITLE"], language: "ko");
         // await _vmTextWidget.loadText(currentText, initTexts: ["첫번째줄 테스트", "두번째줄 테스트"], language: "ko");
+        // await _vmTextWidget.loadText(currentText, initTexts: ["パスワードを再確認してください。", "パスワードを再確認してください。"], language: "ja");
+        
         await _vmTextWidget.extractAllSequence((progress) => {});
 
         final String appDirPath = await getAppDirectoryPath();
@@ -105,7 +150,8 @@ class _TestWidgetState extends State<TestWidget> {
           "libvpx-vp9",
           "-pix_fmt",
           "yuva420p",
-          "$webmPath/${currentTextData.group}_$currentText.webm",
+          "$webmPath/$currentText.webm",
+          // "$webmPath/${currentTextData.group}_$currentText.webm",
 
           // "-c:v",
           // "libx264",
@@ -113,13 +159,15 @@ class _TestWidgetState extends State<TestWidget> {
           // "ultrafast",
           // "-pix_fmt",
           // "yuv420p",
+          // "$webmPath/$currentText.mp4",
           // "$webmPath/${currentTextData.group}_$currentText.mp4",
 
           "-y"
         ], (p0) => null);
 
         File thumbnailFile = File(_vmTextWidget.previewImagePath!);
-        await thumbnailFile.copy("$webmPath/${currentTextData.group}_$currentText.png");
+        await thumbnailFile.copy("$webmPath/$currentText.png");
+        // await thumbnailFile.copy("$webmPath/${currentTextData.group}_$currentText.png");
 
         print(webmPath);
         print(currentText);
