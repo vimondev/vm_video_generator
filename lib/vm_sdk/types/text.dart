@@ -20,10 +20,9 @@ class TextExportData {
   int totalFrameCount;
   String previewImagePath;
   String allSequencesPath;
-  Map<String, VMText> textDataMap;
 
   TextExportData(this.id, this.width, this.height, this.frameRate, this.totalFrameCount,
-      this.previewImagePath, this.allSequencesPath, this.textDataMap);
+      this.previewImagePath, this.allSequencesPath);
 }
 
 class EditedTextData {

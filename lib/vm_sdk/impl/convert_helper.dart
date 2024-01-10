@@ -60,22 +60,6 @@ String parseAllEditedDataToJSON(AllEditedData allEditedData) {
       final TextExportData? exportedText = editedText.textExportData;
 
       if (exportedText != null) {
-        final Map textDataMap = {};
-
-        for (final key in exportedText.textDataMap.keys) {
-          VMText vmText = exportedText.textDataMap[key]!;
-          textDataMap[key] = {
-            "key": vmText.key,
-            "value": vmText.value,
-            "boundingBox": {
-              "x": vmText.boundingBox.x,
-              "y": vmText.boundingBox.y,
-              "width": vmText.boundingBox.width,
-              "height": vmText.boundingBox.height
-            }
-          };
-        }
-
         overlays.add({
           "id": uuid.v4(),
           "type": "TEXT",
@@ -99,7 +83,6 @@ String parseAllEditedDataToJSON(AllEditedData allEditedData) {
               "height": exportedText.height,
               "frameRate": exportedText.frameRate,
               "totalFrameCount": exportedText.totalFrameCount,
-              "textDataMap": textDataMap,
             }
           },
           "scale": 1,
