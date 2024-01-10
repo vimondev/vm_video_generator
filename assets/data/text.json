@@ -6,6 +6,13 @@
         "lineCount": 2,
         "letterSpacing": 1
     },
+    "Title_DA002": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
     "Title_DA003": {
         "enable": true,
         "group": "cool_01",
@@ -37,36 +44,44 @@
         "letterSpacing": 1
     },
     "Title_DA007": {
-        "enable": true,
+        "enable": false,
         "group": "color_01",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
     "Title_DA011": {
-        "enable": true,
+        "enable": false,
         "group": "color_02",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
     "Title_DA012": {
-        "enable": true,
+        "enable": false,
         "group": "cool_03",
         "unsupportLang": {},
         "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
+    "Title_DA013": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
     "Title_DA014": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_DA015": {
         "enable": false,
         "unsupportLang": {},
         "exceptSpeed": {},
@@ -81,7 +96,7 @@
         "letterSpacing": 1
     },
     "Title_DA017": {
-        "enable": true,
+        "enable": false,
         "group": "cool_04",
         "unsupportLang": {},
         "exceptSpeed": {},
@@ -96,25 +111,47 @@
         "lineCount": 2,
         "letterSpacing": 1
     },
+    "Title_DA019": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_DA020": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_DA022": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
     "Title_DA023": {
         "enable": true,
         "group": "qute_01",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_DA024": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
     "Title_DA025": {
-        "enable": true,
+        "enable": false,
         "group": "color_03",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -133,40 +170,90 @@
         "letterSpacing": 1
     },
     "Title_DA028": {
-        "enable": true,
+        "enable": false,
         "group": "qute_02",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_DA029": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
     "Title_DA030": {
-        "enable": true,
+        "enable": false,
         "group": "color_04",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
     "Title_DA031": {
-        "enable": true,
+        "enable": false,
         "group": "qute_03",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
     "Title_DA032": {
         "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_ES001": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1.5
+    },
+    "Title_ES002": {
+        "enable": true,
+        "group": "b_megazine_01",
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1.75
+    },
+    "Title_ES003": {
+        "enable": true,
+        "group": "b_megazine_02",
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1.5
+    },
+    "Title_ES004": {
+        "enable": false,
+        "group": "b_megazine_03",
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1.5
+    },
+    "Title_ES005": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_ES006": {
+        "enable": true,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_ES007": {
+        "enable": true,
         "unsupportLang": {},
         "exceptSpeed": {},
         "lineCount": 2,
@@ -202,30 +289,45 @@
         "letterSpacing": 1
     },
     "Title_HJ005": {
-        "enable": true,
+        "enable": false,
         "group": "qute_04",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_HJ006": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_HJ007": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
     "Title_HJ008": {
-        "enable": true,
+        "enable": false,
         "group": "pinky_01",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
     "Title_HJ009": {
-        "enable": true,
+        "enable": false,
         "group": "cool_05",
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_HJ010": {
+        "enable": false,
         "unsupportLang": {},
         "exceptSpeed": {},
         "lineCount": 2,
@@ -260,7 +362,21 @@
         "lineCount": 2,
         "letterSpacing": 1
     },
+    "Title_HJ015": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
     "Title_HJ016": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_HJ019": {
         "enable": false,
         "unsupportLang": {},
         "exceptSpeed": {},
@@ -274,19 +390,37 @@
         "lineCount": 2,
         "letterSpacing": 1
     },
+    "Title_HJ021": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_HJ022": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
     "Title_HJ023": {
-        "enable": true,
+        "enable": false,
         "group": "qute_05",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_HJ024": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
     "Title_HJ025": {
-        "enable": true,
+        "enable": false,
         "group": "cool_06",
         "unsupportLang": {},
         "exceptSpeed": {},
@@ -300,16 +434,30 @@
         "lineCount": 2,
         "letterSpacing": 1
     },
+    "Title_JH001": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
     "Title_JH003": {
-        "enable": true,
+        "enable": false,
         "group": "morden_04",
         "unsupportLang": {},
         "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
+    "Title_JH005": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
     "Title_JH008": {
-        "enable": true,
+        "enable": false,
         "group": "a_simple_01",
         "unsupportLang": {},
         "exceptSpeed": {},
@@ -317,21 +465,85 @@
         "letterSpacing": 1
     },
     "Title_JH009": {
-        "enable": true,
+        "enable": false,
         "group": "a_simple_02",
         "unsupportLang": {},
         "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
-    "Title_ON003": {
+    "Title_JH010": {
         "enable": true,
+        "group": "b_megazine_04",
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_JH011": {
+        "enable": false,
+        "group": "b_megazine_05",
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_JH012": {
+        "enable": false,
+        "group": "b_megazine_06",
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 2
+    },
+    "Title_JH013": {
+        "enable": true,
+        "group": "b_megazine_07",
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 2
+    },
+    "Title_JH014": {
+        "enable": true,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_JH015": {
+        "enable": true,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_JH016": {
+        "enable": true,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_ON001": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_ON002": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_ON003": {
+        "enable": false,
         "group": "qute_07",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -350,13 +562,10 @@
         "letterSpacing": 1
     },
     "Title_ON007": {
-        "enable": true,
+        "enable": false,
         "group": "color_05",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -368,13 +577,10 @@
         "letterSpacing": 1
     },
     "Title_ON009": {
-        "enable": true,
+        "enable": false,
         "group": "pinky_02",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -386,35 +592,40 @@
         "letterSpacing": 1
     },
     "Title_ON011": {
-        "enable": true,
+        "enable": false,
         "group": "qute_08",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_ON012": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_ON013": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
     "Title_SW001": {
-        "enable": true,
+        "enable": false,
         "group": "color_06",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
     "Title_SW002": {
-        "enable": true,
+        "enable": false,
         "group": "pinky_03",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -426,7 +637,7 @@
         "letterSpacing": 1
     },
     "Title_SW004": {
-        "enable": true,
+        "enable": false,
         "group": "morden_05",
         "unsupportLang": {},
         "exceptSpeed": {},
@@ -444,32 +655,37 @@
         "enable": true,
         "group": "color_07",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_SW007": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
     "Title_SW008": {
-        "enable": true,
+        "enable": false,
         "group": "pinky_04",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
     "Title_SW009": {
-        "enable": true,
+        "enable": false,
         "group": "color_08",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_SW010": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -481,17 +697,36 @@
         "letterSpacing": 1
     },
     "Title_SW012": {
-        "enable": true,
+        "enable": false,
         "group": "pinky_05",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
     "Title_SW013": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_SW014": {
+        "enable": true,
+        "group": "morden_06",
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_SW015": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_SW016": {
         "enable": false,
         "unsupportLang": {},
         "exceptSpeed": {},
@@ -506,29 +741,30 @@
         "letterSpacing": 1
     },
     "Title_SW018": {
-        "enable": true,
+        "enable": false,
         "group": "qute_09",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_SW019": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
     "Title_SW021": {
-        "enable": true,
+        "enable": false,
         "group": "color_09",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
     "Title_SW022": {
-        "enable": true,
+        "enable": false,
         "group": "morden_07",
         "unsupportLang": {},
         "exceptSpeed": {},
@@ -536,41 +772,164 @@
         "letterSpacing": 1
     },
     "Title_SW024": {
-        "enable": true,
+        "enable": false,
         "group": "color_10",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
     "Title_SW025": {
-        "enable": true,
+        "enable": false,
         "group": "pinky_06",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_SW026": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_SW029": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_SW030": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
     "Title_SW031": {
-        "enable": true,
+        "enable": false,
         "group": "pinky_07",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_SW032": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
     "Title_SW034": {
         "enable": true,
         "group": "a_simple_04",
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_SW036": {
+        "enable": true,
+        "group": "a_simple_05",
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_SW037": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 4
+    },
+    "Title_SW038": {
+        "enable": true,
+        "group": "b_megazine_08",
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_SW039": {
+        "enable": false,
+        "group": "b_megazine_09",
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 2
+    },
+    "Title_SW040": {
+        "enable": false,
+        "group": "morden_12",
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 2
+    },
+    "Title_SW041": {
+        "enable": false,
+        "group": "morden_13",
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 2
+    },
+    "Title_SW042": {
+        "enable": true,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_SW043": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_SW044": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_SW045": {
+        "enable": true,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_YE001": {
+        "enable": true,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_YE002": {
+        "enable": true,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_YE003": {
+        "enable": true,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_YJ001": {
+        "enable": true,
+        "group": "color_10",
         "unsupportLang": {},
         "exceptSpeed": {},
         "lineCount": 2,
@@ -598,6 +957,22 @@
         "lineCount": 2,
         "letterSpacing": 1
     },
+    "Title_YJ005": {
+        "enable": false,
+        "group": "morden_10",
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_YJ006": {
+        "enable": false,
+        "group": "pinky_08",
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
     "Title_YJ007": {
         "enable": true,
         "group": "morden_11",
@@ -613,14 +988,18 @@
         "lineCount": 2,
         "letterSpacing": 1
     },
+    "Title_YJ009": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
     "Title_YJ010": {
-        "enable": true,
+        "enable": false,
         "group": "pinky_09",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -628,10 +1007,7 @@
         "enable": true,
         "group": "pinky_10",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -649,14 +1025,19 @@
         "lineCount": 2,
         "letterSpacing": 1
     },
-    "Title_YJ015": {
+    "Title_YJ014": {
         "enable": true,
+        "group": "a_simple_07",
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_YJ015": {
+        "enable": false,
         "group": "color_10",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -668,24 +1049,18 @@
         "letterSpacing": 1
     },
     "Title_YJ017": {
-        "enable": true,
+        "enable": false,
         "group": "qute_10",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
     "Title_YJ018": {
-        "enable": true,
+        "enable": false,
         "group": "pinky_11",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -693,15 +1068,19 @@
         "enable": true,
         "group": "qute_11",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_YJ020": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
     "Title_YJ021": {
-        "enable": true,
+        "enable": false,
         "group": "a_simple_07",
         "unsupportLang": {},
         "exceptSpeed": {},
@@ -716,13 +1095,24 @@
         "letterSpacing": 1
     },
     "Title_YJ023": {
-        "enable": true,
+        "enable": false,
         "group": "qute_12",
         "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_YJ024": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
+        "lineCount": 2,
+        "letterSpacing": 1
+    },
+    "Title_YJ025": {
+        "enable": false,
+        "unsupportLang": {},
+        "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
     },
@@ -757,305 +1147,6 @@
         "lineCount": 2,
         "letterSpacing": 1
     },
-    "Title_DA002": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_DA013": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_DA015": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_DA019": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_DA020": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_DA022": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_DA024": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_DA029": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_HJ006": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_HJ007": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_HJ010": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_HJ015": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_HJ019": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_HJ021": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_HJ022": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_HJ024": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_JH001": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_JH005": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_ON001": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_ON002": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_ON012": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_ON013": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_SW007": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_SW010": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_SW014": {
-        "enable": true,
-        "group": "morden_06",
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_SW015": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_SW016": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_SW019": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_SW026": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_SW029": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_SW030": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_SW032": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_SW036": {
-        "enable": true,
-        "group": "a_simple_05",
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_YJ001": {
-        "enable": true,
-        "group": "color_10",
-        "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_YJ005": {
-        "enable": true,
-        "group": "morden_10",
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_YJ006": {
-        "enable": true,
-        "group": "pinky_08",
-        "unsupportLang": {},
-        "exceptSpeed": {
-            "SS": true,
-            "S": true
-        },
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_YJ009": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_YJ014": {
-        "enable": true,
-        "group": "a_simple_07",
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_YJ020": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_YJ024": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_YJ025": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
     "Title_YJ030": {
         "enable": true,
         "group": "a_simple_11",
@@ -1078,129 +1169,6 @@
         "exceptSpeed": {},
         "lineCount": 2,
         "letterSpacing": 1
-    },
-    "Subtitle_SW001": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 1,
-        "letterSpacing": 1
-    },
-    "Subtitle_SW002": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 1,
-        "letterSpacing": 1
-    },
-    "Subtitle_SW003": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 1,
-        "letterSpacing": 1
-    },
-    "Title_ES001": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1.5
-    },
-    "Title_ES002": {
-        "enable": true,
-        "group": "b_megazine_01",
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1.75
-    },
-    "Title_ES003": {
-        "enable": true,
-        "group": "b_megazine_02",
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1.5
-    },
-    "Title_ES004": {
-        "enable": true,
-        "group": "b_megazine_03",
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1.5
-    },
-    "Title_JH010": {
-        "enable": true,
-        "group": "b_megazine_04",
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_JH011": {
-        "enable": true,
-        "group": "b_megazine_05",
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_JH012": {
-        "enable": true,
-        "group": "b_megazine_06",
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 2
-    },
-    "Title_JH013": {
-        "enable": true,
-        "group": "b_megazine_07",
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 2
-    },
-    "Title_SW037": {
-        "enable": false,
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 4
-    },
-    "Title_SW038": {
-        "enable": true,
-        "group": "b_megazine_08",
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 1
-    },
-    "Title_SW039": {
-        "enable": true,
-        "group": "b_megazine_09",
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 2
-    },
-    "Title_SW040": {
-        "enable": true,
-        "group": "morden_12",
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 2
-    },
-    "Title_SW041": {
-        "enable": true,
-        "group": "morden_13",
-        "unsupportLang": {},
-        "exceptSpeed": {},
-        "lineCount": 2,
-        "letterSpacing": 2
     },
     "Title_YJ033": {
         "enable": true,
