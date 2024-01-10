@@ -464,32 +464,32 @@
         "ko": "IBMPlexSansKR-Light",
         "ja": "GenJyuuGothicL-Monospace-Regular"
     },
-    "SF_HambakSnow":{
-        "ko": "SF_HambakSnow",
-        "ja": "Togalite-bold"
-    },
     "DXmetalgothic-ExtraBold-KSCpc-EUC-H": {
         "ko": "DXmetalgothic-ExtraBold-KSCpc-EUC-H",
-        "ja": "GenEi M Gothic_Black"
+        "ja": "GenJyuuGothicL-Monospace-Bold"	
+    },
+    "SF_HambakSnow": {
+        "ko": "SF_HambakSnow",
+        "ja": "Isemin"	
     },
     "RixInooAriDuriR": {
         "ko": "RixInooAriDuriR",
-        "ja": "Nikumaru"
+        "ja": "JNR_Font"	
     },
     "Cafe24ClassicType-Regular": {
         "ko": "Cafe24ClassicType-Regular",
-        "ja": "Isemin"
+        "ja": "Isemin"	
     },
     "DXmetalgothic-Bold-KSCpc-EUC-H": {
         "ko": "DXmetalgothic-Bold-KSCpc-EUC-H",
-        "ja": "HackGen-Bold"
+        "ja": "GenJyuuGothicL-Monospace-Bold"	
     },
     "netmarbleB": {
         "ko": "netmarbleB",
-        "ja": "rounded-x-mgenplus-1c-bold"
+        "ja": "rounded-x-mgenplus-1c-bold"	
     },
     "Galmuri11-Regular": {
         "ko": "Galmuri11-Regular",
-        "ja": "CP-period"
+        "ja": "CP-period"	
     }
 }
