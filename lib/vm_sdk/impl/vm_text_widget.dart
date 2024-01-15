@@ -60,6 +60,10 @@ class VMTextWidget extends StatelessWidget {
 
   List<String> get allSequencePaths => _allSequencePaths;
 
+  Map<String, Rect> _textBoundingBox = {};
+
+  Map<String, Rect> get textBoundingBox => _textBoundingBox;
+
   Future<void> loadText(String id, { List<String>? initTexts, required language }) async {
     _id = id;
 
@@ -88,6 +92,7 @@ class VMTextWidget extends StatelessWidget {
     print("_width : $_width ");
     print("_height : $_height ");
     print("_frameRate : $_frameRate ");
+    print("_textBoundingBox : $_textBoundingBox");
     print("_totalFrameCount : $_totalFrameCount ");
     print("_allSequences : $_allSequencePaths");
   }
@@ -114,6 +119,7 @@ class VMTextWidget extends StatelessWidget {
     _width = 0;
     _height = 0;
     _frameRate = 0;
+    _textBoundingBox = {};
     _totalFrameCount = 0;
     _allSequencePaths = [];
   }
@@ -241,6 +247,16 @@ class VMTextWidget extends StatelessWidget {
       _height = args[0]["height"].toDouble();
       _frameRate = args[0]["frameRate"].toDouble();
       _elapsedTime = args[0]["elapsedTime"].toDouble();
+      final textBoundingBox =
+          (args[0]["textBoundingBox"] as Map).entries.map((text) {
+        String key = text.key;
+        Map value = text.value;
+        return MapEntry(
+            key,
+            Rect.fromLTWH(value["x"].toDouble(), value["y"].toDouble(),
+                value["width"].toDouble(), value["height"].toDouble()));
+      });
+      _textBoundingBox = {for (final text in textBoundingBox) text.key: text.value};
       _allSequencePaths.clear();
 
       final preview = args[0]["preview"];

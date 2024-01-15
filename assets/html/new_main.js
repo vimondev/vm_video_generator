@@ -81,7 +81,7 @@ const ExtractPreview = async ({ id, jobId, fontFamliyArr, fontBase64, json, text
         const anim = await GetAnimAndSetText(id, json, texts, letterSpacing)
         if (!anim) throw new Error("ERR_LOAD_FAILED")
     
-        const { svgElement, allRect: { x, y, width, height } } = anim.CopySVGElement(anim.previewFrame, opentypeMap)    
+        const { svgElement, allRect: { x, y, width, height }, textBoundingBox } = anim.CopySVGElement(anim.previewFrame, opentypeMap)
         const preview = await CanvasHelper.DrawPNG(svgElement, x, y, width, height)
         const elapsedTime = Date.now() - now
 
@@ -91,7 +91,8 @@ const ExtractPreview = async ({ id, jobId, fontFamliyArr, fontBase64, json, text
             frameRate: anim.animationData.fr,
             preview,
             textData: [],
-            elapsedTime
+            elapsedTime,
+            textBoundingBox
         })
         console.log(`elapsed - : ${elapsedTime}ms`)
     }

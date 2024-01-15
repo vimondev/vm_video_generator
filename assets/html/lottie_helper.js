@@ -345,6 +345,7 @@ function CopySVGElement(frameNumber, opentypeMap) {
     const space = 200
     const allRect = { x: 0, y: 0, width: 1, height: 1 }
     const previewData = { data: [] }
+    const textBoundingBox = {}
 
     if (gElement) {
         const tempsvg = document.body.querySelector('#tempsvg')
@@ -376,13 +377,34 @@ function CopySVGElement(frameNumber, opentypeMap) {
             }
         })
 
+        anim.renderer.svgElement.childNodes.forEach(node => {
+            switch (node.tagName) {
+                case 'g': {
+                    const rootBoundingBox = node.getBoundingClientRect()
+                    node.childNodes.forEach(node => {
+                        if (anim.textComps.includes(`#${node.id}`)) {
+                            const boundingBox = node.getBoundingClientRect()
+                            textBoundingBox[`#${node.id}`] = {
+                                x: boundingBox.x - rootBoundingBox.x + space / 2,
+                                y: boundingBox.y - rootBoundingBox.y + space / 2,
+                                width: boundingBox.width,
+                                height: boundingBox.height,
+                            }
+                        }
+                    })
+                }
+                break
+            }
+        })
+
         tempsvg.removeChild(svgElement)
     }
 
     return {
         svgElement,
         allRect,
-        previewData
+        previewData,
+        textBoundingBox
     }
 }
 
