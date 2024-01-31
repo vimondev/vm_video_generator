@@ -5,6 +5,7 @@ let loadedJsonFilename
 let loadedJson
 let loadedFontFamily = []
 let loadedFontBase64 = []
+let preview = {};
 
 function loadJSON(file) {
     loadedFontFamily = []
@@ -19,6 +20,7 @@ function loadJSON(file) {
                 loadedFontFamily.push(fFamily)
             }
         }
+        preview = loadedJson.preview;
     }
 }
 
@@ -130,7 +132,7 @@ const extractPreviewTest = async () => {
         }
     }
 
-    const { svgElement, allRect: { x, y, width, height }, allRect, previewData } = anim.CopySVGElement(anim.previewFrame, _opentypeMap)
+    const { svgElement, allRect: { x, y, width, height }, allRect, previewData } = anim.CopySVGElement(anim.previewFrame, _opentypeMap, preview)
 
     // const pngbase64 = await CanvasHelper.DrawPNG(svgElement, x, y, width, height, allRect, previewData)
     const pngbase64 = await CanvasHelper.DrawPNG(svgElement, x, y, width, height)

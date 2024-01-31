@@ -305,7 +305,7 @@ function TextUpdate({ compositionId, text = '', scale = 1, letterSpacing = 1 }) 
     anim.goToAndStop(previewFrame, true)
 }
 
-function CopySVGElement(frameNumber, opentypeMap) {
+function CopySVGElement(frameNumber, opentypeMap, preview) {
     const anim = this
 
     if (!anim) return
@@ -380,18 +380,112 @@ function CopySVGElement(frameNumber, opentypeMap) {
         anim.renderer.svgElement.childNodes.forEach(node => {
             switch (node.tagName) {
                 case 'g': {
-                    const rootBoundingBox = node.getBoundingClientRect()
-                    node.childNodes.forEach(node => {
-                        if (anim.textComps.includes(`#${node.id}`)) {
-                            const boundingBox = node.getBoundingClientRect()
-                            textBoundingBox[`#${node.id}`] = {
-                                x: boundingBox.x - rootBoundingBox.x + space / 2,
-                                y: boundingBox.y - rootBoundingBox.y + space / 2,
-                                width: boundingBox.width,
-                                height: boundingBox.height,
+                    if (!preview || preview.type === 0) {
+                        // Calculate the rectangle that surrounds both texts.
+                        const textCombined = { yMin: 100000, yMax: 0, height: 1 }
+
+                        node.childNodes.forEach(node => {
+                            if (anim.textComps.includes(`#${node.id}`)) {
+                                // The bounding box for each text.
+                                const boundingBox = node.getBoundingClientRect()
+                                // Get the minimum y of all texts. This is the y position at the top of the text.
+                                textCombined.yMin = Math.min(textCombined.yMin, boundingBox.y)
+                                // Get the maximum y of all texts. This is the y position at the bottom of the text.
+                                textCombined.yMax = Math.max(textCombined.yMax, boundingBox.y + boundingBox.height)
                             }
-                        }
-                    })
+                        })
+
+                        // Calculate the combined height of all texts.
+                        textCombined.height = textCombined.yMax - textCombined.yMin
+
+                        node.childNodes.forEach(node => {
+                            if (anim.textComps.includes(`#${node.id}`)) {
+                                const boundingBox = node.getBoundingClientRect()
+                                // This is the y center for all texts.
+                                const baseY = textCombined.height / 2
+                                
+                                // Calculate how far away each text is from the y center.
+                                const difference = boundingBox.y - textCombined.yMin
+
+                                textBoundingBox[`#${node.id}`] = {
+                                    x: (preview ? preview.xShift : 0) + Math.floor(allRect.width + 2) / 2 - boundingBox.width / 2,
+                                    y: (preview ? preview.yShift : 0) + Math.floor(allRect.height + 2) / 2 - baseY + difference,
+                                    width: boundingBox.width,
+                                    height: boundingBox.height,
+                                }
+                            }
+                        })
+                    } else if (preview.type === 1) {
+                        // Calculate the rectangle that surrounds both texts.
+                        const textCombined = { yMin: 100000, yMax: 0, height: 1 }
+
+                        node.childNodes.forEach(node => {
+                            if (anim.textComps.includes(`#${node.id}`)) {
+                                // The bounding box for each text.
+                                const boundingBox = node.getBoundingClientRect()
+                                // Get the minimum y of all texts. This is the y position at the top of the text.
+                                textCombined.yMin = Math.min(textCombined.yMin, boundingBox.y)
+                                // Get the maximum y of all texts. This is the y position at the bottom of the text.
+                                textCombined.yMax = Math.max(textCombined.yMax, boundingBox.y + boundingBox.height)
+                            }
+                        })
+
+                        // Calculate the combined height of all texts.
+                        textCombined.height = textCombined.yMax - textCombined.yMin
+
+                        node.childNodes.forEach(node => {
+                            if (!anim.textComps.includes(`#${node.id}`)) {
+                                node.childNodes.forEach((node, i) => {
+                                    const boundingBox = node.getBoundingClientRect()
+                                    const baseY = textCombined.height / 2
+                                    const difference = boundingBox.y - textCombined.yMin
+                                    textBoundingBox[`#TEXT${i}`] = {
+                                        x: preview.xShift + Math.floor(allRect.width + 2) / 2 - boundingBox.width / 2,
+                                        y: preview.yShift + Math.floor(allRect.height + 2) / 2 - baseY + difference,
+                                        width: boundingBox.width,
+                                        height: boundingBox.height,
+                                    }
+                                })
+                                console.log('result', textBoundingBox)
+                            }
+                        })
+                    } else if (preview.type === 2) {
+                        // Calculate the rectangle that surrounds both texts.
+                        const textCombined = { yMin: 100000, yMax: 0, height: 1 }
+
+                        node.childNodes.forEach(node => {
+                            if (anim.textComps.includes(`#${node.id}`)) {
+                                // The bounding box for each text.
+                                const boundingBox = node.getBoundingClientRect()
+                                // Get the minimum y of all texts. This is the y position at the top of the text.
+                                textCombined.yMin = Math.min(textCombined.yMin, boundingBox.y)
+                                // Get the maximum y of all texts. This is the y position at the bottom of the text.
+                                textCombined.yMax = Math.max(textCombined.yMax, boundingBox.y + boundingBox.height)
+                            }
+                        })
+
+                        // Calculate the combined height of all texts.
+                        textCombined.height = textCombined.yMax - textCombined.yMin
+
+                        node.childNodes.forEach(node => {
+                            if (!anim.textComps.includes(`#${node.id}`)) {
+                                node.childNodes.forEach((node, i) => {
+                                    // Depending on the title count get the last elements.
+                                    if (i >= node.childNodes.length - preview.elementCount) {
+                                        const boundingBox = node.getBoundingClientRect()
+                                        const baseY = textCombined.height / 2
+                                        const difference = boundingBox.y - textCombined.yMin
+                                        textBoundingBox[`#TEXT${i}`] = {
+                                            x: preview.xShift + Math.floor(allRect.width + 2) / 2 - boundingBox.width / 2,
+                                            y: preview.yShift + Math.floor(allRect.height + 2) / 2 - baseY + difference,
+                                            width: boundingBox.width,
+                                            height: boundingBox.height,
+                                        }
+                                    }
+                                })
+                            }
+                        })
+                    }
                 }
                 break
             }
