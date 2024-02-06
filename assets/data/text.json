@@ -943,7 +943,7 @@
         "letterSpacing": 1
     },
     "Title_YJ003": {
-        "enable": true,
+        "enable": false,
         "group": "a_simple_06",
         "unsupportLang": {},
         "exceptSpeed": {},
