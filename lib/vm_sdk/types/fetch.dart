@@ -26,7 +26,7 @@ class SongFetchModel {
   String title = "";
   double duration = 0;
   bool isRecommended = false;
-  String speed = "M";
+  EMusicSpeed speed = EMusicSpeed.none;
   List<HashTagModel> hashtags = [];
   SourceModel? source;
 
@@ -34,7 +34,7 @@ class SongFetchModel {
     title = map["title"] ?? "";
     duration = map["duration"] != null ? map["duration"] * 1.0 : 0;
     isRecommended = map["isRecommended"] ?? false;
-    speed = map["speed"] ?? "M";
+    speed = musicSpeedMap[map["speed"]?.toString()] ?? EMusicSpeed.none;
 
     Map? sourceMap = map["source"];
     if (sourceMap != null) {
@@ -53,14 +53,12 @@ class FrameFetchModel {
   String name = "";
   double duration = 0;
   EMediaLabel type = EMediaLabel.none;
-  EMusicSpeed speed = EMusicSpeed.medium;
   Map<ERatio, SourceModel> sourceMap = {};
 
   FrameFetchModel.fromJson(Map map) {
     name = map["name"] ?? "";
     duration = map["duration"] != null ? map["duration"] * 1.0 : 0;
     type = getMediaLabel(map["type"]);
-    speed = getMusicSpeed(map["speed"]);
 
     sourceMap[ERatio.ratio11] = SourceModel.fromJson(map["source_11"]);
     sourceMap[ERatio.ratio169] = SourceModel.fromJson(map["source_169"]);
@@ -74,7 +72,6 @@ class StickerFetchModel {
   int width = 0;
   int height = 0;
   EMediaLabel type = EMediaLabel.none;
-  EMusicSpeed speed = EMusicSpeed.medium;
   SourceModel? source;
 
   StickerFetchModel.fromJson(Map map) {
@@ -83,7 +80,6 @@ class StickerFetchModel {
     width = map["width"] ?? 0;
     height = map["height"] ?? 0;
     type = getMediaLabel(map["type"]);
-    speed = getMusicSpeed(map["speed"]);
 
     Map? sourceMap = map["source"];
     if (sourceMap != null) {

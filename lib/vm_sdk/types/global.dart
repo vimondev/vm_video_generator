@@ -14,9 +14,13 @@ enum EMediaLabel {
   others
 }
 enum EMusicSpeed {
-  slow,
-  medium,
-  fast
+  none,
+  ss,
+  s,
+  m,
+  mm,
+  f,
+  ff
 }
 enum EMusicStyle {
   none,
@@ -33,6 +37,15 @@ enum EMusicStyle {
   cheerful,
   energetic
 }
+
+const Map<String, EMusicSpeed> musicSpeedMap = {
+  "SS": EMusicSpeed.ss,
+  "S": EMusicSpeed.s,
+  "M": EMusicSpeed.m,
+  "MM": EMusicSpeed.mm,
+  "F": EMusicSpeed.f,
+  "FF": EMusicSpeed.ff
+};
 
 const Map<String, EMusicStyle> musicStyleMap = {
   "Energetic": EMusicStyle.energetic,
@@ -163,9 +176,8 @@ class Resolution {
 class AllEditedData {
   List<EditedMedia> editedMediaList = [];
   List<MusicData> musicList = [];
-  String speed = "";
   ERatio ratio = ERatio.ratio11;
-  EMusicStyle style = EMusicStyle.none;
+  EMusicSpeed speed = EMusicSpeed.none;
   Resolution resolution = Resolution.fromRatio(ERatio.ratio11);
 }
 
@@ -181,7 +193,7 @@ class VideoGeneratedResult {
   String generatedVideoPath;
   List<SpotInfo> spotInfoList;
   List<String> thumbnailList;
-  EMusicStyle musicStyle = EMusicStyle.none;
+  EMusicSpeed speed = EMusicSpeed.none;
 
   List<EditedMedia> editedMediaList = [];
   List<MusicData> musicList = [];

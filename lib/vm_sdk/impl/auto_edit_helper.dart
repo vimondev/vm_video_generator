@@ -12,10 +12,10 @@ import 'type_helper.dart';
 import 'resource_fetch_helper.dart';
 
 class _GetMusicResponse {
-  EMusicStyle musicStyle;
+  EMusicSpeed musicSpeed;
   List<MusicData> musicList;
 
-  _GetMusicResponse(this.musicStyle, this.musicList);
+  _GetMusicResponse(this.musicSpeed, this.musicList);
 }
 
 Map<int, EMediaLabel> _classifiedLabelMap = {};
@@ -140,7 +140,7 @@ ERatio detectRatio(List<EditedMedia> list) {
 
 Future<AllEditedData> generateAllEditedData(
     List<MediaData> list,
-    EMusicStyle? musicStyle,
+    EMusicSpeed? musicSpeed,
     List<TemplateData> templateList,
     bool isAutoSelect,
     { isRunFFmpeg = true }) async {
@@ -148,22 +148,20 @@ Future<AllEditedData> generateAllEditedData(
 
   list.sort((a, b) => a.createDate.compareTo(b.createDate));
 
-  final musicsData = await _getMusics(musicStyle);
-  allEditedData.style = musicsData.musicStyle;
+  final musicsData = await _getMusics(musicSpeed);
 
   final List<MusicData> musicList = musicsData.musicList;
-  final String speed = musicList.isNotEmpty ? musicList[0].speed : "M";
-  allEditedData.speed = speed;
+  allEditedData.speed = musicsData.musicSpeed;
 
-  print("curSpeed : $speed");
+  print("curSpeed : ${allEditedData.speed}");
 
   bool isUseTemplateDuration = false;
 
   if (list.length >= 10) {
-    switch (speed) {
-      case "MM":
-      case "F":
-      case "FF":
+    switch (allEditedData.speed) {
+      case EMusicSpeed.mm:
+      case EMusicSpeed.f:
+      case EMusicSpeed.ff:
         isUseTemplateDuration = true;
         break;
 
@@ -582,7 +580,7 @@ Future<AllEditedData> generateAllEditedData(
 
   // TO DO : Load from Template Data
   final List<XFadeTransitionData> originXfadeTransitionList =
-          ResourceManager.getInstance().getAllXFadeTransitions(speed: speed);
+          ResourceManager.getInstance().getAllXFadeTransitions();
   // final List<OverlayTransitionData>
   //     originOverlayTransitionList = ResourceManager.getInstance().getAllOverlayTransitions(speed: speed);
 
@@ -827,7 +825,7 @@ Future<AllEditedData> generateAllEditedData(
   int musicIndex = 0;
 
   Map<String, MusicData> musicDataMap = {};
-  while (totalRemainDuration > 0) {
+  while (musicList.isNotEmpty && totalRemainDuration > 0) {
     MusicData musicData = musicList[musicIndex % musicList.length];
     allEditedData.musicList.add(musicData);
 
@@ -859,11 +857,17 @@ Future<void> _downloadAndMapMusic(MusicData musicData) async {
   musicData.absolutePath = file.path;
 }
 
-Future<_GetMusicResponse> _getMusics(EMusicStyle? musicStyle) async {
+Future<_GetMusicResponse> _getMusics(EMusicSpeed? musicSpeed) async {
   final List<MusicData> randomSortMusicList = [];
 
-  final Map<EMusicStyle, List<SongFetchModel>> songMapByMusicStyle = {};
-  final Map<String, List<SongFetchModel>> songMapBySpeed = {};
+  final Map<EMusicSpeed, List<SongFetchModel>> songMapBySpeed = {
+    EMusicSpeed.ss: [],
+    EMusicSpeed.s: [],
+    EMusicSpeed.m: [],
+    EMusicSpeed.mm: [],
+    EMusicSpeed.f: [],
+    EMusicSpeed.ff: [],
+  };
 
   List<SongFetchModel> songs = [];
   songs.addAll(ResourceManager.getInstance().getAllSongFetchModels()); // copy elements
@@ -874,31 +878,18 @@ Future<_GetMusicResponse> _getMusics(EMusicStyle? musicStyle) async {
     SongFetchModel song = songs[randIdx];
     songs.removeAt(randIdx);
 
-    if (song.hashtags.isNotEmpty) {
-      for (final hashTagModel in song.hashtags) {
-        if (musicStyleMap.containsKey(hashTagModel.name)) {
-          EMusicStyle style = musicStyleMap[hashTagModel.name]!;
-          if (!songMapByMusicStyle.containsKey(style)) songMapByMusicStyle[style] = [];
-          songMapByMusicStyle[style]!.add(song);
-        }
-      }
-    }
-    if (song.speed.isNotEmpty) {
-      if (!songMapBySpeed.containsKey(song.speed)) songMapBySpeed[song.speed] = [];
-      songMapBySpeed[song.speed]!.add(song);
-    }
+    songMapBySpeed[song.speed]!.add(song);
   }
 
-  EMusicStyle? curStyle = musicStyle;
-  if (curStyle == null || curStyle == EMusicStyle.none) {
-    Map<double, String> speedProbabilityMap = {
-      0.3: "S",
-      0.6: "M",
-      0.8: "MM",
-      1.0: "F"
+  if (musicSpeed == null || musicSpeed == EMusicSpeed.none) {
+    Map<double, EMusicSpeed> speedProbabilityMap = {
+      0.3: EMusicSpeed.s,
+      0.6: EMusicSpeed.m,
+      0.8: EMusicSpeed.mm,
+      1.0: EMusicSpeed.f
     };
     double randValue = Random().nextDouble();
-    String randSpeed = songMapBySpeed.keys.first;
+    EMusicSpeed randSpeed = songMapBySpeed.keys.first;
     
     for (final elem in speedProbabilityMap.entries) {
       if (randValue < elem.key) {
@@ -906,76 +897,13 @@ Future<_GetMusicResponse> _getMusics(EMusicStyle? musicStyle) async {
         break;
       }
     }
-
-    List<SongFetchModel> randSongs = songMapBySpeed[randSpeed]!;
-    int randIdx = (Random()).nextInt(randSongs.length) % randSongs.length;
-    SongFetchModel randSong = randSongs[randIdx];
-
-    if (randSong.hashtags.isNotEmpty) {
-      int randHashtagIdx = (Random()).nextInt(randSong.hashtags.length) % randSong.hashtags.length;
-      HashTagModel randHashtag = randSong.hashtags[randHashtagIdx];
-
-      if (musicStyleMap.containsKey(randHashtag.name)) {
-        curStyle = musicStyleMap[randHashtag.name]!;
-      }
-      else {
-        curStyle = EMusicStyle.fun;
-      }
-    }
-    else {
-      curStyle = EMusicStyle.fun;
-    }
+    musicSpeed = randSpeed;
   }
-  
-  // List<SongFetchModel> originSongList = songMapByMusicStyle[curStyle]!;
-  // List<SongFetchModel> recommendedSongList = [];
-  // List<SongFetchModel> otherSongList = [];
-
-  // recommendedSongList.addAll(originSongList.where((song) => song.isRecommended));
-  // otherSongList.addAll(originSongList.where((song) => !song.isRecommended));
-
-  // print("style : $musicStyle");
-  // print("style : $curStyle");
-  // print("recommendedSongList : ${recommendedSongList.length}");
-  // print("otherSongList : ${otherSongList.length}");
-
-  // while (recommendedSongList.isNotEmpty || otherSongList.isNotEmpty) {
-  //   SongFetchModel song;
-  //   if (otherSongList.isEmpty || recommendedSongList.isNotEmpty) {// && Random().nextDouble() <= 0.7) {
-  //     int randIdx = (Random()).nextInt(recommendedSongList.length) % recommendedSongList.length;
-  //     song = recommendedSongList[randIdx];
-  //     recommendedSongList.removeAt(randIdx);
-  //   }
-  //   else {
-  //     int randIdx = (Random()).nextInt(otherSongList.length) % otherSongList.length;
-  //     song = otherSongList[randIdx];
-  //     otherSongList.removeAt(randIdx);
-  //   }
-
-  //   double duration = song.duration;
-  //   SourceModel? source = song.source;
-
-  //   if (source != null) {
-  //     String name = source.name;
-  //     String url = source.url;
-
-  //     MusicData musicData = MusicData();
-  //     musicData.title = song.title;
-  //     musicData.duration = duration;
-  //     musicData.filename = name;
-  //     musicData.speed = song.speed;
-  //     musicData.url = url;
-  //     musicData.volume = 0.5;
-
-  //     randomSortMusicList.add(musicData);
-  //   }
-  // }
 
   List<SongFetchModel> allSongList = [];
-  allSongList.addAll(songMapByMusicStyle[curStyle]!);
+  allSongList.addAll(songMapBySpeed[musicSpeed]!);
 
-  print("style : $musicStyle");
-  print("style : $curStyle");
+  print("style : $musicSpeed");
   print("allSongList : ${allSongList.length}");
 
   while (allSongList.isNotEmpty) {
@@ -1002,5 +930,5 @@ Future<_GetMusicResponse> _getMusics(EMusicStyle? musicStyle) async {
     }
   }
 
-  return _GetMusicResponse(curStyle, randomSortMusicList);
+  return _GetMusicResponse(musicSpeed, randomSortMusicList);
 }

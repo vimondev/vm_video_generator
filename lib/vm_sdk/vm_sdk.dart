@@ -67,7 +67,7 @@ class VMSDKWidget extends StatelessWidget {
   // In the current version, only styleA works.
   Future<VideoGeneratedResult> generateVideo(
       List<MediaData> mediaList,
-      EMusicStyle? style,
+      EMusicSpeed? speed,
       bool isAutoEdit,
       List<String> texts,
       String language,
@@ -90,7 +90,7 @@ class VMSDKWidget extends StatelessWidget {
     mediaList = await _filterNotExistsMedia(mediaList);
 
     final AllEditedData allEditedData = await generateAllEditedData(
-        mediaList, style, randomSortedTemplateList, isAutoEdit, isRunFFmpeg: isRunFFmpeg);
+        mediaList, speed, randomSortedTemplateList, isAutoEdit, isRunFFmpeg: isRunFFmpeg);
 
     Resolution resolution = allEditedData.resolution;
     final int maxTextWidth = (resolution.width * 0.9).floor();
@@ -194,7 +194,7 @@ class VMSDKWidget extends StatelessWidget {
       allEditedData.editedMediaList[0].canvasTexts.add(canvasTextData);
     }
     else {
-      List<TextData> textDatas = ResourceManager.getInstance().getTextDataList(lineCount: texts.length, speed: allEditedData.speed);
+      List<TextData> textDatas = ResourceManager.getInstance().getTextDataList(lineCount: texts.length);
       if (textDatas.isEmpty) {
         textDatas = ResourceManager.getInstance().getTextDataList(lineCount: texts.length);
       }
@@ -264,7 +264,7 @@ class VMSDKWidget extends StatelessWidget {
         allEditedData.ratio,
         progressCallback, isAutoEdit: true, isRunFFmpeg: isRunFFmpeg);
 
-    result.musicStyle = allEditedData.style;
+    result.speed = allEditedData.speed;
     result.editedMediaList.addAll(allEditedData.editedMediaList);
     result.musicList.addAll(allEditedData.musicList);
 
