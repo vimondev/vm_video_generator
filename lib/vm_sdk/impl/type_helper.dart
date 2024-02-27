@@ -27,17 +27,3 @@ EMediaLabel getMediaLabel(String type) {
       return EMediaLabel.none;
   }
 }
-
-EMusicSpeed getMusicSpeed(String speed) {
-  switch (speed) {
-    case "F":
-      return EMusicSpeed.fast;
-      
-    case "S":
-      return EMusicSpeed.slow;
-
-    case "M":
-    default:
-      return EMusicSpeed.medium;
-  }
-}

@@ -17,7 +17,7 @@ class TestWidget extends StatelessWidget {
       await _vmsdkWidget.initialize();
     }
 
-    String testSetName = "set1_1080p";
+    String testSetName = "set1";
 
     final filelist = json.decode(
         await rootBundle.loadString("assets/_test/mediajson-joined/$testSetName.json"));
@@ -53,22 +53,23 @@ class TestWidget extends StatelessWidget {
       if (mediaList.length >= 30) break;
     }
 
-    for (int i=0; i<EMusicStyle.values.length; i++) {
-      EMusicStyle style = EMusicStyle.energetic; //EMusicStyle.values[i % EMusicStyle.values.length];
+    for (int i=0; i<EMusicSpeed.values.length; i++) {
+      EMusicSpeed speed = EMusicSpeed.values[i % EMusicSpeed.values.length];
+      if (speed == EMusicSpeed.none) continue;
 
       VideoGeneratedResult result =
-          await _vmsdkWidget.generateVideo(mediaList, style, false,
-              // ["THIS IS TITLE", "THIS IS SUBTITLE"], "ko", (status, progress) {
+          await _vmsdkWidget.generateVideo(mediaList, speed, false,
+              ["THIS IS TITLE", "THIS IS SUBTITLE"], "ko", (status, progress) {
               // ["THIS IS TITLE 😀", "🕹 이모지 테스트 ✅"], "ko", (status, progress) {
               // ["THIS IS TITLE", "☻ ♥ ♦ ♣ ♠ 특수문자 테스트"], "ko", (status, progress) {
-              ["THIS IS TITLE 😀", "🕹 ☻ ♥ ♦ ♣ ♠ 특수문자 테스트 ✅"], "ko", (status, progress) {
+              // ["THIS IS TITLE 😀", "🕹 ☻ ♥ ♦ ♣ ♠ 특수문자 테스트 ✅"], "ko", (status, progress) {
                 //["THIS IS TITLE", "☻ ♥ ♦ ♣ ♠ 특수문자 테스트"
         print(status);
         print(progress);
       });
 
       await GallerySaver.saveVideo(result.generatedVideoPath);
-      break;
+      // break;
     }
 
     // VideoGeneratedResult result = await _vmsdkWidget.generateVideo(
