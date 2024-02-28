@@ -131,12 +131,22 @@ Future<RenderedData> clipRender(
   int cropRight = min(mediaData.width, (mediaData.width * editedMedia.cropRight).floor());
   int cropTop = max(0, (mediaData.height * editedMedia.cropTop).floor());
   int cropBottom = min(mediaData.height, (mediaData.height * editedMedia.cropBottom).floor());
-
   int cropWidth = cropRight - cropLeft;
   int cropHeight = cropBottom - cropTop;
-  
+  String flipString = '';
+  String? rotateString = '';
+  if(editedMedia.hFlip){
+    flipString = 'hflip,';
+  }
+  if(editedMedia.vFlip){
+    flipString = '${flipString}vflip,';
+  }
+  if(editedMedia.rotate != null){
+    rotateString = 'rotate=${editedMedia.rotate},';
+  }
+
   filterStrings.add(
-      "[0:v]fps=$_framerate,$trimFilter${_getTransposeFilter(mediaData.orientation)}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,scale=${_resolution.width}:${_resolution.height},setdar=dar=${_resolution.width / _resolution.height}[vid];");
+      "[0:v]fps=$_framerate,$trimFilter${_getTransposeFilter(mediaData.orientation)}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,$flipString${rotateString}scale=${_resolution.width}:${_resolution.height},setdar=dar=${_resolution.width / _resolution.height}[vid];");
   videoOutputMapVariable = "[vid]";
   inputFileCount++;
 

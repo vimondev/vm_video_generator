@@ -124,7 +124,8 @@ class EditedMedia {
   double startTime = 0;
   double duration = 0;
   double xfadeDuration = 0;
-
+  bool hFlip = false;
+  bool vFlip = false;
   // int translateX = 0;
   // int translateY = 0;
   // double zoomX = 0;
@@ -134,7 +135,6 @@ class EditedMedia {
   double cropRight = 1;
   double cropBottom = 1;
   double angle = 0;
-
   double volume = 1;
   double playbackSpeed = 1;
 
@@ -143,6 +143,7 @@ class EditedMedia {
   List<CanvasTextData> canvasTexts = [];
   TransitionData? transition;
   List<EditedTextData> editedTexts = [];
+  double? rotate;
 
   EditedMedia(this.mediaData);
 }

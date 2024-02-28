@@ -240,8 +240,11 @@ AllEditedData parseJSONToAllEditedData(String encodedJSON) {
     // editedMedia.translateY = slide["translateY"];
     // editedMedia.zoomX = slide["zoomX"] * 1.0;
     // editedMedia.zoomY = slide["zoomY"] * 1.0;
+    editedMedia.hFlip = slide["hFlip"] ?? false;
+    editedMedia.vFlip = slide["vFlip"] ?? false;
     editedMedia.angle = slide["angle"] * 1.0;
     editedMedia.volume = slide["volume"] * 1.0;
+    editedMedia.rotate = slide["rotate"];
     editedMedia.playbackSpeed = slide["playbackSpeed"] * 1.0;
 
     bool isNeedRecalculateCrop = false;
