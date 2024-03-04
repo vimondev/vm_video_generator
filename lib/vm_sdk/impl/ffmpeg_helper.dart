@@ -144,9 +144,11 @@ Future<RenderedData> clipRender(
   if(editedMedia.rotate != null){
     rotateString = 'rotate=${editedMedia.rotate},';
   }
+  //String args = "[0:v]fps=$_framerate,$trimFilter${_getTransposeFilter(mediaData.orientation)}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,${flipString}${rotateString}scale=${_resolution.width}:${_resolution.height},setdar=dar=${_resolution.width / _resolution.height}[vid];";
+  String args = "[0:v]fps=$_framerate,$trimFilter${_getTransposeFilter(mediaData.orientation)}${rotateString}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,${flipString}scale=${_resolution.width}:${_resolution.height}:force_original_aspect_ratio=decrease,pad=${_resolution.width}:${_resolution.height}:(ow-iw)/2:(oh-ih)/2,setdar=dar=${_resolution.width / _resolution.height}[vid];";
 
-  filterStrings.add(
-      "[0:v]fps=$_framerate,$trimFilter${_getTransposeFilter(mediaData.orientation)}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,$flipString${rotateString}scale=${_resolution.width}:${_resolution.height},setdar=dar=${_resolution.width / _resolution.height}[vid];");
+  filterStrings.add(args);
+  print('FFMPEG ARGS - $args');
   videoOutputMapVariable = "[vid]";
   inputFileCount++;
 
