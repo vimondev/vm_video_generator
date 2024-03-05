@@ -148,7 +148,6 @@ Future<RenderedData> clipRender(
   String args = "[0:v]fps=$_framerate,$trimFilter${_getTransposeFilter(mediaData.orientation)}$flipString${rotateString}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,scale=${_resolution.width}:${_resolution.height}:force_original_aspect_ratio=decrease,pad=${_resolution.width}:${_resolution.height}:(ow-iw)/2:(oh-ih)/2,setdar=dar=${_resolution.width / _resolution.height}[vid];";
 
   filterStrings.add(args);
-  print('FFMPEG ARGS - $args');
   videoOutputMapVariable = "[vid]";
   inputFileCount++;
 
