@@ -17,7 +17,7 @@ class TestWidget extends StatelessWidget {
       await _vmsdkWidget.initialize();
     }
 
-    String testSetName = "set1";
+    String testSetName = "hdr";
 
     final filelist = json.decode(
         await rootBundle.loadString("assets/_test/mediajson-joined/$testSetName.json"));
@@ -69,7 +69,8 @@ class TestWidget extends StatelessWidget {
       });
 
       await GallerySaver.saveVideo(result.generatedVideoPath);
-      // break;
+      print(result.generatedVideoPath);
+      break;
     }
 
     // VideoGeneratedResult result = await _vmsdkWidget.generateVideo(

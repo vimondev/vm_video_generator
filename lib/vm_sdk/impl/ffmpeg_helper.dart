@@ -79,6 +79,7 @@ Future<RenderedData> clipRender(
   String trimFilter = "";
   String videoOutputMapVariable = "";
   String audioOutputMapVariable = "";
+  bool isHDRVideo = false;
 
   /////////////////////////
   // INPUT IMAGE & VIDEO //
@@ -102,7 +103,9 @@ Future<RenderedData> clipRender(
     for (final stream in streams) {
       if (stream.getType() == "audio") {
         isAudioExists = true;
-        break;
+      }
+      if (stream.getProperty("color_primaries") == "bt2020") {
+        isHDRVideo = true;
       }
     }
 
@@ -139,6 +142,11 @@ Future<RenderedData> clipRender(
       "[0:v]fps=$_framerate,$trimFilter${_getTransposeFilter(mediaData.orientation)}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,scale=${_resolution.width}:${_resolution.height},setdar=dar=${_resolution.width / _resolution.height}[vid];");
   videoOutputMapVariable = "[vid]";
   inputFileCount++;
+
+  // if (isHDRVideo) {
+  //   filterStrings.add("${videoOutputMapVariable}zscale=t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,tonemap=tonemap=hable:desat=0,zscale=t=bt709:m=bt709:r=tv,format=yuv420p,eq=brightness=0.1[hdr_converted];");
+  //   videoOutputMapVariable = "[hdr_converted]";
+  // }
 
   ///////////////
   // ADD FRAME //
