@@ -127,12 +127,80 @@ Future<RenderedData> clipRender(
   ]);
   inputFileCount++;
 
-  int cropLeft = max(0, (mediaData.width * editedMedia.cropLeft).floor());
-  int cropRight = min(mediaData.width, (mediaData.width * editedMedia.cropRight).floor());
-  int cropTop = max(0, (mediaData.height * editedMedia.cropTop).floor());
-  int cropBottom = min(mediaData.height, (mediaData.height * editedMedia.cropBottom).floor());
+  bool clipDimensionChanged = [90.0, 270.0].contains(editedMedia.angle);
+  double scale = editedMedia.scale;
+
+  int xWidth = clipDimensionChanged ? mediaData.height : mediaData.width;
+  int xHeight = clipDimensionChanged ? mediaData.width : mediaData.height;
+
+  double xMediaRatio = xWidth / xHeight;
+  double resolutionRatio = _resolution.width / _resolution.height;
+
+  bool fitHeight = xMediaRatio > resolutionRatio;
+
+  if(fitHeight){
+    xWidth = (xHeight * resolutionRatio).floor();
+  } else {
+    xHeight = (xWidth / resolutionRatio).floor();
+  }
+
+  int scaledClipWidth = (_resolution.width * scale).floor();
+  int scaledClipHeight = (_resolution.height * scale).floor();
+
+  double rectBoundaryX = max(0, ((editedMedia.rectBoundary?.x ?? 0.0)));
+  double rectBoundaryY = max(0, ((editedMedia.rectBoundary?.y ?? 0.0)));
+
+  //
+  // int cropLeft = 0;
+  // int cropRight = 0;
+  // int cropBottom = 0;
+  // int cropTop = 0;
+  // if(rectBoundaryX > 0){
+  //   cropLeft = (mediaData.width * (editedMedia.cropLeft + editedMedia.rectBoundary!.x) * scale).floor();
+  // } else {
+  //   cropLeft = (mediaData.width * editedMedia.cropLeft * scale).floor();
+  // }
+  // cropLeft = max(0, cropLeft);
+  //
+  // int cropRight = (mediaData.width * editedMedia.cropRight * scale).floor();
+  //
+  // if(rectBoundaryY > 0){
+  //   cropTop = (mediaData.width * (editedMedia.cropTop + editedMedia.rectBoundary!.y) * scale).floor();
+  // } else {
+  //   cropTop = (mediaData.width * editedMedia.cropTop * scale).floor();
+  // }
+  // int cropRight = (mediaData.width * editedMedia.cropRight * scale).floor();
+  //
+  // cropTop = max(0, cropTop);
+  //
+  // int cropWidth = ((editedMedia.cropRight - editedMedia.cropLeft) * mediaData.width * scale).floor();
+  // int cropHeight = ((editedMedia.cropBottom - editedMedia.cropTop) * mediaData.height * scale).floor();
+  int dimensionChangedExtraLeft = 0;
+  int dimensionChangedExtraTop = 0;
+
+  int cropLeft = (xWidth * editedMedia.cropLeft * scale).floor();
+  int cropRight = (xWidth * editedMedia.cropRight * scale).floor();
+  int cropTop = (xHeight * editedMedia.cropTop * scale).floor();
+  int cropBottom = (xHeight * editedMedia.cropBottom * scale).floor();
   int cropWidth = cropRight - cropLeft;
-  int cropHeight = cropBottom - cropTop;
+  int cropHeight = min(scaledClipHeight, cropBottom - cropTop);
+
+  if(clipDimensionChanged){
+    ///when dimension changed its height become its width
+    int newWidth = mediaData.height;
+    int newHeight = mediaData.width;
+    // if(mediaData.height > mediaData.width) {
+    //   dimensionChangedExtraLeft =
+    //        ((mediaData.height - mediaData.width) / 2 * scale).floor();
+    //   dimensionChangedExtraTop = -((mediaData.width - mediaData.height) / 2 * scale).floor();
+    // } else {
+    //   dimensionChangedExtraLeft = -((mediaData.height - mediaData.width) / 2 * scale).floor();
+    //   dimensionChangedExtraTop = ((mediaData.width - mediaData.height) / 2 * scale).floor();
+    // }
+    cropLeft+=(rectBoundaryX * newWidth * scale).floor();
+    cropTop+=(rectBoundaryY * newHeight * scale).floor();
+  }
+
   String flipString = '';
   String? rotateString = '';
   if(editedMedia.hFlip){
@@ -141,12 +209,24 @@ Future<RenderedData> clipRender(
   if(editedMedia.vFlip){
     flipString = '${flipString}vflip,';
   }
-  if(editedMedia.rotate != null){
-    rotateString = 'rotate=${editedMedia.rotate},';
-  }
-  //String args = "[0:v]fps=$_framerate,$trimFilter${_getTransposeFilter(mediaData.orientation)}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,${flipString}${rotateString}scale=${_resolution.width}:${_resolution.height},setdar=dar=${_resolution.width / _resolution.height}[vid];";
-  String args = "[0:v]fps=$_framerate,$trimFilter${_getTransposeFilter(mediaData.orientation)}$flipString${rotateString}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,scale=${_resolution.width}:${_resolution.height}:force_original_aspect_ratio=decrease,pad=${_resolution.width}:${_resolution.height}:(ow-iw)/2:(oh-ih)/2,setdar=dar=${_resolution.width / _resolution.height}[vid];";
 
+  if(editedMedia.angle != null){
+    String rotateModifyStr = clipDimensionChanged ? ':out_w=in_h:out_h=in_w' : '';
+    rotateString = 'rotate=${editedMedia.angle * (pi / 180)}$rotateModifyStr,';
+  }
+
+  int actualHeight = mediaData.height;
+  int actualWidth = mediaData.width;
+
+  if(clipDimensionChanged){
+    var temp = actualWidth;
+    actualHeight = actualWidth;
+    actualWidth = temp;
+  }
+
+  String args = "[0:v]fps=$_framerate,$trimFilter${_getTransposeFilter(mediaData.orientation)}${flipString}scale=${mediaData.width * scale}:${mediaData.height * scale},${rotateString}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,setdar=dar=${_resolution.width / _resolution.height}[vid];";
+
+  print(' - FFMPEG -- $args');
   filterStrings.add(args);
   videoOutputMapVariable = "[vid]";
   inputFileCount++;

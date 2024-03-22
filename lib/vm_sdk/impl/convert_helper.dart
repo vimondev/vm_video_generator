@@ -246,6 +246,13 @@ AllEditedData parseJSONToAllEditedData(String encodedJSON) {
     editedMedia.volume = slide["volume"] * 1.0;
     editedMedia.rotate = slide["rotate"];
     editedMedia.playbackSpeed = slide["playbackSpeed"] * 1.0;
+    editedMedia.scale = slide["scale"] ?? 1.0;
+    if(slide["rectBoundary"] != null && slide["rectBoundary"]["x"] != null && slide["rectBoundary"]["y"] != null) {
+      editedMedia.rectBoundary = Point<double>(slide["rectBoundary"]["x"], slide["rectBoundary"]["y"]);
+    } else {
+      editedMedia.rectBoundary = const Point<double>(0, 0);
+    }
+    editedMedia.playbackSpeed = slide["playbackSpeed"] * 1.0;
 
     bool isNeedRecalculateCrop = false;
     if (slide["rect"] != null) {

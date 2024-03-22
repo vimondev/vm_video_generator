@@ -1,5 +1,6 @@
 import 'resource.dart';
 import 'text.dart';
+import 'dart:math';
 
 enum ERatio { ratio916, ratio11, ratio169 }
 enum EMediaType { image, video }
@@ -130,6 +131,7 @@ class EditedMedia {
   // int translateY = 0;
   // double zoomX = 0;
   // double zoomY = 0;
+  double scale = 1;
   double cropLeft = 0;
   double cropTop = 0;
   double cropRight = 1;
@@ -137,7 +139,7 @@ class EditedMedia {
   double angle = 0;
   double volume = 1;
   double playbackSpeed = 1;
-
+  Point<double>? rectBoundary;
   FrameData? frame;
   List<EditedStickerData> stickers = [];
   List<CanvasTextData> canvasTexts = [];
