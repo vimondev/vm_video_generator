@@ -185,21 +185,21 @@ Future<RenderedData> clipRender(
   int cropWidth = cropRight - cropLeft;
   int cropHeight = min(scaledClipHeight, cropBottom - cropTop);
 
-  if(clipDimensionChanged){
-    ///when dimension changed its height become its width
-    int newWidth = mediaData.height;
-    int newHeight = mediaData.width;
-    // if(mediaData.height > mediaData.width) {
-    //   dimensionChangedExtraLeft =
-    //        ((mediaData.height - mediaData.width) / 2 * scale).floor();
-    //   dimensionChangedExtraTop = -((mediaData.width - mediaData.height) / 2 * scale).floor();
-    // } else {
-    //   dimensionChangedExtraLeft = -((mediaData.height - mediaData.width) / 2 * scale).floor();
-    //   dimensionChangedExtraTop = ((mediaData.width - mediaData.height) / 2 * scale).floor();
-    // }
-    cropLeft+=(rectBoundaryX * newWidth * scale).floor();
-    cropTop+=(rectBoundaryY * newHeight * scale).floor();
-  }
+  // if(clipDimensionChanged){
+  //   ///when dimension changed its height become its width
+  //   int newWidth = mediaData.height;
+  //   int newHeight = mediaData.width;
+  //   // if(mediaData.height > mediaData.width) {
+  //   //   dimensionChangedExtraLeft =
+  //   //        ((mediaData.height - mediaData.width) / 2 * scale).floor();
+  //   //   dimensionChangedExtraTop = -((mediaData.width - mediaData.height) / 2 * scale).floor();
+  //   // } else {
+  //   //   dimensionChangedExtraLeft = -((mediaData.height - mediaData.width) / 2 * scale).floor();
+  //   //   dimensionChangedExtraTop = ((mediaData.width - mediaData.height) / 2 * scale).floor();
+  //   // }
+  //   cropLeft+=(rectBoundaryX * newWidth * scale).floor();
+  //   cropTop+=(rectBoundaryY * newHeight * scale).floor();
+  // }
 
   String flipString = '';
   String? rotateString = '';
@@ -210,19 +210,18 @@ Future<RenderedData> clipRender(
     flipString = '${flipString}vflip,';
   }
 
-  if(editedMedia.angle != null){
-    String rotateModifyStr = clipDimensionChanged ? ':out_w=in_h:out_h=in_w' : '';
-    rotateString = 'rotate=${editedMedia.angle * (pi / 180)}$rotateModifyStr,';
-  }
+  String rotateModifyStr = clipDimensionChanged ? ':out_w=in_h:out_h=in_w' : '';
+  rotateString = 'rotate=${editedMedia.angle * (pi / 180)}$rotateModifyStr,';
 
-  int actualHeight = mediaData.height;
-  int actualWidth = mediaData.width;
-
-  if(clipDimensionChanged){
-    var temp = actualWidth;
-    actualHeight = actualWidth;
-    actualWidth = temp;
-  }
+  //
+  // int actualHeight = mediaData.height;
+  // int actualWidth = mediaData.width;
+  //
+  // if(clipDimensionChanged){
+  //   var temp = actualWidth;
+  //   actualHeight = actualWidth;
+  //   actualWidth = temp;
+  // }
 
   String args = "[0:v]fps=$_framerate,$trimFilter${_getTransposeFilter(mediaData.orientation)}${flipString}scale=${mediaData.width * scale}:${mediaData.height * scale},${rotateString}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,setdar=dar=${_resolution.width / _resolution.height}[vid];";
 
