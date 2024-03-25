@@ -130,14 +130,31 @@ Future<RenderedData> clipRender(
   bool clipDimensionChanged = [90.0, 270.0].contains(editedMedia.angle);
   double scale = editedMedia.scale;
 
-  int xWidth = clipDimensionChanged ? mediaData.height : mediaData.width;
-  int xHeight = clipDimensionChanged ? mediaData.width : mediaData.height;
+  int clipWidth = clipDimensionChanged ? mediaData.height : mediaData.width;
+  int clipHeight = clipDimensionChanged ? mediaData.width : mediaData.height;
 
-  double xMediaRatio = xWidth / xHeight;
+  int xWidth = _resolution.width;
+  int xHeight = _resolution.height;
+
+  double xMediaRatio = clipWidth / clipHeight;
   double resolutionRatio = _resolution.width / _resolution.height;
 
   bool fitHeight = xMediaRatio > resolutionRatio;
 
+  double resolutionErrorMargin = 1;
+
+  if(fitHeight) {
+    resolutionErrorMargin = _resolution.height / clipHeight;
+  } else {
+    resolutionErrorMargin = _resolution.width / clipWidth;
+  }
+  scale = scale / resolutionErrorMargin;
+  // if(fitHeight){
+  //   double resolutionDifScale = _resolution.height / xHeight;
+  //   xWidth = ((xHeight * resolutionRatio) * resolutionDifScale).floor();
+  // } else {
+  //   xHeight = (xWidth / resolutionRatio).floor();
+  // }
   if(fitHeight){
     xWidth = (xHeight * resolutionRatio).floor();
   } else {
@@ -149,34 +166,6 @@ Future<RenderedData> clipRender(
 
   double rectBoundaryX = max(0, ((editedMedia.rectBoundary?.x ?? 0.0)));
   double rectBoundaryY = max(0, ((editedMedia.rectBoundary?.y ?? 0.0)));
-
-  //
-  // int cropLeft = 0;
-  // int cropRight = 0;
-  // int cropBottom = 0;
-  // int cropTop = 0;
-  // if(rectBoundaryX > 0){
-  //   cropLeft = (mediaData.width * (editedMedia.cropLeft + editedMedia.rectBoundary!.x) * scale).floor();
-  // } else {
-  //   cropLeft = (mediaData.width * editedMedia.cropLeft * scale).floor();
-  // }
-  // cropLeft = max(0, cropLeft);
-  //
-  // int cropRight = (mediaData.width * editedMedia.cropRight * scale).floor();
-  //
-  // if(rectBoundaryY > 0){
-  //   cropTop = (mediaData.width * (editedMedia.cropTop + editedMedia.rectBoundary!.y) * scale).floor();
-  // } else {
-  //   cropTop = (mediaData.width * editedMedia.cropTop * scale).floor();
-  // }
-  // int cropRight = (mediaData.width * editedMedia.cropRight * scale).floor();
-  //
-  // cropTop = max(0, cropTop);
-  //
-  // int cropWidth = ((editedMedia.cropRight - editedMedia.cropLeft) * mediaData.width * scale).floor();
-  // int cropHeight = ((editedMedia.cropBottom - editedMedia.cropTop) * mediaData.height * scale).floor();
-  int dimensionChangedExtraLeft = 0;
-  int dimensionChangedExtraTop = 0;
 
   int cropLeft = (xWidth * editedMedia.cropLeft).floor();
   int cropRight = (xWidth * editedMedia.cropRight).floor();
@@ -222,7 +211,6 @@ Future<RenderedData> clipRender(
   //   actualHeight = actualWidth;
   //   actualWidth = temp;
   // }
-
   String args = "[0:v]fps=$_framerate,$trimFilter${_getTransposeFilter(mediaData.orientation)}${flipString}scale=${mediaData.width * scale}:${mediaData.height * scale},${rotateString}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,setdar=dar=${_resolution.width / _resolution.height}[vid];";
 
   //print(' - FFMPEG -- $args');
