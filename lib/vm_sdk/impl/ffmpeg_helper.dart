@@ -178,10 +178,10 @@ Future<RenderedData> clipRender(
   int dimensionChangedExtraLeft = 0;
   int dimensionChangedExtraTop = 0;
 
-  int cropLeft = (xWidth * editedMedia.cropLeft * scale).floor();
-  int cropRight = (xWidth * editedMedia.cropRight * scale).floor();
-  int cropTop = (xHeight * editedMedia.cropTop * scale).floor();
-  int cropBottom = (xHeight * editedMedia.cropBottom * scale).floor();
+  int cropLeft = (xWidth * editedMedia.cropLeft).floor();
+  int cropRight = (xWidth * editedMedia.cropRight).floor();
+  int cropTop = (xHeight * editedMedia.cropTop).floor();
+  int cropBottom = (xHeight * editedMedia.cropBottom).floor();
   int cropWidth = cropRight - cropLeft;
   int cropHeight = min(scaledClipHeight, cropBottom - cropTop);
 
@@ -914,9 +914,9 @@ Future<String?> extractThumbnail(EditedMedia editedMedia) async {
   }
 
   int cropLeft = max(0, (mediaData.width * editedMedia.cropLeft).floor());
-  int cropRight = min(mediaData.width, (mediaData.width * editedMedia.cropRight).floor());
+  int cropRight = (mediaData.width * editedMedia.cropRight).floor();
   int cropTop = max(0, (mediaData.height * editedMedia.cropTop).floor());
-  int cropBottom = min(mediaData.height, (mediaData.height * editedMedia.cropBottom).floor());
+  int cropBottom = (mediaData.height * editedMedia.cropBottom).floor();
 
   int cropWidth = cropRight - cropLeft;
   int cropHeight = cropBottom - cropTop;
