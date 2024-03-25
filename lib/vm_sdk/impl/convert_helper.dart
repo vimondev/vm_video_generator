@@ -255,30 +255,30 @@ AllEditedData parseJSONToAllEditedData(String encodedJSON) {
     editedMedia.playbackSpeed = slide["playbackSpeed"] * 1.0;
 
     bool isNeedRecalculateCrop = false;
-    if (slide["rect"] != null) {
-      if (slide["rect"]["l"] != null) {
-        editedMedia.cropLeft = slide["rect"]["l"] * 1.0;
+    if (slide["outputRect"] != null) {
+      if (slide["outputRect"]["l"] != null) {
+        editedMedia.cropLeft = slide["outputRect"]["l"] * 1.0;
       }
       else {
         isNeedRecalculateCrop = true;
       }
 
-      if (slide["rect"]["t"] != null) {
-        editedMedia.cropTop = slide["rect"]["t"] * 1.0;
+      if (slide["outputRect"]["t"] != null) {
+        editedMedia.cropTop = slide["outputRect"]["t"] * 1.0;
       }
       else {
         isNeedRecalculateCrop = true;
       }
 
-      if (slide["rect"]["r"] != null) {
-        editedMedia.cropRight = slide["rect"]["r"] * 1.0;
+      if (slide["outputRect"]["r"] != null) {
+        editedMedia.cropRight = slide["outputRect"]["r"] * 1.0;
       }
       else {
         isNeedRecalculateCrop = true;
       }
       
-      if (slide["rect"]["b"] != null) {
-        editedMedia.cropBottom = slide["rect"]["b"] * 1.0;
+      if (slide["outputRect"]["b"] != null) {
+        editedMedia.cropBottom = slide["outputRect"]["b"] * 1.0;
       }
       else {
         isNeedRecalculateCrop = true;
