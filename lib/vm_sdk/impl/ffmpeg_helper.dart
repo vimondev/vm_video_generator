@@ -127,46 +127,50 @@ Future<RenderedData> clipRender(
   ]);
   inputFileCount++;
 
-  bool clipDimensionChanged = [90.0, 270.0].contains(editedMedia.angle);
+
+  // Retrieve the scale factor from the edited media
   double scale = editedMedia.scale;
 
+  // Determine if the clip's dimensions have changed due to rotation (90 or 270 degrees) and swap width, height accordingly
+  bool clipDimensionChanged = [90.0, 270.0].contains(editedMedia.angle);
   int clipWidth = clipDimensionChanged ? mediaData.height : mediaData.width;
   int clipHeight = clipDimensionChanged ? mediaData.width : mediaData.height;
 
+  // Target resolution width and height
+  // Because the logic is aiming to fit the clip entirely in video frame => visible width and height always same as _resolution
   int xWidth = _resolution.width;
   int xHeight = _resolution.height;
 
+  // Calculate the aspect ratio of both the media and the target resolution
   double xMediaRatio = clipWidth / clipHeight;
   double resolutionRatio = _resolution.width / _resolution.height;
 
+  // Determine if the media should fit by height based on aspect ratios
   bool fitHeight = xMediaRatio > resolutionRatio;
 
+  // Initialize a variable for calculating scale error margin
   double resolutionErrorMargin = 1;
 
+  // Adjust scale based on whether the media fits by height or width. For e.g: 3444:1440 fit in 1920:1080 by default scale down by 1.333333333333
   if(fitHeight) {
     resolutionErrorMargin = _resolution.height / clipHeight;
   } else {
     resolutionErrorMargin = _resolution.width / clipWidth;
   }
   scale = scale / resolutionErrorMargin;
-  // if(fitHeight){
-  //   double resolutionDifScale = _resolution.height / xHeight;
-  //   xWidth = ((xHeight * resolutionRatio) * resolutionDifScale).floor();
-  // } else {
-  //   xHeight = (xWidth / resolutionRatio).floor();
-  // }
+
+  // Adjust the width or height based on the fitting requirement
   if(fitHeight){
     xWidth = (xHeight * resolutionRatio).floor();
   } else {
     xHeight = (xWidth / resolutionRatio).floor();
   }
 
+  // Calculate the scaled dimensions of the clip
   int scaledClipWidth = (_resolution.width * scale).floor();
   int scaledClipHeight = (_resolution.height * scale).floor();
 
-  double rectBoundaryX = max(0, ((editedMedia.rectBoundary?.x ?? 0.0)));
-  double rectBoundaryY = max(0, ((editedMedia.rectBoundary?.y ?? 0.0)));
-
+  // Calculate crop dimensions based on edited media properties
   int cropLeft = (xWidth * editedMedia.cropLeft).floor();
   int cropRight = (xWidth * editedMedia.cropRight).floor();
   int cropTop = (xHeight * editedMedia.cropTop).floor();
@@ -174,22 +178,7 @@ Future<RenderedData> clipRender(
   int cropWidth = cropRight - cropLeft;
   int cropHeight = min(scaledClipHeight, cropBottom - cropTop);
 
-  // if(clipDimensionChanged){
-  //   ///when dimension changed its height become its width
-  //   int newWidth = mediaData.height;
-  //   int newHeight = mediaData.width;
-  //   // if(mediaData.height > mediaData.width) {
-  //   //   dimensionChangedExtraLeft =
-  //   //        ((mediaData.height - mediaData.width) / 2 * scale).floor();
-  //   //   dimensionChangedExtraTop = -((mediaData.width - mediaData.height) / 2 * scale).floor();
-  //   // } else {
-  //   //   dimensionChangedExtraLeft = -((mediaData.height - mediaData.width) / 2 * scale).floor();
-  //   //   dimensionChangedExtraTop = ((mediaData.width - mediaData.height) / 2 * scale).floor();
-  //   // }
-  //   cropLeft+=(rectBoundaryX * newWidth * scale).floor();
-  //   cropTop+=(rectBoundaryY * newHeight * scale).floor();
-  // }
-
+  // Prepare the flip and rotate filters based on edited media properties
   String flipString = '';
   String? rotateString = '';
   if(editedMedia.hFlip){
@@ -199,25 +188,17 @@ Future<RenderedData> clipRender(
     flipString = '${flipString}vflip,';
   }
 
+  // Prepare the rotation string, adjusting for possible dimension changes
   String rotateModifyStr = clipDimensionChanged ? ':out_w=in_h:out_h=in_w' : '';
   rotateString = 'rotate=${editedMedia.angle * (pi / 180)}$rotateModifyStr,';
 
-  //
-  // int actualHeight = mediaData.height;
-  // int actualWidth = mediaData.width;
-  //
-  // if(clipDimensionChanged){
-  //   var temp = actualWidth;
-  //   actualHeight = actualWidth;
-  //   actualWidth = temp;
-  // }
+  // Construct the FFmpeg filter string using the prepared parameters
   String args = "[0:v]fps=$_framerate,$trimFilter${_getTransposeFilter(mediaData.orientation)}${flipString}scale=${mediaData.width * scale}:${mediaData.height * scale},${rotateString}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,setdar=dar=${_resolution.width / _resolution.height}[vid];";
 
-  //print(' - FFMPEG -- $args');
   filterStrings.add(args);
   videoOutputMapVariable = "[vid]";
   inputFileCount++;
-
+  
   ///////////////
   // ADD FRAME //
   ///////////////
