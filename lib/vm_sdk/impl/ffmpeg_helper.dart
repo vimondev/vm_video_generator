@@ -189,7 +189,7 @@ Future<RenderedData> clipRender(
   rotateString = 'rotate=${editedMedia.angle * (pi / 180)}$rotateModifyStr,';
 
   // Construct the FFmpeg filter string using the prepared parameters
-  String args = "[0:v]fps=$_framerate,$trimFilter${_getTransposeFilter(mediaData.orientation)}${flipString}scale=${mediaData.width * scale}:${mediaData.height * scale},${rotateString}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,setdar=dar=${_resolution.width / _resolution.height}[vid];";
+  String args = "[0:v]fps=$_framerate,$trimFilter${flipString}scale=${mediaData.width * scale}:${mediaData.height * scale},${rotateString}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,setdar=dar=${_resolution.width / _resolution.height}[vid];";
 
   filterStrings.add(args);
   videoOutputMapVariable = "[vid]";
