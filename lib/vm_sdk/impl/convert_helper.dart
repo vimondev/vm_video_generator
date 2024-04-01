@@ -52,7 +52,8 @@ String parseAllEditedDataToJSON(AllEditedData allEditedData) {
         "t": editedMedia.cropTop,
         "r": editedMedia.cropRight,
         "b": editedMedia.cropBottom,
-      }
+      },
+      "scale": editedMedia.scale
     });
 
     for (int i = 0; i < textList.length; i++) {

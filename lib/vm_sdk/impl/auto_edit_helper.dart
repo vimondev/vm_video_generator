@@ -573,8 +573,11 @@ Future<AllEditedData> generateAllEditedData(
     // editedMedia.cropRight = cropRight / mediaWidth;
     // editedMedia.cropTop = cropTop / mediaHeight;
     // editedMedia.cropBottom = cropBottom / mediaHeight;
+
+    double mediaScaleFactor = max(resolution.width / editedMedia.mediaData.width, resolution.height / editedMedia.mediaData.height);
     Rect centerRect = generateRect(Size(editedMedia.mediaData.width.toDouble(), editedMedia.mediaData.height.toDouble()), Size(resolution.width.toDouble(), resolution.height.toDouble()));
 
+    editedMedia.scale = mediaScaleFactor;
     editedMedia.cropLeft = centerRect.left;
     editedMedia.cropRight = centerRect.right;
     editedMedia.cropTop = centerRect.top;
@@ -944,19 +947,15 @@ Rect generateRect(Size mediaSize, Size resolutionSize) {
   double mediaScaleFactor = max(resolutionSize.width / mediaSize.width, resolutionSize.height / mediaSize.height);
 
   Size scaledToFitMediaSize = Size(mediaScaleFactor * mediaSize.width, mediaScaleFactor * mediaSize.height);
-  ///e.g scale 3440:1440 video to 2580:1080 to fit in a video ratio of 1920:1080
+  ///e.g scale 3440:1440 video to 2580:1080 to fit in a video ratio of 1080:1920
 
-  double cropLeft = (scaledToFitMediaSize.width - resolutionSize.width) / 2;
-  double cropRight = (scaledToFitMediaSize.height - resolutionSize.height) / 2;
   ///e.g basic crop left, right
-
-  double cropWidth = resolutionSize.width;
-  double cropHeight = resolutionSize.height;
-
-  Rect baseCenterRect = Rect.fromLTWH(cropLeft, cropRight, cropWidth, cropHeight);
-  Rect finalRect = Rect.fromLTWH(baseCenterRect.left / mediaSize.width, baseCenterRect.top / mediaSize.height, 1, 1);
+  double cropLeft = (scaledToFitMediaSize.width - resolutionSize.width) / 2;
+  double cropTop = (scaledToFitMediaSize.height - resolutionSize.height) / 2;
+  Rect finalRect = Rect.fromLTWH(cropLeft / resolutionSize.width, cropTop / resolutionSize.height, 1, 1);
   /// Make percent-based rect. e.g: Rect.fromLTWH(0.1, 0.1, 1.1, 1.1);
   /// This rect is based on resolution dimension, so width, height always equals to 1
 
   return finalRect;
 }
+

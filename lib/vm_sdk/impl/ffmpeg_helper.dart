@@ -148,17 +148,6 @@ Future<RenderedData> clipRender(
   // Determine if the media should fit by height based on aspect ratios
   bool fitHeight = xMediaRatio > resolutionRatio;
 
-  // Initialize a variable for calculating scale error margin
-  double resolutionErrorMargin = 1;
-
-  // Adjust scale based on whether the media fits by height or width. For e.g: 3444:1440 fit in 1920:1080 by default scale down by 1.333333333333
-  if(xMediaRatio > resolutionRatio){
-    resolutionErrorMargin = clipWidth / (_resolution.width * xMediaRatio);
-  } else {
-    resolutionErrorMargin = clipWidth / _resolution.width;
-  }
-  scale = scale / resolutionErrorMargin;
-
   // Adjust the width or height based on the fitting requirement
   if(fitHeight){
     xWidth = (xHeight * resolutionRatio).floor();
@@ -171,8 +160,8 @@ Future<RenderedData> clipRender(
   int cropRight = (xWidth * editedMedia.cropRight).floor();
   int cropTop = (xHeight * editedMedia.cropTop).floor();
   int cropBottom = (xHeight * editedMedia.cropBottom).floor();
-  int cropWidth = cropRight - cropLeft;
-  int cropHeight = cropBottom - cropTop;
+  int cropWidth = min(_resolution.width, cropRight - cropLeft);
+  int cropHeight = min(_resolution.height, cropBottom - cropTop);
 
   // Prepare the flip and rotate filters based on edited media properties
   String flipString = '';
