@@ -47,7 +47,7 @@ String parseAllEditedDataToJSON(AllEditedData allEditedData) {
       "volume": 1,
       "playbackSpeed": 1,
       "flip": null,
-      "rect": {
+      "outputRect": {
         "l": editedMedia.cropLeft,
         "t": editedMedia.cropTop,
         "r": editedMedia.cropRight,
