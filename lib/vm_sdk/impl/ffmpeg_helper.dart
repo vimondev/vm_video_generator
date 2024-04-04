@@ -70,7 +70,7 @@ Future<RenderedData> clipRender(
   normalizeTime(editedMedia.duration + editedMedia.xfadeDuration);
   double renderDuration = normalizeTime((editedMedia.duration / speedFactor) + editedMedia.xfadeDuration);
   double startTime = normalizeTime(editedMedia.startTime);
-  final String setptsStr = '($speedFactor/1)*(PTS-STARTPTS)';
+  final String setptsStr = '(1/$speedFactor)*(PTS-STARTPTS)';
   final List<String> arguments = <String>[];
   final String appDirPath = await getAppDirectoryPath();
   final String outputPath = "$appDirPath/clip$clipIdx.mp4";
