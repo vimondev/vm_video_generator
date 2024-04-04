@@ -553,27 +553,6 @@ Future<AllEditedData> generateAllEditedData(
   for (int i = 0; i < allEditedData.editedMediaList.length; i++) {
     EditedMedia editedMedia = allEditedData.editedMediaList[i];
 
-    // int mediaWidth = max(1, editedMedia.mediaData.width);
-    // int mediaHeight = max(1, editedMedia.mediaData.height);
-    //
-    // double aspectRatio = (resolution.width * 1.0) / resolution.height;
-    // double baseCropWidth = aspectRatio;
-    // double baseCropHeight = 1;
-    //
-    // double scaleFactor =
-    //     min(mediaWidth / baseCropWidth, mediaHeight / baseCropHeight);
-    // int cropWidth = (baseCropWidth * scaleFactor).floor();
-    // int cropHeight = (baseCropHeight * scaleFactor).floor();
-    //
-    // double cropLeft = (mediaWidth - cropWidth) / 2;
-    // double cropRight = cropLeft + cropWidth;
-    // double cropTop = (mediaHeight - cropHeight) / 2;
-    // double cropBottom = cropTop + cropHeight;
-    // editedMedia.cropLeft = cropLeft / mediaWidth;
-    // editedMedia.cropRight = cropRight / mediaWidth;
-    // editedMedia.cropTop = cropTop / mediaHeight;
-    // editedMedia.cropBottom = cropBottom / mediaHeight;
-
     double mediaScaleFactor = max(resolution.width / editedMedia.mediaData.width, resolution.height / editedMedia.mediaData.height);
     Rect centerRect = generateRect(Size(editedMedia.mediaData.width.toDouble(), editedMedia.mediaData.height.toDouble()), Size(resolution.width.toDouble(), resolution.height.toDouble()));
 
@@ -944,10 +923,12 @@ Future<_GetMusicResponse> _getMusics(EMusicSpeed? musicSpeed) async {
 }
 
 Rect generateRect(Size mediaSize, Size resolutionSize) {
+  ///e.g calculate the scale to scale the media to fit to video. E.g 3440:1440 need to be scaled down ↓ by 0.75 to fit to 1920:1080
+  ///In which case, the scaleFactor would be 0.75
   double mediaScaleFactor = max(resolutionSize.width / mediaSize.width, resolutionSize.height / mediaSize.height);
 
   Size scaledToFitMediaSize = Size(mediaScaleFactor * mediaSize.width, mediaScaleFactor * mediaSize.height);
-  ///e.g scale 3440:1440 video to 2580:1080 to fit in a video ratio of 1080:1920
+  ///e.g scale 3440:1440 video to 2580:1080 to fit in a video ratio of 1920:1080
 
   ///e.g basic crop left, right
   double cropLeft = (scaledToFitMediaSize.width - resolutionSize.width) / 2;

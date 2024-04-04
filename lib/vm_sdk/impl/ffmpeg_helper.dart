@@ -64,10 +64,13 @@ Future<RenderedData> clipRender(
   final List<CanvasTextData> canvasTexts = editedMedia.canvasTexts;
   final List<EditedTextData> textList = editedMedia.editedTexts;
 
-  double duration =
-      normalizeTime(editedMedia.duration + editedMedia.xfadeDuration);
-  double startTime = normalizeTime(editedMedia.startTime);
+  final int speedFactor = 1;
 
+  double originDuration =
+  normalizeTime(editedMedia.duration + editedMedia.xfadeDuration);
+  double renderDuration = normalizeTime((editedMedia.duration / speedFactor) + editedMedia.xfadeDuration);
+  double startTime = normalizeTime(editedMedia.startTime);
+  final String setptsStr = '($speedFactor/1)*(PTS-STARTPTS)';
   final List<String> arguments = <String>[];
   final String appDirPath = await getAppDirectoryPath();
   final String outputPath = "$appDirPath/clip$clipIdx.mp4";
@@ -86,12 +89,12 @@ Future<RenderedData> clipRender(
   if (mediaData.type == EMediaType.image) {
     inputArguments
         .addAll(["-framerate", "$_framerate", "-loop", "1"]);
-    inputArguments.addAll(["-t", "$duration", "-i", mediaData.scaledPath ?? mediaData.absolutePath]);
+    inputArguments.addAll(["-t", "$originDuration", "-i", mediaData.scaledPath ?? mediaData.absolutePath]);
 
     audioOutputMapVariable = "1:a";
   } //
   else {
-    trimFilter = "trim=$startTime:${startTime + duration},setpts=PTS-STARTPTS,";
+    trimFilter = "trim=$startTime:${startTime + originDuration},setpts=$setptsStr,";
     inputArguments
         .addAll(["-i", mediaData.absolutePath]);
 
@@ -105,10 +108,9 @@ Future<RenderedData> clipRender(
         break;
       }
     }
-
     if (isAudioExists) {
       filterStrings.add(
-        "[0:a]atrim=$startTime:${startTime + duration},asetpts=PTS-STARTPTS[aud];[aud][1:a]amix=inputs=2[aud_mixed];[aud_mixed]atrim=0:$duration,asetpts=PTS-STARTPTS[aud_trim];[aud_trim]volume=${editedMedia.volume}[aud_volume_applied];");
+        "[0:a]atrim=$startTime:${startTime + renderDuration},asetpts=$setptsStr[aud];[aud][1:a]amix=inputs=2[aud_mixed];[aud_mixed]atrim=0:$renderDuration,asetpts=$setptsStr[aud_trim];[aud_trim]volume=${editedMedia.volume}[aud_volume_applied];");
       audioOutputMapVariable = "[aud_volume_applied]";
     }
     else {
@@ -121,7 +123,7 @@ Future<RenderedData> clipRender(
     "-f",
     "lavfi",
     "-t",
-    duration.toString(),
+    '$renderDuration',
     "-i",
     "anullsrc=channel_layout=stereo:sample_rate=44100"
   ]);
@@ -191,7 +193,7 @@ Future<RenderedData> clipRender(
   if (frame != null) {
     ResourceFileInfo fileInfo = frame.fileMap[_ratio]!;
 
-    final int loopCount = (duration / fileInfo.duration).floor();
+    final int loopCount = (renderDuration / fileInfo.duration).floor();
     const String frameMapVariable = "[frame]";
     const String frameMergedMapVariable = "[frame_merged]";
 
@@ -205,7 +207,7 @@ Future<RenderedData> clipRender(
     ]);
 
     filterStrings.add(
-        "[${inputFileCount++}:v]trim=0:$duration,setpts=PTS-STARTPTS,scale=${_resolution.width}:${_resolution.height},setdar=dar=${_resolution.width / _resolution.height}$frameMapVariable;");
+        "[${inputFileCount++}:v]trim=0:$renderDuration,setpts=PTS-STARTPTS,scale=${_resolution.width}:${_resolution.height},setdar=dar=${_resolution.width / _resolution.height}$frameMapVariable;");
     filterStrings.add(
         "$videoOutputMapVariable${frameMapVariable}overlay$frameMergedMapVariable;");
 
@@ -220,7 +222,7 @@ Future<RenderedData> clipRender(
     final EditedStickerData sticker = stickerList[i];
     ResourceFileInfo fileInfo = sticker.fileinfo!;
 
-    final int loopCount = (duration / fileInfo.duration).floor();
+    final int loopCount = (renderDuration / fileInfo.duration).floor();
     final String stickerMapVariable = "[sticker$i]";
     final String stickerScaledMapVariable = "[sticker_scaled$i]";
     final String stickerRotatedMapVariable = "[sticker_rotated$i]";
@@ -243,7 +245,7 @@ Future<RenderedData> clipRender(
     ]);
 
     filterStrings.add(
-        "[${inputFileCount++}:v]trim=0:$duration,setpts=PTS-STARTPTS$stickerMapVariable;");
+        "[${inputFileCount++}:v]trim=0:$renderDuration,setpts=PTS-STARTPTS$stickerMapVariable;");
     filterStrings.add(
         "${stickerMapVariable}scale=${sticker.width}:${sticker.height}$stickerScaledMapVariable;");
     filterStrings.add(
@@ -324,11 +326,11 @@ Future<RenderedData> clipRender(
 
       String overlayTimeFilter = "";
       if (isOnlyOneClip) {
-        overlayTimeFilter = "enable='between(t\\,0,${min(5, editedMedia.duration)})':";
+        overlayTimeFilter = "enable='between(t\\,0,${min(5, renderDuration)})':";
       }
 
       filterStrings.add(
-          "[${inputFileCount++}:v]trim=0:$duration,setpts=PTS-STARTPTS,scale=$width:-1$textMapVariable;");
+          "[${inputFileCount++}:v]trim=0:$renderDuration,setpts=PTS-STARTPTS,scale=$width:-1$textMapVariable;");
       filterStrings.add(
           "${textMapVariable}rotate=$rotate:c=none:ow=rotw($rotate):oh=roth($rotate)$textRotatedMapVariable;");
       filterStrings.add(
@@ -373,19 +375,19 @@ Future<RenderedData> clipRender(
       "-c:v",
       "libvpx-vp9",
       "-itsoffset",
-      (duration - fileInfo.transitionPoint).toString(),
+      (renderDuration - fileInfo.transitionPoint).toString(),
       "-i",
       "$appDirPath/${fileInfo.source.name}"
     ]);
     filterStrings.add(
         "[${inputFileCount++}:v]scale=${_resolution.width}:${_resolution.height},setdar=dar=${_resolution.width / _resolution.height}$transitionMapVariable;");
     filterStrings.add(
-        "$videoOutputMapVariable${transitionMapVariable}overlay=enable='between(t\\,${duration - fileInfo.transitionPoint},$duration)'$transitionMergedMapVariable;");
+        "$videoOutputMapVariable${transitionMapVariable}overlay=enable='between(t\\,${renderDuration - fileInfo.transitionPoint},$renderDuration)'$transitionMergedMapVariable;");
     videoOutputMapVariable = transitionMergedMapVariable;
   }
 
   filterStrings.add(
-      "${videoOutputMapVariable}trim=0:$duration,setpts=PTS-STARTPTS[trim_vid];");
+      "${videoOutputMapVariable}trim=0:$renderDuration,setpts=$setptsStr[trim_vid];");
   videoOutputMapVariable = "[trim_vid]";
 
   filterStrings.add(
@@ -437,7 +439,7 @@ Future<RenderedData> clipRender(
   ]);
 
   await _ffmpegManager.execute(arguments, ffmpegCallback);
-  return RenderedData(outputPath, duration);
+  return RenderedData(outputPath, renderDuration);
 }
 
 Future<RenderedData> applyXFadeTransitions(
