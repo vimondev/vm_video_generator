@@ -64,13 +64,13 @@ Future<RenderedData> clipRender(
   final List<CanvasTextData> canvasTexts = editedMedia.canvasTexts;
   final List<EditedTextData> textList = editedMedia.editedTexts;
 
-  final int speedFactor = 1;
+  final double speedFactor = editedMedia.playbackSpeed;
 
   double originDuration =
   normalizeTime(editedMedia.duration + editedMedia.xfadeDuration);
   double renderDuration = normalizeTime((editedMedia.duration / speedFactor) + editedMedia.xfadeDuration);
   double startTime = normalizeTime(editedMedia.startTime);
-  final String setptsStr = '(1/$speedFactor)*(PTS-STARTPTS)';
+  final String setptsStr = '${1/speedFactor}*(PTS-STARTPTS)';
   final List<String> arguments = <String>[];
   final String appDirPath = await getAppDirectoryPath();
   final String outputPath = "$appDirPath/clip$clipIdx.mp4";
@@ -110,7 +110,7 @@ Future<RenderedData> clipRender(
     }
     if (isAudioExists) {
       filterStrings.add(
-        "[0:a]atrim=$startTime:${startTime + renderDuration},asetpts=$setptsStr[aud];[aud][1:a]amix=inputs=2[aud_mixed];[aud_mixed]atrim=0:$renderDuration,asetpts=$setptsStr[aud_trim];[aud_trim]volume=${editedMedia.volume}[aud_volume_applied];");
+        "[0:a]atrim=$startTime:${startTime + originDuration},asetpts=PTS-STARTPTS[aud];[aud][1:a]amix=inputs=2[aud_mixed];[aud_mixed]atrim=0:$originDuration,${convertSpeedToAtempo(speedFactor)}[aud_trim];[aud_trim]volume=${editedMedia.volume}[aud_volume_applied];");
       audioOutputMapVariable = "[aud_volume_applied]";
     }
     else {
@@ -387,7 +387,7 @@ Future<RenderedData> clipRender(
   }
 
   filterStrings.add(
-      "${videoOutputMapVariable}trim=0:$renderDuration,setpts=$setptsStr[trim_vid];");
+      "${videoOutputMapVariable}trim=0:$renderDuration,setpts=PTS-STARTPTS[trim_vid];");
   videoOutputMapVariable = "[trim_vid]";
 
   filterStrings.add(
@@ -939,4 +939,28 @@ int getFramerate() {
 double normalizeTime(double duration) {
   duration -= duration % _minDurationFactor;
   return (duration * 1000).floor() / 1000.0;
+}
+
+String convertSpeedToAtempo(double speed) {
+  if (speed < 0.25) {
+    speed = 0.25;
+  } else if (speed > 10.0) {
+    speed = 10.0;
+  }
+
+  List<String> atempos = [];
+
+  while (speed > 2.0) {
+    atempos.add("atempo=2.0");
+    speed /= 2.0;
+  }
+
+  while (speed < 0.5) {
+    atempos.add("atempo=0.5");
+    speed *= 2.0;
+  }
+
+  atempos.add("atempo=$speed");
+
+  return atempos.join(',');
 }
