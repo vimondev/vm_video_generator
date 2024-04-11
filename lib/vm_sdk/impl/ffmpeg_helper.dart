@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:ffmpeg_kit_flutter_full_gpl/ffprobe_kit.dart';
 import 'package:ffmpeg_kit_flutter_full_gpl/statistics.dart';
 import 'package:ffmpeg_kit_flutter_full_gpl/stream_information.dart';
+import 'package:tuple/tuple.dart';
 import 'package:uuid/uuid.dart';
 
 import '../types/types.dart';
@@ -14,7 +15,7 @@ int _scaledVideoWidth = 0;
 int _scaledVideoHeight = 0;
 int _framerate = 30;
 ERatio _ratio = ERatio.ratio11;
-
+int standardScaledImaged = 1440;
 double _scaleFactor = 2 / 3.0;
 double _minDurationFactor = 1 / _framerate;
 // const int _fadeDuration = 3;
@@ -58,7 +59,8 @@ Future<RenderedData> clipRender(
     TransitionData? prevTransition,
     TransitionData? nextTransition,
     Function(Statistics)? ffmpegCallback, { isOnlyOneClip = false }) async {
-  final MediaData mediaData = await scaleImageMedia(editedMedia.mediaData);
+  final mediaScaledData = await scaleImageMedia(editedMedia.mediaData);
+  final MediaData mediaData = mediaScaledData.item1;
   final FrameData? frame = editedMedia.frame;
   final List<EditedStickerData> stickerList = editedMedia.stickers;
   final List<CanvasTextData> canvasTexts = editedMedia.canvasTexts;
@@ -132,6 +134,8 @@ Future<RenderedData> clipRender(
 
   // Retrieve the scale factor from the edited media
   double scale = editedMedia.scale;
+
+  scale = scale / mediaScaledData.item2;
 
   // Determine if the clip's dimensions have changed due to rotation (90 or 270 degrees) and swap width, height accordingly
   bool clipDimensionChanged = [90.0, 270.0].contains(editedMedia.angle);
@@ -893,7 +897,7 @@ Future<String?> extractThumbnail(EditedMedia editedMedia) async {
   return outputPath;
 }
 
-Future<MediaData> scaleImageMedia(MediaData mediaData) async {
+Future<Tuple2<MediaData, double>> scaleImageMedia(MediaData mediaData) async {
   final List<String> arguments = <String>[];
   final String appDirPath = await getAppDirectoryPath();
   final String outputPath = "$appDirPath/${Uuid().v4()}.jpg";
@@ -901,12 +905,12 @@ Future<MediaData> scaleImageMedia(MediaData mediaData) async {
   final List<String> inputArguments = <String>[];
   final List<String> filterStrings = <String>[];
 
-  if (mediaData.type == EMediaType.video) return mediaData;
+  if (mediaData.type == EMediaType.video) return Tuple2(mediaData, 1);
 
-  const int scaleTargetSize = 1440;
+  int scaleTargetSize = standardScaledImaged;
   double imageScaleFactor = (scaleTargetSize * 1.0) / min(mediaData.width, mediaData.height);
 
-  if (imageScaleFactor >= 1) return mediaData;
+  if (imageScaleFactor >= 1) return Tuple2(mediaData, 1);
   inputArguments.addAll(["-i", mediaData.absolutePath]);
 
   int scaledWidth = _getEvenNumber((mediaData.width * imageScaleFactor).floor());
@@ -929,7 +933,7 @@ Future<MediaData> scaleImageMedia(MediaData mediaData) async {
   final MediaData resultData = MediaData(mediaData.absolutePath, mediaData.type, scaledWidth, scaledHeight, 0, mediaData.duration, mediaData.createDate, mediaData.gpsString, mediaData.mlkitDetected);
   resultData.scaledPath = outputPath;
 
-  return resultData;
+  return Tuple2(resultData, imageScaleFactor);
 }
 
 int getFramerate() {

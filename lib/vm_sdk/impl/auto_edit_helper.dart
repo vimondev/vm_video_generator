@@ -553,6 +553,27 @@ Future<AllEditedData> generateAllEditedData(
   for (int i = 0; i < allEditedData.editedMediaList.length; i++) {
     EditedMedia editedMedia = allEditedData.editedMediaList[i];
 
+    // int mediaWidth = max(1, editedMedia.mediaData.width);
+    // int mediaHeight = max(1, editedMedia.mediaData.height);
+    //
+    // double aspectRatio = (resolution.width * 1.0) / resolution.height;
+    // double baseCropWidth = aspectRatio;
+    // double baseCropHeight = 1;
+    //
+    // double scaleFactor =
+    //     min(mediaWidth / baseCropWidth, mediaHeight / baseCropHeight);
+    // int cropWidth = (baseCropWidth * scaleFactor).floor();
+    // int cropHeight = (baseCropHeight * scaleFactor).floor();
+    //
+    // double cropLeft = (mediaWidth - cropWidth) / 2;
+    // double cropRight = cropLeft + cropWidth;
+    // double cropTop = (mediaHeight - cropHeight) / 2;
+    // double cropBottom = cropTop + cropHeight;
+    // editedMedia.cropLeft = cropLeft / mediaWidth;
+    // editedMedia.cropRight = cropRight / mediaWidth;
+    // editedMedia.cropTop = cropTop / mediaHeight;
+    // editedMedia.cropBottom = cropBottom / mediaHeight;
+
     double mediaScaleFactor = max(resolution.width / editedMedia.mediaData.width, resolution.height / editedMedia.mediaData.height);
     Rect centerRect = generateRect(Size(editedMedia.mediaData.width.toDouble(), editedMedia.mediaData.height.toDouble()), Size(resolution.width.toDouble(), resolution.height.toDouble()));
 
