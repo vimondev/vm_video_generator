@@ -184,10 +184,10 @@ Future<RenderedData> clipRender(
   }
 
   // Calculate crop dimensions based on edited media properties
-  int cropLeft = (xWidth * editedMedia.cropLeft).floor();
-  int cropRight = (xWidth * editedMedia.cropRight).floor();
-  int cropTop = (xHeight * editedMedia.cropTop).floor();
-  int cropBottom = (xHeight * editedMedia.cropBottom).floor();
+  int cropLeft = (xWidth * editedMedia.cropLeft / scale).floor();
+  int cropRight = (xWidth * editedMedia.cropRight / scale).floor();
+  int cropTop = (xHeight * editedMedia.cropTop / scale).floor();
+  int cropBottom = (xHeight * editedMedia.cropBottom / scale).floor();
   int cropWidth = min(_resolution.width, cropRight - cropLeft);
   int cropHeight = min(_resolution.height, cropBottom - cropTop);
 
@@ -198,7 +198,7 @@ Future<RenderedData> clipRender(
   String rotateString = _getRotateFilter(editedMedia.angle);
 
   // Construct the FFmpeg filter string using the prepared parameters
-  String args = "[0:v]fps=$_framerate,$trimFilter${flipString}scale=${mediaData.width * scale}:${mediaData.height * scale},${rotateString}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,setdar=dar=${_resolution.width / _resolution.height}[vid];";
+  String args = "[0:v]fps=$_framerate,$trimFilter${flipString}scale=${mediaData.width}:${mediaData.height},${rotateString}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,setdar=dar=${_resolution.width / _resolution.height}[vid];";
 
   filterStrings.add(args);
   videoOutputMapVariable = "[vid]";
@@ -894,8 +894,6 @@ Future<String?> extractThumbnail(EditedMedia editedMedia) async {
 
   int cropWidth = cropRight - cropLeft;
   int cropHeight = cropBottom - cropTop;
-
-
   // Prepare the flip and rotate filters based on edited media properties
   String flipString = _getFlipFilter(editedMedia);
 
@@ -903,10 +901,10 @@ Future<String?> extractThumbnail(EditedMedia editedMedia) async {
   String rotateString = _getRotateFilter(editedMedia.angle);
 
   // Construct the FFmpeg filter string using the prepared parameters
-  String args = "$flipString,scale=$_scaledVideoWidth:$_scaledVideoHeight,${rotateString}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,setdar=dar=${_resolution.width / _resolution.height}[vid];";
+  String args = "scale=$_scaledVideoWidth:$_scaledVideoHeight,$flipString${rotateString}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,setdar=dar=${_resolution.width / _resolution.height}";
 
-  filterStrings.add(
-      "${_getTransposeFilter(mediaData.orientation)}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,scale=${(_scaledVideoWidth / 2).floor()}:${(_scaledVideoHeight / 2).floor()},setdar=dar=${_scaledVideoWidth / _scaledVideoHeight}");
+  //filterStrings.add("${_getTransposeFilter(mediaData.orientation)}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,scale=${(_scaledVideoWidth / 2).floor()}:${(_scaledVideoHeight / 2).floor()},setdar=dar=${_scaledVideoWidth / _scaledVideoHeight}");
+  filterStrings.add(args);
 
   String filterComplexStr = "";
   for (final String filterStr in filterStrings) {

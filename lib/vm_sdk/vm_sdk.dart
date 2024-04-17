@@ -356,7 +356,7 @@ class VMSDKWidget extends StatelessWidget {
           progressCallback, { isAutoEdit = false, isRunFFmpeg = true }) async {
     try {
       final List<SpotInfo> spotInfoList = [];
-      final List<String> thumbnailList = [];
+      final Map<int, String> thumbnailList = {};
 
       setRatio(ratio);
 
@@ -474,7 +474,7 @@ class VMSDKWidget extends StatelessWidget {
 
         String thumbnailPath = await extractThumbnail(editedMediaList[i]) ?? "";
         editedMedia.thumbnailPath = thumbnailPath;
-        thumbnailList.add(thumbnailPath);
+        thumbnailList[i] = thumbnailPath;
 
         totalDuration += editedMedia.duration;
       }
