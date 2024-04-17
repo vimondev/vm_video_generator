@@ -40,28 +40,6 @@ String _getTransposeFilter(int orientation) {
   return "";
 }
 
-String _getFlipFilter(EditedMedia editedMedia){
-  String flipString = '';
-  if(editedMedia.hFlip){
-    flipString = 'hflip,';
-  }
-  if(editedMedia.vFlip){
-    flipString = '${flipString}vflip,';
-  }
-  return flipString;
-}
-
-String _getRotateFilter(double angle){
-  bool clipDimensionChanged = [90.0, 270.0].contains(angle);
-
-  String? rotateString = '';
-
-  // Prepare the rotation string, adjusting for possible dimension changes
-  String rotateModifyStr = clipDimensionChanged ? ':out_w=in_h:out_h=in_w' : '';
-  rotateString = 'rotate=${angle * (pi / 180)}$rotateModifyStr,';
-  return rotateString;
-}
-
 int _getEvenNumber(int num) {
   num -= (num % 2);
   return num;
@@ -192,10 +170,18 @@ Future<RenderedData> clipRender(
   int cropHeight = min(_resolution.height, cropBottom - cropTop);
 
   // Prepare the flip and rotate filters based on edited media properties
-  String flipString = _getFlipFilter(editedMedia);
+  String flipString = '';
+  String? rotateString = '';
+  if(editedMedia.hFlip){
+    flipString = 'hflip,';
+  }
+  if(editedMedia.vFlip){
+    flipString = '${flipString}vflip,';
+  }
 
   // Prepare the rotation string, adjusting for possible dimension changes
-  String rotateString = _getRotateFilter(editedMedia.angle);
+  String rotateModifyStr = clipDimensionChanged ? ':out_w=in_h:out_h=in_w' : '';
+  rotateString = 'rotate=${editedMedia.angle * (pi / 180)}$rotateModifyStr,';
 
   // Construct the FFmpeg filter string using the prepared parameters
   String args = "[0:v]fps=$_framerate,$trimFilter${flipString}scale=${mediaData.width * scale}:${mediaData.height * scale},${rotateString}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,setdar=dar=${_resolution.width / _resolution.height}[vid];";
@@ -894,16 +880,6 @@ Future<String?> extractThumbnail(EditedMedia editedMedia) async {
 
   int cropWidth = cropRight - cropLeft;
   int cropHeight = cropBottom - cropTop;
-
-
-  // Prepare the flip and rotate filters based on edited media properties
-  String flipString = _getFlipFilter(editedMedia);
-
-  // Prepare the rotation string, adjusting for possible dimension changes
-  String rotateString = _getRotateFilter(editedMedia.angle);
-
-  // Construct the FFmpeg filter string using the prepared parameters
-  String args = "$flipString,scale=$_scaledVideoWidth:$_scaledVideoHeight,${rotateString}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,setdar=dar=${_resolution.width / _resolution.height}[vid];";
 
   filterStrings.add(
       "${_getTransposeFilter(mediaData.orientation)}crop=$cropWidth:$cropHeight:$cropLeft:$cropTop,scale=${(_scaledVideoWidth / 2).floor()}:${(_scaledVideoHeight / 2).floor()},setdar=dar=${_scaledVideoWidth / _scaledVideoHeight}");
