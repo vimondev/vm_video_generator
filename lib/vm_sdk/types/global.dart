@@ -196,6 +196,7 @@ class VideoGeneratedResult {
   String generatedVideoPath;
   List<SpotInfo> spotInfoList;
   Map<int, String> thumbnailListMap;
+  List<String> get thumbnailList => thumbnailListMap.values.toList();
   EMusicSpeed speed = EMusicSpeed.none;
 
   List<EditedMedia> editedMediaList = [];
