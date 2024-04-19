@@ -195,7 +195,8 @@ class SpotInfo {
 class VideoGeneratedResult {
   String generatedVideoPath;
   List<SpotInfo> spotInfoList;
-  List<String> thumbnailList;
+  Map<int, String> thumbnailListMap;
+  List<String> get thumbnailList => thumbnailListMap.values.toList();
   EMusicSpeed speed = EMusicSpeed.none;
 
   List<EditedMedia> editedMediaList = [];
@@ -205,5 +206,5 @@ class VideoGeneratedResult {
   String titleKey = "";
   double renderTimeSec = 0;
 
-  VideoGeneratedResult(this.generatedVideoPath, this.spotInfoList, this.thumbnailList);
+  VideoGeneratedResult(this.generatedVideoPath, this.spotInfoList, this.thumbnailListMap);
 }
