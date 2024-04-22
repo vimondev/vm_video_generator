@@ -134,7 +134,7 @@ Future<RenderedData> clipRender(
   final transform = calculateMediaTransform(_resolution, editedMedia, mediaData, mediaScaledData.item2);
 
   // Construct the FFmpeg filter string using the prepared parameters
-  String args = "[0:v]fps=$_framerate,$trimFilter${transform.flipString}scale=${mediaData.width}:${mediaData.height},${transform.rotateString}crop=${transform.cropWidth}:${transform.cropHeight}:${transform.cropLeft}:${transform.cropTop},setdar=dar=${_resolution.width / _resolution.height}[vid];";
+  String args = "[0:v]fps=$_framerate,$trimFilter${transform.flipString}${transform.rotateString}crop=${transform.cropWidth}:${transform.cropHeight}:${transform.cropLeft}:${transform.cropTop},scale=${mediaData.width}:${mediaData.height},setdar=dar=${_resolution.width / _resolution.height}[vid];";
 
   filterStrings.add(args);
   videoOutputMapVariable = "[vid]";
