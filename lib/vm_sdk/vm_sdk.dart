@@ -92,171 +92,193 @@ class VMSDKWidget extends StatelessWidget {
     final AllEditedData allEditedData = await generateAllEditedData(
         mediaList, speed, randomSortedTemplateList, isAutoEdit, isRunFFmpeg: isRunFFmpeg);
 
-    Resolution resolution = allEditedData.resolution;
-    final int maxTextWidth = (resolution.width * 0.9).floor();
-    final int maxTextHeight = resolution.height;
+    // Resolution resolution = allEditedData.resolution;
+    // final int maxTextWidth = (resolution.width * 0.9).floor();
+    // final int maxTextHeight = resolution.height;
 
-    bool isUseCanvasText = false;
-    if (texts.length >= 3) {
-      isUseCanvasText = true;
+    // bool isUseCanvasText = false;
+    // if (texts.length >= 3) {
+    //   isUseCanvasText = true;
+    // }
+    // else {
+    //   for (final text in texts) {
+    //     if (text.hasEmoji() || text.hasSpecialCharacter()) {
+    //       isUseCanvasText = true;
+    //       break;
+    //     }
+    //   }
+    // }
+
+    // String pickedTextId = "";
+    // if (isUseCanvasText) {
+    //   pickedTextId = "CanvasText";
+
+    //   const List<Tuple3<Color, Color, Color>> colors = [
+    //     Tuple3(Color(0xfffefefe), Colors.transparent, Colors.black),
+    //     Tuple3(Colors.black, Colors.transparent, Color(0xffffcb1e)),
+    //     Tuple3(Colors.white, Colors.transparent, Color(0xff8380d7)),
+    //     Tuple3(Color(0xffffbe00), Colors.black, Colors.transparent),
+    //     Tuple3(Color(0xffff4e91), Colors.white, Colors.transparent),
+    //     Tuple3(Color(0xff9ee8f6), Color(0xff000001), Colors.transparent),
+    //   ];
+
+    //   final Tuple3<Color, Color, Color> pickedColor = colors[(Random()).nextInt(colors.length) % colors.length];
+    //   int tryCount = 0;
+    //   String pngPath = "";
+
+    //   _textBoxConfigController.updateConfig(CanvasTextConfig(
+    //     text: texts.join("\n"),
+    //     fontSize: 51,
+    //     borderRadius: 9,
+    //     contentPadding: 48,
+    //     textHeight: 1.3,
+    //     outlineWidth: 12,
+    //     textColor: pickedColor.item1,
+    //     outlineColor: pickedColor.item2,
+    //     fillColor: pickedColor.item3,
+    //   ));
+
+    //   try {
+    //     pngPath = await _textBoxConfigController.renderImageAndSave().timeout(const Duration(seconds: 5));
+    //   }
+    //   catch (e) {
+    //     print(e);
+    //     if (++tryCount >= 6) rethrow;
+    //   }
+    //   print(pngPath);
+
+    //   if (isExportTitle) {
+    //     // wait 3~4 seconds
+    //     await Future.delayed(Duration(seconds: 3 + Random().nextInt(2)));
+
+    //     // wait 3~5 + 0~1 seconbd
+    //     double totalFakeDelayTimeMs = (3.0 + Random().nextInt(3) + Random().nextDouble()) * 1000;
+    //     final Duration fakeDelayDuration = Duration(milliseconds: (totalFakeDelayTimeMs / 250).floor());
+    //     for (int i=0; i<250; i++) {
+    //       double fakeProgress = i / 250.0;
+    //       if (progressCallback != null) {
+    //         progressCallback(_currentStatus, fakeProgress * _titleExportPercentage);
+    //       }
+    //       await Future.delayed(fakeDelayDuration);
+    //       print("fakeProgress : $fakeProgress");
+    //     }
+
+    //     if (progressCallback != null) {
+    //       progressCallback(_currentStatus, _titleExportPercentage);
+    //     }
+
+    //     // wait 0.5 seconds
+    //     await Future.delayed(const Duration(milliseconds: 500));
+    //   }
+
+    //   Size size = _textBoxConfigController.size;
+
+    //   double scale = 1.0;
+    //   if (size.width > maxTextWidth) {
+    //     scale = maxTextWidth / size.width;
+    //   }
+    //   if (size.height > maxTextHeight) {
+    //     scale = min(maxTextHeight / size.height, scale);
+    //   }
+
+    //   final CanvasTextData canvasTextData = CanvasTextData();
+    //   canvasTextData.imagePath = pngPath;
+    //   canvasTextData.width = (size.width * scale).floor();
+    //   canvasTextData.height = (size.height * scale).floor();
+    //   canvasTextData.x = (resolution.width / 2) - (canvasTextData.width / 2);
+    //   canvasTextData.y = (resolution.height / 2) - (canvasTextData.height / 2);
+    //   if (allEditedData.ratio == ERatio.ratio916) {
+    //     canvasTextData.y *= 0.6;
+    //   }
+
+    //   allEditedData.editedMediaList[0].canvasTexts.add(canvasTextData);
+    // }
+    // else {
+    //   List<TextData> textDatas = ResourceManager.getInstance().getTextDataList(lineCount: texts.length);
+    //   if (textDatas.isEmpty) {
+    //     textDatas = ResourceManager.getInstance().getTextDataList(lineCount: texts.length);
+    //   }
+    //   final TextData pickedText = textDatas[(Random()).nextInt(textDatas.length) % textDatas.length];
+    //   pickedTextId = pickedText.key;
+
+    //   if (isExportTitle) {
+    //     await _textWidget.loadText(pickedTextId, initTexts: texts, language: language);
+
+    //     await _textWidget.extractAllSequence((progress) {
+    //       if (progressCallback != null) {
+    //         progressCallback(_currentStatus, progress * _titleExportPercentage);
+    //       }
+    //     });
+
+    //     if (progressCallback != null) {
+    //       progressCallback(_currentStatus, _titleExportPercentage);
+    //     }
+    //   }
+
+    //   TextExportData exportedText = TextExportData(
+    //       pickedTextId,
+    //       _textWidget.width,
+    //       _textWidget.height,
+    //       _textWidget.frameRate,
+    //       _textWidget.totalFrameCount,
+    //       _textWidget.previewImagePath ?? "",
+    //       _textWidget.allSequencesPath ?? "");
+
+    //   EditedTextData editedTextData = EditedTextData(
+    //     exportedText.id,
+    //     0,
+    //     0,
+    //     _textWidget.width * 1.2,
+    //     _textWidget.height * 1.2,
+    //   );
+    //   editedTextData.textExportData = exportedText;
+
+    //   for (int i = 0; i < texts.length; i++) {
+    //     final String key = "#TEXT${(i + 1)}";
+    //     editedTextData.texts[key] = texts[i];
+    //   }
+
+    //   double scale = 1.0;
+    //   if (editedTextData.width > maxTextWidth) {
+    //     scale = maxTextWidth / editedTextData.width;
+    //   }
+    //   if (editedTextData.height > maxTextHeight) {
+    //     scale = min(maxTextHeight / exportedText.height, scale);
+    //   }
+    //   editedTextData.width *= scale;
+    //   editedTextData.height *= scale;
+
+    //   editedTextData.x = (resolution.width / 2) - (editedTextData.width / 2);
+    //   editedTextData.y = (resolution.height / 2) - (editedTextData.height / 2);
+
+    //   if (allEditedData.ratio == ERatio.ratio916) {
+    //     editedTextData.y *= 0.6;
+    //   }
+
+    //   allEditedData.editedMediaList[0].editedTexts.add(editedTextData);
+    // }
+
+    // wait 3~4 seconds
+    await Future.delayed(Duration(seconds: 2 + Random().nextInt(2)));
+
+    // wait 3~5 + 0~1 seconbd
+    double totalFakeDelayTimeMs = (2.0 + Random().nextInt(3) + Random().nextDouble()) * 1000;
+    final Duration fakeDelayDuration = Duration(milliseconds: (totalFakeDelayTimeMs / 250).floor());
+    for (int i=0; i<250; i++) {
+      double fakeProgress = i / 250.0;
+      if (progressCallback != null) {
+        progressCallback(_currentStatus, fakeProgress * _titleExportPercentage);
+      }
+      await Future.delayed(fakeDelayDuration);
+      print("fakeProgress : $fakeProgress");
     }
-    else {
-      for (final text in texts) {
-        if (text.hasEmoji() || text.hasSpecialCharacter()) {
-          isUseCanvasText = true;
-          break;
-        }
-      }
+
+    if (progressCallback != null) {
+      progressCallback(_currentStatus, _titleExportPercentage);
     }
 
-    String pickedTextId = "";
-    if (isUseCanvasText) {
-      pickedTextId = "CanvasText";
-
-      const List<Tuple3<Color, Color, Color>> colors = [
-        Tuple3(Color(0xfffefefe), Colors.transparent, Colors.black),
-        Tuple3(Colors.black, Colors.transparent, Color(0xffffcb1e)),
-        Tuple3(Colors.white, Colors.transparent, Color(0xff8380d7)),
-        Tuple3(Color(0xffffbe00), Colors.black, Colors.transparent),
-        Tuple3(Color(0xffff4e91), Colors.white, Colors.transparent),
-        Tuple3(Color(0xff9ee8f6), Color(0xff000001), Colors.transparent),
-      ];
-
-      final Tuple3<Color, Color, Color> pickedColor = colors[(Random()).nextInt(colors.length) % colors.length];
-      int tryCount = 0;
-      String pngPath = "";
-
-      _textBoxConfigController.updateConfig(CanvasTextConfig(
-        text: texts.join("\n"),
-        fontSize: 51,
-        borderRadius: 9,
-        contentPadding: 48,
-        textHeight: 1.3,
-        outlineWidth: 12,
-        textColor: pickedColor.item1,
-        outlineColor: pickedColor.item2,
-        fillColor: pickedColor.item3,
-      ));
-
-      try {
-        pngPath = await _textBoxConfigController.renderImageAndSave().timeout(const Duration(seconds: 5));
-      }
-      catch (e) {
-        print(e);
-        if (++tryCount >= 6) rethrow;
-      }
-      print(pngPath);
-
-      if (isExportTitle) {
-        // wait 3~4 seconds
-        await Future.delayed(Duration(seconds: 3 + Random().nextInt(2)));
-
-        // wait 3~5 + 0~1 seconbd
-        double totalFakeDelayTimeMs = (3.0 + Random().nextInt(3) + Random().nextDouble()) * 1000;
-        final Duration fakeDelayDuration = Duration(milliseconds: (totalFakeDelayTimeMs / 250).floor());
-        for (int i=0; i<250; i++) {
-          double fakeProgress = i / 250.0;
-          if (progressCallback != null) {
-            progressCallback(_currentStatus, fakeProgress * _titleExportPercentage);
-          }
-          await Future.delayed(fakeDelayDuration);
-          print("fakeProgress : $fakeProgress");
-        }
-
-        if (progressCallback != null) {
-          progressCallback(_currentStatus, _titleExportPercentage);
-        }
-
-        // wait 0.5 seconds
-        await Future.delayed(const Duration(milliseconds: 500));
-      }
-
-      Size size = _textBoxConfigController.size;
-
-      double scale = 1.0;
-      if (size.width > maxTextWidth) {
-        scale = maxTextWidth / size.width;
-      }
-      if (size.height > maxTextHeight) {
-        scale = min(maxTextHeight / size.height, scale);
-      }
-
-      final CanvasTextData canvasTextData = CanvasTextData();
-      canvasTextData.imagePath = pngPath;
-      canvasTextData.width = (size.width * scale).floor();
-      canvasTextData.height = (size.height * scale).floor();
-      canvasTextData.x = (resolution.width / 2) - (canvasTextData.width / 2);
-      canvasTextData.y = (resolution.height / 2) - (canvasTextData.height / 2);
-      if (allEditedData.ratio == ERatio.ratio916) {
-        canvasTextData.y *= 0.6;
-      }
-
-      allEditedData.editedMediaList[0].canvasTexts.add(canvasTextData);
-    }
-    else {
-      List<TextData> textDatas = ResourceManager.getInstance().getTextDataList(lineCount: texts.length);
-      if (textDatas.isEmpty) {
-        textDatas = ResourceManager.getInstance().getTextDataList(lineCount: texts.length);
-      }
-      final TextData pickedText = textDatas[(Random()).nextInt(textDatas.length) % textDatas.length];
-      pickedTextId = pickedText.key;
-
-      if (isExportTitle) {
-        await _textWidget.loadText(pickedTextId, initTexts: texts, language: language);
-
-        await _textWidget.extractAllSequence((progress) {
-          if (progressCallback != null) {
-            progressCallback(_currentStatus, progress * _titleExportPercentage);
-          }
-        });
-
-        if (progressCallback != null) {
-          progressCallback(_currentStatus, _titleExportPercentage);
-        }
-      }
-
-      TextExportData exportedText = TextExportData(
-          pickedTextId,
-          _textWidget.width,
-          _textWidget.height,
-          _textWidget.frameRate,
-          _textWidget.totalFrameCount,
-          _textWidget.previewImagePath ?? "",
-          _textWidget.allSequencesPath ?? "");
-
-      EditedTextData editedTextData = EditedTextData(
-        exportedText.id,
-        0,
-        0,
-        _textWidget.width * 1.2,
-        _textWidget.height * 1.2,
-      );
-      editedTextData.textExportData = exportedText;
-
-      for (int i = 0; i < texts.length; i++) {
-        final String key = "#TEXT${(i + 1)}";
-        editedTextData.texts[key] = texts[i];
-      }
-
-      double scale = 1.0;
-      if (editedTextData.width > maxTextWidth) {
-        scale = maxTextWidth / editedTextData.width;
-      }
-      if (editedTextData.height > maxTextHeight) {
-        scale = min(maxTextHeight / exportedText.height, scale);
-      }
-      editedTextData.width *= scale;
-      editedTextData.height *= scale;
-
-      editedTextData.x = (resolution.width / 2) - (editedTextData.width / 2);
-      editedTextData.y = (resolution.height / 2) - (editedTextData.height / 2);
-
-      if (allEditedData.ratio == ERatio.ratio916) {
-        editedTextData.y *= 0.6;
-      }
-
-      allEditedData.editedMediaList[0].editedTexts.add(editedTextData);
-    }
+    // wait 0.5 seconds
+    await Future.delayed(const Duration(milliseconds: 500));
 
     final VideoGeneratedResult result = await _runFFmpeg(
         allEditedData.editedMediaList,
@@ -269,7 +291,7 @@ class VMSDKWidget extends StatelessWidget {
     result.musicList.addAll(allEditedData.musicList);
 
     result.renderTimeSec = DateTime.now().difference(now).inMilliseconds / 1000;
-    result.titleKey = pickedTextId;
+    // result.titleKey = pickedTextId;
     result.json = parseAllEditedDataToJSON(allEditedData);
 
     return result;
