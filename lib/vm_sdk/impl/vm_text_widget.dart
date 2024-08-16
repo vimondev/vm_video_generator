@@ -77,6 +77,29 @@ class VMTextWidget extends StatelessWidget {
     _texts = [];
     _texts.addAll(values);
 
+    // TEMP CODE : WILL BE REMOVED : START
+    final tempMap = {
+      "Title_SW054": true,
+      "Title_SW055": true,
+      "Title_SW056": true,
+      "Title_SW057": true,
+      "Title_SW058": true,
+      "Title_SW059": true,
+      "Title_SW060": true,
+      "Title_SW061": true,
+      "Title_SW062": true,
+      "Title_SW063": true,
+      "Title_SW064": true,
+      "Title_SW065": true,
+      "Title_SW066": true,
+    };
+
+    if (tempMap[_id] == true && _texts.length < 2) {
+      _texts.add(" ");
+    }
+    // TEMP CODE : WILL BE REMOVED : END
+
+
     if (isExtractPreviewImmediate) {
       await extractPreview();
     }
