@@ -70,10 +70,10 @@ class VMTextWidget extends StatelessWidget {
       _dataMapTwoLine[id] = await loadTextWidgetData(id, 2, language);
     }
 
-    await setTextValue(initTexts ?? ["THIS IS TITLE!"]);
+    await setTextValue(initTexts ?? ["THIS IS TITLE!"], isReloadWebView: true);
   }
 
-  Future<void> setTextValue(List<String> values, {bool isExtractPreviewImmediate = true}) async {
+  Future<void> setTextValue(List<String> values, {bool isExtractPreviewImmediate = true, bool isReloadWebView = false}) async {
     _texts = [];
     _texts.addAll(values);
 
@@ -101,7 +101,7 @@ class VMTextWidget extends StatelessWidget {
 
 
     if (isExtractPreviewImmediate) {
-      await extractPreview();
+      await extractPreview(isReloadWebView: isReloadWebView);
     }
   }
 
@@ -156,14 +156,14 @@ class VMTextWidget extends StatelessWidget {
     return _dataMapOneLine.containsKey(_id) ? _dataMapOneLine[_id] : null;
   }
 
-  Future<void> extractPreview() async {
+  Future<void> extractPreview({ isReloadWebView = false }) async {
     TextWidgetData? _data = _getTextWidgetData();
     if (_data == null) return;
 
     _data.texts = [];
     _data.texts.addAll(_texts);
 
-    // await _reload();
+    if (isReloadWebView) await _reload();
     await _removeAll();
     _currentDirPath = "${await getAppDirectoryPath()}/${_id}_${DateTime.now().millisecondsSinceEpoch}";
     _currentPreviewPath = "$_currentDirPath/preview";
