@@ -316,7 +316,7 @@
         "ja": "Isemin"
     },
     "OpenSans-Regular": {
-        "ko": "OpenSans-Regular",
+        "ko": "NotoSansKR-Regular",
         "ja": "GenJyuuGothicL-Monospace-Regular"
     },
     "PlayfairDisplay-MediumItalic": {
@@ -491,5 +491,146 @@
     "Galmuri11-Regular": {
         "ko": "Galmuri11-Regular",
         "ja": "CP-period"	
+    },
+    "KaiseiTokumin-Bold": {
+        "ko": "SF_HambakSnow",
+        "ja": "KaiseiTokumin-Bold"
+    },
+    "KaiseiTokumin-Medium": {
+        "ko": "SF_HambakSnow",
+        "ja": "KaiseiTokumin-Medium"
+    },
+    "GN-Kin-iro_SansSerif": {
+        "ko": "NEXONFootballGothicB",
+        "ja": "GN-Kin-iro_SansSerif"
+    },
+    "GenEi-M-Gothic-Medium": {
+        "ko": "NotoSansKR-Regular",
+        "ja": "GenEi-M-Gothic-Medium"
+    },
+    "GN-Koharuiro_Sunray": {
+        "ko": "establishRetrosans",
+        "ja": "GN-Koharuiro_Sunray"
+    },
+    "001Shirokuma-Regular": {
+        "ko": "NotoSansKR-Regular",
+        "ja": "001Shirokuma-Regular"
+    },
+    "NicoMoji v2": {
+        "ko": "Jalnan",
+        "ja": "NicoMoji v2"
+    },
+    "rounded-x-mgenplus-1c-medium": {
+        "ko": "AppleSDGothicNeoEB00",
+        "ja": "rounded-x-mgenplus-1c-medium"
+    },
+    "Mushin": {
+        "ko": "BazziRegular",
+        "ja": "Mushin"
+    },
+    "uzura_font": {
+        "ko": "BBTreeC_B",
+        "ja": "uzura_font"
+    },
+    "CP-Font": {
+        "ko": "SBAggroB",
+        "ja": "CP-Font"
+    },
+    "NatsuzemiMaruGothic-Black": {
+        "ko": "GmarketSansBold",
+        "ja": "NatsuzemiMaruGothic-Black"
+    },
+    "851CHIKARA-DZUYOKU-KANA-A": {
+        "ko": "NotoSansKR-Medium",
+        "ja": "851CHIKARA-DZUYOKU-KANA-A"
+    },
+    "GN-KMBFont-UB-NewstyleKanaA": {
+        "ko": "RixInooAriDuriR",
+        "ja": "GN-KMBFont-UB-NewstyleKanaA"
+    },
+    "PretendardJP-Light": {
+        "ko": "NotoSansKR-Regular",
+        "ja": "PretendardJP-Light"
+    },
+
+    "PyeongChangPeace-Light": {
+        "ko": "PyeongChangPeace-Light",
+        "ja": "Togalite-light"
+    },
+    "OTHakgyoansimGureumR": {
+        "ko": "OTHakgyoansimGureumR",
+        "ja": "CP-period"
+    },
+    "HakgyoansimBareonbatangB": {
+        "ko": "HakgyoansimBareonbatangB",
+        "ja": "KaiseiTokumin-Medium"
+    },
+    "OTHakgyoansimMulgyeolB": {
+        "ko": "OTHakgyoansimMulgyeolB",
+        "ja": "CP-period"
+    },
+    "CookieRun-Regular": {
+        "ko": "CookieRun-Regular",
+        "ja": "rounded-x-mgenplus-1c-medium"
+    },
+    "LOTTERIADDAG": {
+        "ko": "LOTTERIADDAG",
+        "ja": "CP-period"
+    },
+    "KOTRA HOPE": {
+        "ko": "KOTRA HOPE",
+        "ja": "bananaslipplus"
+    },
+    "LOTTERIACHAB": {
+        "ko": "LOTTERIACHAB",
+        "ja": "CP-Font"
+    },
+    "SBAggroL": {
+        "ko": "SBAggroL",
+        "ja": "JNR_Font"
+    },
+    "OTHakgyoansimRikodeoR": {
+        "ko": "OTHakgyoansimRikodeoR",
+        "ja": "NicoMoji v2"
+    },
+    "SunBatang-Medium": {
+        "ko": "SunBatang-Medium",
+        "ja": "KaiseiTokumin-Medium"
+    },
+    "SDKukdetopokki-bBd": {
+        "ko": "SDKukdetopokki-bBd",
+        "ja": "KaiseiTokumin-Bold"
+    },
+    "Cafe24Ssurround": {
+        "ko": "Cafe24Ssurround",
+        "ja": "HackGen-Bold"
+    },
+    "BagelFatOne-Regular": {
+        "ko": "BagelFatOne-Regular",
+        "ja": "CP-Font"
+    },
+    "neurimboGothicRegular": {
+        "ko": "neurimboGothicRegular",
+        "ja": "GN-Koharuiro_Sunray"
+    },
+    "Pretendard-Medium": {
+        "ko": "Pretendard-Medium",
+        "ja": "rounded-x-mgenplus-1c-medium"
+    },
+    "KCCAhnchangho": {
+        "ko": "KCCAhnchangho",
+        "ja": "Natsume"
+    },
+    "DOSMyungjo": {
+        "ko": "DOSMyungjo",
+        "ja": "Mushin"
+    },
+    "DNFBitBitv2": {
+        "ko": "DNFBitBitv2",
+        "ja": "rounded-x-mgenplus-1c-black"
+    },
+    "GabiaCheongyeon": {
+        "ko": "GabiaCheongyeon",
+        "ja": "Natsume"
     }
 }
