@@ -70,15 +70,38 @@ class VMTextWidget extends StatelessWidget {
       _dataMapTwoLine[id] = await loadTextWidgetData(id, 2, language);
     }
 
-    await setTextValue(initTexts ?? ["THIS IS TITLE!"]);
+    await setTextValue(initTexts ?? ["THIS IS TITLE!"], isReloadWebView: true);
   }
 
-  Future<void> setTextValue(List<String> values, {bool isExtractPreviewImmediate = true}) async {
+  Future<void> setTextValue(List<String> values, {bool isExtractPreviewImmediate = true, bool isReloadWebView = false}) async {
     _texts = [];
     _texts.addAll(values);
 
+    // TEMP CODE : WILL BE REMOVED : START
+    final tempMap = {
+      "Title_SW054": true,
+      "Title_SW055": true,
+      "Title_SW056": true,
+      "Title_SW057": true,
+      "Title_SW058": true,
+      "Title_SW059": true,
+      "Title_SW060": true,
+      "Title_SW061": true,
+      "Title_SW062": true,
+      "Title_SW063": true,
+      "Title_SW064": true,
+      "Title_SW065": true,
+      "Title_SW066": true,
+    };
+
+    if (tempMap[_id] == true && _texts.length < 2) {
+      _texts.add(" ");
+    }
+    // TEMP CODE : WILL BE REMOVED : END
+
+
     if (isExtractPreviewImmediate) {
-      await extractPreview();
+      await extractPreview(isReloadWebView: isReloadWebView);
     }
   }
 
@@ -133,14 +156,14 @@ class VMTextWidget extends StatelessWidget {
     return _dataMapOneLine.containsKey(_id) ? _dataMapOneLine[_id] : null;
   }
 
-  Future<void> extractPreview() async {
+  Future<void> extractPreview({ isReloadWebView = false }) async {
     TextWidgetData? _data = _getTextWidgetData();
     if (_data == null) return;
 
     _data.texts = [];
     _data.texts.addAll(_texts);
 
-    // await _reload();
+    if (isReloadWebView) await _reload();
     await _removeAll();
     _currentDirPath = "${await getAppDirectoryPath()}/${_id}_${DateTime.now().millisecondsSinceEpoch}";
     _currentPreviewPath = "$_currentDirPath/preview";
