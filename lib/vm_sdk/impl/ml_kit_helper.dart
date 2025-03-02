@@ -2,86 +2,86 @@ import 'dart:io';
 import 'dart:convert';
 import 'dart:math';
 import 'package:path/path.dart';
-import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
-import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
+// import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
+// import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 
 import '../types/global.dart';
 import 'ffmpeg_manager.dart';
 import 'global_helper.dart';
 
-final FaceDetector faceDetector = FaceDetector(options: FaceDetectorOptions());
-final ImageLabeler imageLabeler = ImageLabeler(options: ImageLabelerOptions());
+// final FaceDetector faceDetector = FaceDetector(options: FaceDetectorOptions());
+// final ImageLabeler imageLabeler = ImageLabeler(options: ImageLabelerOptions());
 final FFMpegManager ffMpegManager = FFMpegManager();
 const int convertFrame = 2;
 
-Map convertFaceToMap(Face face) {
-  final Map map = {};
+// Map convertFaceToMap(Face face) {
+//   final Map map = {};
 
-  map["b"] = <String, dynamic>{
-    "t": face.boundingBox.top.floor(),
-    "b": face.boundingBox.bottom.floor(),
-    "l": face.boundingBox.left.floor(),
-    "r": face.boundingBox.right.floor()
-  };
-  if (face.headEulerAngleY != null) {
-    map["ay"] = double.parse(face.headEulerAngleY!.toStringAsFixed(4));
-  }
-  if (face.headEulerAngleZ != null) {
-    map["az"] = double.parse(face.headEulerAngleZ!.toStringAsFixed(4));
-  }
-  if (face.leftEyeOpenProbability != null) {
-    map["lp"] = double.parse(face.leftEyeOpenProbability!.toStringAsFixed(4));
-  }
-  if (face.rightEyeOpenProbability != null) {
-    map["rp"] = double.parse(face.rightEyeOpenProbability!.toStringAsFixed(4));
-  }
-  if (face.smilingProbability != null) {
-    map["sp"] = double.parse(face.smilingProbability!.toStringAsFixed(4));
-  }
-  if (face.trackingId != null) {
-    map["tid"] = int.parse(face.trackingId!.toString());
-  }
+//   map["b"] = <String, dynamic>{
+//     "t": face.boundingBox.top.floor(),
+//     "b": face.boundingBox.bottom.floor(),
+//     "l": face.boundingBox.left.floor(),
+//     "r": face.boundingBox.right.floor()
+//   };
+//   if (face.headEulerAngleY != null) {
+//     map["ay"] = double.parse(face.headEulerAngleY!.toStringAsFixed(4));
+//   }
+//   if (face.headEulerAngleZ != null) {
+//     map["az"] = double.parse(face.headEulerAngleZ!.toStringAsFixed(4));
+//   }
+//   if (face.leftEyeOpenProbability != null) {
+//     map["lp"] = double.parse(face.leftEyeOpenProbability!.toStringAsFixed(4));
+//   }
+//   if (face.rightEyeOpenProbability != null) {
+//     map["rp"] = double.parse(face.rightEyeOpenProbability!.toStringAsFixed(4));
+//   }
+//   if (face.smilingProbability != null) {
+//     map["sp"] = double.parse(face.smilingProbability!.toStringAsFixed(4));
+//   }
+//   if (face.trackingId != null) {
+//     map["tid"] = int.parse(face.trackingId!.toString());
+//   }
 
-  return map;
-}
+//   return map;
+// }
 
-Map convertImageLabelToMap(ImageLabel label) {
-  final Map map = {};
+// Map convertImageLabelToMap(ImageLabel label) {
+//   final Map map = {};
 
-  map["c"] = double.parse(label.confidence.toStringAsFixed(4));
-  map["id"] = label.index;
+//   map["c"] = double.parse(label.confidence.toStringAsFixed(4));
+//   map["id"] = label.index;
 
-  return map;
-}
+//   return map;
+// }
 
-Future<Map> detectObjects(String path) async {
-  List<Map> faceList = [];
-  List<Map> labelList = [];
-  try {
-    final InputImage inputImage = InputImage.fromFilePath(path);
+// Future<Map> detectObjects(String path) async {
+//   List<Map> faceList = [];
+//   List<Map> labelList = [];
+//   try {
+//     final InputImage inputImage = InputImage.fromFilePath(path);
 
-    final detectedFaceList = await faceDetector.processImage(inputImage);
-    for (final face in detectedFaceList) {
-      faceList.add(convertFaceToMap(face));
-    }
+//     final detectedFaceList = await faceDetector.processImage(inputImage);
+//     for (final face in detectedFaceList) {
+//       faceList.add(convertFaceToMap(face));
+//     }
 
-    final detectedLabelList = await imageLabeler.processImage(inputImage);
-    for (final label in detectedLabelList) {
-      labelList.add(convertImageLabelToMap(label));
-    }
-  } catch (e) {}
+//     final detectedLabelList = await imageLabeler.processImage(inputImage);
+//     for (final label in detectedLabelList) {
+//       labelList.add(convertImageLabelToMap(label));
+//     }
+//   } catch (e) {}
 
-  return {"f": faceList, "lb": labelList};
-}
+//   return {"f": faceList, "lb": labelList};
+// }
 
-Future<List<Map>> runDetect(List<String> frames) async {
-  List<Future<Map>> futures = [];
-  for (final frame in frames) {
-    futures.add(detectObjects(frame));
-  }
+// Future<List<Map>> runDetect(List<String> frames) async {
+//   List<Future<Map>> futures = [];
+//   for (final frame in frames) {
+//     futures.add(detectObjects(frame));
+//   }
 
-  return await Future.wait(futures);
-}
+//   return await Future.wait(futures);
+// }
 
 Future<String?> extractData(MediaData data) async {
   String? result;
@@ -130,7 +130,8 @@ Future<String?> extractData(MediaData data) async {
     frames.add(entity.path);
   }
 
-  result = json.encode({"fps": convertFrame, "r": await runDetect(frames)});
+  // result = json.encode({"fps": convertFrame, "r": await runDetect(frames)});
+  result = json.encode({"fps": convertFrame, "r": {"f": [], "lb": []}});
   await dir.delete(recursive: true);
 
   return result;
