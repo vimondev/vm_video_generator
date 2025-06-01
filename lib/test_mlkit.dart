@@ -1,4 +1,4 @@
-import 'package:ffmpeg_kit_flutter_full_gpl/ffprobe_kit.dart';
+import 'package:ffmpeg_kit_flutter_new_gpl/ffprobe_kit.dart';
 import 'package:path/path.dart';
 
 import 'vm_sdk/types/types.dart';

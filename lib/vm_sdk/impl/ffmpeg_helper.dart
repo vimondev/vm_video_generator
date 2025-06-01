@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'dart:math';
-import 'package:ffmpeg_kit_flutter_full_gpl/ffprobe_kit.dart';
-import 'package:ffmpeg_kit_flutter_full_gpl/statistics.dart';
-import 'package:ffmpeg_kit_flutter_full_gpl/stream_information.dart';
+import 'package:ffmpeg_kit_flutter_new_gpl/ffprobe_kit.dart';
+import 'package:ffmpeg_kit_flutter_new_gpl/statistics.dart';
+import 'package:ffmpeg_kit_flutter_new_gpl/stream_information.dart';
 import 'package:uuid/uuid.dart';
 
 import '../types/types.dart';
